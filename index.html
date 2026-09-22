@@ -822,6 +822,63 @@
                     ).href;
 
 
+                /*
+                    Detect whether GR8SKUL is running
+                    as an installed Home Screen app.
+                */
+
+                const isStandalone =
+                    window.matchMedia(
+                        "(display-mode: standalone)"
+                    ).matches ||
+                    window.navigator.standalone === true;
+
+
+                /*
+                    HOME SCREEN / PWA MODE
+                */
+
+                if (isStandalone) {
+
+
+                    const temporaryLink =
+                        document.createElement("a");
+
+
+                    temporaryLink.href =
+                        file;
+
+
+                    temporaryLink.download =
+                        downloadLink.getAttribute(
+                            "download"
+                        ) || "";
+
+
+                    temporaryLink.style.display =
+                        "none";
+
+
+                    document.body.appendChild(
+                        temporaryLink
+                    );
+
+
+                    temporaryLink.click();
+
+
+                    temporaryLink.remove();
+
+
+                    return;
+
+                }
+
+
+                /*
+                    NORMAL BROWSER MODE
+                */
+
                 const temporaryLink =
                     document.createElement("a");
 
