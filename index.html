@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -109,13 +108,26 @@
             height: 65px;
             flex-shrink: 0;
             margin-right: 15px;
-            object-fit: cover;
             background: #dddddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            font-size: 11px;
+            color: #777777;
+        }
+
+        .track-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         .track-info {
             min-width: 0;
             text-align: left;
+            flex: 1;
         }
 
         .track-title {
@@ -127,6 +139,19 @@
         .track-artist {
             font-size: 14px;
             color: #666666;
+            margin-bottom: 6px;
+        }
+
+        .download-link {
+            font-size: 11px;
+            color: #888888;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+        }
+
+        .download-link:hover {
+            color: #111111;
+            text-decoration: underline;
         }
 
         .player {
@@ -217,8 +242,21 @@
             </div>
 
             <div class="track-info">
-                <div class="track-title">aRnt we rich</div>
-                <div class="track-artist">gr8skul</div>
+
+                <div class="track-title">
+                    aRnt we rich
+                </div>
+
+                <div class="track-artist">
+                    gr8skul
+                </div>
+
+                <a class="download-link"
+                   href="https://ryknbel.github.io/gr8skul.github.io/Arnt%20We%20Rich%20MP3.mp3"
+                   download>
+                    DOWNLOAD MP3
+                </a>
+
             </div>
 
         </div>
@@ -237,8 +275,21 @@
             </div>
 
             <div class="track-info">
-                <div class="track-title">Outside Madness (strings)</div>
-                <div class="track-artist">gr8skul</div>
+
+                <div class="track-title">
+                    Outside Madness (strings)
+                </div>
+
+                <div class="track-artist">
+                    gr8skul
+                </div>
+
+                <a class="download-link"
+                   href="https://ryknbel.github.io/gr8skul.github.io/Outside%20Madness%20(strings)%20MP3.mp3"
+                   download>
+                    DOWNLOAD MP3
+                </a>
+
             </div>
 
         </div>
@@ -257,8 +308,21 @@
             </div>
 
             <div class="track-info">
-                <div class="track-title">Track Three</div>
-                <div class="track-artist">gr8skul</div>
+
+                <div class="track-title">
+                    Track Three
+                </div>
+
+                <div class="track-artist">
+                    gr8skul
+                </div>
+
+                <a class="download-link"
+                   href="music/track3.mp3"
+                   download>
+                    DOWNLOAD MP3
+                </a>
+
             </div>
 
         </div>
@@ -277,8 +341,21 @@
             </div>
 
             <div class="track-info">
-                <div class="track-title">Track Four</div>
-                <div class="track-artist">gr8skul</div>
+
+                <div class="track-title">
+                    Track Four
+                </div>
+
+                <div class="track-artist">
+                    gr8skul
+                </div>
+
+                <a class="download-link"
+                   href="music/track4.mp3"
+                   download>
+                    DOWNLOAD MP3
+                </a>
+
             </div>
 
         </div>
@@ -329,6 +406,52 @@
 
 
     /*
+        LOAD ALL TRACK IMAGES
+        Images now appear immediately when
+        the page opens.
+    */
+
+    tracks.forEach(function(track) {
+
+        const image =
+            track.dataset.image;
+
+        const imageBox =
+            track.querySelector(".track-image");
+
+
+        if (image && image.trim() !== "") {
+
+            const img =
+                document.createElement("img");
+
+            img.src = image;
+
+            img.alt =
+                track.dataset.title;
+
+
+            img.addEventListener(
+                "error",
+                function() {
+
+                    imageBox.textContent =
+                        "IMAGE";
+
+                }
+            );
+
+
+            imageBox.innerHTML = "";
+
+            imageBox.appendChild(img);
+
+        }
+
+    });
+
+
+    /*
         LOAD TRACK
     */
 
@@ -362,9 +485,6 @@
         const file =
             track.dataset.file;
 
-        const image =
-            track.dataset.image;
-
 
         audioPlayer.src = file;
 
@@ -374,31 +494,6 @@
             title +
             " — " +
             artist;
-
-
-        /*
-            LOAD IMAGE
-        */
-
-        const imageBox =
-            track.querySelector(".track-image");
-
-
-        if (image && image.trim() !== "") {
-
-            imageBox.innerHTML =
-                '<img src="' +
-                image +
-                '" alt="' +
-                title +
-                '" style="width:100%;height:100%;object-fit:cover;">';
-
-        } else {
-
-            imageBox.textContent =
-                "IMAGE";
-
-        }
 
 
         /*
@@ -584,7 +679,6 @@
         "click",
         function() {
 
-
             if (currentTrack === -1) {
 
                 chooseTrackToPlay();
@@ -706,7 +800,21 @@
 
             track.addEventListener(
                 "click",
-                function() {
+                function(event) {
+
+                    /*
+                        Don't play the track when
+                        the download link is clicked.
+                    */
+
+                    if (
+                        event.target.closest(
+                            ".download-link"
+                        )
+                    ) {
+                        return;
+                    }
+
 
                     selectTrack(index, true);
 
@@ -765,4 +873,3 @@
 
 </body>
 </html>
-
