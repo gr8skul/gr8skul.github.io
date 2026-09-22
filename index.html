@@ -816,7 +816,10 @@
 
 
                 const file =
-                    downloadLink.href;
+                    new URL(
+                        downloadLink.getAttribute("href"),
+                        window.location.href
+                    ).href;
 
 
                 const temporaryLink =
@@ -827,8 +830,14 @@
                     file;
 
 
-                temporaryLink.download =
-                    "";
+                temporaryLink.setAttribute(
+                    "download",
+                    ""
+                );
+
+
+                temporaryLink.style.display =
+                    "none";
 
 
                 document.body.appendChild(
@@ -839,9 +848,7 @@
                 temporaryLink.click();
 
 
-                document.body.removeChild(
-                    temporaryLink
-                );
+                temporaryLink.remove();
 
             }
         );
