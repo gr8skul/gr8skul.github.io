@@ -11,18 +11,38 @@
             box-sizing: border-box;
         }
 
+        html,
         body {
             margin: 0;
             background: #ffffff;
             color: #111111;
             font-family: Arial, Helvetica, sans-serif;
+            height: 100%;
+        }
+
+        body {
+            overflow: hidden;
         }
 
         .app {
             width: 100%;
             max-width: 700px;
+            height: 100vh;
             margin: 0 auto;
-            padding: 35px 20px 50px;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        /* =========================
+           FIXED HEADER
+           ========================= */
+
+        .header {
+            flex-shrink: 0;
+            background: #ffffff;
+            padding-top: 35px;
         }
 
         h1 {
@@ -38,7 +58,7 @@
             justify-content: center;
             align-items: center;
             gap: 10px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         button {
@@ -81,14 +101,27 @@
             color: #555555;
         }
 
+        .header-line {
+            border-bottom: 1px solid #cccccc;
+        }
+
+
+        /* =========================
+           SCROLLING TRACK AREA
+           ========================= */
+
         .track-list {
-            border-top: 1px solid #cccccc;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .track {
             display: flex;
             align-items: center;
             width: 100%;
+            min-height: 90px;
             padding: 12px 0;
             border-bottom: 1px solid #cccccc;
             cursor: pointer;
@@ -154,8 +187,16 @@
             text-decoration: underline;
         }
 
+
+        /* =========================
+           FIXED FOOTER
+           ========================= */
+
         .player {
-            margin-top: 30px;
+            flex-shrink: 0;
+            background: #ffffff;
+            padding-top: 20px;
+            padding-bottom: 20px;
             width: 100%;
         }
 
@@ -163,10 +204,19 @@
             width: 100%;
         }
 
+
+        /* =========================
+           MOBILE
+           ========================= */
+
         @media (max-width: 500px) {
 
             .app {
-                padding: 25px 15px 40px;
+                padding: 0 15px;
+            }
+
+            .header {
+                padding-top: 25px;
             }
 
             h1 {
@@ -183,6 +233,10 @@
                 height: 55px;
             }
 
+            .track {
+                min-height: 80px;
+            }
+
         }
     </style>
 </head>
@@ -191,42 +245,60 @@
 
 <div class="app">
 
-    <h1>gr8skul</h1>
+
+    <!-- =========================
+         FIXED HEADER
+         ========================= -->
+
+    <div class="header">
+
+        <h1>gr8skul</h1>
 
 
-    <!-- MAIN CONTROLS -->
+        <div class="controls">
 
-    <div class="controls">
+            <button id="backButton"
+                    type="button"
+                    aria-label="Previous track">
+                ←
+            </button>
 
-        <button id="backButton" type="button" aria-label="Previous track">
-            ←
-        </button>
+            <button id="playButton"
+                    type="button">
+                ▶ PLAY
+            </button>
 
-        <button id="playButton" type="button">
-            ▶ PLAY
-        </button>
+            <button id="nextButton"
+                    type="button"
+                    aria-label="Next track">
+                →
+            </button>
 
-        <button id="nextButton" type="button" aria-label="Next track">
-            →
-        </button>
+            <button id="shuffleButton"
+                    type="button">
+                SHUFFLE OFF
+            </button>
 
-        <button id="shuffleButton" type="button">
-            SHUFFLE OFF
-        </button>
+        </div>
+
+
+        <div class="now-playing"
+             id="nowPlaying">
+            Nothing playing
+        </div>
+
+
+        <div class="header-line"></div>
 
     </div>
 
 
-    <!-- CURRENT TRACK -->
+    <!-- =========================
+         SCROLLING TRACK LIST
+         ========================= -->
 
-    <div class="now-playing" id="nowPlaying">
-        Nothing playing
-    </div>
-
-
-    <!-- TRACK LIST -->
-
-    <div class="track-list" id="trackList">
+    <div class="track-list"
+         id="trackList">
 
 
         <!-- TRACK 1 -->
@@ -364,11 +436,15 @@
     </div>
 
 
-    <!-- AUDIO PLAYER -->
+    <!-- =========================
+         FIXED FOOTER
+         ========================= -->
 
     <div class="player">
 
-        <audio id="audioPlayer" controls preload="none"></audio>
+        <audio id="audioPlayer"
+               controls
+               preload="none"></audio>
 
     </div>
 
@@ -398,6 +474,9 @@
     const nowPlaying =
         document.getElementById("nowPlaying");
 
+    const trackList =
+        document.getElementById("trackList");
+
 
     let currentTrack = -1;
 
@@ -407,7 +486,7 @@
 
     /*
         LOAD ALL TRACK IMAGES
-        Images now appear immediately when
+        Images appear immediately when
         the page opens.
     */
 
@@ -471,7 +550,9 @@
         });
 
 
-        const track = tracks[index];
+        const track =
+            tracks[index];
+
 
         track.classList.add("selected");
 
@@ -486,7 +567,8 @@
             track.dataset.file;
 
 
-        audioPlayer.src = file;
+        audioPlayer.src =
+            file;
 
 
         nowPlaying.textContent =
@@ -494,6 +576,17 @@
             title +
             " — " +
             artist;
+
+
+        /*
+            Keep the selected track visible
+            inside the scrolling area.
+        */
+
+        track.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
 
 
         /*
@@ -551,13 +644,22 @@
         }
 
 
-        selectTrack(chosenTrack, true);
+        selectTrack(
+            chosenTrack,
+            true
+        );
 
     }
 
 
     /*
         NEXT TRACK
+
+        Shuffle OFF:
+        Move forward normally.
+
+        Shuffle ON:
+        Choose another random track.
     */
 
     function playNext() {
@@ -582,7 +684,8 @@
 
                     nextTrack =
                         Math.floor(
-                            Math.random() * tracks.length
+                            Math.random() *
+                            tracks.length
                         );
 
                 }
@@ -599,7 +702,10 @@
                 currentTrack + 1;
 
 
-            if (nextTrack >= tracks.length) {
+            if (
+                nextTrack >=
+                tracks.length
+            ) {
 
                 nextTrack = 0;
 
@@ -608,13 +714,21 @@
         }
 
 
-        selectTrack(nextTrack, true);
+        selectTrack(
+            nextTrack,
+            true
+        );
 
     }
 
 
     /*
         PREVIOUS TRACK
+
+        ALWAYS moves backward
+        through the list.
+
+        Shuffle has NO effect.
     */
 
     function playPrevious() {
@@ -624,49 +738,22 @@
         }
 
 
-        let previousTrack;
+        let previousTrack =
+            currentTrack - 1;
 
 
-        if (shuffle) {
-
-            if (tracks.length === 1) {
-
-                previousTrack = 0;
-
-            } else {
-
-                do {
-
-                    previousTrack =
-                        Math.floor(
-                            Math.random() * tracks.length
-                        );
-
-                }
-
-                while (
-                    previousTrack === currentTrack
-                );
-
-            }
-
-        } else {
+        if (previousTrack < 0) {
 
             previousTrack =
-                currentTrack - 1;
-
-
-            if (previousTrack < 0) {
-
-                previousTrack =
-                    tracks.length - 1;
-
-            }
+                tracks.length - 1;
 
         }
 
 
-        selectTrack(previousTrack, true);
+        selectTrack(
+            previousTrack,
+            true
+        );
 
     }
 
@@ -722,7 +809,10 @@
 
             if (currentTrack === -1) {
 
-                selectTrack(0, true);
+                selectTrack(
+                    0,
+                    true
+                );
 
             } else {
 
@@ -744,7 +834,10 @@
 
             if (currentTrack === -1) {
 
-                selectTrack(0, true);
+                selectTrack(
+                    0,
+                    true
+                );
 
             } else {
 
@@ -764,7 +857,8 @@
         "click",
         function() {
 
-            shuffle = !shuffle;
+            shuffle =
+                !shuffle;
 
 
             if (shuffle) {
@@ -812,11 +906,16 @@
                             ".download-link"
                         )
                     ) {
+
                         return;
+
                     }
 
 
-                    selectTrack(index, true);
+                    selectTrack(
+                        index,
+                        true
+                    );
 
                 }
             );
@@ -857,6 +956,8 @@
 
     /*
         AUDIO FINISHED
+
+        Next behavior follows Shuffle.
     */
 
     audioPlayer.addEventListener(
