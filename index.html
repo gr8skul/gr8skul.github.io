@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>gr8skul</title>
 
+
     <!-- GR8SKUL HOME-SCREEN ICON -->
+
     <link rel="icon"
           type="image/png"
           href="https://gr8skul.github.io/gr8skul-icon.PNG">
@@ -14,36 +17,57 @@
     <link rel="apple-touch-icon"
           href="https://gr8skul.github.io/gr8skul-icon.PNG">
 
+
     <!-- GR8SKUL APP MANIFEST -->
+
     <link rel="manifest"
           href="https://gr8skul.github.io/manifest.json">
 
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
+
         html,
         body {
+
             margin: 0;
+
             background: #ffffff;
+
             color: #111111;
-            font-family: Arial, Helvetica, sans-serif;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
             height: 100%;
         }
+
 
         body {
             overflow: hidden;
         }
 
+
         .app {
+
             width: 100%;
+
             max-width: 700px;
+
             height: 100vh;
+
             margin: 0 auto;
+
             padding: 0 20px;
+
             display: flex;
+
             flex-direction: column;
         }
 
@@ -52,69 +76,152 @@
            FIXED HEADER
            ========================= */
 
+
         .header {
+
             flex-shrink: 0;
+
             background: #ffffff;
+
             padding-top: 35px;
         }
 
+
         h1 {
+
             margin: 0 0 35px;
+
             text-align: center;
+
             font-size: 42px;
+
             letter-spacing: 6px;
+
             font-weight: 700;
         }
 
+
+        h1 img {
+
+            display: block;
+
+            width: auto;
+
+            height: 42px;
+
+            max-width: 100%;
+
+            margin: 0 auto;
+        }
+
+
         .controls {
+
             display: flex;
+
             justify-content: center;
+
             align-items: center;
+
             gap: 10px;
+
             margin-bottom: 25px;
         }
 
+
         button {
+
             border: 1px solid #111111;
+
             background: #ffffff;
+
             color: #111111;
+
             cursor: pointer;
+
             font-size: 16px;
+
             padding: 12px 18px;
+
             min-height: 46px;
         }
 
+
         button:hover {
+
             background: #eeeeee;
         }
 
+
         #playButton {
+
             min-width: 120px;
+
             font-weight: bold;
         }
 
+
         #backButton,
         #nextButton {
+
             width: 50px;
+
             padding: 12px 5px;
+
             font-size: 24px;
+
             line-height: 1;
         }
 
+
         #shuffleButton.active {
+
             background: #111111;
+
             color: #ffffff;
         }
 
+
         .now-playing {
+
             text-align: center;
+
             margin-bottom: 25px;
+
             min-height: 24px;
+
             font-size: 14px;
+
             color: #555555;
         }
 
+
+        .now-playing-download {
+
+            display: block;
+
+            margin-top: 6px;
+
+            font-size: 11px;
+
+            color: #888888;
+
+            text-decoration: none;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .now-playing-download:hover {
+
+            color: #111111;
+
+            text-decoration: underline;
+        }
+
+
         .header-line {
+
             border-bottom: 1px solid #cccccc;
         }
 
@@ -123,80 +230,87 @@
            SCROLLING TRACK AREA
            ========================= */
 
+
         .track-list {
+
             flex: 1;
+
             min-height: 0;
+
             overflow-y: auto;
+
             overflow-x: hidden;
         }
 
+
         .track {
+
             display: flex;
+
             align-items: center;
+
             width: 100%;
-            min-height: 90px;
+
+            min-height: 75px;
+
             padding: 12px 0;
+
             border-bottom: 1px solid #cccccc;
+
             cursor: pointer;
+
             user-select: none;
         }
 
+
         .track:hover {
+
             background: #f5f5f5;
         }
 
+
         .track.selected {
+
             background: #eeeeee;
         }
 
-        .track-image {
-            width: 65px;
-            height: 65px;
-            flex-shrink: 0;
-            margin-right: 15px;
-            background: #dddddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            font-size: 11px;
-            color: #777777;
-        }
-
-        .track-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
 
         .track-info {
+
             min-width: 0;
+
             text-align: left;
+
             flex: 1;
         }
 
-        .track-title {
-            font-size: 17px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
 
-        .track-artist {
-            font-size: 14px;
-            color: #666666;
+        .track-title {
+
+            font-size: 17px;
+
+            font-weight: bold;
+
             margin-bottom: 6px;
         }
 
+
         .download-link {
+
             font-size: 11px;
+
             color: #888888;
+
             text-decoration: none;
+
             letter-spacing: 0.5px;
         }
 
+
         .download-link:hover {
+
             color: #111111;
+
             text-decoration: underline;
         }
 
@@ -205,15 +319,23 @@
            FIXED FOOTER
            ========================= */
 
+
         .player {
+
             flex-shrink: 0;
+
             background: #ffffff;
+
             padding-top: 20px;
+
             padding-bottom: 20px;
+
             width: 100%;
         }
 
+
         audio {
+
             width: 100%;
         }
 
@@ -222,39 +344,48 @@
            MOBILE
            ========================= */
 
+
         @media (max-width: 500px) {
 
+
             .app {
+
                 padding: 0 15px;
             }
 
+
             .header {
+
                 padding-top: 25px;
             }
 
-            h1 {
-                font-size: 34px;
-                letter-spacing: 4px;
+
+            h1 img {
+
+                height: 34px;
             }
 
+
             .controls {
+
                 flex-wrap: wrap;
             }
 
-            .track-image {
-                width: 55px;
-                height: 55px;
-            }
 
             .track {
-                min-height: 80px;
+
+                min-height: 65px;
             }
 
         }
+
     </style>
+
 </head>
 
+
 <body>
+
 
 <div class="app">
 
@@ -263,254 +394,83 @@
          FIXED HEADER
          ========================= -->
 
+
     <div class="header">
 
-        <h1>gr8skul</h1>
+
+        <h1>
+
+            <img
+                src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+                alt="GR8SKUL">
+
+        </h1>
 
 
         <div class="controls">
 
-            <button id="backButton"
-                    type="button"
-                    aria-label="Previous track">
+
+            <button
+                id="backButton"
+                type="button"
+                aria-label="Previous track">
+
                 ←
+
             </button>
 
-            <button id="playButton"
-                    type="button">
+
+            <button
+                id="playButton"
+                type="button">
+
                 ▶ PLAY
+
             </button>
 
-            <button id="nextButton"
-                    type="button"
-                    aria-label="Next track">
+
+            <button
+                id="nextButton"
+                type="button"
+                aria-label="Next track">
+
                 →
+
             </button>
 
-            <button id="shuffleButton"
-                    type="button">
+
+            <button
+                id="shuffleButton"
+                type="button">
+
                 SHUFFLE OFF
+
             </button>
+
 
         </div>
 
 
-        <div class="now-playing"
-             id="nowPlaying">
-            Nothing playing
+        <div
+            class="now-playing"
+            id="nowPlaying">
         </div>
 
 
         <div class="header-line"></div>
 
+
     </div>
 
 
     <!-- =========================
-         SCROLLING TRACK AREA
+         AUTOMATIC TRACK LIST
          ========================= -->
 
-    <div class="track-list"
-         id="trackList">
 
-
-        <!-- TRACK 1 -->
-
-        <div class="track"
-             data-title="aRnt we rich"
-             data-artist="gr8skul"
-             data-file="https://gr8skul.github.io/Arnt%20We%20Rich%20MP3.mp3"
-             data-image="https://gr8skul.github.io/cover%20image.PNG">
-
-            <div class="track-image">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-
-                <div class="track-title">
-                    aRnt we rich
-                </div>
-
-                <div class="track-artist">
-                    gr8skul
-                </div>
-
-                <a class="download-link"
-                   href="https://gr8skul.github.io/Arnt%20We%20Rich%20MP3.mp3"
-                   download>
-                    DOWNLOAD MP3
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- TRACK 2 -->
-
-        <div class="track"
-             data-title="Outside Madness (strings)"
-             data-artist="gr8skul"
-             data-file="https://gr8skul.github.io/Outside%20Madness%20(strings)%20MP3.mp3"
-             data-image="">
-
-            <div class="track-image">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-
-                <div class="track-title">
-                    Outside Madness (strings)
-                </div>
-
-                <div class="track-artist">
-                    gr8skul
-                </div>
-
-                <a class="download-link"
-                   href="https://gr8skul.github.io/Outside%20Madness%20(strings)%20MP3.mp3"
-                   download>
-                    DOWNLOAD MP3
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- TRACK 3 -->
-
-        <div class="track"
-             data-title="Track Three"
-             data-artist="gr8skul"
-             data-file="https://gr8skul.github.io/music/track3.mp3"
-             data-image="">
-
-            <div class="track-image">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-
-                <div class="track-title">
-                    Track Three
-                </div>
-
-                <div class="track-artist">
-                    gr8skul
-                </div>
-
-                <a class="download-link"
-                   href="https://gr8skul.github.io/music/track3.mp3"
-                   download>
-                    DOWNLOAD MP3
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- TRACK 4 -->
-
-        <div class="track"
-             data-title="Track Four"
-             data-artist="gr8skul"
-             data-file="https://gr8skul.github.io/music/track4.mp3"
-             data-image="">
-
-            <div class="track-image">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-
-                <div class="track-title">
-                    Track Four
-                </div>
-
-                <div class="track-artist">
-                    gr8skul
-                </div>
-
-                <a class="download-link"
-                   href="https://gr8skul.github.io/music/track4.mp3"
-                   download>
-                    DOWNLOAD MP3
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- TRACK 5 -->
-
-        <div class="track"
-             data-title="Track Five"
-             data-artist="gr8skul"
-             data-file="https://gr8skul.github.io/music/track5.mp3"
-             data-image="">
-
-            <div class="track-image">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-
-                <div class="track-title">
-                    Track Five
-                </div>
-
-                <div class="track-artist">
-                    gr8skul
-                </div>
-
-                <a class="download-link"
-                   href="https://gr8skul.github.io/music/track5.mp3"
-                   download>
-                    DOWNLOAD MP3
-                </a>
-
-            </div>
-
-        </div>
-
-
-        <!-- TRACK 6 -->
-
-        <div class="track"
-             data-title="Track Six"
-             data-artist="gr8skul"
-             data-file="https://gr8skul.github.io/music/track6.mp3"
-             data-image="">
-
-            <div class="track-image">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-
-                <div class="track-title">
-                    Track Six
-                </div>
-
-                <div class="track-artist">
-                    gr8skul
-                </div>
-
-                <a class="download-link"
-                   href="https://gr8skul.github.io/music/track6.mp3"
-                   download>
-                    DOWNLOAD MP3
-                </a>
-
-            </div>
-
-        </div>
-
+    <div
+        class="track-list"
+        id="trackList">
 
     </div>
 
@@ -519,107 +479,281 @@
          FIXED FOOTER
          ========================= -->
 
+
     <div class="player">
 
-        <audio id="audioPlayer"
-               controls
-               preload="none"></audio>
+
+        <audio
+            id="audioPlayer"
+            controls
+            preload="none">
+        </audio>
+
 
     </div>
+
 
 </div>
 
 
 <script>
 
-    const tracks =
-        Array.from(document.querySelectorAll(".track"));
+
+    /*
+        ============================================================
+        GR8SKUL AUTOMATIC MUSIC CATALOG
+        ============================================================
+
+        The GitHub Action creates catalog.json.
+
+        This page reads catalog.json and creates
+        the track list automatically.
+
+        You no longer need to add track HTML.
+    */
+
+
+    const tracksContainer =
+        document.getElementById("trackList");
+
 
     const playButton =
         document.getElementById("playButton");
 
+
     const backButton =
         document.getElementById("backButton");
+
 
     const nextButton =
         document.getElementById("nextButton");
 
+
     const shuffleButton =
         document.getElementById("shuffleButton");
+
 
     const audioPlayer =
         document.getElementById("audioPlayer");
 
+
     const nowPlaying =
         document.getElementById("nowPlaying");
 
-    const trackList =
-        document.getElementById("trackList");
+
+    let tracks = [];
 
 
     let currentTrack = -1;
 
-    // Shuffle starts OFF.
+
     let shuffle = false;
 
 
-    /*
-        SHUFFLE SYSTEM
-
-        shuffleQueue contains the tracks
-        that have NOT yet been played
-        during the current shuffle cycle.
-
-        Every track is placed into the queue
-        once and the queue is randomized.
-
-        This guarantees that every available
-        track plays once before any track
-        repeats.
-    */
-
     let shuffleQueue = [];
 
-
-    /*
-        PLAY HISTORY
-
-        Stores the actual playback order.
-
-        Example:
-
-        8 → 3 → 7 → 2
-
-        History:
-
-        [8, 3, 7]
-
-        Back from 2 goes to 7.
-        Back again goes to 3.
-        Back again goes to 8.
-    */
 
     let playHistory = [];
 
 
     /*
-        CREATE A NEW SHUFFLE CYCLE
+        ============================================================
+        CLEAN TRACK TITLE
+        ============================================================
+
+        Example:
+
+        "My New Song.mp3"
+
+        becomes:
+
+        "My New Song"
     */
 
-    function createShuffleQueue() {
 
-        shuffleQueue =
-            tracks.map(function(track, index) {
-                return index;
+    function cleanTitle(filename) {
+
+        return filename
+            .replace(/\.[^/.]+$/, "")
+            .replace(/[_]+/g, " ")
+            .trim();
+
+    }
+
+
+    /*
+        ============================================================
+        CREATE TRACK HTML
+        ============================================================
+    */
+
+
+    function createTrackElement(trackData) {
+
+
+        const track =
+            document.createElement("div");
+
+
+        track.className =
+            "track";
+
+
+        track.dataset.title =
+            cleanTitle(trackData.name);
+
+
+        track.dataset.file =
+            trackData.path;
+
+
+        const trackInfo =
+            document.createElement("div");
+
+
+        trackInfo.className =
+            "track-info";
+
+
+        const title =
+            document.createElement("div");
+
+
+        title.className =
+            "track-title";
+
+
+        title.textContent =
+            cleanTitle(trackData.name);
+
+
+        const download =
+            document.createElement("a");
+
+
+        download.className =
+            "download-link";
+
+
+        download.href =
+            trackData.path;
+
+
+        download.download =
+            "";
+
+
+        download.textContent =
+            "DOWNLOAD MP3";
+
+
+        trackInfo.appendChild(title);
+
+        trackInfo.appendChild(download);
+
+
+        track.appendChild(trackInfo);
+
+
+        return track;
+
+    }
+
+
+    /*
+        ============================================================
+        LOAD CATALOG
+        ============================================================
+    */
+
+
+    async function loadCatalog() {
+
+
+        try {
+
+
+            const response =
+                await fetch(
+                    "catalog.json?cache=" +
+                    Date.now()
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Catalog could not be loaded."
+                );
+
+            }
+
+
+            const catalog =
+                await response.json();
+
+
+            tracksContainer.innerHTML =
+                "";
+
+
+            catalog.forEach(function(trackData) {
+
+
+                const track =
+                    createTrackElement(
+                        trackData
+                    );
+
+
+                tracksContainer.appendChild(
+                    track
+                );
+
             });
 
 
-        /*
-            Fisher-Yates shuffle
+            tracks =
+                Array.from(
+                    document.querySelectorAll(".track")
+                );
 
-            This creates a properly randomized
-            order without repeats.
-        */
+
+            attachTrackListeners();
+
+
+        } catch (error) {
+
+
+            console.error(error);
+
+
+            tracksContainer.innerHTML =
+                "<div style='padding:20px 0; color:#777;'>Music catalog loading...</div>";
+
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        SHUFFLE
+        ============================================================
+    */
+
+
+    function createShuffleQueue() {
+
+
+        shuffleQueue =
+            tracks.map(function(track, index) {
+
+                return index;
+
+            });
+
 
         for (
             let i = shuffleQueue.length - 1;
@@ -627,9 +761,11 @@
             i--
         ) {
 
+
             const randomIndex =
                 Math.floor(
-                    Math.random() * (i + 1)
+                    Math.random() *
+                    (i + 1)
                 );
 
 
@@ -649,26 +785,17 @@
     }
 
 
-    /*
-        GET NEXT SHUFFLE TRACK
-
-        When the queue is empty,
-        create a completely new cycle.
-    */
-
     function getNextShuffleTrack() {
 
-        if (shuffleQueue.length === 0) {
+
+        if (
+            shuffleQueue.length === 0
+        ) {
 
             createShuffleQueue();
 
         }
 
-
-        /*
-            Remove and return the first
-            track in the queue.
-        */
 
         return shuffleQueue.shift();
 
@@ -676,65 +803,48 @@
 
 
     /*
-        LOAD ALL TRACK IMAGES
+        ============================================================
+        DOWNLOAD LINK
+        ============================================================
+
+        Stop the track row from interpreting
+        the download click as a request
+        to play the song.
+
+        The page itself does NOT navigate away.
     */
 
-    tracks.forEach(function(track) {
 
-        const image =
-            track.dataset.image;
-
-        const imageBox =
-            track.querySelector(".track-image");
+    function attachDownloadBehavior(
+        downloadLink
+    ) {
 
 
-        if (image && image.trim() !== "") {
+        downloadLink.addEventListener(
+            "click",
+            function(event) {
 
-            const img =
-                document.createElement("img");
+                event.stopPropagation();
 
+            }
+        );
 
-            img.src =
-                image;
-
-
-            img.alt =
-                track.dataset.title;
-
-
-            img.addEventListener(
-                "error",
-                function() {
-
-                    imageBox.textContent =
-                        "IMAGE";
-
-                }
-            );
-
-
-            imageBox.innerHTML =
-                "";
-
-
-            imageBox.appendChild(
-                img
-            );
-
-        }
-
-    });
+    }
 
 
     /*
+        ============================================================
         LOAD TRACK
+        ============================================================
     */
+
 
     function selectTrack(
         index,
         startPlaying = true,
         addToHistory = true
     ) {
+
 
         if (
             index < 0 ||
@@ -745,15 +855,6 @@
 
         }
 
-
-        /*
-            Add the current track to
-            history before moving to
-            another track.
-
-            This allows the Back button
-            to return to it.
-        */
 
         if (
             addToHistory &&
@@ -772,13 +873,15 @@
             index;
 
 
-        tracks.forEach(function(track) {
+        tracks.forEach(
+            function(track) {
 
-            track.classList.remove(
-                "selected"
-            );
+                track.classList.remove(
+                    "selected"
+                );
 
-        });
+            }
+        );
 
 
         const track =
@@ -794,10 +897,6 @@
             track.dataset.title;
 
 
-        const artist =
-            track.dataset.artist;
-
-
         const file =
             track.dataset.file;
 
@@ -806,16 +905,65 @@
             file;
 
 
-        nowPlaying.textContent =
+        /*
+            NOW PLAYING
+
+            Includes download link.
+        */
+
+
+        nowPlaying.innerHTML =
+            "";
+
+
+        const nowPlayingText =
+            document.createElement("div");
+
+
+        nowPlayingText.textContent =
             "Now playing: " +
-            title +
-            " — " +
-            artist;
+            title;
+
+
+        const download =
+            document.createElement("a");
+
+
+        download.className =
+            "now-playing-download";
+
+
+        download.href =
+            file;
+
+
+        download.download =
+            "";
+
+
+        download.textContent =
+            "DOWNLOAD MP3";
+
+
+        attachDownloadBehavior(
+            download
+        );
+
+
+        nowPlaying.appendChild(
+            nowPlayingText
+        );
+
+
+        nowPlaying.appendChild(
+            download
+        );
 
 
         /*
             Keep selected track visible.
         */
+
 
         track.scrollIntoView({
             behavior: "smooth",
@@ -823,11 +971,8 @@
         });
 
 
-        /*
-            START PLAYING
-        */
-
         if (startPlaying) {
+
 
             audioPlayer.play()
 
@@ -851,12 +996,18 @@
 
 
     /*
-        CHOOSE TRACK FOR PLAY BUTTON
+        ============================================================
+        FIRST PLAY
+        ============================================================
     */
+
 
     function chooseTrackToPlay() {
 
-        if (tracks.length === 0) {
+
+        if (
+            tracks.length === 0
+        ) {
 
             return;
 
@@ -868,10 +1019,6 @@
 
         if (shuffle) {
 
-            /*
-                Start a fresh shuffle cycle
-                and take the first track.
-            */
 
             createShuffleQueue();
 
@@ -879,7 +1026,9 @@
             chosenTrack =
                 getNextShuffleTrack();
 
+
         } else {
+
 
             chosenTrack =
                 0;
@@ -897,22 +1046,18 @@
 
 
     /*
-        NEXT TRACK
-
-        SHUFFLE OFF:
-        Move forward through the list.
-
-        SHUFFLE ON:
-        Take the next track from the
-        shuffle queue.
-
-        Every track is played once
-        before the queue starts over.
+        ============================================================
+        NEXT
+        ============================================================
     */
+
 
     function playNext() {
 
-        if (tracks.length === 0) {
+
+        if (
+            tracks.length === 0
+        ) {
 
             return;
 
@@ -924,18 +1069,20 @@
 
         if (shuffle) {
 
+
             nextTrack =
                 getNextShuffleTrack();
 
+
         } else {
+
 
             nextTrack =
                 currentTrack + 1;
 
 
             if (
-                nextTrack >=
-                tracks.length
+                nextTrack >= tracks.length
             ) {
 
                 nextTrack = 0;
@@ -955,37 +1102,31 @@
 
 
     /*
-        PREVIOUS TRACK
-
-        SHUFFLE OFF:
-        Move backward through the list.
-
-        SHUFFLE ON:
-        Return to the track that was
-        actually played immediately before
-        the current track.
+        ============================================================
+        PREVIOUS
+        ============================================================
     */
+
 
     function playPrevious() {
 
-        if (tracks.length === 0) {
+
+        if (
+            tracks.length === 0
+        ) {
 
             return;
 
         }
 
 
-        /*
-            SHUFFLE ON
-
-            Use playback history.
-        */
-
         if (shuffle) {
+
 
             if (
                 playHistory.length > 0
             ) {
+
 
                 const previousTrack =
                     playHistory.pop();
@@ -999,16 +1140,11 @@
 
             }
 
+
             return;
 
         }
 
-
-        /*
-            SHUFFLE OFF
-
-            Move backward through list.
-        */
 
         let previousTrack =
             currentTrack - 1;
@@ -1034,18 +1170,24 @@
 
 
     /*
+        ============================================================
         PLAY / PAUSE
+        ============================================================
     */
+
 
     playButton.addEventListener(
         "click",
         function() {
 
+
             if (
                 currentTrack === -1
             ) {
 
+
                 chooseTrackToPlay();
+
 
                 return;
 
@@ -1056,6 +1198,7 @@
                 audioPlayer.paused
             ) {
 
+
                 audioPlayer.play()
 
                     .then(function() {
@@ -1065,7 +1208,9 @@
 
                     });
 
+
             } else {
+
 
                 audioPlayer.pause();
 
@@ -1080,16 +1225,21 @@
 
 
     /*
-        PREVIOUS BUTTON
+        ============================================================
+        BACK
+        ============================================================
     */
+
 
     backButton.addEventListener(
         "click",
         function() {
 
+
             if (
                 currentTrack === -1
             ) {
+
 
                 selectTrack(
                     0,
@@ -1097,7 +1247,9 @@
                     true
                 );
 
+
             } else {
+
 
                 playPrevious();
 
@@ -1108,16 +1260,21 @@
 
 
     /*
-        NEXT BUTTON
+        ============================================================
+        NEXT
+        ============================================================
     */
+
 
     nextButton.addEventListener(
         "click",
         function() {
 
+
             if (
                 currentTrack === -1
             ) {
+
 
                 selectTrack(
                     0,
@@ -1125,7 +1282,9 @@
                     true
                 );
 
+
             } else {
+
 
                 playNext();
 
@@ -1136,18 +1295,23 @@
 
 
     /*
-        SHUFFLE BUTTON
+        ============================================================
+        SHUFFLE
+        ============================================================
     */
+
 
     shuffleButton.addEventListener(
         "click",
         function() {
+
 
             shuffle =
                 !shuffle;
 
 
             if (shuffle) {
+
 
                 shuffleButton.textContent =
                     "SHUFFLE ON";
@@ -1158,26 +1322,19 @@
                 );
 
 
-                /*
-                    Start a fresh shuffle cycle
-                    whenever shuffle is turned ON.
-                */
-
                 createShuffleQueue();
 
 
                 /*
-                    Remove the currently playing
-                    track from the new queue.
-
-                    This prevents the next song
-                    from immediately repeating
+                    Don't immediately repeat
                     the current song.
                 */
+
 
                 if (
                     currentTrack !== -1
                 ) {
+
 
                     shuffleQueue =
                         shuffleQueue.filter(
@@ -1193,7 +1350,9 @@
 
                 }
 
+
             } else {
+
 
                 shuffleButton.textContent =
                     "SHUFFLE OFF";
@@ -1204,11 +1363,6 @@
                 );
 
 
-                /*
-                    The shuffle queue is no longer
-                    needed while shuffle is OFF.
-                */
-
                 shuffleQueue = [];
 
             }
@@ -1218,48 +1372,67 @@
 
 
     /*
-        CLICKING A TRACK
+        ============================================================
+        TRACK CLICKS
+        ============================================================
     */
 
-    tracks.forEach(
-        function(track, index) {
 
-            track.addEventListener(
-                "click",
-                function(event) {
-
-                    /*
-                        Don't play the track when
-                        the download link is clicked.
-                    */
-
-                    if (
-                        event.target.closest(
-                            ".download-link"
-                        )
-                    ) {
-
-                        return;
-
-                    }
+    function attachTrackListeners() {
 
 
-                    selectTrack(
-                        index,
-                        true,
-                        true
+        tracks.forEach(
+            function(track, index) {
+
+
+                const downloadLink =
+                    track.querySelector(
+                        ".download-link"
                     );
 
-                }
-            );
 
-        }
-    );
+                attachDownloadBehavior(
+                    downloadLink
+                );
+
+
+                track.addEventListener(
+                    "click",
+                    function(event) {
+
+
+                        if (
+                            event.target.closest(
+                                ".download-link"
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        selectTrack(
+                            index,
+                            true,
+                            true
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
 
 
     /*
+        ============================================================
         AUDIO PLAYING
+        ============================================================
     */
+
 
     audioPlayer.addEventListener(
         "play",
@@ -1273,8 +1446,11 @@
 
 
     /*
+        ============================================================
         AUDIO PAUSED
+        ============================================================
     */
+
 
     audioPlayer.addEventListener(
         "pause",
@@ -1288,10 +1464,11 @@
 
 
     /*
+        ============================================================
         AUDIO FINISHED
-
-        Next behavior follows Shuffle.
+        ============================================================
     */
+
 
     audioPlayer.addEventListener(
         "ended",
@@ -1303,7 +1480,18 @@
     );
 
 
+    /*
+        ============================================================
+        START THE APP
+        ============================================================
+    */
+
+
+    loadCatalog();
+
+
 </script>
+
 
 </body>
 </html>
