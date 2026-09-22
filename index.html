@@ -562,35 +562,121 @@
     // Shuffle starts OFF.
     let shuffle = false;
 
-    /*
-        SHUFFLE PLAY HISTORY
 
-        Stores the order in which tracks
-        were previously played.
+    /*
+        SHUFFLE SYSTEM
+
+        shuffleQueue contains the tracks
+        that have NOT yet been played
+        during the current shuffle cycle.
+
+        Every track is placed into the queue
+        once and the queue is randomized.
+
+        This guarantees that every available
+        track plays once before any track
+        repeats.
+    */
+
+    let shuffleQueue = [];
+
+
+    /*
+        PLAY HISTORY
+
+        Stores the actual playback order.
 
         Example:
 
-        8 → 3 → 7
+        8 → 3 → 7 → 2
 
-        History becomes:
+        History:
 
         [8, 3, 7]
 
-        Press Back:
-
-        7 → 3
-
-        Press Back again:
-
-        3 → 8
+        Back from 2 goes to 7.
+        Back again goes to 3.
+        Back again goes to 8.
     */
+
     let playHistory = [];
 
 
     /*
+        CREATE A NEW SHUFFLE CYCLE
+    */
+
+    function createShuffleQueue() {
+
+        shuffleQueue =
+            tracks.map(function(track, index) {
+                return index;
+            });
+
+
+        /*
+            Fisher-Yates shuffle
+
+            This creates a properly randomized
+            order without repeats.
+        */
+
+        for (
+            let i = shuffleQueue.length - 1;
+            i > 0;
+            i--
+        ) {
+
+            const randomIndex =
+                Math.floor(
+                    Math.random() * (i + 1)
+                );
+
+
+            const temporary =
+                shuffleQueue[i];
+
+
+            shuffleQueue[i] =
+                shuffleQueue[randomIndex];
+
+
+            shuffleQueue[randomIndex] =
+                temporary;
+
+        }
+
+    }
+
+
+    /*
+        GET NEXT SHUFFLE TRACK
+
+        When the queue is empty,
+        create a completely new cycle.
+    */
+
+    function getNextShuffleTrack() {
+
+        if (shuffleQueue.length === 0) {
+
+            createShuffleQueue();
+
+        }
+
+
+        /*
+            Remove and return the first
+            track in the queue.
+        */
+
+        return shuffleQueue.shift();
+
+    }
+
+
+    /*
         LOAD ALL TRACK IMAGES
-        Images appear immediately when
-        the page opens.
     */
 
     tracks.forEach(function(track) {
@@ -607,7 +693,10 @@
             const img =
                 document.createElement("img");
 
-            img.src = image;
+
+            img.src =
+                image;
+
 
             img.alt =
                 track.dataset.title;
@@ -624,9 +713,13 @@
             );
 
 
-            imageBox.innerHTML = "";
+            imageBox.innerHTML =
+                "";
 
-            imageBox.appendChild(img);
+
+            imageBox.appendChild(
+                img
+            );
 
         }
 
@@ -643,35 +736,47 @@
         addToHistory = true
     ) {
 
-        if (index < 0 || index >= tracks.length) {
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
             return;
+
         }
 
+
         /*
-            Add the track to playback history
-            when it is a normal new selection.
+            Add the current track to
+            history before moving to
+            another track.
+
+            This allows the Back button
+            to return to it.
         */
 
         if (
             addToHistory &&
-            index !== currentTrack
+            index !== currentTrack &&
+            currentTrack !== -1
         ) {
 
-            if (currentTrack !== -1) {
-
-                playHistory.push(currentTrack);
-
-            }
+            playHistory.push(
+                currentTrack
+            );
 
         }
 
 
-        currentTrack = index;
+        currentTrack =
+            index;
 
 
         tracks.forEach(function(track) {
 
-            track.classList.remove("selected");
+            track.classList.remove(
+                "selected"
+            );
 
         });
 
@@ -680,14 +785,18 @@
             tracks[index];
 
 
-        track.classList.add("selected");
+        track.classList.add(
+            "selected"
+        );
 
 
         const title =
             track.dataset.title;
 
+
         const artist =
             track.dataset.artist;
+
 
         const file =
             track.dataset.file;
@@ -705,8 +814,7 @@
 
 
         /*
-            Keep the selected track visible
-            inside the scrolling area.
+            Keep selected track visible.
         */
 
         track.scrollIntoView({
@@ -749,7 +857,9 @@
     function chooseTrackToPlay() {
 
         if (tracks.length === 0) {
+
             return;
+
         }
 
 
@@ -758,14 +868,21 @@
 
         if (shuffle) {
 
+            /*
+                Start a fresh shuffle cycle
+                and take the first track.
+            */
+
+            createShuffleQueue();
+
+
             chosenTrack =
-                Math.floor(
-                    Math.random() * tracks.length
-                );
+                getNextShuffleTrack();
 
         } else {
 
-            chosenTrack = 0;
+            chosenTrack =
+                0;
 
         }
 
@@ -782,17 +899,23 @@
     /*
         NEXT TRACK
 
-        Shuffle OFF:
-        Move forward normally.
+        SHUFFLE OFF:
+        Move forward through the list.
 
-        Shuffle ON:
-        Choose another random track.
+        SHUFFLE ON:
+        Take the next track from the
+        shuffle queue.
+
+        Every track is played once
+        before the queue starts over.
     */
 
     function playNext() {
 
         if (tracks.length === 0) {
+
             return;
+
         }
 
 
@@ -801,27 +924,8 @@
 
         if (shuffle) {
 
-            if (tracks.length === 1) {
-
-                nextTrack = 0;
-
-            } else {
-
-                do {
-
-                    nextTrack =
-                        Math.floor(
-                            Math.random() *
-                            tracks.length
-                        );
-
-                }
-
-                while (
-                    nextTrack === currentTrack
-                );
-
-            }
+            nextTrack =
+                getNextShuffleTrack();
 
         } else {
 
@@ -857,31 +961,35 @@
         Move backward through the list.
 
         SHUFFLE ON:
-        Go back through actual playback
-        history.
+        Return to the track that was
+        actually played immediately before
+        the current track.
     */
 
     function playPrevious() {
 
         if (tracks.length === 0) {
+
             return;
+
         }
 
 
         /*
             SHUFFLE ON
 
-            Go to the most recently played
-            track instead of the track above
-            the current track in the list.
+            Use playback history.
         */
 
         if (shuffle) {
 
-            if (playHistory.length > 0) {
+            if (
+                playHistory.length > 0
+            ) {
 
                 const previousTrack =
                     playHistory.pop();
+
 
                 selectTrack(
                     previousTrack,
@@ -899,15 +1007,16 @@
         /*
             SHUFFLE OFF
 
-            Move backward through the
-            normal track list.
+            Move backward through list.
         */
 
         let previousTrack =
             currentTrack - 1;
 
 
-        if (previousTrack < 0) {
+        if (
+            previousTrack < 0
+        ) {
 
             previousTrack =
                 tracks.length - 1;
@@ -932,7 +1041,9 @@
         "click",
         function() {
 
-            if (currentTrack === -1) {
+            if (
+                currentTrack === -1
+            ) {
 
                 chooseTrackToPlay();
 
@@ -941,7 +1052,9 @@
             }
 
 
-            if (audioPlayer.paused) {
+            if (
+                audioPlayer.paused
+            ) {
 
                 audioPlayer.play()
 
@@ -955,6 +1068,7 @@
             } else {
 
                 audioPlayer.pause();
+
 
                 playButton.textContent =
                     "▶ PLAY";
@@ -973,7 +1087,9 @@
         "click",
         function() {
 
-            if (currentTrack === -1) {
+            if (
+                currentTrack === -1
+            ) {
 
                 selectTrack(
                     0,
@@ -999,7 +1115,9 @@
         "click",
         function() {
 
-            if (currentTrack === -1) {
+            if (
+                currentTrack === -1
+            ) {
 
                 selectTrack(
                     0,
@@ -1018,7 +1136,7 @@
 
 
     /*
-        SHUFFLE
+        SHUFFLE BUTTON
     */
 
     shuffleButton.addEventListener(
@@ -1034,18 +1152,64 @@
                 shuffleButton.textContent =
                     "SHUFFLE ON";
 
+
                 shuffleButton.classList.add(
                     "active"
                 );
+
+
+                /*
+                    Start a fresh shuffle cycle
+                    whenever shuffle is turned ON.
+                */
+
+                createShuffleQueue();
+
+
+                /*
+                    Remove the currently playing
+                    track from the new queue.
+
+                    This prevents the next song
+                    from immediately repeating
+                    the current song.
+                */
+
+                if (
+                    currentTrack !== -1
+                ) {
+
+                    shuffleQueue =
+                        shuffleQueue.filter(
+                            function(index) {
+
+                                return (
+                                    index !==
+                                    currentTrack
+                                );
+
+                            }
+                        );
+
+                }
 
             } else {
 
                 shuffleButton.textContent =
                     "SHUFFLE OFF";
 
+
                 shuffleButton.classList.remove(
                     "active"
                 );
+
+
+                /*
+                    The shuffle queue is no longer
+                    needed while shuffle is OFF.
+                */
+
+                shuffleQueue = [];
 
             }
 
