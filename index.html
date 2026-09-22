@@ -38,7 +38,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
             margin-bottom: 30px;
         }
 
@@ -48,7 +48,7 @@
             color: #111111;
             cursor: pointer;
             font-size: 16px;
-            padding: 12px 22px;
+            padding: 12px 18px;
             min-height: 46px;
         }
 
@@ -59,6 +59,14 @@
         #playButton {
             min-width: 120px;
             font-weight: bold;
+        }
+
+        #backButton,
+        #nextButton {
+            width: 50px;
+            padding: 12px 5px;
+            font-size: 24px;
+            line-height: 1;
         }
 
         #shuffleButton.active {
@@ -131,6 +139,7 @@
         }
 
         @media (max-width: 500px) {
+
             .app {
                 padding: 25px 15px 40px;
             }
@@ -148,6 +157,7 @@
                 width: 55px;
                 height: 55px;
             }
+
         }
     </style>
 </head>
@@ -158,277 +168,18 @@
 
     <h1>gr8skul</h1>
 
+
+    <!-- MAIN CONTROLS -->
+
     <div class="controls">
+
+        <button id="backButton" type="button" aria-label="Previous track">
+            ←
+        </button>
 
         <button id="playButton" type="button">
             ▶ PLAY
         </button>
 
-        <button id="shuffleButton" type="button">
-            SHUFFLE OFF
-        </button>
+        <button id="nextButton" type="button"
 
-    </div>
-
-    <div class="now-playing" id="nowPlaying">
-        Nothing playing
-    </div>
-
-    <div class="track-list" id="trackList">
-
-        <div class="track"
-             data-title="aRnt we rich"
-             data-artist="gr8skul"
-             data-file="https://ryknbel.github.io/gr8skul.github.io/Arnt%20We%20Rich%20MP3.mp3">
-
-            <div class="track-image"
-                 style="display:flex;align-items:center;justify-content:center;">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-                <div class="track-title">aRnt we rich</div>
-                <div class="track-artist">gr8skul</div>
-            </div>
-
-        </div>
-
-
-        <div class="track"
-             data-title="Outside Madness (strings)"
-             data-artist="gr8skul"
-             data-file="https://ryknbel.github.io/gr8skul.github.io/Outside%20Madness%20(strings)%20MP3.mp3">
-
-            <div class="track-image"
-                 style="display:flex;align-items:center;justify-content:center;">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-                <div class="track-title">Outside Madness (strings)</div>
-                <div class="track-artist">gr8skul</div>
-            </div>
-
-        </div>
-
-
-        <div class="track"
-             data-title="Track Three"
-             data-artist="gr8skul"
-             data-file="music/track3.mp3">
-
-            <div class="track-image"
-                 style="display:flex;align-items:center;justify-content:center;">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-                <div class="track-title">Track Three</div>
-                <div class="track-artist">GR8SKUL</div>
-            </div>
-
-        </div>
-
-
-        <div class="track"
-             data-title="Track Four"
-             data-artist="GR8SKUL"
-             data-file="music/track4.mp3">
-
-            <div class="track-image"
-                 style="display:flex;align-items:center;justify-content:center;">
-                IMAGE
-            </div>
-
-            <div class="track-info">
-                <div class="track-title">Track Four</div>
-                <div class="track-artist">gr8skul</div>
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <div class="player">
-
-        <audio id="audioPlayer" controls preload="none"></audio>
-
-    </div>
-
-</div>
-
-
-<script>
-
-    const tracks = Array.from(document.querySelectorAll(".track"));
-
-    const playButton = document.getElementById("playButton");
-
-    const shuffleButton = document.getElementById("shuffleButton");
-
-    const audioPlayer = document.getElementById("audioPlayer");
-
-    const nowPlaying = document.getElementById("nowPlaying");
-
-
-    let currentTrack = -1;
-
-    let shuffle = false;
-
-
-    function selectTrack(index, startPlaying = true) {
-
-        if (index < 0 || index >= tracks.length) {
-            return;
-        }
-
-        currentTrack = index;
-
-        tracks.forEach(function(track) {
-            track.classList.remove("selected");
-        });
-
-        const track = tracks[index];
-
-        track.classList.add("selected");
-
-        const title = track.dataset.title;
-
-        const artist = track.dataset.artist;
-
-        const file = track.dataset.file;
-
-        audioPlayer.src = file;
-
-        nowPlaying.textContent = "Now playing: " + title + " — " + artist;
-
-        if (startPlaying) {
-            audioPlayer.play()
-                .then(function() {
-                    playButton.textContent = "❚❚ PAUSE";
-                })
-                .catch(function() {
-                    playButton.textContent = "▶ PLAY";
-                });
-        }
-    }
-
-
-    function playNext() {
-
-        if (tracks.length === 0) {
-            return;
-        }
-
-        let nextTrack;
-
-        if (shuffle) {
-
-            if (tracks.length === 1) {
-                nextTrack = 0;
-            } else {
-
-                do {
-                    nextTrack = Math.floor(Math.random() * tracks.length);
-                }
-
-                while (nextTrack === currentTrack);
-            }
-
-        } else {
-
-            nextTrack = currentTrack + 1;
-
-            if (nextTrack >= tracks.length) {
-                nextTrack = 0;
-            }
-        }
-
-        selectTrack(nextTrack, true);
-    }
-
-
-    playButton.addEventListener("click", function() {
-
-        if (currentTrack === -1) {
-
-            selectTrack(0, true);
-
-            return;
-        }
-
-
-        if (audioPlayer.paused) {
-
-            audioPlayer.play()
-                .then(function() {
-                    playButton.textContent = "❚❚ PAUSE";
-                });
-
-        } else {
-
-            audioPlayer.pause();
-
-            playButton.textContent = "▶ PLAY";
-        }
-
-    });
-
-
-    shuffleButton.addEventListener("click", function() {
-
-        shuffle = !shuffle;
-
-        if (shuffle) {
-
-            shuffleButton.textContent = "SHUFFLE ON";
-
-            shuffleButton.classList.add("active");
-
-        } else {
-
-            shuffleButton.textContent = "SHUFFLE OFF";
-
-            shuffleButton.classList.remove("active");
-        }
-
-    });
-
-
-    tracks.forEach(function(track, index) {
-
-        track.addEventListener("click", function() {
-
-            selectTrack(index, true);
-
-        });
-
-    });
-
-
-    audioPlayer.addEventListener("play", function() {
-
-        playButton.textContent = "❚❚ PAUSE";
-
-    });
-
-
-    audioPlayer.addEventListener("pause", function() {
-
-        playButton.textContent = "▶ PLAY";
-
-    });
-
-
-    audioPlayer.addEventListener("ended", function() {
-
-        playNext();
-
-    });
-
-</script>
-
-</body>
-</html>
-```
