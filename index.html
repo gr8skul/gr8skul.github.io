@@ -1,663 +1,1514 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="manifest" href="manifest.json">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>gr8skul</title>
+    <title>gr8skul</title>
 
-<style>
-    * {
-        box-sizing: border-box;
-    }
 
-    html, body {
-        margin: 0;
-        padding: 0;
-        font-family: Arial, Helvetica, sans-serif;
-        background: #ffffff;
-        color: #111111;
-        height: 100%;
-    }
+    <!-- GR8SKUL HOME-SCREEN ICON -->
 
-    body {
-        padding-bottom: 105px;
-    }
+    <link rel="icon"
+          type="image/png"
+          href="https://gr8skul.github.io/gr8skul-icon.PNG">
 
-    header {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: #ffffff;
-        z-index: 1000;
-        padding: 18px 20px 14px;
-    }
+    <link rel="apple-touch-icon"
+          href="https://gr8skul.github.io/gr8skul-icon.PNG">
 
-    .header-inner {
-        max-width: 700px;
-        margin: 0 auto;
-        text-align: center;
-    }
 
-    .logo {
-        width: 190px;
-        height: auto;
-        display: block;
-        margin: 0 auto 12px;
-    }
+    <!-- GR8SKUL APP MANIFEST -->
 
-    .header-line {
-        border: 0;
-        border-top: 1px solid #111111;
-        margin: 0;
-    }
+    <link rel="manifest"
+          href="https://gr8skul.github.io/manifest.json">
 
-    main {
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 135px 20px 30px;
-    }
 
-    .controls {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 18px;
-        margin-bottom: 20px;
-    }
+    <style>
 
-    button {
-        border: none;
-        background: none;
-        color: #111111;
-        cursor: pointer;
-        font-size: 22px;
-        padding: 5px 8px;
-    }
-
-    button:hover {
-        opacity: 0.6;
-    }
-
-    #playPause {
-        font-size: 30px;
-    }
-
-    #shuffleButton {
-        font-size: 12px;
-        letter-spacing: 0.5px;
-        min-width: 90px;
-    }
-
-    .now-playing {
-        text-align: center;
-        margin-bottom: 24px;
-        min-height: 72px;
-    }
-
-    .now-playing-title {
-        font-size: 18px;
-        margin-bottom: 10px;
-    }
-
-    .now-playing-download {
-        font-size: 11px;
-        color: #111111;
-        text-decoration: none;
-        letter-spacing: 0.3px;
-    }
-
-    .now-playing-download:hover {
-        text-decoration: underline;
-    }
-
-    .track-list {
-        max-height: 285px;
-        overflow-y: auto;
-        border-top: 1px solid #dddddd;
-        border-bottom: 1px solid #dddddd;
-    }
-
-    .track {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 12px 8px;
-        border-bottom: 1px solid #eeeeee;
-        cursor: pointer;
-    }
-
-    .track:last-child {
-        border-bottom: none;
-    }
-
-    .track.selected {
-        background: #f1f1f1;
-    }
-
-    .track-title {
-        flex: 1;
-        min-width: 0;
-        font-size: 15px;
-    }
-
-    .download {
-        flex-shrink: 0;
-        font-size: 10px;
-        color: #111111;
-        text-decoration: none;
-        letter-spacing: 0.3px;
-        cursor: pointer;
-    }
-
-    .download:hover {
-        text-decoration: underline;
-    }
-
-    .loading {
-        text-align: center;
-        padding: 30px 10px;
-        color: #777777;
-        font-size: 14px;
-    }
-
-    footer {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #ffffff;
-        border-top: 1px solid #dddddd;
-        z-index: 1000;
-        padding: 12px 20px 15px;
-    }
-
-    .player {
-        max-width: 700px;
-        margin: 0 auto;
-    }
-
-    audio {
-        width: 100%;
-        height: 40px;
-    }
-
-    @media (max-width: 600px) {
-        header {
-            padding-top: 14px;
+        * {
+            box-sizing: border-box;
         }
 
-        .logo {
-            width: 170px;
+
+        html,
+        body {
+
+            margin: 0;
+
+            background: #ffffff;
+
+            color: #111111;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            height: 100%;
         }
 
-        main {
-            padding-top: 125px;
+
+        body {
+            overflow: hidden;
         }
+
+
+        .app {
+
+            width: 100%;
+
+            max-width: 700px;
+
+            height: 100vh;
+
+            margin: 0 auto;
+
+            padding: 0 20px;
+
+            display: flex;
+
+            flex-direction: column;
+        }
+
+
+        /* =========================
+           FIXED HEADER
+           ========================= */
+
+
+        .header {
+
+            flex-shrink: 0;
+
+            background: #ffffff;
+
+            padding-top: 35px;
+        }
+
+
+        h1 {
+
+            margin: 0 0 35px;
+
+            text-align: center;
+
+            font-size: 42px;
+
+            letter-spacing: 6px;
+
+            font-weight: 700;
+        }
+
+
+        h1 img {
+
+            display: block;
+
+            width: auto;
+
+            height: 42px;
+
+            max-width: 100%;
+
+            margin: 0 auto;
+        }
+
+
+        .controls {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 10px;
+
+            margin-bottom: 25px;
+        }
+
+
+        button {
+
+            border: 1px solid #111111;
+
+            background: #ffffff;
+
+            color: #111111;
+
+            cursor: pointer;
+
+            font-size: 16px;
+
+            padding: 12px 18px;
+
+            min-height: 46px;
+        }
+
+
+        button:hover {
+
+            background: #eeeeee;
+        }
+
+
+        #playButton {
+
+            min-width: 120px;
+
+            font-weight: bold;
+        }
+
+
+        #backButton,
+        #nextButton {
+
+            width: 50px;
+
+            padding: 12px 5px;
+
+            font-size: 24px;
+
+            line-height: 1;
+        }
+
+
+        #shuffleButton.active {
+
+            background: #111111;
+
+            color: #ffffff;
+        }
+
+
+        .now-playing {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+            min-height: 24px;
+
+            font-size: 14px;
+
+            color: #555555;
+        }
+
+
+        .now-playing-download {
+
+            display: block;
+
+            margin-top: 6px;
+
+            font-size: 11px;
+
+            color: #888888;
+
+            text-decoration: none;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .now-playing-download:hover {
+
+            color: #111111;
+
+            text-decoration: underline;
+        }
+
+
+        .header-line {
+
+            border-bottom: 1px solid #cccccc;
+        }
+
+
+        /* =========================
+           SCROLLING TRACK AREA
+           ========================= */
+
 
         .track-list {
-            max-height: 285px;
+
+            flex: 1;
+
+            min-height: 0;
+
+            overflow-y: auto;
+
+            overflow-x: hidden;
         }
-    }
-</style>
+
+
+        .track {
+
+            display: flex;
+
+            align-items: center;
+
+            width: 100%;
+
+            min-height: 75px;
+
+            padding: 12px 0;
+
+            border-bottom: 1px solid #cccccc;
+
+            cursor: pointer;
+
+            user-select: none;
+        }
+
+
+        .track:hover {
+
+            background: #f5f5f5;
+        }
+
+
+        .track.selected {
+
+            background: #eeeeee;
+        }
+
+
+        .track-info {
+
+            min-width: 0;
+
+            text-align: left;
+
+            flex: 1;
+        }
+
+
+        .track-title {
+
+            font-size: 17px;
+
+            font-weight: bold;
+
+            margin-bottom: 6px;
+        }
+
+
+        .download-link {
+
+            font-size: 11px;
+
+            color: #888888;
+
+            text-decoration: none;
+
+            letter-spacing: 0.5px;
+        }
+
+
+        .download-link:hover {
+
+            color: #111111;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           FIXED FOOTER
+           ========================= */
+
+
+        .player {
+
+            flex-shrink: 0;
+
+            background: #ffffff;
+
+            padding-top: 20px;
+
+            padding-bottom: 20px;
+
+            width: 100%;
+        }
+
+
+        audio {
+
+            width: 100%;
+        }
+
+
+        /* =========================
+           MOBILE
+           ========================= */
+
+
+        @media (max-width: 500px) {
+
+
+            .app {
+
+                padding: 0 15px;
+            }
+
+
+            .header {
+
+                padding-top: 25px;
+            }
+
+
+            h1 img {
+
+                height: 34px;
+            }
+
+
+            .controls {
+
+                flex-wrap: wrap;
+            }
+
+
+            .track {
+
+                min-height: 65px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<header>
-    <div class="header-inner">
-        <img
-            src="GR8SKUL-HEADER-LOGO.png"
-            alt="gr8skul"
-            class="logo"
-        >
-        <hr class="header-line">
-    </div>
-</header>
 
-<main>
+<div class="app">
 
-    <div class="controls">
-        <button id="previousButton" aria-label="Previous track">⏮</button>
 
-        <button id="playPause" aria-label="Play or pause">▶</button>
+    <!-- =========================
+         FIXED HEADER
+         ========================= -->
 
-        <button id="nextButton" aria-label="Next track">⏭</button>
 
-        <button id="shuffleButton" aria-label="Shuffle">
-            SHUFFLE OFF
-        </button>
-    </div>
+    <div class="header">
 
-    <div class="now-playing" id="nowPlaying"></div>
 
-    <div class="track-list" id="trackList">
-        <div class="loading">Music catalog loading...</div>
-    </div>
+        <h1>
 
-</main>
+            <img
+                src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+                alt="GR8SKUL">
 
-<footer>
-    <div class="player">
-        <audio id="audioPlayer" controls preload="metadata"></audio>
-    </div>
-</footer>
+        </h1>
 
-<script>
-const audio = document.getElementById("audioPlayer");
-const playPauseButton = document.getElementById("playPause");
-const previousButton = document.getElementById("previousButton");
-const nextButton = document.getElementById("nextButton");
-const shuffleButton = document.getElementById("shuffleButton");
-const trackList = document.getElementById("trackList");
-const nowPlaying = document.getElementById("nowPlaying");
 
-let tracks = [];
-let currentIndex = -1;
-let shuffleOn = false;
+        <div class="controls">
 
-let shuffleQueue = [];
-let playHistory = [];
-let historyPosition = -1;
 
+            <button
+                id="backButton"
+                type="button"
+                aria-label="Previous track">
 
-/* -----------------------------
-   CLEAN TRACK TITLE
------------------------------ */
+                ←
 
-function cleanTitle(filename) {
-    return filename
-        .replace(/\.[^/.]+$/, "")
-        .replace(/[_]+/g, " ")
-        .trim();
-}
+            </button>
 
 
-/* -----------------------------
-   SHUFFLE
------------------------------ */
+            <button
+                id="playButton"
+                type="button">
 
-function makeShuffleQueue() {
-    shuffleQueue = tracks.map((_, index) => index);
+                ▶ PLAY
 
-    for (let i = shuffleQueue.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
+            </button>
 
-        [shuffleQueue[i], shuffleQueue[j]] =
-            [shuffleQueue[j], shuffleQueue[i]];
-    }
-}
 
+            <button
+                id="nextButton"
+                type="button"
+                aria-label="Next track">
 
-/* -----------------------------
-   PLAY TRACK
------------------------------ */
+                →
 
-function playTrack(index, addToHistory = true) {
+            </button>
 
-    if (index < 0 || index >= tracks.length) {
-        return;
-    }
 
-    currentIndex = index;
+            <button
+                id="shuffleButton"
+                type="button">
 
-    const track = tracks[index];
+                SHUFFLE OFF
 
-    audio.src = track.path;
-    audio.play();
+            </button>
 
-    playPauseButton.textContent = "⏸";
 
-    updateNowPlaying();
-    updateSelectedTrack();
-
-    if (addToHistory) {
-
-        if (
-            historyPosition >= 0 &&
-            playHistory[historyPosition] === index
-        ) {
-            return;
-        }
-
-        playHistory =
-            playHistory.slice(0, historyPosition + 1);
-
-        playHistory.push(index);
-
-        historyPosition =
-            playHistory.length - 1;
-    }
-
-    if (shuffleOn) {
-
-        const queuePosition =
-            shuffleQueue.indexOf(index);
-
-        if (queuePosition !== -1) {
-            shuffleQueue.splice(queuePosition, 1);
-        }
-    }
-}
-
-
-/* -----------------------------
-   NEXT TRACK
------------------------------ */
-
-function nextTrack() {
-
-    if (!tracks.length) {
-        return;
-    }
-
-    if (shuffleOn) {
-
-        if (shuffleQueue.length === 0) {
-            makeShuffleQueue();
-        }
-
-        const nextIndex = shuffleQueue.shift();
-
-        playTrack(nextIndex);
-
-    } else {
-
-        let nextIndex = currentIndex + 1;
-
-        if (nextIndex >= tracks.length) {
-            nextIndex = 0;
-        }
-
-        playTrack(nextIndex);
-    }
-}
-
-
-/* -----------------------------
-   PREVIOUS TRACK
------------------------------ */
-
-function previousTrack() {
-
-    if (!tracks.length) {
-        return;
-    }
-
-    if (shuffleOn) {
-
-        if (historyPosition > 0) {
-
-            historyPosition--;
-
-            const previousIndex =
-                playHistory[historyPosition];
-
-            playTrack(previousIndex, false);
-        }
-
-    } else {
-
-        let previousIndex = currentIndex - 1;
-
-        if (previousIndex < 0) {
-            previousIndex = tracks.length - 1;
-        }
-
-        playTrack(previousIndex);
-    }
-}
-
-
-/* -----------------------------
-   UPDATE NOW PLAYING
------------------------------ */
-
-function updateNowPlaying() {
-
-    if (currentIndex < 0) {
-        nowPlaying.innerHTML = "";
-        return;
-    }
-
-    const track = tracks[currentIndex];
-
-    const title = cleanTitle(track.name);
-
-    /*
-       IMPORTANT:
-       This download link uses the exact same
-       download behavior as the track-list links.
-    */
-
-    nowPlaying.innerHTML = `
-        <div class="now-playing-title">
-            Now playing: "${title}"
         </div>
 
-        <a
-            class="now-playing-download"
-            href="${track.path}"
-            download
-            onclick="event.stopPropagation();"
-        >
-            DOWNLOAD MP3
-        </a>
-    `;
-}
+
+        <div
+            class="now-playing"
+            id="nowPlaying">
+        </div>
 
 
-/* -----------------------------
-   UPDATE SELECTED TRACK
------------------------------ */
-
-function updateSelectedTrack() {
-
-    document
-        .querySelectorAll(".track")
-        .forEach((element, index) => {
-
-            element.classList.toggle(
-                "selected",
-                index === currentIndex
-            );
-
-        });
-}
+        <div class="header-line"></div>
 
 
-/* -----------------------------
-   BUILD TRACK LIST
------------------------------ */
-
-function buildTrackList() {
-
-    trackList.innerHTML = "";
-
-    tracks.forEach((track, index) => {
-
-        const row = document.createElement("div");
-
-        row.className = "track";
-
-        row.innerHTML = `
-            <div class="track-title">
-                ${cleanTitle(track.name)}
-            </div>
-
-            <a
-                class="download"
-                href="${track.path}"
-                download
-                onclick="event.stopPropagation();"
-            >
-                DOWNLOAD MP3
-            </a>
-        `;
-
-        row.addEventListener("click", () => {
-
-            if (shuffleOn) {
-                playTrack(index);
-            } else {
-                playTrack(index);
-            }
-
-        });
-
-        trackList.appendChild(row);
-    });
-
-    updateSelectedTrack();
-}
+    </div>
 
 
-/* -----------------------------
-   LOAD CATALOG
------------------------------ */
-
-fetch("catalog.json?cache=" + Date.now())
-    .then(response => {
-
-        if (!response.ok) {
-            throw new Error("Catalog not found");
-        }
-
-        return response.json();
-
-    })
-    .then(catalog => {
-
-        tracks = catalog;
-
-        buildTrackList();
-
-    })
-    .catch(error => {
-
-        console.error(error);
-
-        trackList.innerHTML =
-            '<div class="loading">Music catalog loading...</div>';
-    });
+    <!-- =========================
+         AUTOMATIC TRACK LIST
+         ========================= -->
 
 
-/* -----------------------------
-   PLAY / PAUSE
------------------------------ */
+    <div
+        class="track-list"
+        id="trackList">
 
-playPauseButton.addEventListener("click", () => {
+    </div>
 
-    if (!tracks.length) {
-        return;
+
+    <!-- =========================
+         FIXED FOOTER
+         ========================= -->
+
+
+    <div class="player">
+
+
+        <audio
+            id="audioPlayer"
+            controls
+            preload="none">
+        </audio>
+
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+
+    /*
+        ============================================================
+        GR8SKUL AUTOMATIC MUSIC CATALOG
+        ============================================================
+
+        The GitHub Action creates catalog.json.
+
+        This page reads catalog.json and creates
+        the track list automatically.
+
+        You no longer need to add track HTML.
+    */
+
+
+    const tracksContainer =
+        document.getElementById("trackList");
+
+
+    const playButton =
+        document.getElementById("playButton");
+
+
+    const backButton =
+        document.getElementById("backButton");
+
+
+    const nextButton =
+        document.getElementById("nextButton");
+
+
+    const shuffleButton =
+        document.getElementById("shuffleButton");
+
+
+    const audioPlayer =
+        document.getElementById("audioPlayer");
+
+
+    const nowPlaying =
+        document.getElementById("nowPlaying");
+
+
+    let tracks = [];
+
+
+    let currentTrack = -1;
+
+
+    let shuffle = false;
+
+
+    let shuffleQueue = [];
+
+
+    let playHistory = [];
+
+
+    /*
+        ============================================================
+        CLEAN TRACK TITLE
+        ============================================================
+    */
+
+
+    function cleanTitle(filename) {
+
+        return filename
+            .replace(/\.[^/.]+$/, "")
+            .replace(/[_]+/g, " ")
+            .trim();
+
     }
 
-    if (currentIndex === -1) {
 
-        if (shuffleOn) {
+    /*
+        ============================================================
+        CREATE TRACK HTML
+        ============================================================
+    */
 
-            if (shuffleQueue.length === 0) {
-                makeShuffleQueue();
+
+    function createTrackElement(trackData) {
+
+
+        const track =
+            document.createElement("div");
+
+
+        track.className =
+            "track";
+
+
+        track.dataset.title =
+            cleanTitle(trackData.name);
+
+
+        track.dataset.file =
+            trackData.path;
+
+
+        const trackInfo =
+            document.createElement("div");
+
+
+        trackInfo.className =
+            "track-info";
+
+
+        const title =
+            document.createElement("div");
+
+
+        title.className =
+            "track-title";
+
+
+        title.textContent =
+            cleanTitle(trackData.name);
+
+
+        const download =
+            document.createElement("a");
+
+
+        download.className =
+            "download-link";
+
+
+        download.href =
+            trackData.path;
+
+
+        download.download =
+            "";
+
+
+        download.textContent =
+            "DOWNLOAD MP3";
+
+
+        trackInfo.appendChild(title);
+
+        trackInfo.appendChild(download);
+
+
+        track.appendChild(trackInfo);
+
+
+        return track;
+
+    }
+
+
+    /*
+        ============================================================
+        LOAD CATALOG
+        ============================================================
+    */
+
+
+    async function loadCatalog() {
+
+
+        try {
+
+
+            const response =
+                await fetch(
+                    "catalog.json?cache=" +
+                    Date.now()
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Catalog could not be loaded."
+                );
+
             }
 
-            const firstIndex = shuffleQueue.shift();
 
-            playTrack(firstIndex);
+            const catalog =
+                await response.json();
+
+
+            tracksContainer.innerHTML =
+                "";
+
+
+            catalog.forEach(function(trackData) {
+
+
+                const track =
+                    createTrackElement(
+                        trackData
+                    );
+
+
+                tracksContainer.appendChild(
+                    track
+                );
+
+            });
+
+
+            tracks =
+                Array.from(
+                    document.querySelectorAll(".track")
+                );
+
+
+            attachTrackListeners();
+
+
+        } catch (error) {
+
+
+            console.error(error);
+
+
+            tracksContainer.innerHTML =
+                "<div style='padding:20px 0; color:#777;'>Music catalog loading...</div>";
+
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        SHUFFLE
+        ============================================================
+    */
+
+
+    function createShuffleQueue() {
+
+
+        shuffleQueue =
+            tracks.map(function(track, index) {
+
+                return index;
+
+            });
+
+
+        for (
+            let i = shuffleQueue.length - 1;
+            i > 0;
+            i--
+        ) {
+
+
+            const randomIndex =
+                Math.floor(
+                    Math.random() *
+                    (i + 1)
+                );
+
+
+            const temporary =
+                shuffleQueue[i];
+
+
+            shuffleQueue[i] =
+                shuffleQueue[randomIndex];
+
+
+            shuffleQueue[randomIndex] =
+                temporary;
+
+        }
+
+    }
+
+
+    function getNextShuffleTrack() {
+
+
+        if (
+            shuffleQueue.length === 0
+        ) {
+
+            createShuffleQueue();
+
+        }
+
+
+        return shuffleQueue.shift();
+
+    }
+
+
+    /*
+        ============================================================
+        DOWNLOAD LINK
+        ============================================================
+    */
+
+
+    function attachDownloadBehavior(
+        downloadLink
+    ) {
+
+
+        downloadLink.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+
+                const file =
+                    downloadLink.href;
+
+
+                const temporaryLink =
+                    document.createElement("a");
+
+
+                temporaryLink.href =
+                    file;
+
+
+                temporaryLink.download =
+                    "";
+
+
+                document.body.appendChild(
+                    temporaryLink
+                );
+
+
+                temporaryLink.click();
+
+
+                document.body.removeChild(
+                    temporaryLink
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+        ============================================================
+        LOAD TRACK
+        ============================================================
+    */
+
+
+    function selectTrack(
+        index,
+        startPlaying = true,
+        addToHistory = true
+    ) {
+
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            addToHistory &&
+            index !== currentTrack &&
+            currentTrack !== -1
+        ) {
+
+            playHistory.push(
+                currentTrack
+            );
+
+        }
+
+
+        currentTrack =
+            index;
+
+
+        tracks.forEach(
+            function(track) {
+
+                track.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        const track =
+            tracks[index];
+
+
+        track.classList.add(
+            "selected"
+        );
+
+
+        const title =
+            track.dataset.title;
+
+
+        const file =
+            track.dataset.file;
+
+
+        audioPlayer.src =
+            file;
+
+
+        /*
+            NOW PLAYING
+
+            Includes download link.
+        */
+
+
+        nowPlaying.innerHTML =
+            "";
+
+
+        const nowPlayingText =
+            document.createElement("div");
+
+
+        nowPlayingText.textContent =
+            "Now playing: " +
+            title;
+
+
+        const download =
+            document.createElement("a");
+
+
+        download.className =
+            "now-playing-download";
+
+
+        download.href =
+            file;
+
+
+        download.download =
+            "";
+
+
+        download.textContent =
+            "DOWNLOAD MP3";
+
+
+        attachDownloadBehavior(
+            download
+        );
+
+
+        nowPlaying.appendChild(
+            nowPlayingText
+        );
+
+
+        nowPlaying.appendChild(
+            download
+        );
+
+
+        /*
+            Keep selected track visible.
+        */
+
+
+        track.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+
+        if (startPlaying) {
+
+
+            audioPlayer.play()
+
+                .then(function() {
+
+                    playButton.textContent =
+                        "❚❚ PAUSE";
+
+                })
+
+                .catch(function() {
+
+                    playButton.textContent =
+                        "▶ PLAY";
+
+                });
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        FIRST PLAY
+        ============================================================
+    */
+
+
+    function chooseTrackToPlay() {
+
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        let chosenTrack;
+
+
+        if (shuffle) {
+
+
+            createShuffleQueue();
+
+
+            chosenTrack =
+                getNextShuffleTrack();
+
 
         } else {
 
-            playTrack(0);
+
+            chosenTrack =
+                0;
+
         }
 
-        return;
+
+        selectTrack(
+            chosenTrack,
+            true,
+            true
+        );
+
     }
 
-    if (audio.paused) {
 
-        audio.play();
-
-    } else {
-
-        audio.pause();
-    }
-});
+    /*
+        ============================================================
+        NEXT
+        ============================================================
+    */
 
 
-/* -----------------------------
-   AUDIO PLAY / PAUSE DISPLAY
------------------------------ */
-
-audio.addEventListener("play", () => {
-    playPauseButton.textContent = "⏸";
-});
-
-audio.addEventListener("pause", () => {
-    playPauseButton.textContent = "▶";
-});
+    function playNext() {
 
 
-/* -----------------------------
-   NEXT / PREVIOUS BUTTONS
------------------------------ */
+        if (
+            tracks.length === 0
+        ) {
 
-nextButton.addEventListener("click", nextTrack);
+            return;
 
-previousButton.addEventListener("click", previousTrack);
-
-
-/* -----------------------------
-   AUTO ADVANCE
------------------------------ */
-
-audio.addEventListener("ended", () => {
-
-    nextTrack();
-
-});
+        }
 
 
-/* -----------------------------
-   SHUFFLE BUTTON
------------------------------ */
+        let nextTrack;
 
-shuffleButton.addEventListener("click", () => {
 
-    shuffleOn = !shuffleOn;
+        if (shuffle) {
 
-    if (shuffleOn) {
 
-        shuffleButton.textContent = "SHUFFLE ON";
+            nextTrack =
+                getNextShuffleTrack();
 
-        makeShuffleQueue();
 
-        /*
-           The currently playing track should not
-           immediately appear again in the new cycle.
-        */
+        } else {
 
-        if (currentIndex !== -1) {
 
-            const position =
-                shuffleQueue.indexOf(currentIndex);
+            nextTrack =
+                currentTrack + 1;
 
-            if (position !== -1) {
-                shuffleQueue.splice(position, 1);
+
+            if (
+                nextTrack >= tracks.length
+            ) {
+
+                nextTrack = 0;
+
             }
+
         }
 
-    } else {
 
-        shuffleButton.textContent = "SHUFFLE OFF";
+        selectTrack(
+            nextTrack,
+            true,
+            true
+        );
 
-        shuffleQueue = [];
     }
-});
+
+
+    /*
+        ============================================================
+        PREVIOUS
+        ============================================================
+    */
+
+
+    function playPrevious() {
+
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        if (shuffle) {
+
+
+            if (
+                playHistory.length > 0
+            ) {
+
+
+                const previousTrack =
+                    playHistory.pop();
+
+
+                selectTrack(
+                    previousTrack,
+                    true,
+                    false
+                );
+
+            }
+
+
+            return;
+
+        }
+
+
+        let previousTrack =
+            currentTrack - 1;
+
+
+        if (
+            previousTrack < 0
+        ) {
+
+            previousTrack =
+                tracks.length - 1;
+
+        }
+
+
+        selectTrack(
+            previousTrack,
+            true,
+            true
+        );
+
+    }
+
+
+    /*
+        ============================================================
+        PLAY / PAUSE
+        ============================================================
+    */
+
+
+    playButton.addEventListener(
+        "click",
+        function() {
+
+
+            if (
+                currentTrack === -1
+            ) {
+
+
+                chooseTrackToPlay();
+
+
+                return;
+
+            }
+
+
+            if (
+                audioPlayer.paused
+            ) {
+
+
+                audioPlayer.play()
+
+                    .then(function() {
+
+                        playButton.textContent =
+                            "❚❚ PAUSE";
+
+                    });
+
+
+            } else {
+
+
+                audioPlayer.pause();
+
+
+                playButton.textContent =
+                    "▶ PLAY";
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        BACK
+        ============================================================
+    */
+
+
+    backButton.addEventListener(
+        "click",
+        function() {
+
+
+            if (
+                currentTrack === -1
+            ) {
+
+
+                selectTrack(
+                    0,
+                    true,
+                    true
+                );
+
+
+            } else {
+
+
+                playPrevious();
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        NEXT
+        ============================================================
+    */
+
+
+    nextButton.addEventListener(
+        "click",
+        function() {
+
+
+            if (
+                currentTrack === -1
+            ) {
+
+
+                selectTrack(
+                    0,
+                    true,
+                    true
+                );
+
+
+            } else {
+
+
+                playNext();
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        SHUFFLE
+        ============================================================
+    */
+
+
+    shuffleButton.addEventListener(
+        "click",
+        function() {
+
+
+            shuffle =
+                !shuffle;
+
+
+            if (shuffle) {
+
+
+                shuffleButton.textContent =
+                    "SHUFFLE ON";
+
+
+                shuffleButton.classList.add(
+                    "active"
+                );
+
+
+                createShuffleQueue();
+
+
+                /*
+                    Don't immediately repeat
+                    the current song.
+                */
+
+
+                if (
+                    currentTrack !== -1
+                ) {
+
+
+                    shuffleQueue =
+                        shuffleQueue.filter(
+                            function(index) {
+
+                                return (
+                                    index !==
+                                    currentTrack
+                                );
+
+                            }
+                        );
+
+                }
+
+
+            } else {
+
+
+                shuffleButton.textContent =
+                    "SHUFFLE OFF";
+
+
+                shuffleButton.classList.remove(
+                    "active"
+                );
+
+
+                shuffleQueue = [];
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        TRACK CLICKS
+        ============================================================
+    */
+
+
+    function attachTrackListeners() {
+
+
+        tracks.forEach(
+            function(track, index) {
+
+
+                const downloadLink =
+                    track.querySelector(
+                        ".download-link"
+                    );
+
+
+                attachDownloadBehavior(
+                    downloadLink
+                );
+
+
+                track.addEventListener(
+                    "click",
+                    function(event) {
+
+
+                        if (
+                            event.target.closest(
+                                ".download-link"
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        selectTrack(
+                            index,
+                            true,
+                            true
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+        ============================================================
+        AUDIO PLAYING
+        ============================================================
+    */
+
+
+    audioPlayer.addEventListener(
+        "play",
+        function() {
+
+            playButton.textContent =
+                "❚❚ PAUSE";
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        AUDIO PAUSED
+        ============================================================
+    */
+
+
+    audioPlayer.addEventListener(
+        "pause",
+        function() {
+
+            playButton.textContent =
+                "▶ PLAY";
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        AUDIO FINISHED
+        ============================================================
+    */
+
+
+    audioPlayer.addEventListener(
+        "ended",
+        function() {
+
+            playNext();
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        START THE APP
+        ============================================================
+    */
+
+
+    loadCatalog();
+
 
 </script>
+
 
 </body>
 </html>
