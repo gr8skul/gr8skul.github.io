@@ -307,7 +307,7 @@
 
 
     <!-- =========================
-         SCROLLING TRACK LIST
+         SCROLLING TRACK AREA
          ========================= -->
 
     <div class="track-list"
@@ -562,6 +562,30 @@
     // Shuffle starts OFF.
     let shuffle = false;
 
+    /*
+        SHUFFLE PLAY HISTORY
+
+        Stores the order in which tracks
+        were previously played.
+
+        Example:
+
+        8 → 3 → 7
+
+        History becomes:
+
+        [8, 3, 7]
+
+        Press Back:
+
+        7 → 3
+
+        Press Back again:
+
+        3 → 8
+    */
+    let playHistory = [];
+
 
     /*
         LOAD ALL TRACK IMAGES
@@ -613,11 +637,34 @@
         LOAD TRACK
     */
 
-    function selectTrack(index, startPlaying = true) {
+    function selectTrack(
+        index,
+        startPlaying = true,
+        addToHistory = true
+    ) {
 
         if (index < 0 || index >= tracks.length) {
             return;
         }
+
+        /*
+            Add the track to playback history
+            when it is a normal new selection.
+        */
+
+        if (
+            addToHistory &&
+            index !== currentTrack
+        ) {
+
+            if (currentTrack !== -1) {
+
+                playHistory.push(currentTrack);
+
+            }
+
+        }
+
 
         currentTrack = index;
 
@@ -725,6 +772,7 @@
 
         selectTrack(
             chosenTrack,
+            true,
             true
         );
 
@@ -795,6 +843,7 @@
 
         selectTrack(
             nextTrack,
+            true,
             true
         );
 
@@ -804,10 +853,12 @@
     /*
         PREVIOUS TRACK
 
-        ALWAYS moves backward
-        through the list.
+        SHUFFLE OFF:
+        Move backward through the list.
 
-        Shuffle has NO effect.
+        SHUFFLE ON:
+        Go back through actual playback
+        history.
     */
 
     function playPrevious() {
@@ -816,6 +867,41 @@
             return;
         }
 
+
+        /*
+            SHUFFLE ON
+
+            Go to the most recently played
+            track instead of the track above
+            the current track in the list.
+        */
+
+        if (shuffle) {
+
+            if (playHistory.length > 0) {
+
+                const previousTrack =
+                    playHistory.pop();
+
+                selectTrack(
+                    previousTrack,
+                    true,
+                    false
+                );
+
+            }
+
+            return;
+
+        }
+
+
+        /*
+            SHUFFLE OFF
+
+            Move backward through the
+            normal track list.
+        */
 
         let previousTrack =
             currentTrack - 1;
@@ -831,6 +917,7 @@
 
         selectTrack(
             previousTrack,
+            true,
             true
         );
 
@@ -890,6 +977,7 @@
 
                 selectTrack(
                     0,
+                    true,
                     true
                 );
 
@@ -915,6 +1003,7 @@
 
                 selectTrack(
                     0,
+                    true,
                     true
                 );
 
@@ -993,6 +1082,7 @@
 
                     selectTrack(
                         index,
+                        true,
                         true
                     );
 
