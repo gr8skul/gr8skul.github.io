@@ -210,7 +210,6 @@
         }
 
 
-        .now-playing-download,
         .now-playing-mute {
 
             font-size: 11px;
@@ -225,7 +224,6 @@
         }
 
 
-        .now-playing-download:hover,
         .now-playing-mute:hover {
 
             color: #111111;
@@ -319,7 +317,6 @@
         }
 
 
-        .download-link,
         .mute-toggle {
 
             font-size: 11px;
@@ -334,7 +331,6 @@
         }
 
 
-        .download-link:hover,
         .mute-toggle:hover {
 
             color: #111111;
@@ -818,26 +814,6 @@
             "track-actions";
 
 
-        const download =
-            document.createElement("a");
-
-
-        download.className =
-            "download-link";
-
-
-        download.href =
-            trackData.path;
-
-
-        download.download =
-            "";
-
-
-        download.textContent =
-            "DOWNLOAD MP3";
-
-
         const muteButton =
             document.createElement("a");
 
@@ -852,11 +828,6 @@
 
         muteButton.textContent =
             "MUTE";
-
-
-        trackActions.appendChild(
-            download
-        );
 
 
         trackActions.appendChild(
@@ -1288,131 +1259,6 @@
 
     /*
         ============================================================
-        DOWNLOAD LINK
-        ============================================================
-    */
-
-
-    function attachDownloadBehavior(
-        downloadLink
-    ) {
-
-
-        downloadLink.addEventListener(
-            "click",
-            function(event) {
-
-                event.preventDefault();
-
-                event.stopPropagation();
-
-
-                const file =
-                    new URL(
-                        downloadLink.getAttribute(
-                            "href"
-                        ),
-                        window.location.href
-                    ).href;
-
-
-                /*
-                    Detect whether GR8SKUL is running
-                    as an installed Home Screen app.
-                */
-
-                const isStandalone =
-                    window.matchMedia(
-                        "(display-mode: standalone)"
-                    ).matches ||
-                    window.navigator.standalone === true;
-
-
-                /*
-                    HOME SCREEN / PWA MODE
-                */
-
-                if (isStandalone) {
-
-
-                    const temporaryLink =
-                        document.createElement(
-                            "a"
-                        );
-
-
-                    temporaryLink.href =
-                        file;
-
-
-                    temporaryLink.download =
-                        downloadLink.getAttribute(
-                            "download"
-                        ) || "";
-
-
-                    temporaryLink.style.display =
-                        "none";
-
-
-                    document.body.appendChild(
-                        temporaryLink
-                    );
-
-
-                    temporaryLink.click();
-
-
-                    temporaryLink.remove();
-
-
-                    return;
-
-                }
-
-
-                /*
-                    NORMAL BROWSER MODE
-                */
-
-                const temporaryLink =
-                    document.createElement(
-                        "a"
-                    );
-
-
-                temporaryLink.href =
-                    file;
-
-
-                temporaryLink.setAttribute(
-                    "download",
-                    ""
-                );
-
-
-                temporaryLink.style.display =
-                    "none";
-
-
-                document.body.appendChild(
-                    temporaryLink
-                );
-
-
-                temporaryLink.click();
-
-
-                temporaryLink.remove();
-
-            }
-        );
-
-    }
-
-
-    /*
-        ============================================================
         NOW PLAYING MUTE BUTTON
         ============================================================
     */
@@ -1666,33 +1512,6 @@
             "now-playing-actions";
 
 
-        const download =
-            document.createElement(
-                "a"
-            );
-
-
-        download.className =
-            "now-playing-download";
-
-
-        download.href =
-            file;
-
-
-        download.download =
-            "";
-
-
-        download.textContent =
-            "DOWNLOAD MP3";
-
-
-        attachDownloadBehavior(
-            download
-        );
-
-
         const muteButton =
             document.createElement(
                 "a"
@@ -1749,11 +1568,6 @@
                 }
 
             }
-        );
-
-
-        nowPlayingActions.appendChild(
-            download
         );
 
 
@@ -2238,21 +2052,10 @@
             function(track, index) {
 
 
-                const downloadLink =
-                    track.querySelector(
-                        ".download-link"
-                    );
-
-
                 const muteButton =
                     track.querySelector(
                         ".mute-toggle"
                     );
-
-
-                attachDownloadBehavior(
-                    downloadLink
-                );
 
 
                 muteButton.addEventListener(
@@ -2275,17 +2078,6 @@
                 track.addEventListener(
                     "click",
                     function(event) {
-
-
-                        if (
-                            event.target.closest(
-                                ".download-link"
-                            )
-                        ) {
-
-                            return;
-
-                        }
 
 
                         if (
