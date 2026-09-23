@@ -196,11 +196,22 @@
         }
 
 
-        .now-playing-download {
+        .now-playing-actions {
 
-            display: block;
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 12px;
 
             margin-top: 6px;
+        }
+
+
+        .now-playing-download,
+        .now-playing-mute {
 
             font-size: 11px;
 
@@ -209,10 +220,13 @@
             text-decoration: none;
 
             letter-spacing: 0.5px;
+
+            cursor: pointer;
         }
 
 
-        .now-playing-download:hover {
+        .now-playing-download:hover,
+        .now-playing-mute:hover {
 
             color: #111111;
 
@@ -295,7 +309,18 @@
         }
 
 
-        .download-link {
+        .track-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+        }
+
+
+        .download-link,
+        .mute-toggle {
 
             font-size: 11px;
 
@@ -304,10 +329,13 @@
             text-decoration: none;
 
             letter-spacing: 0.5px;
+
+            cursor: pointer;
         }
 
 
-        .download-link:hover {
+        .download-link:hover,
+        .mute-toggle:hover {
 
             color: #111111;
 
@@ -375,6 +403,12 @@
             .track {
 
                 min-height: 65px;
+            }
+
+
+            .track-actions {
+
+                gap: 9px;
             }
 
         }
@@ -541,6 +575,163 @@
         document.getElementById("nowPlaying");
 
 
+    /*
+        ============================================================
+        USER MUTE STORAGE
+        ============================================================
+
+        Each user's browser/device stores its own muted tracks.
+
+        The track's file path is used as the identifier so that
+        adding or reordering songs does not change the saved choice.
+    */
+
+
+    const MUTE_STORAGE_KEY =
+        "gr8skul-muted-tracks";
+
+
+    let mutedTracks = {};
+
+
+    try {
+
+        const savedMuteSettings =
+            localStorage.getItem(
+                MUTE_STORAGE_KEY
+            );
+
+
+        if (savedMuteSettings) {
+
+            mutedTracks =
+                JSON.parse(
+                    savedMuteSettings
+                ) || {};
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL mute settings could not be loaded.",
+            error
+        );
+
+        mutedTracks = {};
+
+    }
+
+
+    function saveMuteSettings() {
+
+        try {
+
+            localStorage.setItem(
+                MUTE_STORAGE_KEY,
+                JSON.stringify(mutedTracks)
+            );
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL mute settings could not be saved.",
+                error
+            );
+
+        }
+
+    }
+
+
+    function isTrackMuted(index) {
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return false;
+
+        }
+
+
+        const file =
+            tracks[index].dataset.file;
+
+
+        return mutedTracks[file] === true;
+
+    }
+
+
+    function setTrackMuted(
+        index,
+        muted
+    ) {
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        const file =
+            tracks[index].dataset.file;
+
+
+        if (muted) {
+
+            mutedTracks[file] = true;
+
+        } else {
+
+            delete mutedTracks[file];
+
+        }
+
+
+        saveMuteSettings();
+
+        updateTrackMuteButton(index);
+
+        updateNowPlayingMuteButton();
+
+
+        /*
+            Remove newly muted tracks from any
+            shuffle queue that already exists.
+        */
+
+        if (muted) {
+
+            shuffleQueue =
+                shuffleQueue.filter(
+                    function(queueIndex) {
+
+                        return !isTrackMuted(
+                            queueIndex
+                        );
+
+                    }
+                );
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        TRACK DATA
+        ============================================================
+    */
+
+
     let tracks = [];
 
 
@@ -619,6 +810,14 @@
             cleanTitle(trackData.name);
 
 
+        const trackActions =
+            document.createElement("div");
+
+
+        trackActions.className =
+            "track-actions";
+
+
         const download =
             document.createElement("a");
 
@@ -639,15 +838,123 @@
             "DOWNLOAD MP3";
 
 
-        trackInfo.appendChild(title);
+        const muteButton =
+            document.createElement("a");
 
-        trackInfo.appendChild(download);
+
+        muteButton.className =
+            "mute-toggle";
 
 
-        track.appendChild(trackInfo);
+        muteButton.href =
+            "#";
+
+
+        muteButton.textContent =
+            "MUTE";
+
+
+        trackActions.appendChild(
+            download
+        );
+
+
+        trackActions.appendChild(
+            muteButton
+        );
+
+
+        trackInfo.appendChild(
+            title
+        );
+
+
+        trackInfo.appendChild(
+            trackActions
+        );
+
+
+        track.appendChild(
+            trackInfo
+        );
 
 
         return track;
+
+    }
+
+
+    /*
+        ============================================================
+        UPDATE TRACK MUTE BUTTON
+        ============================================================
+    */
+
+
+    function updateTrackMuteButton(index) {
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        const track =
+            tracks[index];
+
+
+        const muteButton =
+            track.querySelector(
+                ".mute-toggle"
+            );
+
+
+        if (!muteButton) {
+
+            return;
+
+        }
+
+
+        if (
+            isTrackMuted(index)
+        ) {
+
+            muteButton.textContent =
+                "UNMUTE";
+
+        } else {
+
+            muteButton.textContent =
+                "MUTE";
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        UPDATE ALL TRACK MUTE BUTTONS
+        ============================================================
+    */
+
+
+    function updateAllTrackMuteButtons() {
+
+        tracks.forEach(
+            function(track, index) {
+
+                updateTrackMuteButton(
+                    index
+                );
+
+            }
+        );
 
     }
 
@@ -689,26 +996,33 @@
                 "";
 
 
-            catalog.forEach(function(trackData) {
+            catalog.forEach(
+                function(trackData) {
 
 
-                const track =
-                    createTrackElement(
-                        trackData
+                    const track =
+                        createTrackElement(
+                            trackData
+                        );
+
+
+                    tracksContainer.appendChild(
+                        track
                     );
 
-
-                tracksContainer.appendChild(
-                    track
-                );
-
-            });
+                }
+            );
 
 
             tracks =
                 Array.from(
-                    document.querySelectorAll(".track")
+                    document.querySelectorAll(
+                        ".track"
+                    )
                 );
+
+
+            updateAllTrackMuteButtons();
 
 
             attachTrackListeners();
@@ -731,6 +1045,146 @@
 
     /*
         ============================================================
+        FIND NEXT ELIGIBLE TRACK
+        ============================================================
+    */
+
+
+    function findNextUnmutedTrack(
+        startIndex
+    ) {
+
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return -1;
+
+        }
+
+
+        let index =
+            startIndex;
+
+
+        for (
+            let count = 0;
+            count < tracks.length;
+            count++
+        ) {
+
+
+            if (
+                index >= tracks.length
+            ) {
+
+                index = 0;
+
+            }
+
+
+            if (
+                index < 0
+            ) {
+
+                index =
+                    tracks.length - 1;
+
+            }
+
+
+            if (
+                !isTrackMuted(index)
+            ) {
+
+                return index;
+
+            }
+
+
+            index++;
+
+        }
+
+
+        return -1;
+
+    }
+
+
+    /*
+        ============================================================
+        FIND PREVIOUS ELIGIBLE TRACK
+        ============================================================
+    */
+
+
+    function findPreviousUnmutedTrack(
+        startIndex
+    ) {
+
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return -1;
+
+        }
+
+
+        let index =
+            startIndex;
+
+
+        for (
+            let count = 0;
+            count < tracks.length;
+            count++
+        ) {
+
+
+            if (
+                index < 0
+            ) {
+
+                index =
+                    tracks.length - 1;
+
+            }
+
+
+            if (
+                index >= tracks.length
+            ) {
+
+                index = 0;
+
+            }
+
+
+            if (
+                !isTrackMuted(index)
+            ) {
+
+                return index;
+
+            }
+
+
+            index--;
+
+        }
+
+
+        return -1;
+
+    }
+
+
+    /*
+        ============================================================
         SHUFFLE
         ============================================================
     */
@@ -740,11 +1194,23 @@
 
 
         shuffleQueue =
-            tracks.map(function(track, index) {
+            tracks
+                .map(
+                    function(track, index) {
 
-                return index;
+                        return index;
 
-            });
+                    }
+                )
+                .filter(
+                    function(index) {
+
+                        return !isTrackMuted(
+                            index
+                        );
+
+                    }
+                );
 
 
         for (
@@ -780,11 +1246,37 @@
     function getNextShuffleTrack() {
 
 
+        /*
+            Remove any tracks that may have been
+            muted after the queue was created.
+        */
+
+        shuffleQueue =
+            shuffleQueue.filter(
+                function(index) {
+
+                    return !isTrackMuted(
+                        index
+                    );
+
+                }
+            );
+
+
         if (
             shuffleQueue.length === 0
         ) {
 
             createShuffleQueue();
+
+        }
+
+
+        if (
+            shuffleQueue.length === 0
+        ) {
+
+            return -1;
 
         }
 
@@ -817,7 +1309,9 @@
 
                 const file =
                     new URL(
-                        downloadLink.getAttribute("href"),
+                        downloadLink.getAttribute(
+                            "href"
+                        ),
                         window.location.href
                     ).href;
 
@@ -842,7 +1336,9 @@
 
 
                     const temporaryLink =
-                        document.createElement("a");
+                        document.createElement(
+                            "a"
+                        );
 
 
                     temporaryLink.href =
@@ -880,7 +1376,9 @@
                 */
 
                 const temporaryLink =
-                    document.createElement("a");
+                    document.createElement(
+                        "a"
+                    );
 
 
                 temporaryLink.href =
@@ -909,6 +1407,156 @@
 
             }
         );
+
+    }
+
+
+    /*
+        ============================================================
+        NOW PLAYING MUTE BUTTON
+        ============================================================
+    */
+
+
+    function updateNowPlayingMuteButton() {
+
+
+        const muteButton =
+            nowPlaying.querySelector(
+                ".now-playing-mute"
+            );
+
+
+        if (!muteButton) {
+
+            return;
+
+        }
+
+
+        if (
+            isTrackMuted(currentTrack)
+        ) {
+
+            muteButton.textContent =
+                "UNMUTE";
+
+        } else {
+
+            muteButton.textContent =
+                "MUTE";
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        MUTE CURRENT TRACK
+        ============================================================
+    */
+
+
+    function muteCurrentTrack() {
+
+
+        if (
+            currentTrack < 0 ||
+            currentTrack >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        setTrackMuted(
+            currentTrack,
+            true
+        );
+
+
+        /*
+            The current track has just been excluded
+            from automatic playback.
+
+            Immediately move to the next eligible track.
+        */
+
+        playNext();
+
+    }
+
+
+    /*
+        ============================================================
+        TOGGLE TRACK MUTE
+        ============================================================
+    */
+
+
+    function toggleTrackMute(index) {
+
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        const currentlyMuted =
+            isTrackMuted(index);
+
+
+        /*
+            UNMUTE
+        */
+
+        if (currentlyMuted) {
+
+            setTrackMuted(
+                index,
+                false
+            );
+
+
+            /*
+                Do not force a currently playing track
+                to change simply because it was unmuted.
+            */
+
+            return;
+
+        }
+
+
+        /*
+            MUTE
+        */
+
+        setTrackMuted(
+            index,
+            true
+        );
+
+
+        /*
+            If the user muted the track that is currently
+            playing, immediately move to the next eligible track.
+        */
+
+        if (
+            index === currentTrack
+        ) {
+
+            playNext();
+
+        }
 
     }
 
@@ -987,9 +1635,9 @@
 
 
         /*
+            ========================================================
             NOW PLAYING
-
-            Includes download link.
+            ========================================================
         */
 
 
@@ -998,7 +1646,9 @@
 
 
         const nowPlayingText =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
 
         nowPlayingText.textContent =
@@ -1006,8 +1656,20 @@
             title;
 
 
+        const nowPlayingActions =
+            document.createElement(
+                "div"
+            );
+
+
+        nowPlayingActions.className =
+            "now-playing-actions";
+
+
         const download =
-            document.createElement("a");
+            document.createElement(
+                "a"
+            );
 
 
         download.className =
@@ -1031,13 +1693,82 @@
         );
 
 
+        const muteButton =
+            document.createElement(
+                "a"
+            );
+
+
+        muteButton.className =
+            "now-playing-mute";
+
+
+        muteButton.href =
+            "#";
+
+
+        muteButton.textContent =
+            isTrackMuted(index)
+                ? "UNMUTE"
+                : "MUTE";
+
+
+        muteButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+
+                if (
+                    isTrackMuted(
+                        currentTrack
+                    )
+                ) {
+
+                    /*
+                        UNMUTE current track.
+                    */
+
+                    setTrackMuted(
+                        currentTrack,
+                        false
+                    );
+
+                } else {
+
+                    /*
+                        MUTE current track and
+                        immediately continue.
+                    */
+
+                    muteCurrentTrack();
+
+                }
+
+            }
+        );
+
+
+        nowPlayingActions.appendChild(
+            download
+        );
+
+
+        nowPlayingActions.appendChild(
+            muteButton
+        );
+
+
         nowPlaying.appendChild(
             nowPlayingText
         );
 
 
         nowPlaying.appendChild(
-            download
+            nowPlayingActions
         );
 
 
@@ -1057,19 +1788,23 @@
 
             audioPlayer.play()
 
-                .then(function() {
+                .then(
+                    function() {
 
-                    playButton.textContent =
-                        "❚❚ PAUSE";
+                        playButton.textContent =
+                            "❚❚ PAUSE";
 
-                })
+                    }
+                )
 
-                .catch(function() {
+                .catch(
+                    function() {
 
-                    playButton.textContent =
-                        "▶ PLAY";
+                        playButton.textContent =
+                            "▶ PLAY";
 
-                });
+                    }
+                );
 
         }
 
@@ -1111,8 +1846,21 @@
         } else {
 
 
+            /*
+                Start with the first unmuted track.
+            */
+
             chosenTrack =
-                0;
+                findNextUnmutedTrack(0);
+
+        }
+
+
+        if (
+            chosenTrack === -1
+        ) {
+
+            return;
 
         }
 
@@ -1159,16 +1907,27 @@
 
 
             nextTrack =
-                currentTrack + 1;
+                findNextUnmutedTrack(
+                    currentTrack + 1
+                );
+
+        }
 
 
-            if (
-                nextTrack >= tracks.length
-            ) {
+        if (
+            nextTrack === -1
+        ) {
 
-                nextTrack = 0;
+            /*
+                Every track is muted.
+            */
 
-            }
+            audioPlayer.pause();
+
+            playButton.textContent =
+                "▶ PLAY";
+
+            return;
 
         }
 
@@ -1204,7 +1963,12 @@
         if (shuffle) {
 
 
-            if (
+            /*
+                Walk backward through playback history
+                until an unmuted track is found.
+            */
+
+            while (
                 playHistory.length > 0
             ) {
 
@@ -1213,11 +1977,23 @@
                     playHistory.pop();
 
 
-                selectTrack(
-                    previousTrack,
-                    true,
-                    false
-                );
+                if (
+                    !isTrackMuted(
+                        previousTrack
+                    )
+                ) {
+
+
+                    selectTrack(
+                        previousTrack,
+                        true,
+                        false
+                    );
+
+
+                    return;
+
+                }
 
             }
 
@@ -1227,16 +2003,17 @@
         }
 
 
-        let previousTrack =
-            currentTrack - 1;
+        const previousTrack =
+            findPreviousUnmutedTrack(
+                currentTrack - 1
+            );
 
 
         if (
-            previousTrack < 0
+            previousTrack === -1
         ) {
 
-            previousTrack =
-                tracks.length - 1;
+            return;
 
         }
 
@@ -1282,12 +2059,14 @@
 
                 audioPlayer.play()
 
-                    .then(function() {
+                    .then(
+                        function() {
 
-                        playButton.textContent =
-                            "❚❚ PAUSE";
+                            playButton.textContent =
+                                "❚❚ PAUSE";
 
-                    });
+                        }
+                    );
 
 
             } else {
@@ -1322,11 +2101,7 @@
             ) {
 
 
-                selectTrack(
-                    0,
-                    true,
-                    true
-                );
+                chooseTrackToPlay();
 
 
             } else {
@@ -1357,11 +2132,7 @@
             ) {
 
 
-                selectTrack(
-                    0,
-                    true,
-                    true
-                );
+                chooseTrackToPlay();
 
 
             } else {
@@ -1446,6 +2217,7 @@
 
                 shuffleQueue = [];
 
+
             }
 
         }
@@ -1472,8 +2244,31 @@
                     );
 
 
+                const muteButton =
+                    track.querySelector(
+                        ".mute-toggle"
+                    );
+
+
                 attachDownloadBehavior(
                     downloadLink
+                );
+
+
+                muteButton.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+
+                        toggleTrackMute(
+                            index
+                        );
+
+                    }
                 );
 
 
@@ -1492,6 +2287,23 @@
 
                         }
 
+
+                        if (
+                            event.target.closest(
+                                ".mute-toggle"
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        /*
+                            IMPORTANT:
+                            Manual track selection always works,
+                            even if the track is muted.
+                        */
 
                         selectTrack(
                             index,
