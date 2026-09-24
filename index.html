@@ -3,12 +3,10 @@
 <html lang="en">
 <head>
 
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>gr8skul</title>
-
 
 <!-- GR8SKUL HOME-SCREEN ICON -->
 
@@ -22,17 +20,13 @@
 <link rel="manifest"
       href="/manifest.json">
 
-
 <!-- GR8SKUL APP MANIFEST -->
-
-
 
 <style>
 
     * {
         box-sizing: border-box;
     }
-
 
     html,
     body {
@@ -51,11 +45,9 @@
         height: 100%;
     }
 
-
     body {
         overflow: hidden;
     }
-
 
     .app {
 
@@ -74,11 +66,9 @@
         flex-direction: column;
     }
 
-
     /* =========================
        FIXED HEADER
        ========================= */
-
 
     .header {
 
@@ -88,7 +78,6 @@
 
         padding-top: 35px;
     }
-
 
     h1 {
 
@@ -103,7 +92,6 @@
         font-weight: 700;
     }
 
-
     h1 img {
 
         display: block;
@@ -117,7 +105,6 @@
         margin: 0 auto;
     }
 
-
     .controls {
 
         display: flex;
@@ -130,7 +117,6 @@
 
         margin-bottom: 25px;
     }
-
 
     button {
 
@@ -149,12 +135,10 @@
         min-height: 46px;
     }
 
-
     button:hover {
 
         background: #eeeeee;
     }
-
 
     #playButton {
 
@@ -162,7 +146,6 @@
 
         font-weight: bold;
     }
-
 
     #backButton,
     #nextButton {
@@ -176,14 +159,12 @@
         line-height: 1;
     }
 
-
     #shuffleButton.active {
 
         background: #111111;
 
         color: #ffffff;
     }
-
 
     .now-playing {
 
@@ -198,7 +179,6 @@
         color: #555555;
     }
 
-
     .now-playing-actions {
 
         display: flex;
@@ -211,7 +191,6 @@
 
         margin-top: 6px;
     }
-
 
     .now-playing-mute {
 
@@ -226,7 +205,6 @@
         cursor: pointer;
     }
 
-
     .now-playing-mute:hover {
 
         color: #111111;
@@ -234,11 +212,9 @@
         text-decoration: underline;
     }
 
-
     /* =========================
        SPONSOR
        ========================= */
-
 
     .sponsor {
 
@@ -253,7 +229,6 @@
         color: #888888;
     }
 
-
     .sponsor a {
 
         color: #555555;
@@ -263,7 +238,6 @@
         font-weight: normal;
     }
 
-
     .sponsor a:hover {
 
         color: #111111;
@@ -271,17 +245,14 @@
         text-decoration: underline;
     }
 
-
     .header-line {
 
         border-bottom: 1px solid #cccccc;
     }
 
-
     /* =========================
        SCROLLING TRACK AREA
        ========================= */
-
 
     .track-list {
 
@@ -293,7 +264,6 @@
 
         overflow-x: hidden;
     }
-
 
     .track {
 
@@ -314,18 +284,15 @@
         user-select: none;
     }
 
-
     .track:hover {
 
         background: #f5f5f5;
     }
 
-
     .track.selected {
 
         background: #eeeeee;
     }
-
 
     .track-info {
 
@@ -336,7 +303,6 @@
         flex: 1;
     }
 
-
     .track-title {
 
         font-size: 17px;
@@ -346,7 +312,6 @@
         margin-bottom: 6px;
     }
 
-
     .track-actions {
 
         display: flex;
@@ -355,7 +320,6 @@
 
         gap: 12px;
     }
-
 
     .mute-toggle {
 
@@ -370,7 +334,6 @@
         cursor: pointer;
     }
 
-
     .mute-toggle:hover {
 
         color: #111111;
@@ -378,11 +341,9 @@
         text-decoration: underline;
     }
 
-
     /* =========================
        FIXED FOOTER
        ========================= */
-
 
     .player {
 
@@ -397,50 +358,41 @@
         width: 100%;
     }
 
-
     audio {
 
         width: 100%;
     }
 
-
     /* =========================
        MOBILE
        ========================= */
 
-
     @media (max-width: 500px) {
-
 
         .app {
 
             padding: 0 15px;
         }
 
-
         .header {
 
             padding-top: 25px;
         }
-
 
         h1 img {
 
             height: 34px;
         }
 
-
         .controls {
 
             flex-wrap: wrap;
         }
 
-
         .track {
 
             min-height: 65px;
         }
-
 
         .track-actions {
 
@@ -451,21 +403,17 @@
 
 </style>
 
-
 </head>
 
 <body>
 
 <div class="app">
 
-
 <!-- =========================
      FIXED HEADER
      ========================= -->
 
-
 <div class="header">
-
 
     <h1>
 
@@ -475,9 +423,7 @@
 
     </h1>
 
-
     <div class="controls">
-
 
         <button
             id="backButton"
@@ -488,7 +434,6 @@
 
         </button>
 
-
         <button
             id="playButton"
             type="button">
@@ -496,7 +441,6 @@
             ▶ PLAY
 
         </button>
-
 
         <button
             id="nextButton"
@@ -507,7 +451,6 @@
 
         </button>
 
-
         <button
             id="shuffleButton"
             type="button">
@@ -516,37 +459,29 @@
 
         </button>
 
-
     </div>
-
 
     <div
         class="now-playing"
         id="nowPlaying">
     </div>
 
-
     <!-- =========================
-         ROTATING SPONSOR
+         SPONSOR
          ========================= -->
-
 
     <div
         class="sponsor"
         id="sponsor">
     </div>
 
-
     <div class="header-line"></div>
 
-
 </div>
-
 
 <!-- =========================
      AUTOMATIC TRACK LIST
      ========================= -->
-
 
 <div
     class="track-list"
@@ -554,14 +489,11 @@
 
 </div>
 
-
 <!-- =========================
      FIXED FOOTER
      ========================= -->
 
-
 <div class="player">
-
 
     <audio
         id="audioPlayer"
@@ -569,14 +501,11 @@
         preload="none">
     </audio>
 
-
 </div>
-
 
 </div>
 
 <script>
-
 
     /*
         ============================================================
@@ -591,21 +520,33 @@
         You no longer need to add track HTML.
     */
 
-let sessionId =
-    localStorage.getItem(
-        "gr8skul-session-id"
-    );
 
-if (!sessionId) {
+    /*
+        ============================================================
+        SESSION ID
+        ============================================================
+    */
 
-    sessionId =
-        crypto.randomUUID();
 
-    localStorage.setItem(
-        "gr8skul-session-id",
-        sessionId
-    );
-}
+    let sessionId =
+        localStorage.getItem(
+            "gr8skul-session-id"
+        );
+
+
+    if (!sessionId) {
+
+        sessionId =
+            crypto.randomUUID();
+
+        localStorage.setItem(
+            "gr8skul-session-id",
+            sessionId
+        );
+
+    }
+
+
     const tracksContainer =
         document.getElementById("trackList");
 
@@ -640,206 +581,142 @@ if (!sessionId) {
 
     /*
         ============================================================
-        SPONSOR SYSTEM
+        SPONSOR ASSIGNMENT
         ============================================================
+
+        Supabase assigns one sponsor to this browser session.
+
+        The assignment lasts 60 seconds.
+
+        Refreshing the page during that 60-second period
+        returns the same sponsor assignment.
     */
 
 
-    let sponsors = [];
+    async function loadSponsors() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/assign_sponsor",
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+                                p_session_id:
+                                    sessionId
+                            })
+
+                    }
+                );
 
 
-    let currentSponsor = 0;
+            if (!response.ok) {
+
+                throw new Error(
+                    "Supabase sponsor assignment failed: " +
+                    response.status
+                );
+
+            }
 
 
-    /*
-        Change this number to control how often
-        the sponsor changes.
-
-        60000 = 1 minute
-        120000 = 2 minutes
-        300000 = 5 minutes
-    */
+            const assignment =
+                await response.json();
 
 
- const SPONSOR_ROTATION_INTERVAL =
-    60000;
+            if (
+                !Array.isArray(assignment) ||
+                assignment.length === 0
+            ) {
+
+                sponsor.innerHTML =
+                    "";
+
+                console.warn(
+                    "GR8SKUL: No sponsor assignment returned."
+                );
+
+                return;
+
+            }
 
 
-function showSponsor() {
+            const ad =
+                assignment[0];
 
-    const ad =
-        sponsors[currentSponsor];
-
-    sponsor.innerHTML =
-        "";
-
-    const prefix =
-        document.createTextNode(
-            "Brought to you by: "
-        );
-
-    const link =
-        document.createElement(
-            "a"
-        );
-
-    link.textContent =
-        ad.name;
-
-    link.href =
-        ad.url;
-
-    link.target =
-        "_blank";
-
-    link.rel =
-        "noopener noreferrer";
-
-    sponsor.appendChild(
-        prefix
-    );
-
-    sponsor.appendChild(
-        link
-    );
-
-}
-
-
-function showNextSponsor() {
-
-    currentSponsor =
-        (currentSponsor + 1) %
-        sponsors.length;
-
-    showSponsor();
-
-}
-
-
-async function loadSponsors() {
-
-    try {
-
-        const response =
-            await fetch(
-                "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/assign_sponsor",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "apikey":
-                            "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
-
-                        "Authorization":
-                            "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
-
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-                            p_session_id:
-                                sessionId
-                        })
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Supabase sponsor assignment failed: " +
-                response.status
-            );
-
-        }
-
-
-        const assignment =
-            await response.json();
-
-
-        if (
-            !Array.isArray(assignment) ||
-            assignment.length === 0
-        ) {
 
             sponsor.innerHTML =
                 "";
 
-            console.warn(
-                "GR8SKUL: No sponsor assignment returned."
+
+            const prefix =
+                document.createTextNode(
+                    "Brought to you by: "
+                );
+
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.textContent =
+                ad.sponsor_name;
+
+
+            link.href =
+                ad.sponsor_url;
+
+
+            link.target =
+                "_blank";
+
+
+            link.rel =
+                "noopener noreferrer";
+
+
+            sponsor.appendChild(
+                prefix
             );
 
-            return;
+
+            sponsor.appendChild(
+                link
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL sponsor assignment could not connect to Supabase.",
+                error
+            );
+
+
+            sponsor.innerHTML =
+                "";
 
         }
 
-
-        const ad =
-            assignment[0];
-
-
-        sponsor.innerHTML =
-            "";
-
-
-        const prefix =
-            document.createTextNode(
-                "Brought to you by: "
-            );
-
-
-        const link =
-            document.createElement(
-                "a"
-            );
-
-
-        link.textContent =
-            ad.sponsor_name;
-
-
-        link.href =
-            ad.sponsor_url;
-
-
-        link.target =
-            "_blank";
-
-
-        link.rel =
-            "noopener noreferrer";
-
-
-        sponsor.appendChild(
-            prefix
-        );
-
-
-        sponsor.appendChild(
-            link
-        );
-
-
-    } 
-
-}catch (arror){
-
-       
-        console.error(
-            "GR8SKUL sponsor system could not connect to Supabase.",
-            error
-        );
-
-        sponsor.innerHTML =
-            "";
-
     }
-
-}
 
 
     /*
@@ -1035,7 +912,6 @@ async function loadSponsors() {
 
     function createTrackElement(trackData) {
 
-
         const track =
             document.createElement("div");
 
@@ -1205,9 +1081,7 @@ async function loadSponsors() {
 
     async function loadCatalog() {
 
-
         try {
-
 
             const response =
                 await fetch(
@@ -1235,7 +1109,6 @@ async function loadSponsors() {
 
             catalog.forEach(
                 function(trackData) {
-
 
                     const track =
                         createTrackElement(
@@ -1267,13 +1140,11 @@ async function loadSponsors() {
 
         } catch (error) {
 
-
             console.error(error);
 
 
             tracksContainer.innerHTML =
                 "<div style='padding:20px 0; color:#777;'>Music catalog loading...</div>";
-
 
         }
 
@@ -1290,7 +1161,6 @@ async function loadSponsors() {
     function findNextUnmutedTrack(
         startIndex
     ) {
-
 
         if (
             tracks.length === 0
@@ -1310,7 +1180,6 @@ async function loadSponsors() {
             count < tracks.length;
             count++
         ) {
-
 
             if (
                 index >= tracks.length
@@ -1361,7 +1230,6 @@ async function loadSponsors() {
         startIndex
     ) {
 
-
         if (
             tracks.length === 0
         ) {
@@ -1380,7 +1248,6 @@ async function loadSponsors() {
             count < tracks.length;
             count++
         ) {
-
 
             if (
                 index < 0
@@ -1429,7 +1296,6 @@ async function loadSponsors() {
 
     function createShuffleQueue() {
 
-
         shuffleQueue =
             tracks
                 .map(
@@ -1456,7 +1322,6 @@ async function loadSponsors() {
             i--
         ) {
 
-
             const randomIndex =
                 Math.floor(
                     Math.random() *
@@ -1481,7 +1346,6 @@ async function loadSponsors() {
 
 
     function getNextShuffleTrack() {
-
 
         /*
             Remove any tracks that may have been
@@ -1532,7 +1396,6 @@ async function loadSponsors() {
 
     function updateNowPlayingMuteButton() {
 
-
         const muteButton =
             nowPlaying.querySelector(
                 ".now-playing-mute"
@@ -1572,7 +1435,6 @@ async function loadSponsors() {
 
     function muteCurrentTrack() {
 
-
         if (
             currentTrack < 0 ||
             currentTrack >= tracks.length
@@ -1609,7 +1471,6 @@ async function loadSponsors() {
 
 
     function toggleTrackMute(index) {
-
 
         if (
             index < 0 ||
@@ -1685,7 +1546,6 @@ async function loadSponsors() {
         startPlaying = true,
         addToHistory = true
     ) {
-
 
         if (
             index < 0 ||
@@ -1865,7 +1725,6 @@ async function loadSponsors() {
 
         if (startPlaying) {
 
-
             audioPlayer.play()
 
                 .then(
@@ -1900,7 +1759,6 @@ async function loadSponsors() {
 
     function chooseTrackToPlay() {
 
-
         if (
             tracks.length === 0
         ) {
@@ -1915,16 +1773,13 @@ async function loadSponsors() {
 
         if (shuffle) {
 
-
             createShuffleQueue();
 
 
             chosenTrack =
                 getNextShuffleTrack();
 
-
         } else {
-
 
             /*
                 Start with the first unmuted track.
@@ -1963,7 +1818,6 @@ async function loadSponsors() {
 
     function playNext() {
 
-
         if (
             tracks.length === 0
         ) {
@@ -1978,13 +1832,10 @@ async function loadSponsors() {
 
         if (shuffle) {
 
-
             nextTrack =
                 getNextShuffleTrack();
 
-
         } else {
-
 
             nextTrack =
                 findNextUnmutedTrack(
@@ -2030,7 +1881,6 @@ async function loadSponsors() {
 
     function playPrevious() {
 
-
         if (
             tracks.length === 0
         ) {
@@ -2042,7 +1892,6 @@ async function loadSponsors() {
 
         if (shuffle) {
 
-
             /*
                 Walk backward through playback history
                 until an unmuted track is found.
@@ -2051,7 +1900,6 @@ async function loadSponsors() {
             while (
                 playHistory.length > 0
             ) {
-
 
                 const previousTrack =
                     playHistory.pop();
@@ -2062,7 +1910,6 @@ async function loadSponsors() {
                         previousTrack
                     )
                 ) {
-
 
                     selectTrack(
                         previousTrack,
@@ -2118,14 +1965,11 @@ async function loadSponsors() {
         "click",
         function() {
 
-
             if (
                 currentTrack === -1
             ) {
 
-
                 chooseTrackToPlay();
-
 
                 return;
 
@@ -2135,7 +1979,6 @@ async function loadSponsors() {
             if (
                 audioPlayer.paused
             ) {
-
 
                 audioPlayer.play()
 
@@ -2148,12 +1991,9 @@ async function loadSponsors() {
                         }
                     );
 
-
             } else {
 
-
                 audioPlayer.pause();
-
 
                 playButton.textContent =
                     "▶ PLAY";
@@ -2175,17 +2015,13 @@ async function loadSponsors() {
         "click",
         function() {
 
-
             if (
                 currentTrack === -1
             ) {
 
-
                 chooseTrackToPlay();
 
-
             } else {
-
 
                 playPrevious();
 
@@ -2206,17 +2042,13 @@ async function loadSponsors() {
         "click",
         function() {
 
-
             if (
                 currentTrack === -1
             ) {
 
-
                 chooseTrackToPlay();
 
-
             } else {
-
 
                 playNext();
 
@@ -2237,13 +2069,11 @@ async function loadSponsors() {
         "click",
         function() {
 
-
             shuffle =
                 !shuffle;
 
 
             if (shuffle) {
-
 
                 shuffleButton.textContent =
                     "SHUFFLE ON";
@@ -2267,7 +2097,6 @@ async function loadSponsors() {
                     currentTrack !== -1
                 ) {
 
-
                     shuffleQueue =
                         shuffleQueue.filter(
                             function(index) {
@@ -2285,7 +2114,6 @@ async function loadSponsors() {
 
             } else {
 
-
                 shuffleButton.textContent =
                     "SHUFFLE OFF";
 
@@ -2296,7 +2124,6 @@ async function loadSponsors() {
 
 
                 shuffleQueue = [];
-
 
             }
 
@@ -2313,10 +2140,8 @@ async function loadSponsors() {
 
     function attachTrackListeners() {
 
-
         tracks.forEach(
             function(track, index) {
-
 
                 const muteButton =
                     track.querySelector(
@@ -2344,7 +2169,6 @@ async function loadSponsors() {
                 track.addEventListener(
                     "click",
                     function(event) {
-
 
                         if (
                             event.target.closest(
@@ -2441,7 +2265,6 @@ async function loadSponsors() {
     loadCatalog();
 
     loadSponsors();
-
 
 </script>
 
