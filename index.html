@@ -593,131 +593,125 @@
     */
 
 
-    async function loadSponsors() {
+ let sponsorRotationTimer = null;
 
-        try {
+async function loadSponsors() {
 
-            const response =
-                await fetch(
-                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/assign_sponsor",
-                    {
-                        method: "POST",
+    try {
 
-                        headers: {
+        const response =
+            await fetch(
+                "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/assign_sponsor",
+                {
+                    method: "POST",
 
-                            "apikey":
-                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+                    headers: {
+                        "apikey":
+                            "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
 
-                            "Authorization":
-                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+                        "Authorization":
+                            "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
 
-                            "Content-Type":
-                                "application/json"
+                        "Content-Type":
+                            "application/json"
+                    },
 
-                        },
-
-                        body:
-                            JSON.stringify({
-                                p_session_id:
-                                    sessionId
-                            })
-
-                    }
-                );
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Supabase sponsor assignment failed: " +
-                    response.status
-                );
-
-            }
-
-
-            const assignment =
-                await response.json();
-
-
-            if (
-                !Array.isArray(assignment) ||
-                assignment.length === 0
-            ) {
-
-                sponsor.innerHTML =
-                    "";
-
-                console.warn(
-                    "GR8SKUL: No sponsor assignment returned."
-                );
-
-                return;
-
-            }
-
-
-            const ad =
-                assignment[0];
-
-
-            sponsor.innerHTML =
-                "";
-
-
-            const prefix =
-                document.createTextNode(
-                    "Brought to you by: "
-                );
-
-
-            const link =
-                document.createElement(
-                    "a"
-                );
-
-
-            link.textContent =
-                ad.sponsor_name;
-
-
-            link.href =
-                ad.sponsor_url;
-
-
-            link.target =
-                "_blank";
-
-
-            link.rel =
-                "noopener noreferrer";
-
-
-            sponsor.appendChild(
-                prefix
+                    body:
+                        JSON.stringify({
+                            p_session_id:
+                                sessionId
+                        })
+                }
             );
 
+        if (!response.ok) {
 
-            sponsor.appendChild(
-                link
+            throw new Error(
+                "Supabase sponsor assignment failed: " +
+                response.status
             );
-
-
-        } catch (error) {
-
-            console.error(
-                "GR8SKUL sponsor assignment could not connect to Supabase.",
-                error
-            );
-
-
-            sponsor.innerHTML =
-                "";
 
         }
 
+        const assignment =
+            await response.json();
+
+        if (
+            !Array.isArray(assignment) ||
+            assignment.length === 0
+        ) {
+
+            sponsor.innerHTML = "";
+
+            console.warn(
+                "GR8SKUL: No sponsor assignment returned."
+            );
+
+            return;
+
+        }
+
+        const ad =
+            assignment[0];
+
+        sponsor.innerHTML = "";
+
+        const prefix =
+            document.createTextNode(
+                "Brought to you by: "
+            );
+
+        const link =
+            document.createElement("a");
+
+        link.textContent =
+            ad.sponsor_name;
+
+        link.href =
+            ad.sponsor_url;
+
+        link.target =
+            "_blank";
+
+        link.rel =
+            "noopener noreferrer";
+
+        sponsor.appendChild(prefix);
+        sponsor.appendChild(link);
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL sponsor system could not connect to Supabase.",
+            error
+        );
+
+        sponsor.innerHTML = "";
+
+    }
+}
+
+function startSponsorRotation() {
+
+    if (sponsorRotationTimer) {
+
+        clearInterval(
+            sponsorRotationTimer
+        );
+
     }
 
+    sponsorRotationTimer =
+        setInterval(
+            async function () {
+
+                await loadSponsors();
+
+            },
+            60000
+        );
+
+}
 
     /*
         ============================================================
@@ -2261,10 +2255,9 @@
         ============================================================
     */
 
-
-    loadCatalog();
-
-    loadSponsors();
+loadCatalog();
+loadSponsors();
+startSponsorRotation();
 
 </script>
 
