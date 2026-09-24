@@ -5,121 +5,153 @@ on:
     paths:
       - "music/*.mp3"
       - "music/*.MP3"
+      - "track-order.json"
 
 permissions:
   contents: write
 
 jobs:
-
   update-catalog:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Check out repository
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-
-      - name: Build music catalog
+      - name: Build and update music catalog
         run: |
-
           python3 <<'PY'
-
           import json
           import os
           import subprocess
 
           MUSIC_FOLDER = "music"
-          OUTPUT_FILE = "catalog.json"
+          ORDER_FILE = "track-order.json"
+          CATALOG_FILE = "catalog.json"
 
-
-          tracks = []
-
+          # Find every MP3 currently in the music folder
+          music_files = []
 
           if os.path.isdir(MUSIC_FOLDER):
-
               for filename in os.listdir(MUSIC_FOLDER):
-
                   if not filename.lower().endswith(".mp3"):
                       continue
 
-                  path = os.path.join(
-                      MUSIC_FOLDER,
-                      filename
+                  path = os.path.join(MUSIC_FOLDER, filename)
+
+                  if os.path.isfile(path):
+                      music_files.append(f"{MUSIC_FOLDER}/{filename}")
+
+          # Sort files by newest Git commit
+          def git_timestamp(path):
+              try:
+                  return int(
+                      subprocess.check_output(
+                          [
+                              "git",
+                              "log",
+                              "-1",
+                              "--format=%ct",
+                              "--",
+                              path
+                          ],
+                          text=True
+                      ).strip()
                   )
+              except Exception:
+                  return 0
 
-
-                  if not os.path.isfile(path):
-                      continue
-
-
-                  try:
-
-                      timestamp = int(
-                          subprocess.check_output(
-                              [
-                                  "git",
-                                  "log",
-                                  "-1",
-                                  "--format=%ct",
-                                  "--",
-                                  path
-                              ],
-                              text=True
-                          ).strip()
-                      )
-
-                  except Exception:
-
-                      timestamp = 0
-
-
-                  tracks.append(
-                      {
-                          "name": filename,
-                          "path": filename
-                          if MUSIC_FOLDER == "."
-                          else f"{MUSIC_FOLDER}/{filename}",
-                          "timestamp": timestamp
-                      }
-                  )
-
-
-          tracks.sort(
-              key=lambda track: track["timestamp"],
+          music_files.sort(
+              key=git_timestamp,
               reverse=True
           )
 
+          # Read the existing manual order
+          existing_order = []
 
+          if os.path.isfile(ORDER_FILE):
+              try:
+                  with open(
+                      ORDER_FILE,
+                      "r",
+                      encoding="utf-8"
+                  ) as file:
+                      existing_order = json.load(file)
+
+                  if not isinstance(existing_order, list):
+                      existing_order = []
+
+              except Exception:
+                  existing_order = []
+
+          # Keep only tracks that still exist
+          existing_order = [
+              path
+              for path in existing_order
+              if path in music_files
+          ]
+
+          # Find newly uploaded tracks
+          new_tracks = [
+              path
+              for path in music_files
+              if path not in existing_order
+          ]
+
+          # NEW TRACKS ALWAYS GO TO THE TOP
+          final_order = new_tracks + existing_order
+
+          # Save the new manual order
           with open(
-              OUTPUT_FILE,
+              ORDER_FILE,
               "w",
               encoding="utf-8"
           ) as file:
+              json.dump(
+                  final_order,
+                  file,
+                  indent=2,
+                  ensure_ascii=False
+              )
+              file.write("\n")
 
+          # Build catalog.json in exactly the chosen order
+          tracks = []
+
+          for path in final_order:
+              filename = os.path.basename(path)
+
+              tracks.append(
+                  {
+                      "name": filename,
+                      "path": path,
+                      "timestamp": git_timestamp(path)
+                  }
+              )
+
+          with open(
+              CATALOG_FILE,
+              "w",
+              encoding="utf-8"
+          ) as file:
               json.dump(
                   tracks,
                   file,
                   indent=2,
                   ensure_ascii=False
               )
-
-
+              file.write("\n")
           PY
 
-
-      - name: Commit updated catalog
+      - name: Commit updated catalog and track order
         run: |
-
           git config user.name "github-actions[bot]"
-
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add catalog.json
+          git add catalog.json track-order.json
 
-          git diff --cached --quiet || git commit -m "Update music catalog"
+          git diff --cached --quiet || git commit -m "Update music catalog and track order"
 
           git push
