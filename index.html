@@ -591,7 +591,21 @@
         You no longer need to add track HTML.
     */
 
+let sessionId =
+    localStorage.getItem(
+        "gr8skul-session-id"
+    );
 
+if (!sessionId) {
+
+    sessionId =
+        crypto.randomUUID();
+
+    localStorage.setItem(
+        "gr8skul-session-id",
+        sessionId
+    );
+}
     const tracksContainer =
         document.getElementById("trackList");
 
