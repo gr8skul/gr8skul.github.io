@@ -650,71 +650,52 @@
         60000;
 
 
-    async function loadSponsors() {
-
-        try {
-
-            const response =
-                await fetch(
-                    "sponsors.json?cache=" +
-                    Date.now()
-                );
-
-
-            if (!response.ok) {
-
-                throw new Error(
-                    "Sponsors could not be loaded."
-                );
-
+async function loadSponsors() {
+    try {
+        const response = await fetch(
+            "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/sponsors?active=eq.true&select=name,url",
+            {
+                headers: {
+                    "apikey": "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+                    "Authorization": "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm"
+                }
             }
+        );
 
-
-            sponsors =
-                await response.json();
-
-
-            if (
-                !Array.isArray(sponsors) ||
-                sponsors.length === 0
-            ) {
-
-                sponsor.innerHTML =
-                    "";
-
-                return;
-
-            }
-
-
-            showSponsor();
-
-
-            if (sponsors.length > 1) {
-
-                setInterval(
-                    showNextSponsor,
-                    SPONSOR_ROTATION_INTERVAL
-                );
-
-            }
-
-        } catch (error) {
-
-            console.error(
-                "GR8SKUL sponsor system could not be loaded.",
-                error
+        if (!response.ok) {
+            throw new Error(
+                "Sponsors could not be loaded from Supabase."
             );
-
-            sponsor.innerHTML =
-                "";
-
         }
 
+        sponsors = await response.json();
+
+        if (
+            !Array.isArray(sponsors) ||
+            sponsors.length === 0
+        ) {
+            sponsor.innerHTML = "";
+            return;
+        }
+
+        showSponsor();
+
+        if (sponsors.length > 1) {
+            setInterval(
+                showNextSponsor,
+                SPONSOR_ROTATION_INTERVAL
+            );
+        }
+
+    } catch (error) {
+        console.error(
+            "GR8SKUL sponsor system could not be loaded.",
+            error
+        );
+
+        sponsor.innerHTML = "";
     }
-
-
-    function showSponsor() {
+}
 
         if (
             sponsors.length === 0
