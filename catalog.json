@@ -1,5 +1,10 @@
 [
   {
+    "name": "Arnt We Rich.mp3",
+    "path": "music/Arnt We Rich.mp3",
+    "timestamp": 1790089017
+  },
+  {
     "name": "Land Locked (accoustic).mp3",
     "path": "music/Land Locked (accoustic).mp3",
     "timestamp": 1790214796
@@ -43,11 +48,6 @@
     "name": "Arnt We Rich (Instrumental).mp3",
     "path": "music/Arnt We Rich (Instrumental).mp3",
     "timestamp": 1790099424
-  },
-  {
-    "name": "Arnt We Rich.mp3",
-    "path": "music/Arnt We Rich.mp3",
-    "timestamp": 1790089017
   },
   {
     "name": "Outside Madness (strings).mp3",
