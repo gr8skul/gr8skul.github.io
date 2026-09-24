@@ -1,530 +1,578 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+```
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>gr8skul</title>
-
-
-    <!-- GR8SKUL HOME-SCREEN ICON -->
-
-    <link rel="icon"
-          type="image/png"
-          href="https://gr8skul.github.io/gr8skul-icon.PNG">
-
-    <link rel="apple-touch-icon"
-          href="https://gr8skul.github.io/gr8skul-icon.PNG">
+<title>gr8skul</title>
 
 
-    <!-- GR8SKUL APP MANIFEST -->
+<!-- GR8SKUL HOME-SCREEN ICON -->
 
-    <link rel="manifest"
-          href="https://gr8skul.github.io/manifest.json">
+<link rel="icon"
+      type="image/png"
+      href="https://gr8skul.github.io/gr8skul-icon.PNG">
 
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-        }
+<link rel="apple-touch-icon"
+      href="https://gr8skul.github.io/gr8skul-icon.PNG">
 
 
-        html,
-        body {
+<!-- GR8SKUL APP MANIFEST -->
 
-            margin: 0;
-
-            background: #ffffff;
-
-            color: #111111;
-
-            font-family:
-                Arial,
-                Helvetica,
-                sans-serif;
-
-            height: 100%;
-        }
+<link rel="manifest"
+      href="https://gr8skul.github.io/manifest.json">
 
 
-        body {
-            overflow: hidden;
-        }
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+
+    html,
+    body {
+
+        margin: 0;
+
+        background: #ffffff;
+
+        color: #111111;
+
+        font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        height: 100%;
+    }
+
+
+    body {
+        overflow: hidden;
+    }
+
+
+    .app {
+
+        width: 100%;
+
+        max-width: 700px;
+
+        height: 100vh;
+
+        margin: 0 auto;
+
+        padding: 0 20px;
+
+        display: flex;
+
+        flex-direction: column;
+    }
+
+
+    /* =========================
+       FIXED HEADER
+       ========================= */
+
+
+    .header {
+
+        flex-shrink: 0;
+
+        background: #ffffff;
+
+        padding-top: 35px;
+    }
+
+
+    h1 {
+
+        margin: 0 0 35px;
+
+        text-align: center;
+
+        font-size: 42px;
+
+        letter-spacing: 6px;
+
+        font-weight: 700;
+    }
+
+
+    h1 img {
+
+        display: block;
+
+        width: auto;
+
+        height: 42px;
+
+        max-width: 100%;
+
+        margin: 0 auto;
+    }
+
+
+    .controls {
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        gap: 10px;
+
+        margin-bottom: 25px;
+    }
+
+
+    button {
+
+        border: 1px solid #111111;
+
+        background: #ffffff;
+
+        color: #111111;
+
+        cursor: pointer;
+
+        font-size: 16px;
+
+        padding: 12px 18px;
+
+        min-height: 46px;
+    }
+
+
+    button:hover {
+
+        background: #eeeeee;
+    }
+
+
+    #playButton {
+
+        min-width: 120px;
+
+        font-weight: bold;
+    }
+
+
+    #backButton,
+    #nextButton {
+
+        width: 50px;
+
+        padding: 12px 5px;
+
+        font-size: 24px;
+
+        line-height: 1;
+    }
+
+
+    #shuffleButton.active {
+
+        background: #111111;
+
+        color: #ffffff;
+    }
+
+
+    .now-playing {
+
+        text-align: center;
+
+        margin-bottom: 10px;
+
+        min-height: 24px;
+
+        font-size: 14px;
+
+        color: #555555;
+    }
+
+
+    .now-playing-actions {
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+
+        gap: 12px;
+
+        margin-top: 6px;
+    }
+
+
+    .now-playing-mute {
+
+        font-size: 11px;
+
+        color: #888888;
+
+        text-decoration: none;
+
+        letter-spacing: 0.5px;
+
+        cursor: pointer;
+    }
+
+
+    .now-playing-mute:hover {
+
+        color: #111111;
+
+        text-decoration: underline;
+    }
+
+
+    /* =========================
+       SPONSOR
+       ========================= */
+
+
+    .sponsor {
+
+        text-align: center;
+
+        min-height: 24px;
+
+        margin-bottom: 15px;
+
+        font-size: 12px;
+
+        color: #888888;
+    }
+
+
+    .sponsor a {
+
+        color: #555555;
+
+        text-decoration: none;
+
+        font-weight: normal;
+    }
+
+
+    .sponsor a:hover {
+
+        color: #111111;
+
+        text-decoration: underline;
+    }
+
+
+    .header-line {
+
+        border-bottom: 1px solid #cccccc;
+    }
+
+
+    /* =========================
+       SCROLLING TRACK AREA
+       ========================= */
+
+
+    .track-list {
+
+        flex: 1;
+
+        min-height: 0;
+
+        overflow-y: auto;
+
+        overflow-x: hidden;
+    }
+
+
+    .track {
+
+        display: flex;
+
+        align-items: center;
+
+        width: 100%;
+
+        min-height: 75px;
+
+        padding: 12px 0;
+
+        border-bottom: 1px solid #cccccc;
+
+        cursor: pointer;
+
+        user-select: none;
+    }
+
+
+    .track:hover {
+
+        background: #f5f5f5;
+    }
+
+
+    .track.selected {
+
+        background: #eeeeee;
+    }
+
+
+    .track-info {
+
+        min-width: 0;
+
+        text-align: left;
+
+        flex: 1;
+    }
+
+
+    .track-title {
+
+        font-size: 17px;
+
+        font-weight: bold;
+
+        margin-bottom: 6px;
+    }
+
+
+    .track-actions {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+    }
+
+
+    .mute-toggle {
+
+        font-size: 11px;
+
+        color: #888888;
+
+        text-decoration: none;
+
+        letter-spacing: 0.5px;
+
+        cursor: pointer;
+    }
+
+
+    .mute-toggle:hover {
+
+        color: #111111;
+
+        text-decoration: underline;
+    }
+
+
+    /* =========================
+       FIXED FOOTER
+       ========================= */
+
+
+    .player {
+
+        flex-shrink: 0;
+
+        background: #ffffff;
+
+        padding-top: 20px;
+
+        padding-bottom: 20px;
+
+        width: 100%;
+    }
+
+
+    audio {
+
+        width: 100%;
+    }
+
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+
+    @media (max-width: 500px) {
 
 
         .app {
 
-            width: 100%;
-
-            max-width: 700px;
-
-            height: 100vh;
-
-            margin: 0 auto;
-
-            padding: 0 20px;
-
-            display: flex;
-
-            flex-direction: column;
+            padding: 0 15px;
         }
-
-
-        /* =========================
-           FIXED HEADER
-           ========================= */
 
 
         .header {
 
-            flex-shrink: 0;
-
-            background: #ffffff;
-
-            padding-top: 35px;
-        }
-
-
-        h1 {
-
-            margin: 0 0 35px;
-
-            text-align: center;
-
-            font-size: 42px;
-
-            letter-spacing: 6px;
-
-            font-weight: 700;
+            padding-top: 25px;
         }
 
 
         h1 img {
 
-            display: block;
-
-            width: auto;
-
-            height: 42px;
-
-            max-width: 100%;
-
-            margin: 0 auto;
+            height: 34px;
         }
 
 
         .controls {
 
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            gap: 10px;
-
-            margin-bottom: 25px;
-        }
-
-
-        button {
-
-            border: 1px solid #111111;
-
-            background: #ffffff;
-
-            color: #111111;
-
-            cursor: pointer;
-
-            font-size: 16px;
-
-            padding: 12px 18px;
-
-            min-height: 46px;
-        }
-
-
-        button:hover {
-
-            background: #eeeeee;
-        }
-
-
-        #playButton {
-
-            min-width: 120px;
-
-            font-weight: bold;
-        }
-
-
-        #backButton,
-        #nextButton {
-
-            width: 50px;
-
-            padding: 12px 5px;
-
-            font-size: 24px;
-
-            line-height: 1;
-        }
-
-
-        #shuffleButton.active {
-
-            background: #111111;
-
-            color: #ffffff;
-        }
-
-
-        .now-playing {
-
-            text-align: center;
-
-            margin-bottom: 25px;
-
-            min-height: 24px;
-
-            font-size: 14px;
-
-            color: #555555;
-        }
-
-
-        .now-playing-actions {
-
-            display: flex;
-
-            justify-content: center;
-
-            align-items: center;
-
-            gap: 12px;
-
-            margin-top: 6px;
-        }
-
-
-        .now-playing-mute {
-
-            font-size: 11px;
-
-            color: #888888;
-
-            text-decoration: none;
-
-            letter-spacing: 0.5px;
-
-            cursor: pointer;
-        }
-
-
-        .now-playing-mute:hover {
-
-            color: #111111;
-
-            text-decoration: underline;
-        }
-
-
-        .header-line {
-
-            border-bottom: 1px solid #cccccc;
-        }
-
-
-        /* =========================
-           SCROLLING TRACK AREA
-           ========================= */
-
-
-        .track-list {
-
-            flex: 1;
-
-            min-height: 0;
-
-            overflow-y: auto;
-
-            overflow-x: hidden;
+            flex-wrap: wrap;
         }
 
 
         .track {
 
-            display: flex;
-
-            align-items: center;
-
-            width: 100%;
-
-            min-height: 75px;
-
-            padding: 12px 0;
-
-            border-bottom: 1px solid #cccccc;
-
-            cursor: pointer;
-
-            user-select: none;
-        }
-
-
-        .track:hover {
-
-            background: #f5f5f5;
-        }
-
-
-        .track.selected {
-
-            background: #eeeeee;
-        }
-
-
-        .track-info {
-
-            min-width: 0;
-
-            text-align: left;
-
-            flex: 1;
-        }
-
-
-        .track-title {
-
-            font-size: 17px;
-
-            font-weight: bold;
-
-            margin-bottom: 6px;
+            min-height: 65px;
         }
 
 
         .track-actions {
 
-            display: flex;
-
-            align-items: center;
-
-            gap: 12px;
+            gap: 9px;
         }
 
+    }
 
-        .mute-toggle {
-
-            font-size: 11px;
-
-            color: #888888;
-
-            text-decoration: none;
-
-            letter-spacing: 0.5px;
-
-            cursor: pointer;
-        }
-
-
-        .mute-toggle:hover {
-
-            color: #111111;
-
-            text-decoration: underline;
-        }
-
-
-        /* =========================
-           FIXED FOOTER
-           ========================= */
-
-
-        .player {
-
-            flex-shrink: 0;
-
-            background: #ffffff;
-
-            padding-top: 20px;
-
-            padding-bottom: 20px;
-
-            width: 100%;
-        }
-
-
-        audio {
-
-            width: 100%;
-        }
-
-
-        /* =========================
-           MOBILE
-           ========================= */
-
-
-        @media (max-width: 500px) {
-
-
-            .app {
-
-                padding: 0 15px;
-            }
-
-
-            .header {
-
-                padding-top: 25px;
-            }
-
-
-            h1 img {
-
-                height: 34px;
-            }
-
-
-            .controls {
-
-                flex-wrap: wrap;
-            }
-
-
-            .track {
-
-                min-height: 65px;
-            }
-
-
-            .track-actions {
-
-                gap: 9px;
-            }
-
-        }
-
-    </style>
+</style>
+```
 
 </head>
 
-
 <body>
-
 
 <div class="app">
 
-
-    <!-- =========================
-         FIXED HEADER
-         ========================= -->
-
-
-    <div class="header">
+```
+<!-- =========================
+     FIXED HEADER
+     ========================= -->
 
 
-        <h1>
-
-            <img
-                src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-                alt="GR8SKUL">
-
-        </h1>
+<div class="header">
 
 
-        <div class="controls">
+    <h1>
+
+        <img
+            src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+            alt="GR8SKUL">
+
+    </h1>
 
 
-            <button
-                id="backButton"
-                type="button"
-                aria-label="Previous track">
-
-                ←
-
-            </button>
+    <div class="controls">
 
 
-            <button
-                id="playButton"
-                type="button">
+        <button
+            id="backButton"
+            type="button"
+            aria-label="Previous track">
 
-                ▶ PLAY
+            ←
 
-            </button>
-
-
-            <button
-                id="nextButton"
-                type="button"
-                aria-label="Next track">
-
-                →
-
-            </button>
+        </button>
 
 
-            <button
-                id="shuffleButton"
-                type="button">
+        <button
+            id="playButton"
+            type="button">
 
-                SHUFFLE OFF
+            ▶ PLAY
 
-            </button>
-
-
-        </div>
+        </button>
 
 
-        <div
-            class="now-playing"
-            id="nowPlaying">
-        </div>
+        <button
+            id="nextButton"
+            type="button"
+            aria-label="Next track">
+
+            →
+
+        </button>
 
 
-        <div class="header-line"></div>
+        <button
+            id="shuffleButton"
+            type="button">
+
+            SHUFFLE OFF
+
+        </button>
 
 
     </div>
 
 
+    <div
+        class="now-playing"
+        id="nowPlaying">
+    </div>
+
+
     <!-- =========================
-         AUTOMATIC TRACK LIST
+         ROTATING SPONSOR
          ========================= -->
 
 
     <div
-        class="track-list"
-        id="trackList">
-
+        class="sponsor"
+        id="sponsor">
     </div>
 
 
-    <!-- =========================
-         FIXED FOOTER
-         ========================= -->
-
-
-    <div class="player">
-
-
-        <audio
-            id="audioPlayer"
-            controls
-            preload="none">
-        </audio>
-
-
-    </div>
+    <div class="header-line"></div>
 
 
 </div>
 
+
+<!-- =========================
+     AUTOMATIC TRACK LIST
+     ========================= -->
+
+
+<div
+    class="track-list"
+    id="trackList">
+
+</div>
+
+
+<!-- =========================
+     FIXED FOOTER
+     ========================= -->
+
+
+<div class="player">
+
+
+    <audio
+        id="audioPlayer"
+        controls
+        preload="none">
+    </audio>
+
+
+</div>
+```
+
+</div>
 
 <script>
 
@@ -571,15 +619,190 @@
         document.getElementById("nowPlaying");
 
 
+    const sponsor =
+        document.getElementById("sponsor");
+
+
+    /*
+        ============================================================
+        SPONSOR SYSTEM
+        ============================================================
+    */
+
+
+    let sponsors = [];
+
+
+    let currentSponsor = 0;
+
+
+    /*
+        Change this number to control how often
+        the sponsor changes.
+
+        60000 = 1 minute
+        120000 = 2 minutes
+        300000 = 5 minutes
+    */
+
+
+    const SPONSOR_ROTATION_INTERVAL =
+        60000;
+
+
+    async function loadSponsors() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "sponsors.json?cache=" +
+                    Date.now()
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Sponsors could not be loaded."
+                );
+
+            }
+
+
+            sponsors =
+                await response.json();
+
+
+            if (
+                !Array.isArray(sponsors) ||
+                sponsors.length === 0
+            ) {
+
+                sponsor.innerHTML =
+                    "";
+
+                return;
+
+            }
+
+
+            showSponsor();
+
+
+            if (sponsors.length > 1) {
+
+                setInterval(
+                    showNextSponsor,
+                    SPONSOR_ROTATION_INTERVAL
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL sponsor system could not be loaded.",
+                error
+            );
+
+            sponsor.innerHTML =
+                "";
+
+        }
+
+    }
+
+
+    function showSponsor() {
+
+        if (
+            sponsors.length === 0
+        ) {
+
+            sponsor.innerHTML =
+                "";
+
+            return;
+
+        }
+
+
+        const ad =
+            sponsors[currentSponsor];
+
+
+        sponsor.innerHTML =
+            "";
+
+
+        const prefix =
+            document.createTextNode(
+                "Brought to you by: "
+            );
+
+
+        const link =
+            document.createElement(
+                "a"
+            );
+
+
+        link.textContent =
+            ad.name;
+
+
+        link.href =
+            ad.url;
+
+
+        link.target =
+            "_blank";
+
+
+        link.rel =
+            "noopener noreferrer";
+
+
+        sponsor.appendChild(
+            prefix
+        );
+
+
+        sponsor.appendChild(
+            link
+        );
+
+    }
+
+
+    function showNextSponsor() {
+
+        if (
+            sponsors.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        currentSponsor =
+            (
+                currentSponsor + 1
+            ) %
+            sponsors.length;
+
+
+        showSponsor();
+
+    }
+
+
     /*
         ============================================================
         USER MUTE STORAGE
         ============================================================
-
-        Each user's browser/device stores its own muted tracks.
-
-        The track's file path is used as the identifier so that
-        adding or reordering songs does not change the saved choice.
     */
 
 
@@ -2174,9 +2397,10 @@
 
     loadCatalog();
 
+    loadSponsors();
+
 
 </script>
-
 
 </body>
 </html>
