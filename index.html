@@ -648,7 +648,44 @@
 
     const SPONSOR_ROTATION_INTERVAL =
         60000;
+function showSponsor() {
 
+    const ad =
+        sponsors[currentSponsor];
+
+    sponsor.innerHTML =
+        "";
+
+    const prefix =
+        document.createTextNode(
+            "Brought to you by: "
+        );
+
+    const link =
+        document.createElement(
+            "a"
+        );
+
+    link.textContent =
+        ad.name;
+
+    link.href =
+        ad.url;
+
+    link.target =
+        "_blank";
+
+    link.rel =
+        "noopener noreferrer";
+
+    sponsor.appendChild(
+        prefix
+    );
+
+    sponsor.appendChild(
+        link
+    );
+}
 
 async function loadSponsors() {
 
