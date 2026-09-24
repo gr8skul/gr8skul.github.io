@@ -839,30 +839,7 @@ async function loadSponsors() {
 
 }
 
-        /*
-            Supabase is now the source
-            of the GR8SKUL sponsor list.
-        */
-
-        showSponsor();
-
-
-        /*
-            Keep the existing 60-second
-            sponsor rotation exactly as before.
-        */
-
-        if (sponsors.length > 1) {
-
-            setInterval(
-                showNextSponsor,
-                SPONSOR_ROTATION_INTERVAL
-            );
-
-        }
-
-    } catch (error) {
-
+       
         console.error(
             "GR8SKUL sponsor system could not connect to Supabase.",
             error
