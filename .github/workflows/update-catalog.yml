@@ -2,10 +2,14 @@ name: Update Music Catalog
 
 on:
   push:
+    branches:
+      - main
     paths:
       - "music/*.mp3"
       - "music/*.MP3"
       - "track-order.json"
+      - ".github/workflows/update-music-catalog.yml"
+  workflow_dispatch:
 
 permissions:
   contents: write
