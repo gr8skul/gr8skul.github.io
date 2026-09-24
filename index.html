@@ -824,20 +824,9 @@ async function loadSponsors() {
         );
 
 
-    } catch (error) {
+    } 
 
-        console.error(
-            "GR8SKUL sponsor assignment could not connect to Supabase.",
-            error
-        );
-
-
-        sponsor.innerHTML =
-            "";
-
-    }
-
-}
+}catch (arror){
 
        
         console.error(
