@@ -661,20 +661,65 @@ async function loadSponsors() {
                 "Brought to you by: "
             );
 
-        const link =
-            document.createElement("a");
+const link =
+    document.createElement(
+        "a"
+    );
 
-        link.textContent =
-            ad.sponsor_name;
+link.textContent =
+    ad.sponsor_name;
 
-        link.href =
-            ad.sponsor_url;
+link.href =
+    ad.sponsor_url;
 
-        link.target =
-            "_blank";
+link.target =
+    "_blank";
 
-        link.rel =
-            "noopener noreferrer";
+link.rel =
+    "noopener noreferrer";
+
+
+link.addEventListener(
+    "click",
+    function () {
+
+        fetch(
+            "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/record_sponsor_click",
+            {
+                method: "POST",
+
+                headers: {
+                    "apikey":
+                        "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                    "Authorization":
+                        "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                    "Content-Type":
+                        "application/json"
+                },
+
+                body:
+                    JSON.stringify({
+                        p_session_id:
+                            sessionId
+                    }),
+
+                keepalive:
+                    true
+            }
+        )
+        .catch(
+            function (error) {
+                console.error(
+                    "GR8SKUL sponsor click tracking failed.",
+                    error
+                );
+            }
+        );
+
+    }
+);
 
         sponsor.appendChild(prefix);
         sponsor.appendChild(link);
