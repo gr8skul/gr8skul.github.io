@@ -2441,7 +2441,10 @@ document.getElementById(
 
 
 loadPublicTicker();
-
+setInterval(
+    loadPublicTicker,
+    10000
+);
 
 if (
     loadSavedSession()
