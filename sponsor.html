@@ -236,30 +236,32 @@
     }
 
 
-    .intro {
+    /* =========================
+       AUTHENTICATION
+       ========================= */
 
-        text-align: center;
 
-        color: #555555;
+    .auth-section {
 
-        font-size: 13px;
+        width: 100%;
 
-        line-height: 1.6;
+        max-width: 420px;
 
-        margin-bottom: 30px;
+        margin: 0 auto;
     }
 
 
-    /* =========================
-       FORMS
-       ========================= */
+    .auth-divider {
+
+        border-top: 1px solid #cccccc;
+
+        margin: 40px 0;
+    }
 
 
     .form {
 
         width: 100%;
-
-        max-width: 420px;
 
         margin: 0 auto;
     }
@@ -355,14 +357,6 @@
     }
 
 
-    .secondary-button {
-
-        width: 100%;
-
-        margin-top: 10px;
-    }
-
-
     .form-message {
 
         min-height: 24px;
@@ -379,21 +373,19 @@
     }
 
 
-    .switch {
+    .password-recovery {
 
         text-align: center;
 
-        margin-top: 20px;
+        margin-top: 15px;
 
         font-size: 11px;
-
-        color: #888888;
     }
 
 
-    .switch a {
+    .password-recovery a {
 
-        color: #555555;
+        color: #777777;
 
         text-decoration: none;
 
@@ -401,11 +393,21 @@
     }
 
 
-    .switch a:hover {
+    .password-recovery a:hover {
 
         color: #111111;
 
         text-decoration: underline;
+    }
+
+
+    .signup-tagline {
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
     }
 
 
@@ -788,77 +790,79 @@
     <div class="ticker-grid">
 
 
-    <div class="ticker-item">
+        <div class="ticker-item">
 
-        <div
-            class="ticker-value"
-            id="publicUsers">
-            —
-        </div>
+            <div
+                class="ticker-value"
+                id="publicUsers">
+                —
+            </div>
 
-        <div class="ticker-label">
+            <div class="ticker-label">
 
-            USERS
+                USERS
 
-        </div>
-
-    </div>
-
-
-    <div class="ticker-item">
-
-        <div
-            class="ticker-value"
-            id="publicSponsors">
-            —
-        </div>
-
-        <div class="ticker-label">
-
-            SPONSORS
+            </div>
 
         </div>
 
-    </div>
 
+        <div class="ticker-item">
 
-    <div class="ticker-item">
+            <div
+                class="ticker-value"
+                id="publicSponsors">
+                —
+            </div>
 
-        <div
-            class="ticker-value"
-            id="publicExposure">
-            —
-        </div>
+            <div class="ticker-label">
 
-        <div class="ticker-label">
+                SPONSORS
 
-            EXPOSURE
-
-        </div>
-
-    </div>
-
-
-    <div class="ticker-item">
-
-        <div
-            class="ticker-value"
-            id="publicClicks">
-            —
-        </div>
-
-        <div class="ticker-label">
-
-            CLICKS
+            </div>
 
         </div>
+
+
+        <div class="ticker-item">
+
+            <div
+                class="ticker-value"
+                id="publicExposure">
+                —
+            </div>
+
+            <div class="ticker-label">
+
+                EXPOSURE
+
+            </div>
+
+        </div>
+
+
+        <div class="ticker-item">
+
+            <div
+                class="ticker-value"
+                id="publicClicks">
+                —
+            </div>
+
+            <div class="ticker-label">
+
+                CLICKS
+
+            </div>
+
+        </div>
+
 
     </div>
 
 
 </div>
 
-    </div>
 
 <!-- =========================
      CONTENT
@@ -876,81 +880,193 @@
 <div id="authArea">
 
 
-    <div class="section-title">
-
-        SPONSOR SIGN IN
-
-    </div>
+    <div class="auth-section">
 
 
-    <div class="intro">
-
-        See how your message is reaching
-        people listening to GR8SKUL.
-
-    </div>
+        <!-- =========================
+             SPONSOR SIGN IN
+             ========================= -->
 
 
-    <div class="form">
+        <div class="section-title">
 
-
-        <div class="field">
-
-            <label for="email">
-
-                EMAIL
-
-            </label>
-
-            <input
-                id="email"
-                type="email"
-                autocomplete="email"
-            >
+            SPONSOR SIGN IN
 
         </div>
 
 
-        <div class="field">
+        <div class="form">
 
-            <label for="password">
 
-                PASSWORD
+            <div class="field">
 
-            </label>
+                <label for="signInEmail">
 
-            <input
-                id="password"
-                type="password"
-                autocomplete="current-password"
-            >
+                    EMAIL
+
+                </label>
+
+                <input
+                    id="signInEmail"
+                    type="email"
+                    autocomplete="email"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="signInPassword">
+
+                    PASSWORD
+
+                </label>
+
+                <input
+                    id="signInPassword"
+                    type="password"
+                    autocomplete="current-password"
+                >
+
+            </div>
+
+
+            <button
+                id="signInButton"
+                class="primary-button"
+                type="button">
+
+                SIGN IN
+
+            </button>
+
+
+            <div class="password-recovery">
+
+                <a
+                    href="#"
+                    id="forgotPasswordLink">
+
+                    Forgot your password?
+
+                </a>
+
+            </div>
+
+
+            <div
+                class="form-message"
+                id="authMessage">
+            </div>
+
 
         </div>
 
 
-        <button
-            id="signInButton"
-            class="primary-button"
-            type="button">
-
-            SIGN IN
-
-        </button>
+        <!-- =========================
+             DIVIDER
+             ========================= -->
 
 
-        <button
-            id="signUpButton"
-            class="secondary-button"
-            type="button">
-
-            CREATE ACCOUNT
-
-        </button>
+        <div class="auth-divider"></div>
 
 
-        <div
-            class="form-message"
-            id="authMessage">
+        <!-- =========================
+             SPONSOR SIGN UP
+             ========================= -->
+
+
+        <div class="section-title">
+
+            SPONSOR SIGN UP
+
+        </div>
+
+
+        <div class="form">
+
+
+            <div class="field">
+
+                <label for="companyName">
+
+                    COMPANY NAME
+
+                </label>
+
+                <input
+                    id="companyName"
+                    type="text"
+                    autocomplete="organization"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="signupTagline">
+
+                    TAGLINE
+
+                </label>
+
+                <input
+                    id="signupTagline"
+                    class="signup-tagline"
+                    type="text"
+                    maxlength="90"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="signUpEmail">
+
+                    EMAIL
+
+                </label>
+
+                <input
+                    id="signUpEmail"
+                    type="email"
+                    autocomplete="email"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="signUpPassword">
+
+                    CREATE PASSWORD
+
+                </label>
+
+                <input
+                    id="signUpPassword"
+                    type="password"
+                    autocomplete="new-password"
+                >
+
+            </div>
+
+
+            <button
+                id="signUpButton"
+                class="primary-button"
+                type="button">
+
+                SIGN UP
+
+            </button>
+
+
         </div>
 
 
@@ -1122,6 +1238,7 @@
             id="reportSummary"
             style="display:none;">
 
+
             <div class="report-row">
 
                 <span class="report-label">
@@ -1191,6 +1308,7 @@
 
             </div>
 
+
         </div>
 
 
@@ -1204,6 +1322,7 @@
             id="dailyHistory"
             style="display:none;">
 
+
             <div class="report-title">
 
                 DAILY HISTORY
@@ -1214,21 +1333,26 @@
             <div
                 class="history-row history-header">
 
+
                 <div>
                     DATE
                 </div>
+
 
                 <div>
                     IMP.
                 </div>
 
+
                 <div>
                     CLICKS
                 </div>
 
+
                 <div>
                     CTR
                 </div>
+
 
             </div>
 
@@ -1270,7 +1394,9 @@
     &nbsp;·&nbsp;
 
     <a href="/">
+
         BACK TO GR8SKUL
+
     </a>
 
 </div>
@@ -1484,6 +1610,7 @@ async function loadPublicTicker() {
 
 }
 
+
 /*
     ============================================================
     SIGN UP
@@ -1493,110 +1620,8 @@ async function loadPublicTicker() {
 
 async function signUp() {
 
-    const email =
-        document.getElementById(
-            "email"
-        ).value.trim();
-
-
-    const password =
-        document.getElementById(
-            "password"
-        ).value;
-
-
-    if (!email || !password) {
-
-        authMessage.textContent =
-            "Enter an email and password.";
-
-        return;
-
-    }
-
-
     authMessage.textContent =
-        "Creating account...";
-
-
-    try {
-
-        const response =
-            await fetch(
-                SUPABASE_URL +
-                "/auth/v1/signup",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-                            email:
-                                email,
-
-                            password:
-                                password
-                        })
-                }
-            );
-
-
-        const result =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                result.msg ||
-                result.message ||
-                result.error_description ||
-                "Account creation failed."
-            );
-
-        }
-
-
-        /*
-            Supabase may require email confirmation
-            before a session is created.
-        */
-
-
-        if (
-            result.access_token
-        ) {
-
-            saveSession(
-                result
-            );
-
-            authMessage.textContent =
-                "Account created.";
-
-            await showDashboard();
-
-        } else {
-
-            authMessage.textContent =
-                "Account created. Check your email to confirm your account, then sign in.";
-
-        }
-
-
-    } catch (error) {
-
-        authMessage.textContent =
-            error.message;
-
-    }
+        "Sponsor sign-up will be available soon.";
 
 }
 
@@ -1612,13 +1637,13 @@ async function signIn() {
 
     const email =
         document.getElementById(
-            "email"
+            "signInEmail"
         ).value.trim();
 
 
     const password =
         document.getElementById(
-            "password"
+            "signInPassword"
         ).value;
 
 
@@ -2310,13 +2335,13 @@ function signOut() {
 
 
     document.getElementById(
-        "email"
+        "signInEmail"
     ).value =
         "";
 
 
     document.getElementById(
-        "password"
+        "signInPassword"
     ).value =
         "";
 
@@ -2325,6 +2350,28 @@ function signOut() {
         "";
 
 }
+
+
+/*
+    ============================================================
+    PASSWORD RECOVERY
+    ============================================================
+*/
+
+
+document.getElementById(
+    "forgotPasswordLink"
+).addEventListener(
+    "click",
+    function(event) {
+
+        event.preventDefault();
+
+        authMessage.textContent =
+            "Password recovery will be available soon.";
+
+    }
+);
 
 
 /*
@@ -2412,13 +2459,13 @@ document.getElementById(
 
 /*
     ============================================================
-    ENTER KEY
+    ENTER KEY — SIGN IN
     ============================================================
 */
 
 
 document.getElementById(
-    "password"
+    "signInPassword"
 ).addEventListener(
     "keydown",
     function(event) {
@@ -2443,10 +2490,12 @@ document.getElementById(
 
 
 loadPublicTicker();
+
 setInterval(
     loadPublicTicker,
     10000
 );
+
 
 if (
     loadSavedSession()
