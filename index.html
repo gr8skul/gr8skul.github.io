@@ -415,67 +415,69 @@
 
 <div class="header">
 
-    <h1>
+```
+<h1>
 
-        <img
-            src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-            alt="GR8SKUL">
+    <img
+        src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+        alt="GR8SKUL">
 
-    </h1>
+</h1>
 
-    <div class="controls">
+<div class="controls">
 
-        <button
-            id="backButton"
-            type="button"
-            aria-label="Previous track">
+    <button
+        id="backButton"
+        type="button"
+        aria-label="Previous track">
 
-            ←
+        ←
 
-        </button>
+    </button>
 
-        <button
-            id="playButton"
-            type="button">
+    <button
+        id="playButton"
+        type="button">
 
-            ▶ PLAY
+        ▶ PLAY
 
-        </button>
+    </button>
 
-        <button
-            id="nextButton"
-            type="button"
-            aria-label="Next track">
+    <button
+        id="nextButton"
+        type="button"
+        aria-label="Next track">
 
-            →
+        →
 
-        </button>
+    </button>
 
-        <button
-            id="shuffleButton"
-            type="button">
+    <button
+        id="shuffleButton"
+        type="button">
 
-            SHUFFLE OFF
+        SHUFFLE OFF
 
-        </button>
+    </button>
 
-    </div>
+</div>
 
-    <div
-        class="now-playing"
-        id="nowPlaying">
-    </div>
+<div
+    class="now-playing"
+    id="nowPlaying">
+</div>
 
-    <!-- =========================
-         SPONSOR
-         ========================= -->
+<!-- =========================
+     SPONSOR
+     ========================= -->
 
-    <div
-        class="sponsor"
-        id="sponsor">
-    </div>
+<div
+    class="sponsor"
+    id="sponsor">
+</div>
 
-    <div class="header-line"></div>
+<div class="header-line"></div>
+```
 
 </div>
 
@@ -495,11 +497,13 @@
 
 <div class="player">
 
-    <audio
-        id="audioPlayer"
-        controls
-        preload="none">
-    </audio>
+```
+<audio
+    id="audioPlayer"
+    controls
+    preload="none">
+</audio>
+```
 
 </div>
 
@@ -553,7 +557,8 @@
         ============================================================
 
         A visitor becomes a qualified user when actual audio
-        playback begins.
+        playback begins OR when the visitor meaningfully
+        scrolls through the track list.
 
         A page load alone does NOT qualify the visitor.
 
@@ -656,6 +661,389 @@
     }
 
 
+    /*
+        ============================================================
+        QUALIFY USER BY MEANINGFUL SCROLL
+        ============================================================
+
+        Scrolling the actual track list by at least 50 pixels
+        qualifies the visitor as a GR8SKUL user.
+
+        A tiny accidental movement does not qualify the visitor.
+    */
+
+
+    async function qualifyUserByScroll() {
+
+        const today =
+            new Date().toLocaleDateString(
+                "en-CA",
+                {
+                    timeZone: "America/Chicago"
+                }
+            );
+
+
+        const lastQualifiedDate =
+            localStorage.getItem(
+                "gr8skul-qualified-scroll-date"
+            );
+
+
+        if (
+            lastQualifiedDate === today
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_user",
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                p_visitor_id:
+                                    sessionId,
+
+                                p_activity_type:
+                                    "scroll"
+
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Scroll qualification failed: " +
+                    response.status
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "gr8skul-qualified-scroll-date",
+                today
+            );
+
+
+            console.log(
+                "GR8SKUL: visitor qualified by scroll."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL scroll qualification failed.",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        GR8SKUL LISTENER
+        ============================================================
+
+        A qualified user becomes a listener after 30 seconds
+        of actual audio playback.
+
+        Playback time accumulates across pauses and tracks.
+
+        The listener is recorded once per visitor per day.
+    */
+
+
+    const LISTENER_THRESHOLD_SECONDS = 30;
+
+
+    let playbackStartedAt = null;
+
+
+    function getTodayChicagoDate() {
+
+        return new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "America/Chicago"
+            }
+        );
+
+    }
+
+
+    function getStoredListenSeconds() {
+
+        const today =
+            getTodayChicagoDate();
+
+
+        const savedDate =
+            localStorage.getItem(
+                "gr8skul-listen-date"
+            );
+
+
+        if (
+            savedDate !== today
+        ) {
+
+            localStorage.setItem(
+                "gr8skul-listen-date",
+                today
+            );
+
+            localStorage.setItem(
+                "gr8skul-listen-seconds",
+                "0"
+            );
+
+            localStorage.removeItem(
+                "gr8skul-listener-qualified-date"
+            );
+
+            return 0;
+
+        }
+
+
+        return parseFloat(
+            localStorage.getItem(
+                "gr8skul-listen-seconds"
+            ) || "0"
+        );
+
+    }
+
+
+    function storeListenSeconds(seconds) {
+
+        localStorage.setItem(
+            "gr8skul-listen-date",
+            getTodayChicagoDate()
+        );
+
+
+        localStorage.setItem(
+            "gr8skul-listen-seconds",
+            String(seconds)
+        );
+
+    }
+
+
+    async function qualifyListener() {
+
+        const today =
+            getTodayChicagoDate();
+
+
+        const alreadyQualified =
+            localStorage.getItem(
+                "gr8skul-listener-qualified-date"
+            );
+
+
+        if (
+            alreadyQualified === today
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_listener",
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                p_visitor_id:
+                                    sessionId
+
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Listener qualification failed: " +
+                    response.status
+                );
+
+            }
+
+
+            const result =
+                await response.json();
+
+
+            /*
+                The SQL function returns false if the visitor
+                somehow has not yet been qualified as a user.
+            */
+
+            if (result === false) {
+
+                console.warn(
+                    "GR8SKUL: listener threshold reached, but visitor was not yet a qualified user."
+                );
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                "gr8skul-listener-qualified-date",
+                today
+            );
+
+
+            console.log(
+                "GR8SKUL: visitor qualified as a listener."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL listener qualification failed.",
+                error
+            );
+
+        }
+
+    }
+
+
+    function recordPlaybackTime() {
+
+        if (
+            playbackStartedAt === null
+        ) {
+
+            return;
+
+        }
+
+
+        const elapsedSeconds =
+            (Date.now() -
+             playbackStartedAt) / 1000;
+
+
+        playbackStartedAt =
+            Date.now();
+
+
+        if (
+            elapsedSeconds <= 0
+        ) {
+
+            return;
+
+        }
+
+
+        let totalSeconds =
+            getStoredListenSeconds();
+
+
+        totalSeconds +=
+            elapsedSeconds;
+
+
+        storeListenSeconds(
+            totalSeconds
+        );
+
+
+        if (
+            totalSeconds >=
+            LISTENER_THRESHOLD_SECONDS
+        ) {
+
+            qualifyListener();
+
+        }
+
+    }
+
+
+    function startPlaybackClock() {
+
+        if (
+            playbackStartedAt === null
+        ) {
+
+            playbackStartedAt =
+                Date.now();
+
+        }
+
+    }
+
+
+    function stopPlaybackClock() {
+
+        recordPlaybackTime();
+
+        playbackStartedAt = null;
+
+    }
+
+
     const tracksContainer =
         document.getElementById("trackList");
 
@@ -686,6 +1074,29 @@
 
     const sponsor =
         document.getElementById("sponsor");
+
+
+    /*
+        ============================================================
+        MEANINGFUL TRACK-LIST SCROLL
+        ============================================================
+    */
+
+
+    tracksContainer.addEventListener(
+        "scroll",
+        function() {
+
+            if (
+                tracksContainer.scrollTop >= 50
+            ) {
+
+                qualifyUserByScroll();
+
+            }
+
+        }
+    );
 
 
     /*
@@ -2398,9 +2809,13 @@
 
                 This is the point at which the visitor
                 becomes a qualified GR8SKUL user.
+
+                It also starts the listener clock.
             */
 
             qualifyUserByPlay();
+
+            startPlaybackClock();
 
         }
     );
@@ -2420,6 +2835,14 @@
             playButton.textContent =
                 "▶ PLAY";
 
+
+            /*
+                Preserve the actual amount of playback
+                completed before the pause.
+            */
+
+            stopPlaybackClock();
+
         }
     );
 
@@ -2435,7 +2858,53 @@
         "ended",
         function() {
 
+            /*
+                Capture the final playback interval before
+                moving to the next track.
+            */
+
+            stopPlaybackClock();
+
+
             playNext();
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        PAGE HIDDEN / CLOSED
+        ============================================================
+
+        Capture playback time if the visitor leaves the page
+        while audio is still playing.
+    */
+
+
+    document.addEventListener(
+        "visibilitychange",
+        function() {
+
+            if (
+                document.visibilityState ===
+                "hidden"
+            ) {
+
+                recordPlaybackTime();
+
+                playbackStartedAt =
+                    Date.now();
+
+            } else if (
+                !audioPlayer.paused &&
+                playbackStartedAt === null
+            ) {
+
+                playbackStartedAt =
+                    Date.now();
+
+            }
 
         }
     );
