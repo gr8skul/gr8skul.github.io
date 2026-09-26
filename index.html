@@ -547,6 +547,115 @@
     }
 
 
+    /*
+        ============================================================
+        GR8SKUL QUALIFIED USER
+        ============================================================
+
+        A visitor becomes a qualified user when actual audio
+        playback begins.
+
+        A page load alone does NOT qualify the visitor.
+
+        Qualification is recorded once per visitor per day.
+    */
+
+
+    async function qualifyUserByPlay() {
+
+        const today =
+            new Date().toLocaleDateString(
+                "en-CA",
+                {
+                    timeZone: "America/Chicago"
+                }
+            );
+
+
+        const lastQualifiedDate =
+            localStorage.getItem(
+                "gr8skul-qualified-play-date"
+            );
+
+
+        if (
+            lastQualifiedDate === today
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_user",
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                p_visitor_id:
+                                    sessionId,
+
+                                p_activity_type:
+                                    "play"
+
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "User qualification failed: " +
+                    response.status
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "gr8skul-qualified-play-date",
+                today
+            );
+
+
+            console.log(
+                "GR8SKUL: visitor qualified by play."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL user qualification failed.",
+                error
+            );
+
+        }
+
+    }
+
+
     const tracksContainer =
         document.getElementById("trackList");
 
@@ -593,170 +702,198 @@
     */
 
 
- let sponsorRotationTimer = null;
+    let sponsorRotationTimer = null;
 
-async function loadSponsors() {
 
-    try {
+    async function loadSponsors() {
 
-        const response =
-            await fetch(
-                "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/assign_sponsor",
-                {
-                    method: "POST",
+        try {
 
-                    headers: {
-                        "apikey":
-                            "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/assign_sponsor",
+                    {
+                        method: "POST",
 
-                        "Authorization":
-                            "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+                        headers: {
 
-                        "Content-Type":
-                            "application/json"
-                    },
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
 
-                    body:
-                        JSON.stringify({
-                            p_session_id:
-                                sessionId
-                        })
-                }
-            );
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
 
-        if (!response.ok) {
+                            "Content-Type":
+                                "application/json"
 
-            throw new Error(
-                "Supabase sponsor assignment failed: " +
-                response.status
-            );
+                        },
 
-        }
+                        body:
+                            JSON.stringify({
+                                p_session_id:
+                                    sessionId
+                            })
 
-        const assignment =
-            await response.json();
+                    }
+                );
 
-        if (
-            !Array.isArray(assignment) ||
-            assignment.length === 0
-        ) {
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Supabase sponsor assignment failed: " +
+                    response.status
+                );
+
+            }
+
+
+            const assignment =
+                await response.json();
+
+
+            if (
+                !Array.isArray(assignment) ||
+                assignment.length === 0
+            ) {
+
+                sponsor.innerHTML = "";
+
+                console.warn(
+                    "GR8SKUL: No sponsor assignment returned."
+                );
+
+                return;
+
+            }
+
+
+            const ad =
+                assignment[0];
+
 
             sponsor.innerHTML = "";
 
-            console.warn(
-                "GR8SKUL: No sponsor assignment returned."
+
+            const prefix =
+                document.createTextNode(
+                    "Brought to you by: "
+                );
+
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.textContent =
+                ad.sponsor_name;
+
+
+            link.href =
+                ad.sponsor_url;
+
+
+            link.target =
+                "_blank";
+
+
+            link.rel =
+                "noopener noreferrer";
+
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    fetch(
+                        "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/record_sponsor_click",
+                        {
+                            method: "POST",
+
+                            headers: {
+
+                                "apikey":
+                                    "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                                "Authorization":
+                                    "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    p_session_id:
+                                        sessionId
+                                }),
+
+                            keepalive:
+                                true
+
+                        }
+                    )
+
+                    .catch(
+                        function (error) {
+
+                            console.error(
+                                "GR8SKUL sponsor click tracking failed.",
+                                error
+                            );
+
+                        }
+                    );
+
+                }
             );
 
-            return;
+
+            sponsor.appendChild(prefix);
+
+            sponsor.appendChild(link);
+
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL sponsor system could not connect to Supabase.",
+                error
+            );
+
+            sponsor.innerHTML = "";
 
         }
 
-        const ad =
-            assignment[0];
+    }
 
-        sponsor.innerHTML = "";
 
-        const prefix =
-            document.createTextNode(
-                "Brought to you by: "
+    function startSponsorRotation() {
+
+        if (sponsorRotationTimer) {
+
+            clearInterval(
+                sponsorRotationTimer
             );
 
-const link =
-    document.createElement(
-        "a"
-    );
-
-link.textContent =
-    ad.sponsor_name;
-
-link.href =
-    ad.sponsor_url;
-
-link.target =
-    "_blank";
-
-link.rel =
-    "noopener noreferrer";
+        }
 
 
-link.addEventListener(
-    "click",
-    function () {
+        sponsorRotationTimer =
+            setInterval(
+                async function () {
 
-        fetch(
-            "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/record_sponsor_click",
-            {
-                method: "POST",
+                    await loadSponsors();
 
-                headers: {
-                    "apikey":
-                        "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
-
-                    "Authorization":
-                        "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
-
-                    "Content-Type":
-                        "application/json"
                 },
-
-                body:
-                    JSON.stringify({
-                        p_session_id:
-                            sessionId
-                    }),
-
-                keepalive:
-                    true
-            }
-        )
-        .catch(
-            function (error) {
-                console.error(
-                    "GR8SKUL sponsor click tracking failed.",
-                    error
-                );
-            }
-        );
-
-    }
-);
-
-        sponsor.appendChild(prefix);
-        sponsor.appendChild(link);
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL sponsor system could not connect to Supabase.",
-            error
-        );
-
-        sponsor.innerHTML = "";
-
-    }
-}
-
-function startSponsorRotation() {
-
-    if (sponsorRotationTimer) {
-
-        clearInterval(
-            sponsorRotationTimer
-        );
+                60000
+            );
 
     }
 
-    sponsorRotationTimer =
-        setInterval(
-            async function () {
-
-                await loadSponsors();
-
-            },
-            60000
-        );
-
-}
 
     /*
         ============================================================
@@ -2255,6 +2392,16 @@ function startSponsorRotation() {
             playButton.textContent =
                 "❚❚ PAUSE";
 
+
+            /*
+                ACTUAL PLAYBACK HAS BEGUN.
+
+                This is the point at which the visitor
+                becomes a qualified GR8SKUL user.
+            */
+
+            qualifyUserByPlay();
+
         }
     );
 
@@ -2300,9 +2447,12 @@ function startSponsorRotation() {
         ============================================================
     */
 
-loadCatalog();
-loadSponsors();
-startSponsorRotation();
+
+    loadCatalog();
+
+    loadSponsors();
+
+    startSponsorRotation();
 
 </script>
 
