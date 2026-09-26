@@ -144,72 +144,6 @@
 
 
     /* =========================
-       PUBLIC TICKER
-       ========================= */
-
-
-    .ticker {
-
-        padding: 18px 0 15px;
-
-        border-bottom: 1px solid #cccccc;
-    }
-
-
-    .ticker-title {
-
-        text-align: center;
-
-        font-size: 11px;
-
-        color: #888888;
-
-        letter-spacing: 1px;
-
-        margin-bottom: 14px;
-    }
-
-
-    .ticker-grid {
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(4, 1fr);
-
-        gap: 10px;
-    }
-
-
-    .ticker-item {
-
-        text-align: center;
-    }
-
-
-    .ticker-value {
-
-        font-size: 20px;
-
-        font-weight: bold;
-
-        min-height: 24px;
-    }
-
-
-    .ticker-label {
-
-        margin-top: 5px;
-
-        font-size: 9px;
-
-        color: #888888;
-
-        letter-spacing: 0.5px;
-    }
-
-
-    /* =========================
        CONTENT
        ========================= */
 
@@ -237,7 +171,7 @@
 
 
     /* =========================
-       SPONSOR IDENTITY
+       SPONSOR INFORMATION
        ========================= */
 
 
@@ -323,7 +257,7 @@
 
 
     /* =========================
-       AUDIENCE DATA
+       CAMPAIGN DATA
        ========================= */
 
 
@@ -557,7 +491,7 @@
 
 
     /* =========================
-       CAMPAIGN HISTORY
+       CAMPAIGN SUMMARY
        ========================= */
 
 
@@ -651,6 +585,16 @@
         line-height: 1.5;
 
         margin-bottom: 20px;
+    }
+
+
+    .account-button {
+
+        width: 100%;
+
+        font-weight: bold;
+
+        margin-bottom: 10px;
     }
 
 
@@ -753,24 +697,6 @@
         }
 
 
-        .ticker-grid {
-
-            gap: 5px;
-        }
-
-
-        .ticker-value {
-
-            font-size: 17px;
-        }
-
-
-        .ticker-label {
-
-            font-size: 8px;
-        }
-
-
         .content {
 
             padding-top: 25px;
@@ -821,98 +747,6 @@
 
 
     <div class="header-line"></div>
-
-
-</div>
-
-
-<!-- =========================
-     PUBLIC TICKER
-     ========================= -->
-
-
-<div class="ticker">
-
-
-    <div class="ticker-title">
-
-        GR8SKUL TODAY
-
-    </div>
-
-
-    <div class="ticker-grid">
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicUsers">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                USERS
-
-            </div>
-
-        </div>
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicSponsors">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                SPONSORS
-
-            </div>
-
-        </div>
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicExposure">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                EXPOSURE
-
-            </div>
-
-        </div>
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicClicks">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                CLICKS
-
-            </div>
-
-        </div>
-
-
-    </div>
 
 
 </div>
@@ -1008,7 +842,7 @@
 
 
 <!-- =========================
-     AUDIENCE
+     CAMPAIGN DATA
      ========================= -->
 
 
@@ -1031,13 +865,13 @@
                 class="metric-value"
                 id="campaignUsers">
 
-                —
+                0
 
             </div>
 
             <div class="metric-label">
 
-                USERS
+                USERS REACHED
 
             </div>
 
@@ -1048,34 +882,15 @@
 
             <div
                 class="metric-value"
-                id="campaignImpressions">
+                id="campaignExposures">
 
-                —
-
-            </div>
-
-            <div class="metric-label">
-
-                IMPRESSIONS
-
-            </div>
-
-        </div>
-
-
-        <div class="metric">
-
-            <div
-                class="metric-value"
-                id="campaignClicks">
-
-                —
+                0
 
             </div>
 
             <div class="metric-label">
 
-                CLICKS
+                EXPOSURES
 
             </div>
 
@@ -1088,13 +903,32 @@
                 class="metric-value"
                 id="campaignCtr">
 
-                —
+                0.00%
 
             </div>
 
             <div class="metric-label">
 
                 CLICK RATE
+
+            </div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div
+                class="metric-value"
+                id="campaignDays">
+
+                0
+
+            </div>
+
+            <div class="metric-label">
+
+                DAYS ACTIVE
 
             </div>
 
@@ -1274,7 +1108,7 @@
 
 
 <!-- =========================
-     CAMPAIGN HISTORY
+     CAMPAIGN SUMMARY
      ========================= -->
 
 
@@ -1389,6 +1223,16 @@
 
 
     <button
+        id="changePasswordButton"
+        class="account-button"
+        type="button">
+
+        CHANGE PASSWORD
+
+    </button>
+
+
+    <button
         id="signOutButton"
         class="signout"
         type="button">
@@ -1468,13 +1312,7 @@ document.getElementById(
 
 
 document.getElementById(
-    "campaignImpressions"
-).textContent =
-    "0";
-
-
-document.getElementById(
-    "campaignClicks"
+    "campaignExposures"
 ).textContent =
     "0";
 
@@ -1483,6 +1321,12 @@ document.getElementById(
     "campaignCtr"
 ).textContent =
     "0.00%";
+
+
+document.getElementById(
+    "campaignDays"
+).textContent =
+    "0";
 
 
 /*
@@ -1500,6 +1344,20 @@ document.getElementById(
 
         alert(
             "Sponsor information will be saved through Supabase."
+        );
+
+    }
+);
+
+
+document.getElementById(
+    "changePasswordButton"
+).addEventListener(
+    "click",
+    function() {
+
+        alert(
+            "Password changes will be handled securely through Supabase."
         );
 
     }
