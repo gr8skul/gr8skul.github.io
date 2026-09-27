@@ -1620,8 +1620,190 @@ async function loadPublicTicker() {
 
 async function signUp() {
 
+    const companyName =
+        document.getElementById(
+            "companyName"
+        ).value.trim();
+
+
+    const tagline =
+        document.getElementById(
+            "signupTagline"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "signUpEmail"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "signUpPassword"
+        ).value;
+
+
+    if (!companyName) {
+
+        authMessage.textContent =
+            "Enter your company name.";
+
+        return;
+
+    }
+
+
+    if (tagline.length > 90) {
+
+        authMessage.textContent =
+            "Your tagline must be 90 characters or fewer.";
+
+        return;
+
+    }
+
+
+    if (!email || !password) {
+
+        authMessage.textContent =
+            "Enter an email and create a password.";
+
+        return;
+
+    }
+
+
+    if (password.length < 6) {
+
+        authMessage.textContent =
+            "Your password must be at least 6 characters.";
+
+        return;
+
+    }
+
+
     authMessage.textContent =
-        "Sponsor sign-up will be available soon.";
+        "Creating sponsor account...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/auth/v1/signup",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            email:
+                                email,
+
+                            password:
+                                password,
+
+                            data: {
+                                business_name:
+                                    companyName,
+
+                                tagline:
+                                    tagline
+                            }
+
+                        })
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.msg ||
+                result.message ||
+                result.error_description ||
+                "Sponsor account creation failed."
+            );
+
+        }
+
+
+        /*
+            Supabase may return an access token immediately
+            if email confirmation is disabled.
+
+            If email confirmation is enabled, Supabase will
+            normally return the user without an active session.
+        */
+
+        if (
+            result.access_token
+        ) {
+
+            saveSession(
+                result
+            );
+
+
+            authMessage.textContent =
+                "Sponsor account created.";
+
+
+            await showDashboard();
+
+
+            return;
+
+        }
+
+
+        /*
+            Email confirmation is required.
+        */
+
+        authMessage.textContent =
+            "Account created. Check your email to confirm your account, then sign in.";
+
+
+        document.getElementById(
+            "signInEmail"
+        ).value =
+            email;
+
+
+        document.getElementById(
+            "signInPassword"
+        ).value =
+            "";
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL sponsor signup failed.",
+            error
+        );
+
+
+        authMessage.textContent =
+            error.message;
+
+    }
 
 }
 
