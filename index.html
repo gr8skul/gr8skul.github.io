@@ -1255,7 +1255,25 @@
                                     "application/json"
 
                             },
+            const taglineLink =
+                document.createElement(
+                    "a"
+                );
 
+            taglineLink.textContent =
+                ad.sponsor_tagline;
+
+            taglineLink.href =
+                ad.sponsor_url;
+
+            taglineLink.target =
+                "_blank";
+
+            taglineLink.rel =
+                "noopener noreferrer";
+
+            taglineLink.className =
+                "sponsor-tagline";
                             body:
                                 JSON.stringify({
                                     p_session_id:
