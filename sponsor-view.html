@@ -1904,18 +1904,14 @@ saveSponsorButton.addEventListener(
 
     async function() {
 
-
         const originalText =
             saveSponsorButton.textContent;
-
 
         const businessName =
             sponsorName.value.trim();
 
-
         const tagline =
             sponsorTagline.value.trim();
-
 
         const website =
             sponsorWebsite.value.trim();
@@ -1927,9 +1923,7 @@ saveSponsorButton.addEventListener(
                 "Business name cannot be empty."
             );
 
-
             sponsorName.focus();
-
 
             return;
 
@@ -1939,13 +1933,11 @@ saveSponsorButton.addEventListener(
         saveSponsorButton.disabled =
             true;
 
-
         saveSponsorButton.textContent =
             "SAVING...";
 
 
         try {
-
 
             await callSupabaseFunction(
 
@@ -1953,15 +1945,13 @@ saveSponsorButton.addEventListener(
 
                 {
 
-                    p_sponsor_name:
+                    p_business_name:
                         businessName,
 
-
-                    p_sponsor_tagline:
+                    p_tagline:
                         tagline,
 
-
-                    p_sponsor_url:
+                    p_website:
                         website
 
                 }
@@ -1985,42 +1975,31 @@ saveSponsorButton.addEventListener(
 
         } catch (error) {
 
-
             console.error(
-
                 "GR8SKUL sponsor information update failed.",
-
                 error
-
             );
 
 
             alert(
-
                 error.message ||
                 "Unable to save sponsor information."
-
             );
 
 
             saveSponsorButton.textContent =
                 originalText;
 
-
         } finally {
-
 
             saveSponsorButton.disabled =
                 false;
 
-
         }
-
 
     }
 
 );
-
 
 /*
 ============================================================
