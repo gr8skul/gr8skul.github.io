@@ -197,7 +197,7 @@ h1 img {
 
     margin-top: 0;
 
-    margin-bottom: 40px;
+    margin-bottom: 0;
 
 }
 
@@ -213,7 +213,7 @@ h1 img {
 
     border-left: 1px solid #cccccc;
 
-    margin-bottom: 30px;
+    margin-bottom: 0;
 
 }
 
@@ -255,19 +255,6 @@ h1 img {
 }
 
 
-.data-note {
-
-    text-align: center;
-
-    color: #888888;
-
-    font-size: 10px;
-
-    line-height: 1.5;
-
-}
-
-
 /* =========================
    CAMPAIGN FUNDING
    ========================= */
@@ -279,7 +266,7 @@ h1 img {
 
     max-width: 420px;
 
-    margin: 40px auto 0;
+    margin: 15px auto 0;
 
 }
 
@@ -900,13 +887,6 @@ button:disabled {
 
     </div>
 
-
-</div>
-
-
-<div class="data-note">
-
-    Campaign activity shown for the current reporting period.
 
 </div>
 
@@ -1592,14 +1572,6 @@ REPORTING PERIOD
 function getCurrentReportingPeriod() {
 
 
-    /*
-        The browser is being used for the reporting
-        period because the sponsor dashboard is
-        intended to display the sponsor's current
-        calendar month.
-    */
-
-
     const now =
         new Date();
 
@@ -1914,12 +1886,14 @@ editSponsorButton.addEventListener(
 
 /*
 ============================================================
-SAVE BUTTON
+SAVE SPONSOR INFORMATION
 ============================================================
 
-The exact update_my_sponsor_profile signature has
-not been verified here, so this button deliberately
-does not send guessed data to Supabase.
+The authenticated sponsor account is identified
+by the Supabase session. Email remains unchanged.
+
+The backend RPC receives only the three fields
+that sponsors are permitted to edit.
 ============================================================
 */
 
@@ -1928,19 +1902,119 @@ saveSponsorButton.addEventListener(
 
     "click",
 
-    function() {
+    async function() {
 
 
-        alert(
-
-            "Sponsor information editing is not connected yet."
-
-        );
+        const originalText =
+            saveSponsorButton.textContent;
 
 
-        setSponsorInformationEditable(
-            false
-        );
+        const businessName =
+            sponsorName.value.trim();
+
+
+        const tagline =
+            sponsorTagline.value.trim();
+
+
+        const website =
+            sponsorWebsite.value.trim();
+
+
+        if (!businessName) {
+
+            alert(
+                "Business name cannot be empty."
+            );
+
+
+            sponsorName.focus();
+
+
+            return;
+
+        }
+
+
+        saveSponsorButton.disabled =
+            true;
+
+
+        saveSponsorButton.textContent =
+            "SAVING...";
+
+
+        try {
+
+
+            await callSupabaseFunction(
+
+                "update_my_sponsor_profile",
+
+                {
+
+                    p_sponsor_name:
+                        businessName,
+
+
+                    p_sponsor_tagline:
+                        tagline,
+
+
+                    p_sponsor_url:
+                        website
+
+                }
+
+            );
+
+
+            setSponsorInformationEditable(
+                false
+            );
+
+
+            saveSponsorButton.textContent =
+                originalText;
+
+
+            alert(
+                "Sponsor information saved."
+            );
+
+
+        } catch (error) {
+
+
+            console.error(
+
+                "GR8SKUL sponsor information update failed.",
+
+                error
+
+            );
+
+
+            alert(
+
+                error.message ||
+                "Unable to save sponsor information."
+
+            );
+
+
+            saveSponsorButton.textContent =
+                originalText;
+
+
+        } finally {
+
+
+            saveSponsorButton.disabled =
+                false;
+
+
+        }
 
 
     }
@@ -2031,11 +2105,9 @@ paymentAmount.addEventListener(
 
         } else {
 
-
             paymentAmount.setCustomValidity(
                 ""
             );
-
 
         }
 
