@@ -1136,7 +1136,7 @@
     let sponsorRotationTimer = null;
 
 
-    async function loadSponsors() {
+       async function loadSponsors() {
 
         try {
 
@@ -1206,6 +1206,13 @@
             sponsor.innerHTML = "";
 
 
+            /*
+                ========================================================
+                SPONSOR BUSINESS NAME
+                ========================================================
+            */
+
+
             const prefix =
                 document.createTextNode(
                     "Brought to you by: "
@@ -1234,6 +1241,13 @@
                 "noopener noreferrer";
 
 
+            /*
+                ========================================================
+                SPONSOR CLICK TRACKING
+                ========================================================
+            */
+
+
             link.addEventListener(
                 "click",
                 function () {
@@ -1255,25 +1269,7 @@
                                     "application/json"
 
                             },
-            const taglineLink =
-                document.createElement(
-                    "a"
-                );
 
-            taglineLink.textContent =
-                ad.sponsor_tagline;
-
-            taglineLink.href =
-                ad.sponsor_url;
-
-            taglineLink.target =
-                "_blank";
-
-            taglineLink.rel =
-                "noopener noreferrer";
-
-            taglineLink.className =
-                "sponsor-tagline";
                             body:
                                 JSON.stringify({
                                     p_session_id:
@@ -1301,17 +1297,69 @@
             );
 
 
-                        sponsor.appendChild(prefix);
+            /*
+                ========================================================
+                SPONSOR TAGLINE
+                ========================================================
 
-            sponsor.appendChild(link);
+                The tagline appears beneath the sponsor name
+                and links to the same sponsor URL.
+            */
 
-            if (ad.sponsor_tagline) {
+
+            const taglineLink =
+                document.createElement(
+                    "a"
+                );
+
+
+            taglineLink.textContent =
+                ad.sponsor_tagline;
+
+
+            taglineLink.href =
+                ad.sponsor_url;
+
+
+            taglineLink.target =
+                "_blank";
+
+
+            taglineLink.rel =
+                "noopener noreferrer";
+
+
+            taglineLink.className =
+                "sponsor-tagline";
+
+
+            /*
+                ========================================================
+                DISPLAY SPONSOR
+                ========================================================
+            */
+
+
+            sponsor.appendChild(
+                prefix
+            );
+
+
+            sponsor.appendChild(
+                link
+            );
+
+
+            if (
+                ad.sponsor_tagline
+            ) {
 
                 sponsor.appendChild(
                     taglineLink
                 );
 
             }
+
 
         } catch (error) {
 
@@ -1323,30 +1371,6 @@
             sponsor.innerHTML = "";
 
         }
-
-    }
-
-
-    function startSponsorRotation() {
-
-        if (sponsorRotationTimer) {
-
-            clearInterval(
-                sponsorRotationTimer
-            );
-
-        }
-
-
-        sponsorRotationTimer =
-            setInterval(
-                async function () {
-
-                    await loadSponsors();
-
-                },
-                60000
-            );
 
     }
 
