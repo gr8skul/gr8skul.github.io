@@ -2453,7 +2453,13 @@ async function loadDailyHistory(
 
 
         const result =
-            await response.json();
+    await response.json();
+
+console.log(
+    "GR8SKUL SIGNUP RESPONSE:",
+    response.status,
+    result
+);
 
 
         const historyRows =
