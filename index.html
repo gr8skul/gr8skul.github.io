@@ -1298,38 +1298,27 @@
 
 
             /*
+            /*
                 ========================================================
                 SPONSOR TAGLINE
                 ========================================================
 
-                The tagline appears beneath the sponsor name
-                and links to the same sponsor URL.
+                The tagline is descriptive text only.
+                It is not a separate clickable element.
             */
 
 
-            const taglineLink =
+            const tagline =
                 document.createElement(
-                    "a"
+                    "span"
                 );
 
 
-            taglineLink.textContent =
+            tagline.textContent =
                 ad.sponsor_tagline;
 
 
-            taglineLink.href =
-                ad.sponsor_url;
-
-
-            taglineLink.target =
-                "_blank";
-
-
-            taglineLink.rel =
-                "noopener noreferrer";
-
-
-            taglineLink.className =
+            tagline.className =
                 "sponsor-tagline";
 
 
@@ -1351,14 +1340,18 @@
 
 
             if (
-                ad.sponsor_tagline
-            ) {
+                   .sponsor-tagline {
 
-                sponsor.appendChild(
-                    taglineLink
-                );
+        display: block;
 
-            }
+        margin-top: 2px;
+
+        font-size: 11px;
+
+        color: #888888;
+
+        font-weight: normal;
+    }
 
 
         } catch (error) {
