@@ -1301,10 +1301,17 @@
             );
 
 
-            sponsor.appendChild(prefix);
+                        sponsor.appendChild(prefix);
 
             sponsor.appendChild(link);
 
+            if (ad.sponsor_tagline) {
+
+                sponsor.appendChild(
+                    taglineLink
+                );
+
+            }
 
         } catch (error) {
 
