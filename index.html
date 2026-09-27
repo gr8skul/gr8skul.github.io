@@ -1129,7 +1129,28 @@
 
 
     let sponsorRotationTimer = null;
+function startSponsorRotation() {
 
+    if (sponsorRotationTimer !== null) {
+
+        clearInterval(
+            sponsorRotationTimer
+        );
+
+    }
+
+
+    sponsorRotationTimer =
+        setInterval(
+            function() {
+
+                loadSponsors();
+
+            },
+            60000
+        );
+
+}
 
        async function loadSponsors() {
 
