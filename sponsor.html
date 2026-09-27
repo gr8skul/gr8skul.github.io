@@ -1643,113 +1643,74 @@ async function signUp() {
             "companyName"
         ).value.trim();
 
-
     const tagline =
         document.getElementById(
             "signupTagline"
         ).value.trim();
-
 
     const website =
         document.getElementById(
             "signupWebsite"
         ).value.trim();
 
-
     const email =
         document.getElementById(
             "signUpEmail"
         ).value.trim();
-
 
     const password =
         document.getElementById(
             "signUpPassword"
         ).value;
 
-
     if (!companyName) {
-
         authMessage.textContent =
             "Enter your company name.";
-
         return;
-
     }
-
 
     if (tagline.length > 90) {
-
         authMessage.textContent =
             "Your tagline must be 90 characters or fewer.";
-
         return;
-
     }
-
 
     if (!website) {
-
         authMessage.textContent =
             "Enter your website address.";
-
         return;
-
     }
-
 
     let websiteUrl;
 
     try {
-
-        websiteUrl =
-            new URL(website);
-
+        websiteUrl = new URL(website);
     } catch (error) {
-
         authMessage.textContent =
             "Enter a valid website address.";
-
         return;
-
     }
 
-
-    if (
-        websiteUrl.protocol !== "https:"
-    ) {
-
+    if (websiteUrl.protocol !== "https:") {
         authMessage.textContent =
             "Your website must use HTTPS.";
-
         return;
-
     }
-
 
     if (!email || !password) {
-
         authMessage.textContent =
             "Enter an email and create a password.";
-
         return;
-
     }
-
 
     if (password.length < 6) {
-
         authMessage.textContent =
             "Your password must be at least 6 characters.";
-
         return;
-
     }
-
 
     authMessage.textContent =
         "Creating sponsor account...";
-
 
     try {
 
@@ -1792,10 +1753,14 @@ async function signUp() {
                 }
             );
 
-
         const result =
             await response.json();
 
+        console.log(
+            "GR8SKUL SIGNUP RESPONSE:",
+            response.status,
+            result
+        );
 
         if (!response.ok) {
 
@@ -1805,58 +1770,34 @@ async function signUp() {
                 result.error_description ||
                 "Sponsor account creation failed."
             );
-
         }
 
-
-        /*
-            Supabase may return an access token immediately
-            if email confirmation is disabled.
-
-            If email confirmation is enabled, Supabase will
-            normally return the user without an active session.
-        */
-
-        if (
-            result.access_token
-        ) {
+        if (result.access_token) {
 
             saveSession(
                 result
             );
 
-
             authMessage.textContent =
                 "Sponsor account created.";
 
-
             await showDashboard();
 
-
             return;
-
         }
-
-
-        /*
-            Email confirmation is required.
-        */
 
         authMessage.textContent =
             "Account created. Check your email to confirm your account, then sign in.";
-
 
         document.getElementById(
             "signInEmail"
         ).value =
             email;
 
-
         document.getElementById(
             "signInPassword"
         ).value =
             "";
-
 
     } catch (error) {
 
@@ -1865,14 +1806,10 @@ async function signUp() {
             error
         );
 
-
         authMessage.textContent =
             error.message;
-
     }
-
 }
-
 
 /*
     ============================================================
@@ -2454,12 +2391,6 @@ async function loadDailyHistory(
 
         const result =
     await response.json();
-
-console.log(
-    "GR8SKUL SIGNUP RESPONSE:",
-    response.status,
-    result
-);
 
 
         const historyRows =
