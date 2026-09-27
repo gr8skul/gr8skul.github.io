@@ -170,6 +170,32 @@
     }
 
 
+    .loading-message {
+
+        text-align: center;
+
+        font-size: 11px;
+
+        color: #888888;
+
+        padding: 20px 0 10px;
+    }
+
+
+    .error-message {
+
+        text-align: center;
+
+        font-size: 11px;
+
+        color: #111111;
+
+        padding: 20px 0;
+
+        display: none;
+    }
+
+
     /* =========================
        CAMPAIGN DATA
        ========================= */
@@ -585,6 +611,18 @@
     }
 
 
+    button:disabled {
+
+        color: #999999;
+
+        border-color: #cccccc;
+
+        background: #ffffff;
+
+        cursor: default;
+    }
+
+
     .signout {
 
         width: 100%;
@@ -692,7 +730,8 @@
 
         <img
             src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-            alt="GR8SKUL">
+            alt="GR8SKUL"
+        >
 
     </h1>
 
@@ -718,6 +757,25 @@
 <div class="content">
 
 
+<div
+    id="loadingMessage"
+    class="loading-message"
+>
+
+    Loading sponsor account...
+
+</div>
+
+
+<div
+    id="errorMessage"
+    class="error-message"
+></div>
+
+
+<div id="dashboardContent" style="display:none;">
+
+
 <!-- =========================
      CAMPAIGN DATA
      ========================= -->
@@ -740,7 +798,8 @@
 
             <div
                 class="metric-value"
-                id="campaignUsers">
+                id="campaignUsers"
+            >
 
                 0
 
@@ -759,7 +818,8 @@
 
             <div
                 class="metric-value"
-                id="campaignExposures">
+                id="campaignExposures"
+            >
 
                 0
 
@@ -778,7 +838,8 @@
 
             <div
                 class="metric-value"
-                id="campaignCtr">
+                id="campaignCtr"
+            >
 
                 0.00%
 
@@ -797,7 +858,8 @@
 
             <div
                 class="metric-value"
-                id="campaignDays">
+                id="campaignDays"
+            >
 
                 0
 
@@ -816,7 +878,8 @@
 
             <div
                 class="metric-value"
-                id="totalDeposited">
+                id="totalDeposited"
+            >
 
                 $0.00
 
@@ -835,7 +898,8 @@
 
             <div
                 class="metric-value"
-                id="totalQualifiedClicks">
+                id="totalQualifiedClicks"
+            >
 
                 0
 
@@ -854,7 +918,8 @@
 
             <div
                 class="metric-value"
-                id="totalSpent">
+                id="totalSpent"
+            >
 
                 $0.00
 
@@ -873,7 +938,8 @@
 
             <div
                 class="metric-value"
-                id="clickPrice">
+                id="clickPrice"
+            >
 
                 $0.00
 
@@ -893,7 +959,7 @@
 
     <div class="data-note">
 
-        Campaign data reflects qualified activity recorded by GR8SKUL.
+        Campaign activity shown for the current reporting period.
 
     </div>
 
@@ -928,7 +994,8 @@
 
         <div
             class="balance-value"
-            id="campaignBalance">
+            id="campaignBalance"
+        >
 
             $0.00
 
@@ -1050,7 +1117,8 @@
     <button
         id="payButton"
         class="pay-button"
-        type="button">
+        type="button"
+    >
 
         PAY NOW
 
@@ -1146,10 +1214,28 @@
         </div>
 
 
+        <div class="field">
+
+            <label for="sponsorWebsite">
+
+                WEBSITE
+
+            </label>
+
+            <input
+                id="sponsorWebsite"
+                type="url"
+                readonly
+            >
+
+        </div>
+
+
         <button
             id="editSponsorButton"
             class="edit-button"
-            type="button">
+            type="button"
+        >
 
             EDIT INFORMATION
 
@@ -1160,7 +1246,8 @@
             id="saveSponsorButton"
             class="save-button"
             type="button"
-            style="display: none;">
+            style="display:none;"
+        >
 
             SAVE CHANGES
 
@@ -1178,7 +1265,8 @@
     <button
         id="changePasswordButton"
         class="account-button"
-        type="button">
+        type="button"
+    >
 
         CHANGE PASSWORD
 
@@ -1193,11 +1281,15 @@
     <button
         id="signOutButton"
         class="signout"
-        type="button">
+        type="button"
+    >
 
         SIGN OUT
 
     </button>
+
+
+</div>
 
 
 </div>
@@ -1247,81 +1339,37 @@ const SUPABASE_KEY =
     "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
 
 
-/*
-    ============================================================
-    TEMPORARY DISPLAY DATA
-    ============================================================
-*/
+const AUTH_STORAGE_KEY =
+    "gr8skul-sponsor-auth";
 
 
-/*
-    These values are intentionally placeholders.
-
-    Supabase will populate them after the sponsor
-    authentication and campaign-accounting system
-    is connected.
-*/
-
-
-document.getElementById(
-    "campaignUsers"
-).textContent =
-    "0";
-
-
-document.getElementById(
-    "campaignExposures"
-).textContent =
-    "0";
-
-
-document.getElementById(
-    "campaignCtr"
-).textContent =
-    "0.00%";
-
-
-document.getElementById(
-    "campaignDays"
-).textContent =
-    "0";
-
-
-document.getElementById(
-    "totalDeposited"
-).textContent =
-    "$0.00";
-
-
-document.getElementById(
-    "totalQualifiedClicks"
-).textContent =
-    "0";
-
-
-document.getElementById(
-    "totalSpent"
-).textContent =
-    "$0.00";
-
-
-document.getElementById(
-    "clickPrice"
-).textContent =
-    "$0.00";
-
-
-document.getElementById(
-    "campaignBalance"
-).textContent =
-    "$0.00";
+let accessToken =
+    null;
 
 
 /*
     ============================================================
-    SPONSOR INFORMATION EDITING
+    ELEMENTS
     ============================================================
 */
+
+
+const loadingMessage =
+    document.getElementById(
+        "loadingMessage"
+    );
+
+
+const errorMessage =
+    document.getElementById(
+        "errorMessage"
+    );
+
+
+const dashboardContent =
+    document.getElementById(
+        "dashboardContent"
+    );
 
 
 const sponsorEmail =
@@ -1342,6 +1390,12 @@ const sponsorTagline =
     );
 
 
+const sponsorWebsite =
+    document.getElementById(
+        "sponsorWebsite"
+    );
+
+
 const editSponsorButton =
     document.getElementById(
         "editSponsorButton"
@@ -1354,17 +1408,513 @@ const saveSponsorButton =
     );
 
 
+/*
+    ============================================================
+    LOAD SAVED SESSION
+    ============================================================
+*/
+
+
+function loadSavedSession() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                AUTH_STORAGE_KEY
+            );
+
+
+        if (!saved) {
+
+            return false;
+
+        }
+
+
+        const session =
+            JSON.parse(
+                saved
+            );
+
+
+        if (
+            !session ||
+            !session.access_token
+        ) {
+
+            return false;
+
+        }
+
+
+        accessToken =
+            session.access_token;
+
+
+        return true;
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL sponsor session could not be loaded.",
+            error
+        );
+
+        return false;
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    SUPABASE RPC
+    ============================================================
+*/
+
+
+async function callSupabaseFunction(
+    functionName,
+    body = null
+) {
+
+    const options = {
+
+        method:
+            body === null
+                ? "POST"
+                : "POST",
+
+        headers: {
+
+            "apikey":
+                SUPABASE_KEY,
+
+            "Authorization":
+                "Bearer " +
+                accessToken,
+
+            "Content-Type":
+                "application/json"
+
+        }
+
+    };
+
+
+    if (body !== null) {
+
+        options.body =
+            JSON.stringify(
+                body
+            );
+
+    }
+
+
+    const response =
+        await fetch(
+            SUPABASE_URL +
+            "/rest/v1/rpc/" +
+            functionName,
+            options
+        );
+
+
+    let result = null;
+
+
+    try {
+
+        result =
+            await response.json();
+
+    } catch (error) {
+
+        result = null;
+
+    }
+
+
+    if (!response.ok) {
+
+        const message =
+            result &&
+            (
+                result.message ||
+                result.msg ||
+                result.error_description
+            );
+
+
+        throw new Error(
+            message ||
+            "Supabase request failed."
+        );
+
+    }
+
+
+    return result;
+
+}
+
+
+/*
+    ============================================================
+    LOAD SPONSOR PROFILE
+    ============================================================
+*/
+
+
+async function loadSponsorProfile() {
+
+    const rows =
+        await callSupabaseFunction(
+            "get_my_sponsor_profile"
+        );
+
+
+    if (
+        !Array.isArray(rows) ||
+        rows.length === 0
+    ) {
+
+        throw new Error(
+            "No sponsor account is associated with this login."
+        );
+
+    }
+
+
+    const profile =
+        rows[0];
+
+
+    sponsorName.value =
+        profile.sponsor_name ||
+        "";
+
+
+    sponsorTagline.value =
+        profile.sponsor_tagline ||
+        "";
+
+
+    sponsorWebsite.value =
+        profile.sponsor_url ||
+        "";
+
+
+    /*
+        The email comes from the authenticated
+        Supabase user rather than the public
+        sponsors table.
+    */
+
+    const saved =
+        localStorage.getItem(
+            AUTH_STORAGE_KEY
+        );
+
+
+    if (saved) {
+
+        try {
+
+            const session =
+                JSON.parse(
+                    saved
+                );
+
+
+            if (
+                session &&
+                session.user &&
+                session.user.email
+            ) {
+
+                sponsorEmail.value =
+                    session.user.email;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Could not read sponsor email.",
+                error
+            );
+
+        }
+
+    }
+
+
+    return profile;
+
+}
+
+
+/*
+    ============================================================
+    LOAD TODAY'S DASHBOARD DATA
+    ============================================================
+*/
+
+
+async function loadDailyDashboard() {
+
+    const rows =
+        await callSupabaseFunction(
+            "get_my_sponsor_dashboard"
+        );
+
+
+    if (
+        !Array.isArray(rows) ||
+        rows.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const data =
+        rows[0];
+
+
+    document.getElementById(
+        "campaignUsers"
+    ).textContent =
+        Number(
+            data.daily_users || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "campaignExposures"
+    ).textContent =
+        Number(
+            data.daily_impressions || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "campaignCtr"
+    ).textContent =
+        Number(
+            data.daily_ctr_percent || 0
+        ).toFixed(2) +
+        "%";
+
+
+    document.getElementById(
+        "totalQualifiedClicks"
+    ).textContent =
+        Number(
+            data.daily_clicks || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "clickPrice"
+    ).textContent =
+        "$0.00";
+
+}
+
+
+/*
+    ============================================================
+    LOAD CAMPAIGN SUMMARY
+    ============================================================
+*/
+
+
+async function loadCampaignSummary() {
+
+    /*
+        The existing summary function requires
+        a start and end date.
+
+        For now we report the current
+        calendar month.
+    */
+
+
+    const now =
+        new Date();
+
+
+    const year =
+        now.getFullYear();
+
+
+    const month =
+        now.getMonth();
+
+
+    const startDate =
+        new Date(
+            year,
+            month,
+            1
+        );
+
+
+    const endDate =
+        new Date(
+            year,
+            month + 1,
+            0
+        );
+
+
+    function formatDate(
+        date
+    ) {
+
+        const y =
+            date.getFullYear();
+
+
+        const m =
+            String(
+                date.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const d =
+            String(
+                date.getDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        return (
+            y +
+            "-" +
+            m +
+            "-" +
+            d
+        );
+
+    }
+
+
+    const rows =
+        await callSupabaseFunction(
+            "get_my_sponsor_campaign_summary",
+            {
+                p_start_date:
+                    formatDate(
+                        startDate
+                    ),
+
+                p_end_date:
+                    formatDate(
+                        endDate
+                    )
+            }
+        );
+
+
+    if (
+        !Array.isArray(rows) ||
+        rows.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const data =
+        rows[0];
+
+
+    /*
+        This summary is the current
+        calendar-month reporting period.
+    */
+
+
+    document.getElementById(
+        "campaignExposures"
+    ).textContent =
+        Number(
+            data.impressions || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "campaignCtr"
+    ).textContent =
+        Number(
+            data.ctr_percent || 0
+        ).toFixed(2) +
+        "%";
+
+
+    document.getElementById(
+        "campaignDays"
+    ).textContent =
+        Number(
+            data.days_active || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "totalQualifiedClicks"
+    ).textContent =
+        Number(
+            data.clicks || 0
+        ).toLocaleString();
+
+}
+
+
+/*
+    ============================================================
+    EDIT MODE
+    ============================================================
+*/
+
+
 function setSponsorInformationEditable(
     editable
 ) {
 
+    /*
+        Email remains read-only.
+
+        Authentication email should not be
+        changed through this form.
+    */
+
     sponsorEmail.readOnly =
-        !editable;
+        true;
+
 
     sponsorName.readOnly =
         !editable;
 
+
     sponsorTagline.readOnly =
+        !editable;
+
+
+    sponsorWebsite.readOnly =
         !editable;
 
 
@@ -1389,12 +1939,6 @@ function setSponsorInformationEditable(
 }
 
 
-/*
-    Start with sponsor information
-    locked for viewing.
-*/
-
-
 setSponsorInformationEditable(
     false
 );
@@ -1402,7 +1946,7 @@ setSponsorInformationEditable(
 
 /*
     ============================================================
-    EDIT INFORMATION
+    EDIT BUTTON
     ============================================================
 */
 
@@ -1421,25 +1965,30 @@ editSponsorButton.addEventListener(
 
 /*
     ============================================================
-    SAVE SPONSOR INFORMATION
+    SAVE BUTTON
     ============================================================
 */
 
 
 saveSponsorButton.addEventListener(
     "click",
-    function() {
+    async function() {
 
         /*
-            Supabase will save the sponsor
-            information here once the
-            sponsor-account backend is connected.
+            The existing update_my_sponsor_profile
+            function was created earlier.
+
+            We are deliberately not guessing its
+            argument names here until that function's
+            exact signature is verified.
+
+            For now the dashboard remains safely
+            read-only for saving.
         */
 
         alert(
-            "Sponsor information will be saved through Supabase."
+            "Sponsor information editing will be connected to the sponsor account database."
         );
-
 
         setSponsorInformationEditable(
             false
@@ -1451,7 +2000,7 @@ saveSponsorButton.addEventListener(
 
 /*
     ============================================================
-    PAYMENT AMOUNT
+    PAYMENT
     ============================================================
 */
 
@@ -1495,12 +2044,6 @@ paymentAmount.addEventListener(
 );
 
 
-/*
-    Prevent submission/payment with
-    an amount below the $10 minimum.
-*/
-
-
 paymentAmount.addEventListener(
     "input",
     function() {
@@ -1532,9 +2075,26 @@ paymentAmount.addEventListener(
 );
 
 
+document.getElementById(
+    "payButton"
+).addEventListener(
+    "click",
+    function() {
+
+        enforceMinimumPayment();
+
+
+        alert(
+            "Stripe payment will be connected here."
+        );
+
+    }
+);
+
+
 /*
     ============================================================
-    BUTTONS
+    CHANGE PASSWORD
     ============================================================
 */
 
@@ -1546,28 +2106,18 @@ document.getElementById(
     function() {
 
         alert(
-            "Password changes will be handled securely through Supabase."
+            "Password changes will be connected to Supabase Auth."
         );
 
     }
 );
 
 
-document.getElementById(
-    "payButton"
-).addEventListener(
-    "click",
-    function() {
-
-        enforceMinimumPayment();
-
-
-        alert(
-            "Payment will be handled through Stripe."
-        );
-
-    }
-);
+/*
+    ============================================================
+    SIGN OUT
+    ============================================================
+*/
 
 
 document.getElementById(
@@ -1576,12 +2126,140 @@ document.getElementById(
     "click",
     function() {
 
-        alert(
-            "Sign out will be connected to the sponsor account."
+        localStorage.removeItem(
+            AUTH_STORAGE_KEY
         );
+
+
+        accessToken =
+            null;
+
+
+        window.location.href =
+            "/sponsor.html";
 
     }
 );
+
+
+/*
+    ============================================================
+    INITIALIZE SPONSOR VIEW
+    ============================================================
+*/
+
+
+async function initializeSponsorView() {
+
+    /*
+        No saved session:
+        leave the private dashboard.
+    */
+
+    if (!loadSavedSession()) {
+
+        window.location.href =
+            "/sponsor.html";
+
+        return;
+
+    }
+
+
+    try {
+
+        /*
+            Load the sponsor profile first.
+
+            This verifies that the authenticated
+            user actually has a sponsor account.
+        */
+
+        await loadSponsorProfile();
+
+
+        /*
+            Load the sponsor's own campaign data.
+        */
+
+        await Promise.all([
+            loadDailyDashboard(),
+            loadCampaignSummary()
+        ]);
+
+
+        loadingMessage.style.display =
+            "none";
+
+
+        dashboardContent.style.display =
+            "block";
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL sponsor dashboard failed.",
+            error
+        );
+
+
+        /*
+            If the access token is no longer valid,
+            remove the saved session and return
+            to the sponsor sign-in page.
+        */
+
+        if (
+            error.message &&
+            (
+                error.message.includes(
+                    "JWT"
+                ) ||
+                error.message.includes(
+                    "token"
+                ) ||
+                error.message.includes(
+                    "Unauthorized"
+                ) ||
+                error.message.includes(
+                    "401"
+                )
+            )
+        ) {
+
+            localStorage.removeItem(
+                AUTH_STORAGE_KEY
+            );
+
+
+            window.location.href =
+                "/sponsor.html";
+
+
+            return;
+
+        }
+
+
+        loadingMessage.style.display =
+            "none";
+
+
+        errorMessage.textContent =
+            error.message ||
+            "Unable to load sponsor account.";
+
+
+        errorMessage.style.display =
+            "block";
+
+    }
+
+}
+
+
+initializeSponsorView();
 
 </script>
 
