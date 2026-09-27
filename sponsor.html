@@ -11,7 +11,7 @@
     content="width=device-width, initial-scale=1.0"
 >
 
-<title>GR8SKUL Sponsors</title>
+<title>GR8SKUL Sponsor View</title>
 
 <link
     rel="icon"
@@ -144,73 +144,7 @@
 
 
     /* =========================
-       PUBLIC TICKER
-       ========================= */
-
-
-    .ticker {
-
-        padding: 18px 0 15px;
-
-        border-bottom: 1px solid #cccccc;
-    }
-
-
-    .ticker-title {
-
-        text-align: center;
-
-        font-size: 11px;
-
-        color: #888888;
-
-        letter-spacing: 1px;
-
-        margin-bottom: 14px;
-    }
-
-
-    .ticker-grid {
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(4, 1fr);
-
-        gap: 10px;
-    }
-
-
-    .ticker-item {
-
-        text-align: center;
-    }
-
-
-    .ticker-value {
-
-        font-size: 20px;
-
-        font-weight: bold;
-
-        min-height: 24px;
-    }
-
-
-    .ticker-label {
-
-        margin-top: 5px;
-
-        font-size: 9px;
-
-        color: #888888;
-
-        letter-spacing: 0.5px;
-    }
-
-
-    /* =========================
-       MAIN
+       CONTENT
        ========================= */
 
 
@@ -236,34 +170,307 @@
     }
 
 
+    .loading-message {
+
+        text-align: center;
+
+        font-size: 11px;
+
+        color: #888888;
+
+        padding: 20px 0 10px;
+    }
+
+
+    .error-message {
+
+        text-align: center;
+
+        font-size: 11px;
+
+        color: #111111;
+
+        padding: 20px 0;
+
+        display: none;
+    }
+
+
     /* =========================
-       AUTHENTICATION
+       CAMPAIGN DATA
        ========================= */
 
 
-    .auth-section {
+    .data-section {
+
+        margin-top: 30px;
+
+        margin-bottom: 40px;
+    }
+
+
+    .data-grid {
+
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        border-top: 1px solid #cccccc;
+
+        border-left: 1px solid #cccccc;
+
+        margin-bottom: 30px;
+    }
+
+
+    .metric {
+
+        padding: 20px 10px;
+
+        text-align: center;
+
+        border-right: 1px solid #cccccc;
+
+        border-bottom: 1px solid #cccccc;
+    }
+
+
+    .metric-value {
+
+        font-size: 25px;
+
+        font-weight: bold;
+
+        min-height: 30px;
+    }
+
+
+    .metric-label {
+
+        margin-top: 6px;
+
+        font-size: 9px;
+
+        color: #888888;
+
+        letter-spacing: 0.5px;
+    }
+
+
+    .data-note {
+
+        text-align: center;
+
+        color: #888888;
+
+        font-size: 10px;
+
+        line-height: 1.5;
+    }
+
+
+    /* =========================
+       CAMPAIGN BALANCE
+       ========================= */
+
+
+    .balance-section {
+
+        margin-top: 40px;
+
+        margin-bottom: 40px;
+    }
+
+
+    .balance-box {
+
+        border-top: 1px solid #cccccc;
+
+        border-bottom: 1px solid #cccccc;
+
+        padding: 25px 0;
+
+        text-align: center;
+    }
+
+
+    .balance-label {
+
+        font-size: 10px;
+
+        color: #888888;
+
+        letter-spacing: 1px;
+
+        margin-bottom: 8px;
+    }
+
+
+    .balance-value {
+
+        font-size: 32px;
+
+        font-weight: bold;
+    }
+
+
+    .balance-note {
+
+        margin-top: 8px;
+
+        font-size: 10px;
+
+        color: #888888;
+    }
+
+
+    /* =========================
+       CAMPAIGN FUNDING
+       ========================= */
+
+
+    .funding-section {
 
         width: 100%;
 
         max-width: 420px;
 
-        margin: 0 auto;
+        margin: 40px auto 0;
     }
 
 
-    .auth-divider {
+    .funding-title {
 
-        border-top: 1px solid #cccccc;
+        text-align: center;
 
-        margin: 40px 0;
+        font-size: 12px;
+
+        font-weight: bold;
+
+        letter-spacing: 1px;
+
+        margin-bottom: 20px;
     }
 
 
-    .form {
+    .funding-row {
+
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 10px;
+
+        margin-bottom: 15px;
+    }
+
+
+    .amount-input {
+
+        font-size: 18px;
+
+        font-weight: bold;
+    }
+
+
+    select {
 
         width: 100%;
 
-        margin: 0 auto;
+        height: 46px;
+
+        border: 1px solid #111111;
+
+        background: #ffffff;
+
+        color: #111111;
+
+        padding: 0 12px;
+
+        font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        font-size: 14px;
+
+        outline: none;
+
+        cursor: pointer;
+    }
+
+
+    select:focus {
+
+        background: #f5f5f5;
+    }
+
+
+    .funding-note {
+
+        text-align: center;
+
+        color: #888888;
+
+        font-size: 10px;
+
+        line-height: 1.5;
+
+        margin: 5px 0 18px;
+    }
+
+
+    .pay-button {
+
+        width: 100%;
+
+        font-weight: bold;
+    }
+
+
+    /* =========================
+       ACCOUNT
+       ========================= */
+
+
+    .account-section {
+
+        margin-top: 50px;
+
+        padding-top: 30px;
+
+        border-top: 1px solid #cccccc;
+    }
+
+
+    .account-note {
+
+        text-align: center;
+
+        font-size: 10px;
+
+        color: #888888;
+
+        line-height: 1.5;
+
+        margin-bottom: 30px;
+    }
+
+
+    /* =========================
+       SPONSOR INFORMATION
+       ========================= */
+
+
+    .identity {
+
+        width: 100%;
+
+        max-width: 420px;
+
+        margin: 0 auto 30px;
     }
 
 
@@ -318,6 +525,63 @@
     }
 
 
+    input[readonly] {
+
+        border-color: #cccccc;
+
+        color: #555555;
+
+        background: #ffffff;
+
+        cursor: default;
+    }
+
+
+    .tagline-input {
+
+        white-space: nowrap;
+
+        overflow: hidden;
+
+        text-overflow: ellipsis;
+    }
+
+
+    .edit-button {
+
+        width: 100%;
+
+        font-weight: bold;
+
+        margin-top: 5px;
+    }
+
+
+    .save-button {
+
+        width: 100%;
+
+        margin-top: 5px;
+
+        font-weight: bold;
+    }
+
+
+    /* =========================
+       ACCOUNT BUTTONS
+       ========================= */
+
+
+    .account-button {
+
+        width: 100%;
+
+        font-weight: bold;
+
+        margin-bottom: 10px;
+    }
+
+
     button {
 
         border: 1px solid #111111;
@@ -347,288 +611,23 @@
     }
 
 
-    .primary-button {
+    button:disabled {
 
-        width: 100%;
+        color: #999999;
 
-        font-weight: bold;
+        border-color: #cccccc;
 
-        margin-top: 5px;
-    }
+        background: #ffffff;
 
-
-    .form-message {
-
-        min-height: 24px;
-
-        margin-top: 15px;
-
-        text-align: center;
-
-        font-size: 12px;
-
-        color: #777777;
-
-        line-height: 1.5;
-    }
-
-
-    .password-recovery {
-
-        text-align: center;
-
-        margin-top: 15px;
-
-        font-size: 11px;
-    }
-
-
-    .password-recovery a {
-
-        color: #777777;
-
-        text-decoration: none;
-
-        cursor: pointer;
-    }
-
-
-    .password-recovery a:hover {
-
-        color: #111111;
-
-        text-decoration: underline;
-    }
-
-
-    .signup-tagline {
-
-        white-space: nowrap;
-
-        overflow: hidden;
-
-        text-overflow: ellipsis;
-    }
-
-
-    /* =========================
-       DASHBOARD
-       ========================= */
-
-
-    #dashboard {
-
-        display: none;
-    }
-
-
-    .sponsor-name {
-
-        text-align: center;
-
-        font-size: 22px;
-
-        font-weight: bold;
-
-        margin-bottom: 8px;
-    }
-
-
-    .dashboard-date {
-
-        text-align: center;
-
-        color: #888888;
-
-        font-size: 11px;
-
-        margin-bottom: 25px;
-    }
-
-
-    .dashboard-grid {
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-        border-top: 1px solid #cccccc;
-
-        border-left: 1px solid #cccccc;
-
-        margin-bottom: 35px;
-    }
-
-
-    .metric {
-
-        padding: 20px 10px;
-
-        text-align: center;
-
-        border-right: 1px solid #cccccc;
-
-        border-bottom: 1px solid #cccccc;
-    }
-
-
-    .metric-value {
-
-        font-size: 25px;
-
-        font-weight: bold;
-
-        min-height: 30px;
-    }
-
-
-    .metric-label {
-
-        margin-top: 6px;
-
-        font-size: 9px;
-
-        color: #888888;
-
-        letter-spacing: 0.5px;
-    }
-
-
-    .report-section {
-
-        margin-top: 10px;
-    }
-
-
-    .report-title {
-
-        text-align: center;
-
-        font-size: 12px;
-
-        font-weight: bold;
-
-        letter-spacing: 1px;
-
-        margin-bottom: 18px;
-    }
-
-
-    .date-row {
-
-        display: grid;
-
-        grid-template-columns:
-            1fr 1fr;
-
-        gap: 10px;
-
-        margin-bottom: 12px;
-    }
-
-
-    .report-button {
-
-        width: 100%;
-
-        margin-bottom: 20px;
-    }
-
-
-    .report-summary {
-
-        border-top: 1px solid #cccccc;
-
-        border-bottom: 1px solid #cccccc;
-    }
-
-
-    .report-row {
-
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: center;
-
-        min-height: 45px;
-
-        padding: 8px 0;
-
-        border-bottom: 1px solid #eeeeee;
-
-        font-size: 12px;
-    }
-
-
-    .report-row:last-child {
-
-        border-bottom: none;
-    }
-
-
-    .report-label {
-
-        color: #777777;
-    }
-
-
-    .report-value {
-
-        font-weight: bold;
-    }
-
-
-    .daily-history {
-
-        margin-top: 30px;
-    }
-
-
-    .history-row {
-
-        display: grid;
-
-        grid-template-columns:
-            1.2fr
-            1fr
-            1fr
-            1fr;
-
-        border-bottom: 1px solid #eeeeee;
-
-        padding: 10px 0;
-
-        font-size: 10px;
-
-        text-align: right;
-    }
-
-
-    .history-row > div:first-child {
-
-        text-align: left;
-    }
-
-
-    .history-header {
-
-        color: #888888;
-
-        font-size: 9px;
-
-        letter-spacing: 0.3px;
-
-        border-top: 1px solid #cccccc;
+        cursor: default;
     }
 
 
     .signout {
 
-        margin-top: 35px;
-
         width: 100%;
+
+        font-weight: bold;
     }
 
 
@@ -694,39 +693,16 @@
         }
 
 
-        .ticker-grid {
-
-            gap: 5px;
-        }
-
-
-        .ticker-value {
-
-            font-size: 17px;
-        }
-
-
-        .ticker-label {
-
-            font-size: 8px;
-        }
-
-
         .content {
 
             padding-top: 25px;
         }
 
 
-        .history-row {
+        .funding-row {
 
             grid-template-columns:
-                1.1fr
-                1fr
-                1fr
-                1fr;
-
-            font-size: 9px;
+                1fr 1fr;
         }
 
     }
@@ -754,111 +730,20 @@
 
         <img
             src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-            alt="GR8SKUL">
+            alt="GR8SKUL"
+        >
 
     </h1>
 
 
     <div class="page-title">
 
-        SPONSORS
+        SPONSOR VIEW
 
     </div>
 
 
     <div class="header-line"></div>
-
-
-</div>
-
-
-<!-- =========================
-     PUBLIC TICKER
-     ========================= -->
-
-
-<div class="ticker">
-
-
-    <div class="ticker-title">
-
-        GR8SKUL TODAY
-
-    </div>
-
-
-    <div class="ticker-grid">
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicUsers">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                USERS
-
-            </div>
-
-        </div>
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicSponsors">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                SPONSORS
-
-            </div>
-
-        </div>
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicExposure">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                EXPOSURE
-
-            </div>
-
-        </div>
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicClicks">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                CLICKS
-
-            </div>
-
-        </div>
-
-
-    </div>
 
 
 </div>
@@ -872,262 +757,57 @@
 <div class="content">
 
 
-<!-- =========================
-     LOGIN / SIGNUP AREA
-     ========================= -->
-
-
-<div id="authArea">
-
-
-    <div class="auth-section">
-
-
-        <!-- =========================
-             SPONSOR SIGN IN
-             ========================= -->
-
-
-        <div class="section-title">
-
-            SPONSOR SIGN IN
-
-        </div>
-
-
-        <div class="form">
-
-
-            <div class="field">
-
-                <label for="signInEmail">
-
-                    EMAIL
-
-                </label>
-
-                <input
-                    id="signInEmail"
-                    type="email"
-                    autocomplete="email"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signInPassword">
-
-                    PASSWORD
-
-                </label>
-
-                <input
-                    id="signInPassword"
-                    type="password"
-                    autocomplete="current-password"
-                >
-
-            </div>
-
-
-            <button
-                id="signInButton"
-                class="primary-button"
-                type="button">
-
-                SIGN IN
-
-            </button>
-
-
-            <div class="password-recovery">
-
-                <a
-                    href="#"
-                    id="forgotPasswordLink">
-
-                    Forgot your password?
-
-                </a>
-
-            </div>
-
-
-            <div
-                class="form-message"
-                id="authMessage">
-            </div>
-
-
-        </div>
-
-
-        <!-- =========================
-             DIVIDER
-             ========================= -->
-
-
-        <div class="auth-divider"></div>
-
-
-        <!-- =========================
-             SPONSOR SIGN UP
-             ========================= -->
-
-
-        <div class="section-title">
-
-            SPONSOR SIGN UP
-
-        </div>
-
-
-        <div class="form">
-
-
-            <div class="field">
-
-                <label for="companyName">
-
-                    COMPANY NAME
-
-                </label>
-
-                <input
-                    id="companyName"
-                    type="text"
-                    autocomplete="organization"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signupTagline">
-
-                    TAGLINE
-
-                </label>
-
-                <input
-                    id="signupTagline"
-                    class="signup-tagline"
-                    type="text"
-                    maxlength="90"
-                    autocomplete="off"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signupWebsite">
-
-                    WEBSITE
-
-                </label>
-
-                <input
-                    id="signupWebsite"
-                    type="url"
-                    autocomplete="url"
-                    placeholder="https://"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signUpEmail">
-
-                    EMAIL
-
-                </label>
-
-                <input
-                    id="signUpEmail"
-                    type="email"
-                    autocomplete="email"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signUpPassword">
-
-                    CREATE PASSWORD
-
-                </label>
-
-                <input
-                    id="signUpPassword"
-                    type="password"
-                    autocomplete="new-password"
-                >
-
-            </div>
-
-
-            <button
-                id="signUpButton"
-                class="primary-button"
-                type="button">
-
-                SIGN UP
-
-            </button>
-
-
-        </div>
-
-
-    </div>
-
+<div
+    id="loadingMessage"
+    class="loading-message"
+>
+
+    Loading sponsor account...
 
 </div>
 
 
+<div
+    id="errorMessage"
+    class="error-message"
+></div>
+
+
+<div id="dashboardContent" style="display:none;">
+
+
 <!-- =========================
-     DASHBOARD
+     CAMPAIGN DATA
      ========================= -->
 
 
-<div id="dashboard">
+<div class="data-section">
 
 
-    <div
-        class="sponsor-name"
-        id="sponsorName">
+    <div class="section-title">
+
+        CAMPAIGN DATA
+
     </div>
 
 
-    <div
-        class="dashboard-date"
-        id="dashboardDate">
-    </div>
-
-
-    <div class="dashboard-grid">
+    <div class="data-grid">
 
 
         <div class="metric">
 
             <div
                 class="metric-value"
-                id="dailyUsers">
-                —
+                id="campaignUsers"
+            >
+
+                0
+
             </div>
 
             <div class="metric-label">
 
-                TODAY'S USERS
+                USERS REACHED
 
             </div>
 
@@ -1138,13 +818,16 @@
 
             <div
                 class="metric-value"
-                id="dailyImpressions">
-                —
+                id="campaignExposures"
+            >
+
+                0
+
             </div>
 
             <div class="metric-label">
 
-                IMPRESSIONS
+                60-SECOND EXPOSURES
 
             </div>
 
@@ -1155,25 +838,11 @@
 
             <div
                 class="metric-value"
-                id="dailyClicks">
-                —
-            </div>
+                id="campaignCtr"
+            >
 
-            <div class="metric-label">
+                0.00%
 
-                CLICKS
-
-            </div>
-
-        </div>
-
-
-        <div class="metric">
-
-            <div
-                class="metric-value"
-                id="dailyCtr">
-                —
             </div>
 
             <div class="metric-label">
@@ -1185,213 +854,442 @@
         </div>
 
 
+        <div class="metric">
+
+            <div
+                class="metric-value"
+                id="campaignDays"
+            >
+
+                0
+
+            </div>
+
+            <div class="metric-label">
+
+                DAYS ACTIVE
+
+            </div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div
+                class="metric-value"
+                id="totalDeposited"
+            >
+
+                $0.00
+
+            </div>
+
+            <div class="metric-label">
+
+                TOTAL DEPOSITED
+
+            </div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div
+                class="metric-value"
+                id="totalQualifiedClicks"
+            >
+
+                0
+
+            </div>
+
+            <div class="metric-label">
+
+                QUALIFIED CLICKS
+
+            </div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div
+                class="metric-value"
+                id="totalSpent"
+            >
+
+                $0.00
+
+            </div>
+
+            <div class="metric-label">
+
+                TOTAL SPENT
+
+            </div>
+
+        </div>
+
+
+        <div class="metric">
+
+            <div
+                class="metric-value"
+                id="clickPrice"
+            >
+
+                $0.00
+
+            </div>
+
+            <div class="metric-label">
+
+                CLICK PRICE
+
+            </div>
+
+        </div>
+
+
     </div>
 
 
-    <!-- =========================
-         CAMPAIGN REPORT
-         ========================= -->
+    <div class="data-note">
+
+        Campaign activity shown for the current reporting period.
+
+    </div>
 
 
-    <div class="report-section">
+</div>
 
 
-        <div class="report-title">
-
-            CAMPAIGN REPORT
-
-        </div>
+<!-- =========================
+     CAMPAIGN BALANCE
+     ========================= -->
 
 
-        <div class="date-row">
+<div class="balance-section">
 
 
-            <div class="field">
+    <div class="section-title">
 
-                <label for="startDate">
+        CAMPAIGN BALANCE
 
-                    START DATE
-
-                </label>
-
-                <input
-                    id="startDate"
-                    type="date"
-                >
-
-            </div>
+    </div>
 
 
-            <div class="field">
+    <div class="balance-box">
 
-                <label for="endDate">
 
-                    END DATE
+        <div class="balance-label">
 
-                </label>
-
-                <input
-                    id="endDate"
-                    type="date"
-                >
-
-            </div>
-
+            REMAINING
 
         </div>
-
-
-        <button
-            id="reportButton"
-            class="report-button"
-            type="button">
-
-            VIEW REPORT
-
-        </button>
 
 
         <div
-            class="report-summary"
-            id="reportSummary"
-            style="display:none;">
+            class="balance-value"
+            id="campaignBalance"
+        >
 
-
-            <div class="report-row">
-
-                <span class="report-label">
-                    CAMPAIGN
-                </span>
-
-                <span
-                    class="report-value"
-                    id="reportSponsor">
-                </span>
-
-            </div>
-
-
-            <div class="report-row">
-
-                <span class="report-label">
-                    DAYS ACTIVE
-                </span>
-
-                <span
-                    class="report-value"
-                    id="reportDays">
-                </span>
-
-            </div>
-
-
-            <div class="report-row">
-
-                <span class="report-label">
-                    IMPRESSIONS
-                </span>
-
-                <span
-                    class="report-value"
-                    id="reportImpressions">
-                </span>
-
-            </div>
-
-
-            <div class="report-row">
-
-                <span class="report-label">
-                    CLICKS
-                </span>
-
-                <span
-                    class="report-value"
-                    id="reportClicks">
-                </span>
-
-            </div>
-
-
-            <div class="report-row">
-
-                <span class="report-label">
-                    CTR
-                </span>
-
-                <span
-                    class="report-value"
-                    id="reportCtr">
-                </span>
-
-            </div>
-
+            $0.00
 
         </div>
 
 
-        <!-- =========================
-             DAILY HISTORY
-             ========================= -->
+        <div class="balance-note">
 
-
-        <div
-            class="daily-history"
-            id="dailyHistory"
-            style="display:none;">
-
-
-            <div class="report-title">
-
-                DAILY HISTORY
-
-            </div>
-
-
-            <div
-                class="history-row history-header">
-
-
-                <div>
-                    DATE
-                </div>
-
-
-                <div>
-                    IMP.
-                </div>
-
-
-                <div>
-                    CLICKS
-                </div>
-
-
-                <div>
-                    CTR
-                </div>
-
-
-            </div>
-
-
-            <div id="historyRows"></div>
-
+            Available for qualified clicks.
 
         </div>
 
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     ADD TO CAMPAIGN
+     ========================= -->
+
+
+<div class="funding-section">
+
+
+    <div class="funding-title">
+
+        ADD TO CAMPAIGN
+
+    </div>
+
+
+    <div class="funding-row">
+
+
+        <div class="field">
+
+            <label for="paymentAmount">
+
+                AMOUNT
+
+            </label>
+
+            <input
+                id="paymentAmount"
+                class="amount-input"
+                type="number"
+                min="10"
+                step="1"
+                value="10"
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="paymentFrequency">
+
+                FREQUENCY
+
+            </label>
+
+            <select
+                id="paymentFrequency"
+            >
+
+                <option value="one_time">
+
+                    ONE-TIME
+
+                </option>
+
+                <option value="daily">
+
+                    DAILY
+
+                </option>
+
+                <option value="weekly">
+
+                    WEEKLY
+
+                </option>
+
+                <option value="monthly">
+
+                    MONTHLY
+
+                </option>
+
+                <option value="annually">
+
+                    ANNUALLY
+
+                </option>
+
+            </select>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="funding-note">
+
+        Set your own campaign budget.
+
+        Your first payment is immediate.
+
+        Recurring payments follow the frequency you select.
 
     </div>
 
 
     <button
+        id="payButton"
+        class="pay-button"
+        type="button"
+    >
+
+        PAY NOW
+
+    </button>
+
+
+</div>
+
+
+<!-- =========================
+     ACCOUNT
+     ========================= -->
+
+
+<div class="account-section">
+
+
+    <div class="account-note">
+
+        Your sponsor account and campaign information are private.
+
+    </div>
+
+
+    <!-- =========================
+         SPONSOR INFORMATION
+         ========================= -->
+
+
+    <div class="identity">
+
+
+        <div class="section-title">
+
+            SPONSOR INFORMATION
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="sponsorEmail">
+
+                EMAIL
+
+            </label>
+
+            <input
+                id="sponsorEmail"
+                type="email"
+                autocomplete="email"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="sponsorName">
+
+                BUSINESS NAME
+
+            </label>
+
+            <input
+                id="sponsorName"
+                type="text"
+                autocomplete="organization"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="sponsorTagline">
+
+                TAGLINE
+
+            </label>
+
+            <input
+                id="sponsorTagline"
+                class="tagline-input"
+                type="text"
+                maxlength="90"
+                autocomplete="off"
+                readonly
+            >
+
+        </div>
+
+
+        <div class="field">
+
+            <label for="sponsorWebsite">
+
+                WEBSITE
+
+            </label>
+
+            <input
+                id="sponsorWebsite"
+                type="url"
+                readonly
+            >
+
+        </div>
+
+
+        <button
+            id="editSponsorButton"
+            class="edit-button"
+            type="button"
+        >
+
+            EDIT INFORMATION
+
+        </button>
+
+
+        <button
+            id="saveSponsorButton"
+            class="save-button"
+            type="button"
+            style="display:none;"
+        >
+
+            SAVE CHANGES
+
+        </button>
+
+
+    </div>
+
+
+    <!-- =========================
+         PASSWORD
+         ========================= -->
+
+
+    <button
+        id="changePasswordButton"
+        class="account-button"
+        type="button"
+    >
+
+        CHANGE PASSWORD
+
+    </button>
+
+
+    <!-- =========================
+         SIGN OUT
+         ========================= -->
+
+
+    <button
         id="signOutButton"
         class="signout"
-        type="button">
+        type="button"
+    >
 
         SIGN OUT
 
     </button>
+
+
+</div>
 
 
 </div>
@@ -1428,7 +1326,7 @@
 
 /*
     ============================================================
-    GR8SKUL SPONSOR PORTAL
+    GR8SKUL SPONSOR VIEW
     ============================================================
 */
 
@@ -1445,508 +1343,69 @@ const AUTH_STORAGE_KEY =
     "gr8skul-sponsor-auth";
 
 
-let accessToken = null;
+let accessToken =
+    null;
 
 
 /*
     ============================================================
-    DOM
+    ELEMENTS
     ============================================================
 */
 
 
-const authArea =
+const loadingMessage =
     document.getElementById(
-        "authArea"
+        "loadingMessage"
     );
 
 
-const dashboard =
+const errorMessage =
     document.getElementById(
-        "dashboard"
+        "errorMessage"
     );
 
 
-const authMessage =
+const dashboardContent =
     document.getElementById(
-        "authMessage"
+        "dashboardContent"
     );
 
 
-/*
-    ============================================================
-    SUPABASE REQUEST
-    ============================================================
-*/
+const sponsorEmail =
+    document.getElementById(
+        "sponsorEmail"
+    );
 
 
-async function supabaseRequest(
-    endpoint,
-    options = {}
-) {
+const sponsorName =
+    document.getElementById(
+        "sponsorName"
+    );
 
-    const headers = {
 
-        "apikey":
-            SUPABASE_KEY,
+const sponsorTagline =
+    document.getElementById(
+        "sponsorTagline"
+    );
 
-        "Content-Type":
-            "application/json"
 
-    };
+const sponsorWebsite =
+    document.getElementById(
+        "sponsorWebsite"
+    );
 
 
-    if (accessToken) {
+const editSponsorButton =
+    document.getElementById(
+        "editSponsorButton"
+    );
 
-        headers["Authorization"] =
-            "Bearer " +
-            accessToken;
 
-    } else {
-
-        headers["Authorization"] =
-            "Bearer " +
-            SUPABASE_KEY;
-
-    }
-
-
-    const response =
-        await fetch(
-            SUPABASE_URL +
-            endpoint,
-            {
-                ...options,
-                headers: {
-                    ...headers,
-                    ...(options.headers || {})
-                }
-            }
-        );
-
-
-    return response;
-
-}
-
-
-/*
-    ============================================================
-    PUBLIC TICKER
-    ============================================================
-*/
-
-
-async function loadPublicTicker() {
-
-    try {
-
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_public_sponsor_ticker",
-                {
-                    method: "POST",
-                    body: JSON.stringify({})
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Public ticker request failed: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
-
-        if (
-            !Array.isArray(result) ||
-            result.length === 0
-        ) {
-
-            return;
-
-        }
-
-
-        const data =
-            result[0];
-
-
-        document.getElementById(
-            "publicUsers"
-        ).textContent =
-            Number(
-                data.daily_users
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "publicSponsors"
-        ).textContent =
-            Number(
-                data.daily_sponsors
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "publicExposure"
-        ).textContent =
-            Number(
-                data.average_exposure
-            ).toLocaleString(
-                undefined,
-                {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2
-                }
-            );
-
-
-        document.getElementById(
-            "publicClicks"
-        ).textContent =
-            Number(
-                data.daily_clicks
-            ).toLocaleString();
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL public ticker failed.",
-            error
-        );
-
-    }
-
-}
-
-
-/*
-    ============================================================
-    SIGN UP
-    ============================================================
-*/
-
-
-async function signUp() {
-
-    const companyName =
-        document.getElementById(
-            "companyName"
-        ).value.trim();
-
-    const tagline =
-        document.getElementById(
-            "signupTagline"
-        ).value.trim();
-
-    const website =
-        document.getElementById(
-            "signupWebsite"
-        ).value.trim();
-
-    const email =
-        document.getElementById(
-            "signUpEmail"
-        ).value.trim();
-
-    const password =
-        document.getElementById(
-            "signUpPassword"
-        ).value;
-
-    if (!companyName) {
-        authMessage.textContent =
-            "Enter your company name.";
-        return;
-    }
-
-    if (tagline.length > 90) {
-        authMessage.textContent =
-            "Your tagline must be 90 characters or fewer.";
-        return;
-    }
-
-    if (!website) {
-        authMessage.textContent =
-            "Enter your website address.";
-        return;
-    }
-
-    let websiteUrl;
-
-    try {
-        websiteUrl = new URL(website);
-    } catch (error) {
-        authMessage.textContent =
-            "Enter a valid website address.";
-        return;
-    }
-
-    if (websiteUrl.protocol !== "https:") {
-        authMessage.textContent =
-            "Your website must use HTTPS.";
-        return;
-    }
-
-    if (!email || !password) {
-        authMessage.textContent =
-            "Enter an email and create a password.";
-        return;
-    }
-
-    if (password.length < 6) {
-        authMessage.textContent =
-            "Your password must be at least 6 characters.";
-        return;
-    }
-
-    authMessage.textContent =
-        "Creating sponsor account...";
-
-    try {
-
-        const response =
-            await fetch(
-                SUPABASE_URL +
-                "/auth/v1/signup",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-
-                            email:
-                                email,
-
-                            password:
-                                password,
-
-                            data: {
-                                business_name:
-                                    companyName,
-
-                                tagline:
-                                    tagline,
-
-                                website:
-                                    websiteUrl.href
-                            }
-
-                        })
-                }
-            );
-
-        const result =
-            await response.json();
-
-        console.log(
-            "GR8SKUL SIGNUP RESPONSE:",
-            response.status,
-            result
-        );
-
-        if (!response.ok) {
-
-            throw new Error(
-                result.msg ||
-                result.message ||
-                result.error_description ||
-                "Sponsor account creation failed."
-            );
-        }
-
-        if (result.access_token) {
-
-            saveSession(
-                result
-            );
-
-            authMessage.textContent =
-                "Sponsor account created.";
-
-            await showDashboard();
-
-            return;
-        }
-
-        authMessage.textContent =
-            "Account created. Check your email to confirm your account, then sign in.";
-
-        document.getElementById(
-            "signInEmail"
-        ).value =
-            email;
-
-        document.getElementById(
-            "signInPassword"
-        ).value =
-            "";
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL sponsor signup failed.",
-            error
-        );
-
-        authMessage.textContent =
-            error.message;
-    }
-}
-
-/*
-    ============================================================
-    SIGN IN
-    ============================================================
-*/
-
-
-async function signIn() {
-
-    const email =
-        document.getElementById(
-            "signInEmail"
-        ).value.trim();
-
-
-    const password =
-        document.getElementById(
-            "signInPassword"
-        ).value;
-
-
-    if (!email || !password) {
-
-        authMessage.textContent =
-            "Enter an email and password.";
-
-        return;
-
-    }
-
-
-    authMessage.textContent =
-        "Signing in...";
-
-
-    try {
-
-        const response =
-            await fetch(
-                SUPABASE_URL +
-                "/auth/v1/token?grant_type=password",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:
-                        JSON.stringify({
-                            email:
-                                email,
-
-                            password:
-                                password
-                        })
-                }
-            );
-
-
-        const result =
-            await response.json();
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                result.error_description ||
-                result.msg ||
-                result.message ||
-                "Sign in failed."
-            );
-
-        }
-
-
-        saveSession(
-            result
-        );
-
-
-        authMessage.textContent =
-            "";
-
-
-        await showDashboard();
-
-
-    } catch (error) {
-
-        authMessage.textContent =
-            error.message;
-
-    }
-
-}
-
-
-/*
-    ============================================================
-    SAVE SESSION
-    ============================================================
-*/
-
-
-function saveSession(
-    session
-) {
-
-    accessToken =
-        session.access_token;
-
-
-    try {
-
-        localStorage.setItem(
-            AUTH_STORAGE_KEY,
-            JSON.stringify(
-                session
-            )
-        );
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL sponsor session could not be saved.",
-            error
-        );
-
-    }
-
-}
+const saveSponsorButton =
+    document.getElementById(
+        "saveSponsorButton"
+    );
 
 
 /*
@@ -2003,7 +1462,6 @@ function loadSavedSession() {
             error
         );
 
-
         return false;
 
     }
@@ -2013,125 +1471,729 @@ function loadSavedSession() {
 
 /*
     ============================================================
-    DASHBOARD
+    SUPABASE RPC
     ============================================================
 */
 
 
-async function showDashboard() {
+async function callSupabaseFunction(
+    functionName,
+    body = null
+) {
 
-    authArea.style.display =
-        "none";
+    const options = {
+
+        method:
+            body === null
+                ? "POST"
+                : "POST",
+
+        headers: {
+
+            "apikey":
+                SUPABASE_KEY,
+
+            "Authorization":
+                "Bearer " +
+                accessToken,
+
+            "Content-Type":
+                "application/json"
+
+        }
+
+    };
 
 
-    dashboard.style.display =
-        "block";
+    if (body !== null) {
+
+        options.body =
+            JSON.stringify(
+                body
+            );
+
+    }
 
 
-    await loadDashboard();
+    const response =
+        await fetch(
+            SUPABASE_URL +
+            "/rest/v1/rpc/" +
+            functionName,
+            options
+        );
 
 
-    setDefaultDates();
+    let result = null;
+
+
+    try {
+
+        result =
+            await response.json();
+
+    } catch (error) {
+
+        result = null;
+
+    }
+
+
+    if (!response.ok) {
+
+        const message =
+            result &&
+            (
+                result.message ||
+                result.msg ||
+                result.error_description
+            );
+
+
+        throw new Error(
+            message ||
+            "Supabase request failed."
+        );
+
+    }
+
+
+    return result;
 
 }
 
 
 /*
     ============================================================
-    LOAD PRIVATE DASHBOARD
+    LOAD SPONSOR PROFILE
     ============================================================
 */
 
 
-async function loadDashboard() {
+async function loadSponsorProfile() {
 
-    try {
-
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_my_sponsor_dashboard",
-                {
-                    method: "POST",
-                    body: JSON.stringify({})
-                }
-            );
+    const rows =
+        await callSupabaseFunction(
+            "get_my_sponsor_profile"
+        );
 
 
-        if (!response.ok) {
+    if (
+        !Array.isArray(rows) ||
+        rows.length === 0
+    ) {
 
-            throw new Error(
-                "Sponsor dashboard request failed: " +
-                response.status
+        throw new Error(
+            "No sponsor account is associated with this login."
+        );
+
+    }
+
+
+    const profile =
+        rows[0];
+
+
+    sponsorName.value =
+        profile.sponsor_name ||
+        "";
+
+
+    sponsorTagline.value =
+        profile.sponsor_tagline ||
+        "";
+
+
+    sponsorWebsite.value =
+        profile.sponsor_url ||
+        "";
+
+
+    /*
+        The email comes from the authenticated
+        Supabase user rather than the public
+        sponsors table.
+    */
+
+    const saved =
+        localStorage.getItem(
+            AUTH_STORAGE_KEY
+        );
+
+
+    if (saved) {
+
+        try {
+
+            const session =
+                JSON.parse(
+                    saved
+                );
+
+
+            if (
+                session &&
+                session.user &&
+                session.user.email
+            ) {
+
+                sponsorEmail.value =
+                    session.user.email;
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "Could not read sponsor email.",
+                error
             );
 
         }
 
+    }
 
-        const result =
-            await response.json();
+
+    return profile;
+
+}
+
+
+/*
+    ============================================================
+    LOAD TODAY'S DASHBOARD DATA
+    ============================================================
+*/
+
+
+async function loadDailyDashboard() {
+
+    const rows =
+        await callSupabaseFunction(
+            "get_my_sponsor_dashboard"
+        );
+
+
+    if (
+        !Array.isArray(rows) ||
+        rows.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const data =
+        rows[0];
+
+
+    document.getElementById(
+        "campaignUsers"
+    ).textContent =
+        Number(
+            data.daily_users || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "campaignExposures"
+    ).textContent =
+        Number(
+            data.daily_impressions || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "campaignCtr"
+    ).textContent =
+        Number(
+            data.daily_ctr_percent || 0
+        ).toFixed(2) +
+        "%";
+
+
+    document.getElementById(
+        "totalQualifiedClicks"
+    ).textContent =
+        Number(
+            data.daily_clicks || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "clickPrice"
+    ).textContent =
+        "$0.00";
+
+}
+
+
+/*
+    ============================================================
+    LOAD CAMPAIGN SUMMARY
+    ============================================================
+*/
+
+
+async function loadCampaignSummary() {
+
+    /*
+        The existing summary function requires
+        a start and end date.
+
+        For now we report the current
+        calendar month.
+    */
+
+
+    const now =
+        new Date();
+
+
+    const year =
+        now.getFullYear();
+
+
+    const month =
+        now.getMonth();
+
+
+    const startDate =
+        new Date(
+            year,
+            month,
+            1
+        );
+
+
+    const endDate =
+        new Date(
+            year,
+            month + 1,
+            0
+        );
+
+
+    function formatDate(
+        date
+    ) {
+
+        const y =
+            date.getFullYear();
+
+
+        const m =
+            String(
+                date.getMonth() + 1
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        const d =
+            String(
+                date.getDate()
+            ).padStart(
+                2,
+                "0"
+            );
+
+
+        return (
+            y +
+            "-" +
+            m +
+            "-" +
+            d
+        );
+
+    }
+
+
+    const rows =
+        await callSupabaseFunction(
+            "get_my_sponsor_campaign_summary",
+            {
+                p_start_date:
+                    formatDate(
+                        startDate
+                    ),
+
+                p_end_date:
+                    formatDate(
+                        endDate
+                    )
+            }
+        );
+
+
+    if (
+        !Array.isArray(rows) ||
+        rows.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const data =
+        rows[0];
+
+
+    /*
+        This summary is the current
+        calendar-month reporting period.
+    */
+
+
+    document.getElementById(
+        "campaignExposures"
+    ).textContent =
+        Number(
+            data.impressions || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "campaignCtr"
+    ).textContent =
+        Number(
+            data.ctr_percent || 0
+        ).toFixed(2) +
+        "%";
+
+
+    document.getElementById(
+        "campaignDays"
+    ).textContent =
+        Number(
+            data.days_active || 0
+        ).toLocaleString();
+
+
+    document.getElementById(
+        "totalQualifiedClicks"
+    ).textContent =
+        Number(
+            data.clicks || 0
+        ).toLocaleString();
+
+}
+
+
+/*
+    ============================================================
+    EDIT MODE
+    ============================================================
+*/
+
+
+function setSponsorInformationEditable(
+    editable
+) {
+
+    /*
+        Email remains read-only.
+
+        Authentication email should not be
+        changed through this form.
+    */
+
+    sponsorEmail.readOnly =
+        true;
+
+
+    sponsorName.readOnly =
+        !editable;
+
+
+    sponsorTagline.readOnly =
+        !editable;
+
+
+    sponsorWebsite.readOnly =
+        !editable;
+
+
+    editSponsorButton.style.display =
+        editable
+            ? "none"
+            : "block";
+
+
+    saveSponsorButton.style.display =
+        editable
+            ? "block"
+            : "none";
+
+
+    if (editable) {
+
+        sponsorName.focus();
+
+    }
+
+}
+
+
+setSponsorInformationEditable(
+    false
+);
+
+
+/*
+    ============================================================
+    EDIT BUTTON
+    ============================================================
+*/
+
+
+editSponsorButton.addEventListener(
+    "click",
+    function() {
+
+        setSponsorInformationEditable(
+            true
+        );
+
+    }
+);
+
+
+/*
+    ============================================================
+    SAVE BUTTON
+    ============================================================
+*/
+
+
+saveSponsorButton.addEventListener(
+    "click",
+    async function() {
+
+        /*
+            The existing update_my_sponsor_profile
+            function was created earlier.
+
+            We are deliberately not guessing its
+            argument names here until that function's
+            exact signature is verified.
+
+            For now the dashboard remains safely
+            read-only for saving.
+        */
+
+        alert(
+            "Sponsor information editing will be connected to the sponsor account database."
+        );
+
+        setSponsorInformationEditable(
+            false
+        );
+
+    }
+);
+
+
+/*
+    ============================================================
+    PAYMENT
+    ============================================================
+*/
+
+
+const paymentAmount =
+    document.getElementById(
+        "paymentAmount"
+    );
+
+
+function enforceMinimumPayment() {
+
+    const value =
+        Number(
+            paymentAmount.value
+        );
+
+
+    if (
+        !Number.isFinite(value) ||
+        value < 10
+    ) {
+
+        paymentAmount.value =
+            "10";
+
+    }
+
+}
+
+
+paymentAmount.addEventListener(
+    "blur",
+    enforceMinimumPayment
+);
+
+
+paymentAmount.addEventListener(
+    "change",
+    enforceMinimumPayment
+);
+
+
+paymentAmount.addEventListener(
+    "input",
+    function() {
+
+        const value =
+            Number(
+                paymentAmount.value
+            );
 
 
         if (
-            !Array.isArray(result) ||
-            result.length === 0
+            Number.isFinite(value) &&
+            value < 10
         ) {
 
-            throw new Error(
-                "This login is not connected to a sponsor account."
+            paymentAmount.setCustomValidity(
+                "The minimum campaign payment is $10."
+            );
+
+        } else {
+
+            paymentAmount.setCustomValidity(
+                ""
             );
 
         }
 
-
-        const data =
-            result[0];
-
-
-        document.getElementById(
-            "sponsorName"
-        ).textContent =
-            data.sponsor_name;
+    }
+);
 
 
-        document.getElementById(
-            "dailyUsers"
-        ).textContent =
-            Number(
-                data.daily_users
-            ).toLocaleString();
+document.getElementById(
+    "payButton"
+).addEventListener(
+    "click",
+    function() {
+
+        enforceMinimumPayment();
 
 
-        document.getElementById(
-            "dailyImpressions"
-        ).textContent =
-            Number(
-                data.daily_impressions
-            ).toLocaleString();
+        alert(
+            "Stripe payment will be connected here."
+        );
+
+    }
+);
 
 
-        document.getElementById(
-            "dailyClicks"
-        ).textContent =
-            Number(
-                data.daily_clicks
-            ).toLocaleString();
+/*
+    ============================================================
+    CHANGE PASSWORD
+    ============================================================
+*/
 
 
-        document.getElementById(
-            "dailyCtr"
-        ).textContent =
-            Number(
-                data.daily_ctr_percent
-            ).toFixed(2) +
-            "%";
+document.getElementById(
+    "changePasswordButton"
+).addEventListener(
+    "click",
+    function() {
+
+        alert(
+            "Password changes will be connected to Supabase Auth."
+        );
+
+    }
+);
 
 
-        document.getElementById(
-            "dashboardDate"
-        ).textContent =
-            formatDate(
-                data.report_date
-            );
+/*
+    ============================================================
+    SIGN OUT
+    ============================================================
+*/
+
+
+document.getElementById(
+    "signOutButton"
+).addEventListener(
+    "click",
+    function() {
+
+        localStorage.removeItem(
+            AUTH_STORAGE_KEY
+        );
+
+
+        accessToken =
+            null;
+
+
+        window.location.href =
+            "/sponsor.html";
+
+    }
+);
+
+
+/*
+    ============================================================
+    INITIALIZE SPONSOR VIEW
+    ============================================================
+*/
+
+
+async function initializeSponsorView() {
+
+    /*
+        No saved session:
+        leave the private dashboard.
+    */
+
+    if (!loadSavedSession()) {
+
+        window.location.href =
+            "/sponsor.html";
+
+        return;
+
+    }
+
+
+    try {
+
+        /*
+            Load the sponsor profile first.
+
+            This verifies that the authenticated
+            user actually has a sponsor account.
+        */
+
+        await loadSponsorProfile();
+
+
+        /*
+            Load the sponsor's own campaign data.
+        */
+
+        await Promise.all([
+            loadDailyDashboard(),
+            loadCampaignSummary()
+        ]);
+
+
+        loadingMessage.style.display =
+            "none";
+
+
+        dashboardContent.style.display =
+            "block";
 
 
     } catch (error) {
@@ -2142,553 +2204,62 @@ async function loadDashboard() {
         );
 
 
-        document.getElementById(
-            "sponsorName"
-        ).textContent =
-            "SPONSOR ACCOUNT";
-
-
-        document.getElementById(
-            "dashboardDate"
-        ).textContent =
-            error.message;
-
-    }
-
-}
-
-
-/*
-    ============================================================
-    DEFAULT DATES
-    ============================================================
-*/
-
-
-function setDefaultDates() {
-
-    const today =
-        new Date();
-
-
-    const todayString =
-        today.toISOString()
-            .split("T")[0];
-
-
-    document.getElementById(
-        "startDate"
-    ).value =
-        todayString;
-
-
-    document.getElementById(
-        "endDate"
-    ).value =
-        todayString;
-
-}
-
-
-/*
-    ============================================================
-    CAMPAIGN REPORT
-    ============================================================
-*/
-
-
-async function loadCampaignReport() {
-
-    const startDate =
-        document.getElementById(
-            "startDate"
-        ).value;
-
-
-    const endDate =
-        document.getElementById(
-            "endDate"
-        ).value;
-
-
-    if (!startDate || !endDate) {
-
-        return;
-
-    }
-
-
-    if (startDate > endDate) {
-
-        alert(
-            "The start date must be before the end date."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_my_sponsor_campaign_summary",
-                {
-                    method: "POST",
-
-                    body:
-                        JSON.stringify({
-                            p_start_date:
-                                startDate,
-
-                            p_end_date:
-                                endDate
-                        })
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Campaign report request failed: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
+        /*
+            If the access token is no longer valid,
+            remove the saved session and return
+            to the sponsor sign-in page.
+        */
 
         if (
-            !Array.isArray(result) ||
-            result.length === 0
+            error.message &&
+            (
+                error.message.includes(
+                    "JWT"
+                ) ||
+                error.message.includes(
+                    "token"
+                ) ||
+                error.message.includes(
+                    "Unauthorized"
+                ) ||
+                error.message.includes(
+                    "401"
+                )
+            )
         ) {
 
-            throw new Error(
-                "No campaign data found."
-            );
-
-        }
-
-
-        const summary =
-            result[0];
-
-
-        document.getElementById(
-            "reportSummary"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "reportSponsor"
-        ).textContent =
-            summary.sponsor_name;
-
-
-        document.getElementById(
-            "reportDays"
-        ).textContent =
-            Number(
-                summary.days_active
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "reportImpressions"
-        ).textContent =
-            Number(
-                summary.impressions
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "reportClicks"
-        ).textContent =
-            Number(
-                summary.clicks
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "reportCtr"
-        ).textContent =
-            Number(
-                summary.ctr_percent
-            ).toFixed(2) +
-            "%";
-
-
-        await loadDailyHistory(
-            startDate,
-            endDate
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL campaign report failed.",
-            error
-        );
-
-
-        alert(
-            error.message
-        );
-
-    }
-
-}
-
-
-/*
-    ============================================================
-    DAILY HISTORY
-    ============================================================
-*/
-
-
-async function loadDailyHistory(
-    startDate,
-    endDate
-) {
-
-    try {
-
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_my_sponsor_report",
-                {
-                    method: "POST",
-
-                    body:
-                        JSON.stringify({
-                            p_start_date:
-                                startDate,
-
-                            p_end_date:
-                                endDate
-                        })
-                }
+            localStorage.removeItem(
+                AUTH_STORAGE_KEY
             );
 
 
-        if (!response.ok) {
+            window.location.href =
+                "/sponsor.html";
 
-            throw new Error(
-                "Daily report request failed: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-    await response.json();
-
-
-        const historyRows =
-            document.getElementById(
-                "historyRows"
-            );
-
-
-        historyRows.innerHTML =
-            "";
-
-
-        document.getElementById(
-            "dailyHistory"
-        ).style.display =
-            "block";
-
-
-        if (
-            !Array.isArray(result) ||
-            result.length === 0
-        ) {
-
-            historyRows.innerHTML =
-                "<div style='padding:15px 0; color:#888; font-size:11px;'>No activity for this period.</div>";
 
             return;
 
         }
 
 
-        result.forEach(
-            function(day) {
-
-                const row =
-                    document.createElement(
-                        "div"
-                    );
+        loadingMessage.style.display =
+            "none";
 
 
-                row.className =
-                    "history-row";
+        errorMessage.textContent =
+            error.message ||
+            "Unable to load sponsor account.";
 
 
-                row.innerHTML =
-
-                    "<div>" +
-                    formatDate(
-                        day.report_date
-                    ) +
-                    "</div>" +
-
-                    "<div>" +
-                    Number(
-                        day.impressions
-                    ).toLocaleString() +
-                    "</div>" +
-
-                    "<div>" +
-                    Number(
-                        day.clicks
-                    ).toLocaleString() +
-                    "</div>" +
-
-                    "<div>" +
-                    Number(
-                        day.ctr_percent
-                    ).toFixed(2) +
-                    "%" +
-                    "</div>";
-
-
-                historyRows.appendChild(
-                    row
-                );
-
-            }
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL daily history failed.",
-            error
-        );
+        errorMessage.style.display =
+            "block";
 
     }
 
 }
 
 
-/*
-    ============================================================
-    SIGN OUT
-    ============================================================
-*/
-
-
-function signOut() {
-
-    accessToken =
-        null;
-
-
-    try {
-
-        localStorage.removeItem(
-            AUTH_STORAGE_KEY
-        );
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-    }
-
-
-    dashboard.style.display =
-        "none";
-
-
-    authArea.style.display =
-        "block";
-
-
-    document.getElementById(
-        "signInEmail"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "signInPassword"
-    ).value =
-        "";
-
-
-    authMessage.textContent =
-        "";
-
-}
-
-
-/*
-    ============================================================
-    PASSWORD RECOVERY
-    ============================================================
-*/
-
-
-document.getElementById(
-    "forgotPasswordLink"
-).addEventListener(
-    "click",
-    function(event) {
-
-        event.preventDefault();
-
-        authMessage.textContent =
-            "Password recovery will be available soon.";
-
-    }
-);
-
-
-/*
-    ============================================================
-    DATE FORMATTING
-    ============================================================
-*/
-
-
-function formatDate(
-    dateString
-) {
-
-    if (!dateString) {
-
-        return "";
-
-    }
-
-
-    const parts =
-        dateString.split(
-            "-"
-        );
-
-
-    if (
-        parts.length !== 3
-    ) {
-
-        return dateString;
-
-    }
-
-
-    return (
-        parts[1] +
-        "/" +
-        parts[2] +
-        "/" +
-        parts[0]
-    );
-
-}
-
-
-/*
-    ============================================================
-    BUTTONS
-    ============================================================
-*/
-
-
-document.getElementById(
-    "signInButton"
-).addEventListener(
-    "click",
-    signIn
-);
-
-
-document.getElementById(
-    "signUpButton"
-).addEventListener(
-    "click",
-    signUp
-);
-
-
-document.getElementById(
-    "signOutButton"
-).addEventListener(
-    "click",
-    signOut
-);
-
-
-document.getElementById(
-    "reportButton"
-).addEventListener(
-    "click",
-    loadCampaignReport
-);
-
-
-/*
-    ============================================================
-    ENTER KEY — SIGN IN
-    ============================================================
-*/
-
-
-document.getElementById(
-    "signInPassword"
-).addEventListener(
-    "keydown",
-    function(event) {
-
-        if (
-            event.key === "Enter"
-        ) {
-
-            signIn();
-
-        }
-
-    }
-);
-
-
-/*
-    ============================================================
-    START
-    ============================================================
-*/
-
-
-loadPublicTicker();
-
-setInterval(
-    loadPublicTicker,
-    10000
-);
-
-
-if (
-    loadSavedSession()
-) {
-
-    showDashboard();
-
-}
+initializeSponsorView();
 
 </script>
 
