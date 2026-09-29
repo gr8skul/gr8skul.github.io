@@ -9,6 +9,7 @@
 <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
+
 >
 
 <title>GR8SKUL Sponsor View</title>
@@ -29,1187 +30,766 @@ content="width=device-width, initial-scale=1.0"
     href="/manifest.json"
 >
 
-
 <style>
 
-
 * {
-
     box-sizing: border-box;
-
 }
-
 
 html,
 body {
-
     margin: 0;
-
     background: #ffffff;
-
     color: #111111;
-
     font-family:
         Arial,
         Helvetica,
         sans-serif;
-
     min-height: 100%;
-
 }
-
 
 body {
-
     overflow-x: hidden;
-
 }
-
 
 .app {
-
     width: 100%;
-
     max-width: 700px;
-
     min-height: 100vh;
-
     margin: 0 auto;
-
     padding: 0 20px;
-
     display: flex;
-
     flex-direction: column;
-
 }
-
 
 /* =========================
    HEADER
    ========================= */
 
-
 .header {
-
     flex-shrink: 0;
-
     background: #ffffff;
-
     padding-top: 35px;
-
 }
-
 
 h1 {
-
     margin: 0 0 35px;
-
     text-align: center;
-
     font-size: 42px;
-
     letter-spacing: 6px;
-
     font-weight: 700;
-
 }
-
 
 h1 img {
-
     display: block;
-
     width: auto;
-
     height: 42px;
-
     max-width: 100%;
-
     margin: 0 auto;
-
 }
-
 
 .page-title {
-
     text-align: center;
-
     font-size: 14px;
-
     letter-spacing: 2px;
-
     font-weight: bold;
-
     margin-bottom: 0;
-
 }
-
 
 /* =========================
    CONTENT
    ========================= */
 
-
 .content {
-
     flex: 1;
-
     padding: 20px 0 40px;
-
 }
-
 
 .loading-message {
-
     text-align: center;
-
     font-size: 11px;
-
     color: #888888;
-
     padding: 20px 0 10px;
-
 }
-
 
 .error-message {
-
     text-align: center;
-
     font-size: 11px;
-
     color: #111111;
-
     padding: 20px 0;
-
     display: none;
-
 }
 
-
 /* =========================
-   CAMPAIGN DATA
+   SPONSOR METRICS
    ========================= */
-
 
 .data-section {
-
     margin-top: 0;
-
     margin-bottom: 0;
-
 }
-
 
 .data-grid {
-
     display: grid;
-
-    grid-template-columns:
-        repeat(2, 1fr);
-
+    grid-template-columns: repeat(2, 1fr);
     border-top: 1px solid #cccccc;
-
     border-left: 1px solid #cccccc;
-
     margin-bottom: 0;
-
 }
-
 
 .metric {
-
-    padding: 20px 10px;
-
+    padding: 22px 10px;
     text-align: center;
-
     border-right: 1px solid #cccccc;
-
     border-bottom: 1px solid #cccccc;
-
 }
-
 
 .metric-value {
-
     font-size: 25px;
-
     font-weight: bold;
-
     min-height: 30px;
-
 }
-
 
 .metric-label {
-
     margin-top: 6px;
-
     font-size: 9px;
-
     color: #888888;
-
     letter-spacing: 0.5px;
-
 }
-
 
 /* =========================
-   CAMPAIGN FUNDING
+   PURCHASE CLICKS
    ========================= */
 
-
-.funding-section {
-
+.purchase-section {
     width: 100%;
-
     max-width: 420px;
-
     margin: 15px auto 0;
-
 }
 
-
-.funding-title {
-
+.purchase-title {
     text-align: center;
-
     font-size: 12px;
-
     font-weight: bold;
-
     letter-spacing: 1px;
-
     margin-bottom: 20px;
-
 }
 
-
-.funding-row {
-
+.purchase-row {
     display: grid;
-
-    grid-template-columns:
-        1fr 1fr;
-
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
-
     margin-bottom: 15px;
-
 }
 
-
-.amount-input {
-
+.click-input {
     font-size: 18px;
-
     font-weight: bold;
-
 }
-
 
 select {
-
     width: 100%;
-
     height: 46px;
-
     border: 1px solid #111111;
-
     background: #ffffff;
-
     color: #111111;
-
     padding: 0 12px;
-
     font-family:
         Arial,
         Helvetica,
         sans-serif;
-
     font-size: 14px;
-
     outline: none;
-
     cursor: pointer;
-
 }
-
 
 select:focus {
-
     background: #f5f5f5;
-
 }
 
-
-.funding-note {
-
+.purchase-note {
     text-align: center;
-
     color: #888888;
-
     font-size: 10px;
-
     line-height: 1.5;
-
     margin: 5px 0 18px;
-
 }
 
-
-.pay-button {
-
+.purchase-button {
     width: 100%;
-
     font-weight: bold;
-
 }
-
 
 /* =========================
    ACCOUNT
    ========================= */
 
-
 .account-section {
-
     margin-top: 50px;
-
     padding-top: 30px;
-
     border-top: 1px solid #cccccc;
-
 }
-
 
 .account-note {
-
     text-align: center;
-
     font-size: 10px;
-
     color: #888888;
-
     line-height: 1.5;
-
     margin-bottom: 30px;
-
 }
-
 
 /* =========================
    SPONSOR INFORMATION
    ========================= */
 
-
 .identity {
-
     width: 100%;
-
     max-width: 420px;
-
     margin: 0 auto 30px;
-
 }
 
+.section-title {
+    text-align: center;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
 
 .field {
-
     margin-bottom: 15px;
-
 }
-
 
 label {
-
     display: block;
-
     font-size: 11px;
-
     color: #777777;
-
     margin-bottom: 6px;
-
     letter-spacing: 0.5px;
-
 }
 
-
 input {
-
     width: 100%;
-
     height: 46px;
-
     border: 1px solid #111111;
-
     background: #ffffff;
-
     color: #111111;
-
     padding: 0 12px;
-
     font-family:
         Arial,
         Helvetica,
         sans-serif;
-
     font-size: 15px;
-
     outline: none;
-
 }
-
 
 input:focus {
-
     background: #f5f5f5;
-
 }
-
 
 input[readonly] {
-
     border-color: #cccccc;
-
     color: #555555;
-
     background: #ffffff;
-
     cursor: default;
-
 }
-
 
 .tagline-input {
-
     white-space: nowrap;
-
     overflow: hidden;
-
     text-overflow: ellipsis;
-
 }
-
 
 .edit-button {
-
     width: 100%;
-
     font-weight: bold;
-
     margin-top: 5px;
-
 }
-
 
 .save-button {
-
     width: 100%;
-
     margin-top: 5px;
-
     font-weight: bold;
-
 }
-
 
 /* =========================
    ACCOUNT BUTTONS
    ========================= */
 
-
 .account-button {
-
     width: 100%;
-
     font-weight: bold;
-
     margin-bottom: 10px;
-
 }
 
-
 button {
-
     border: 1px solid #111111;
-
     background: #ffffff;
-
     color: #111111;
-
     cursor: pointer;
-
     font-size: 14px;
-
     padding: 12px 18px;
-
     min-height: 46px;
-
     font-family:
         Arial,
         Helvetica,
         sans-serif;
-
 }
-
 
 button:hover {
-
     background: #eeeeee;
-
 }
-
 
 button:disabled {
-
     color: #999999;
-
     border-color: #cccccc;
-
     background: #ffffff;
-
     cursor: default;
-
 }
-
 
 .signout {
-
     width: 100%;
-
     font-weight: bold;
-
 }
-
 
 /* =========================
    FOOTER
    ========================= */
 
-
 .footer {
-
     flex-shrink: 0;
-
     padding: 20px 0 25px;
-
     text-align: center;
-
     border-top: 1px solid #cccccc;
-
     font-size: 10px;
-
     color: #999999;
-
 }
-
 
 .footer a {
-
     color: #777777;
-
     text-decoration: none;
-
 }
-
 
 .footer a:hover {
-
     color: #111111;
-
     text-decoration: underline;
-
 }
-
 
 /* =========================
    MOBILE
    ========================= */
 
-
 @media (max-width: 500px) {
 
     .app {
-
         padding: 0 15px;
-
     }
-
 
     .header {
-
         padding-top: 25px;
-
     }
-
 
     h1 img {
-
         height: 34px;
-
     }
-
 
     .content {
-
         padding-top: 20px;
-
     }
 
-
-    .funding-row {
-
-        grid-template-columns:
-            1fr 1fr;
-
+    .purchase-row {
+        grid-template-columns: 1fr 1fr;
     }
 
 }
-
 
 </style>
 
 </head>
 
-
 <body>
 
-
 <div class="app">
-
 
 <!-- =========================
      HEADER
      ========================= -->
 
-
 <div class="header">
-
 
 <h1>
 
-    <img
-        src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-        alt="GR8SKUL"
-    >
+```
+<img
+    src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+    alt="GR8SKUL"
+>
+```
 
 </h1>
 
-
 <div class="page-title">
-
     SPONSOR VIEW
-
 </div>
 
-
 </div>
-
 
 <!-- =========================
      CONTENT
      ========================= -->
 
-
 <div class="content">
-
 
 <div
     id="loadingMessage"
     class="loading-message"
 >
-
     Loading sponsor account...
-
 </div>
-
 
 <div
     id="errorMessage"
     class="error-message"
 ></div>
 
-
 <div
     id="dashboardContent"
     style="display:none;"
 >
 
-
 <!-- =========================
-     CAMPAIGN DATA
+     SPONSOR METRICS
      ========================= -->
-
 
 <div class="data-section">
 
-
 <div class="data-grid">
 
+```
+<!-- PRICE PER CLICK -->
 
-    <!-- PRICE PER CLICK -->
+<div class="metric">
 
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="clickPrice"
-        >
-
-            $0.00
-
-        </div>
-
-        <div class="metric-label">
-
-            PRICE PER CLICK
-
-        </div>
-
+    <div
+        class="metric-value"
+        id="clickPrice"
+    >
+        $0.00
     </div>
 
-
-    <!-- QUALIFIED CLICKS -->
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="totalQualifiedClicks"
-        >
-
-            0
-
-        </div>
-
-        <div class="metric-label">
-
-            QUALIFIED CLICKS
-
-        </div>
-
+    <div class="metric-label">
+        PRICE PER CLICK
     </div>
-
-
-    <!-- REMAINING BALANCE -->
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="campaignBalance"
-        >
-
-            $0.00
-
-        </div>
-
-        <div class="metric-label">
-
-            REMAINING BALANCE
-
-        </div>
-
-    </div>
-
-
-    <!-- 60-SECOND EXPOSURES -->
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="campaignExposures"
-        >
-
-            0
-
-        </div>
-
-        <div class="metric-label">
-
-            60-SECOND EXPOSURES
-
-        </div>
-
-    </div>
-
-
-    <!-- TOTAL SPENT -->
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="totalSpent"
-        >
-
-            $0.00
-
-        </div>
-
-        <div class="metric-label">
-
-            TOTAL SPENT
-
-        </div>
-
-    </div>
-
-
-    <!-- CLICK RATE -->
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="campaignCtr"
-        >
-
-            0.00%
-
-        </div>
-
-        <div class="metric-label">
-
-            CLICK RATE
-
-        </div>
-
-    </div>
-
 
 </div>
 
 
+<!-- PERSONAL DAILY AVERAGE -->
+
+<div class="metric">
+
+    <div
+        class="metric-value"
+        id="personalDailyAverage"
+    >
+        0
+    </div>
+
+    <div class="metric-label">
+        YOUR DAILY AVERAGE
+    </div>
+
 </div>
 
+
+<!-- CLICKS REMAINING -->
+
+<div class="metric">
+
+    <div
+        class="metric-value"
+        id="clicksRemaining"
+    >
+        0
+    </div>
+
+    <div class="metric-label">
+        CLICKS REMAINING
+    </div>
+
+</div>
+
+
+<!-- TOTAL CLICKS RECEIVED -->
+
+<div class="metric">
+
+    <div
+        class="metric-value"
+        id="totalClicksReceived"
+    >
+        0
+    </div>
+
+    <div class="metric-label">
+        TOTAL CLICKS RECEIVED
+    </div>
+
+</div>
+```
+
+</div>
+
+</div>
 
 <!-- =========================
-     ADD TO CAMPAIGN
+     PURCHASE CLICKS
      ========================= -->
 
+<div class="purchase-section">
 
-<div class="funding-section">
+<div class="purchase-title">
+    PURCHASE CLICKS
+</div>
 
+<div class="purchase-row">
 
-<div class="funding-title">
+```
+<div class="field">
 
-    ADD TO CAMPAIGN
+    <label for="clickQuantity">
+        CLICKS
+    </label>
+
+    <input
+        id="clickQuantity"
+        class="click-input"
+        type="number"
+        min="50"
+        step="1"
+        value="50"
+    >
 
 </div>
 
 
-<div class="funding-row">
+<div class="field">
 
+    <label for="purchaseFrequency">
+        FREQUENCY
+    </label>
 
-    <div class="field">
+    <select
+        id="purchaseFrequency"
+    >
 
-        <label for="paymentAmount">
+        <option value="one_time">
+            ONE-TIME
+        </option>
 
-            AMOUNT
+        <option value="monthly">
+            MONTHLY
+        </option>
 
-        </label>
+        <option value="quarterly">
+            QUARTERLY
+        </option>
 
+    </select>
 
-        <input
-            id="paymentAmount"
-            class="amount-input"
-            type="number"
-            min="10"
-            step="1"
-            value="10"
-        >
-
-    </div>
-
-
-    <div class="field">
-
-        <label for="paymentFrequency">
-
-            FREQUENCY
-
-        </label>
-
-
-        <select
-            id="paymentFrequency"
-        >
-
-            <option value="one_time">
-
-                ONE-TIME
-
-            </option>
-
-
-            <option value="daily">
-
-                DAILY
-
-            </option>
-
-
-            <option value="weekly">
-
-                WEEKLY
-
-            </option>
-
-
-            <option value="monthly">
-
-                MONTHLY
-
-            </option>
-
-
-            <option value="annually">
-
-                ANNUALLY
-
-            </option>
-
-        </select>
-
-    </div>
-
+</div>
+```
 
 </div>
 
-
-<div class="funding-note">
-
-    Set your own campaign budget.
-
-    Your first payment is immediate.
-
-    Recurring payments follow the frequency you select.
-
+<div class="purchase-note">
+    Minimum purchase is 50 clicks.
+    One-time purchases are immediate.
+    Recurring purchases repeat at the frequency selected.
 </div>
-
 
 <button
-    id="payButton"
-    class="pay-button"
-    type="button"
+id="purchaseButton"
+class="purchase-button"
+type="button"
+
 >
 
-    PAY NOW
+```
+PURCHASE CLICKS
+```
 
 </button>
 
-
 </div>
-
 
 <!-- =========================
      ACCOUNT
      ========================= -->
 
-
 <div class="account-section">
 
-
 <div class="account-note">
-
     Your sponsor account and campaign information are private.
-
 </div>
-
 
 <!-- =========================
      SPONSOR INFORMATION
      ========================= -->
 
-
 <div class="identity">
 
-
 <div class="section-title">
-
     SPONSOR INFORMATION
-
 </div>
 
-
 <div class="field">
-
 
 <label for="sponsorEmail">
-
     EMAIL
-
 </label>
 
-
 <input
-    id="sponsorEmail"
-    type="email"
-    autocomplete="email"
-    readonly
->
+id="sponsorEmail"
+type="email"
+autocomplete="email"
+readonly
 
+>
 
 </div>
 
-
 <div class="field">
 
-
-<label for="sponsorName">
-
+<label for="businessName">
     BUSINESS NAME
-
 </label>
 
-
 <input
-    type="text"
-    id="businessName"
-    maxlength="90"
-    readonly
->
+type="text"
+id="businessName"
+maxlength="90"
+readonly
 
+>
 
 </div>
 
-
 <div class="field">
-
 
 <label for="sponsorTagline">
-
     TAGLINE
-
 </label>
 
-
 <input
-    id="sponsorTagline"
-    class="tagline-input"
-    type="text"
-    maxlength="90"
-    autocomplete="off"
-    readonly
+id="sponsorTagline"
+class="tagline-input"
+type="text"
+maxlength="90"
+autocomplete="off"
+readonly
+
 >
 
-
 </div>
-
 
 <div class="field">
 
-
 <label for="sponsorWebsite">
-
     WEBSITE
-
 </label>
 
-
 <input
-    id="sponsorWebsite"
-    type="url"
-    readonly
->
+id="sponsorWebsite"
+type="url"
+readonly
 
+>
 
 </div>
 
-
 <button
-    id="editSponsorButton"
-    class="edit-button"
-    type="button"
+id="editSponsorButton"
+class="edit-button"
+type="button"
+
 >
 
-    EDIT INFORMATION
+```
+EDIT INFORMATION
+```
 
 </button>
 
-
 <button
-    id="saveSponsorButton"
-    class="save-button"
-    type="button"
-    style="display:none;"
+id="saveSponsorButton"
+class="save-button"
+type="button"
+style="display:none;"
+
 >
 
-    SAVE CHANGES
+```
+SAVE CHANGES
+```
 
 </button>
 
-
 </div>
 
-
 <button
-    id="changePasswordButton"
-    class="account-button"
-    type="button"
+id="changePasswordButton"
+class="account-button"
+type="button"
+
 >
 
-    CHANGE PASSWORD
+```
+CHANGE PASSWORD
+```
 
 </button>
 
-
 <button
-    id="signOutButton"
-    class="signout"
-    type="button"
+id="signOutButton"
+class="signout"
+type="button"
+
 >
 
-    SIGN OUT
+```
+SIGN OUT
+```
 
 </button>
 
+</div>
 
 </div>
 
-
 </div>
-
-
-</div>
-
 
 <!-- =========================
      FOOTER
      ========================= -->
 
-
 <div class="footer">
 
-    GR8SKUL SPONSORS
+```
+GR8SKUL SPONSORS
 
-    &nbsp;·&nbsp;
+&nbsp;·&nbsp;
 
-    <a href="/">
-
-        BACK TO GR8SKUL
-
-    </a>
-
-</div>
-
+<a href="/">
+    BACK TO GR8SKUL
+</a>
+```
 
 </div>
 
+</div>
 
 <script>
-
 
 /*
 ============================================================
@@ -1217,18 +797,14 @@ GR8SKUL SPONSOR VIEW
 ============================================================
 */
 
-
 const SUPABASE_URL =
     "https://rijzolipyabfggrrhgab.supabase.co";
-
 
 const SUPABASE_KEY =
     "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
 
-
 const AUTH_STORAGE_KEY =
     "gr8skul-sponsor-auth";
-
 
 let accessToken = null;
 
@@ -1239,54 +815,45 @@ ELEMENTS
 ============================================================
 */
 
-
 const loadingMessage =
     document.getElementById(
         "loadingMessage"
     );
-
 
 const errorMessage =
     document.getElementById(
         "errorMessage"
     );
 
-
 const dashboardContent =
     document.getElementById(
         "dashboardContent"
     );
-
 
 const sponsorEmail =
     document.getElementById(
         "sponsorEmail"
     );
 
-
 const sponsorName =
     document.getElementById(
         "businessName"
     );
-
 
 const sponsorTagline =
     document.getElementById(
         "sponsorTagline"
     );
 
-
 const sponsorWebsite =
     document.getElementById(
         "sponsorWebsite"
     );
 
-
 const editSponsorButton =
     document.getElementById(
         "editSponsorButton"
     );
-
 
 const saveSponsorButton =
     document.getElementById(
@@ -1300,7 +867,6 @@ SESSION
 ============================================================
 */
 
-
 function loadSavedSession() {
 
     try {
@@ -1310,34 +876,24 @@ function loadSavedSession() {
                 AUTH_STORAGE_KEY
             );
 
-
         if (!saved) {
-
             return false;
-
         }
-
 
         const session =
             JSON.parse(saved);
-
 
         if (
             !session ||
             !session.access_token
         ) {
-
             return false;
-
         }
-
 
         accessToken =
             session.access_token;
 
-
         return true;
-
 
     } catch (error) {
 
@@ -1345,7 +901,6 @@ function loadSavedSession() {
             "GR8SKUL sponsor session could not be loaded.",
             error
         );
-
 
         return false;
 
@@ -1360,28 +915,23 @@ SUPABASE RPC
 ============================================================
 */
 
-
 async function callSupabaseFunction(
     functionName,
     body = null
 ) {
 
-
     const options = {
 
         method: "POST",
-
 
         headers: {
 
             "apikey":
                 SUPABASE_KEY,
 
-
             "Authorization":
                 "Bearer " +
                 accessToken,
-
 
             "Content-Type":
                 "application/json"
@@ -1389,7 +939,6 @@ async function callSupabaseFunction(
         }
 
     };
-
 
     if (body !== null) {
 
@@ -1399,7 +948,6 @@ async function callSupabaseFunction(
             );
 
     }
-
 
     const response =
         await fetch(
@@ -1412,15 +960,12 @@ async function callSupabaseFunction(
 
         );
 
-
     let result = null;
-
 
     try {
 
         result =
             await response.json();
-
 
     } catch (error) {
 
@@ -1428,9 +973,7 @@ async function callSupabaseFunction(
 
     }
 
-
     if (!response.ok) {
-
 
         const message =
             result &&
@@ -1441,16 +984,12 @@ async function callSupabaseFunction(
                 result.error
             );
 
-
         throw new Error(
-
             message ||
             "Supabase request failed."
-
         );
 
     }
-
 
     return result;
 
@@ -1463,42 +1002,32 @@ SPONSOR PROFILE
 ============================================================
 */
 
-
 async function loadSponsorProfile() {
-
 
     const rows =
         await callSupabaseFunction(
             "get_my_sponsor_profile"
         );
 
-
     if (
         !Array.isArray(rows) ||
         rows.length === 0
     ) {
 
-
         throw new Error(
-
             "No sponsor account is associated with this login."
-
         );
 
     }
 
-
     const profile =
         rows[0];
-
 
     sponsorName.value =
         profile.sponsor_name || "";
 
-
     sponsorTagline.value =
         profile.sponsor_tagline || "";
-
 
     sponsorWebsite.value =
         profile.sponsor_url || "";
@@ -1506,26 +1035,20 @@ async function loadSponsorProfile() {
 
     /*
         Email belongs to the authenticated
-        Supabase user, not the public sponsors
-        table.
+        Supabase user.
     */
-
 
     const saved =
         localStorage.getItem(
             AUTH_STORAGE_KEY
         );
 
-
     if (saved) {
-
 
         try {
 
-
             const session =
                 JSON.parse(saved);
-
 
             if (
                 session &&
@@ -1533,29 +1056,21 @@ async function loadSponsorProfile() {
                 session.user.email
             ) {
 
-
                 sponsorEmail.value =
                     session.user.email;
 
-
             }
-
 
         } catch (error) {
 
-
             console.error(
-
                 "Could not read sponsor email.",
-
                 error
-
             );
 
         }
 
     }
-
 
     return profile;
 
@@ -1566,23 +1081,30 @@ async function loadSponsorProfile() {
 ============================================================
 REPORTING PERIOD
 ============================================================
+
+The existing sponsor campaign summary remains
+the source for the sponsor's click activity.
+
+The personal daily average is calculated from
+qualified clicks received during the current
+reporting period divided by the number of elapsed
+days in that period.
+
+The displayed number is always rounded DOWN
+to a whole number.
+============================================================
 */
 
-
 function getCurrentReportingPeriod() {
-
 
     const now =
         new Date();
 
-
     const year =
         now.getFullYear();
 
-
     const month =
         now.getMonth();
-
 
     const startDate =
         new Date(
@@ -1591,7 +1113,6 @@ function getCurrentReportingPeriod() {
             1
         );
 
-
     const endDate =
         new Date(
             year,
@@ -1599,13 +1120,10 @@ function getCurrentReportingPeriod() {
             0
         );
 
-
     function formatDate(date) {
-
 
         const y =
             date.getFullYear();
-
 
         const m =
             String(
@@ -1615,7 +1133,6 @@ function getCurrentReportingPeriod() {
                 "0"
             );
 
-
         const d =
             String(
                 date.getDate()
@@ -1624,36 +1141,39 @@ function getCurrentReportingPeriod() {
                 "0"
             );
 
-
         return (
-
             y +
             "-" +
             m +
             "-" +
             d
-
         );
 
     }
 
-
     return {
-
 
         startDate:
             formatDate(
                 startDate
             ),
 
-
         endDate:
             formatDate(
                 endDate
             )
 
-
     };
+
+}
+
+
+function getElapsedDaysInReportingPeriod() {
+
+    const now =
+        new Date();
+
+    return now.getDate();
 
 }
 
@@ -1664,13 +1184,10 @@ CAMPAIGN SUMMARY
 ============================================================
 */
 
-
 async function loadCampaignSummary() {
-
 
     const period =
         getCurrentReportingPeriod();
-
 
     const rows =
         await callSupabaseFunction(
@@ -1681,7 +1198,6 @@ async function loadCampaignSummary() {
 
                 p_start_date:
                     period.startDate,
-
 
                 p_end_date:
                     period.endDate
@@ -1696,24 +1212,15 @@ async function loadCampaignSummary() {
         rows.length === 0
     ) {
 
-
         document.getElementById(
-            "campaignExposures"
+            "personalDailyAverage"
         ).textContent =
             "0";
 
-
         document.getElementById(
-            "campaignCtr"
-        ).textContent =
-            "0.00%";
-
-
-        document.getElementById(
-            "totalQualifiedClicks"
+            "totalClicksReceived"
         ).textContent =
             "0";
-
 
         return;
 
@@ -1724,79 +1231,155 @@ async function loadCampaignSummary() {
         rows[0];
 
 
-    /*
-        60-SECOND EXPOSURES
-    */
-
-
-    document.getElementById(
-        "campaignExposures"
-    ).textContent =
-        Number(
-            data.impressions || 0
-        ).toLocaleString();
-
-
-    /*
-        CLICK RATE
-    */
-
-
-    document.getElementById(
-        "campaignCtr"
-    ).textContent =
-        Number(
-            data.ctr_percent || 0
-        ).toFixed(2) +
-        "%";
-
-
-    /*
-        QUALIFIED CLICKS
-    */
-
-
-    document.getElementById(
-        "totalQualifiedClicks"
-    ).textContent =
+    const totalClicks =
         Number(
             data.clicks || 0
-        ).toLocaleString();
+        );
+
+
+    /*
+        TOTAL CLICKS RECEIVED
+    */
+
+    document.getElementById(
+        "totalClicksReceived"
+    ).textContent =
+        totalClicks.toLocaleString();
+
+
+    /*
+        PERSONAL DAILY AVERAGE
+
+        Whole-number display.
+        Always rounds DOWN.
+    */
+
+    const elapsedDays =
+        getElapsedDaysInReportingPeriod();
+
+    const dailyAverage =
+        elapsedDays > 0
+            ? Math.floor(
+                totalClicks /
+                elapsedDays
+            )
+            : 0;
+
+    document.getElementById(
+        "personalDailyAverage"
+    ).textContent =
+        dailyAverage.toLocaleString();
 
 }
 
 
 /*
 ============================================================
-FINANCIAL DISPLAY
+FINANCIAL / CLICK DISPLAY
 ============================================================
 
-These remain explicitly zero until the financial
-backend exists. Nothing here pretends that a payment
-has occurred.
+These remain placeholders until the financial
+backend exists.
+
+The click price is loaded from the public
+sponsor settings RPC.
+
+Clicks remaining will eventually come from
+the sponsor's purchased click balance.
 ============================================================
 */
 
+async function loadClickFinancialDisplay() {
 
-function loadFinancialDisplay() {
+    /*
+        Get the current system click price
+        from the same public ticker RPC
+        already used by sponsor.html.
+    */
 
+    try {
+
+        const rows =
+            await fetch(
+
+                SUPABASE_URL +
+                "/rest/v1/rpc/get_public_sponsor_ticker",
+
+                {
+
+                    method: "POST",
+
+                    headers: {
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body: "{}"
+
+                }
+
+            ).then(
+                response => response.json()
+            );
+
+
+        const data =
+            Array.isArray(rows)
+                ? rows[0]
+                : rows;
+
+
+        const clickPrice =
+            Number(
+                data &&
+                data.click_price
+                    ? data.click_price
+                    : 0
+            );
+
+
+        document.getElementById(
+            "clickPrice"
+        ).textContent =
+            clickPrice.toLocaleString(
+                undefined,
+                {
+                    style: "currency",
+                    currency: "USD",
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not load click price.",
+            error
+        );
+
+        document.getElementById(
+            "clickPrice"
+        ).textContent =
+            "$0.00";
+
+    }
+
+
+    /*
+        Financial click inventory is not connected yet.
+    */
 
     document.getElementById(
-        "totalSpent"
+        "clicksRemaining"
     ).textContent =
-        "$0.00";
-
-
-    document.getElementById(
-        "clickPrice"
-    ).textContent =
-        "$0.00";
-
-
-    document.getElementById(
-        "campaignBalance"
-    ).textContent =
-        "$0.00";
+        "0";
 
 }
 
@@ -1807,44 +1390,35 @@ EDIT MODE
 ============================================================
 */
 
-
 function setSponsorInformationEditable(
     editable
 ) {
-
 
     /*
         Authentication email remains read-only.
     */
 
-
     sponsorEmail.readOnly =
         true;
-
 
     sponsorName.readOnly =
         !editable;
 
-
     sponsorTagline.readOnly =
         !editable;
 
-
     sponsorWebsite.readOnly =
         !editable;
-
 
     editSponsorButton.style.display =
         editable
             ? "none"
             : "block";
 
-
     saveSponsorButton.style.display =
         editable
             ? "block"
             : "none";
-
 
     if (editable) {
 
@@ -1866,18 +1440,15 @@ EDIT BUTTON
 ============================================================
 */
 
-
 editSponsorButton.addEventListener(
 
     "click",
 
     function() {
 
-
         setSponsorInformationEditable(
             true
         );
-
 
     }
 
@@ -1888,15 +1459,7 @@ editSponsorButton.addEventListener(
 ============================================================
 SAVE SPONSOR INFORMATION
 ============================================================
-
-The authenticated sponsor account is identified
-by the Supabase session. Email remains unchanged.
-
-The backend RPC receives only the three fields
-that sponsors are permitted to edit.
-============================================================
 */
-
 
 saveSponsorButton.addEventListener(
 
@@ -1963,7 +1526,6 @@ saveSponsorButton.addEventListener(
                 false
             );
 
-
             saveSponsorButton.textContent =
                 originalText;
 
@@ -2001,95 +1563,92 @@ saveSponsorButton.addEventListener(
 
 );
 
+
 /*
 ============================================================
-PAYMENT
+PURCHASE CLICKS
 ============================================================
 */
 
-
-const paymentAmount =
+const clickQuantity =
     document.getElementById(
-        "paymentAmount"
+        "clickQuantity"
     );
 
 
-function enforceMinimumPayment() {
+const purchaseFrequency =
+    document.getElementById(
+        "purchaseFrequency"
+    );
 
+
+function enforceMinimumClicks() {
 
     const value =
         Number(
-            paymentAmount.value
+            clickQuantity.value
         );
 
 
     if (
         !Number.isFinite(value) ||
-        value < 10
+        value < 50
     ) {
 
-
-        paymentAmount.value =
-            "10";
-
+        clickQuantity.value =
+            "50";
 
     }
 
 }
 
 
-paymentAmount.addEventListener(
+clickQuantity.addEventListener(
 
     "blur",
 
-    enforceMinimumPayment
+    enforceMinimumClicks
 
 );
 
 
-paymentAmount.addEventListener(
+clickQuantity.addEventListener(
 
     "change",
 
-    enforceMinimumPayment
+    enforceMinimumClicks
 
 );
 
 
-paymentAmount.addEventListener(
+clickQuantity.addEventListener(
 
     "input",
 
     function() {
 
-
         const value =
             Number(
-                paymentAmount.value
+                clickQuantity.value
             );
 
 
         if (
             Number.isFinite(value) &&
-            value < 10
+            value < 50
         ) {
 
-
-            paymentAmount.setCustomValidity(
-
-                "The minimum campaign payment is $10."
-
+            clickQuantity.setCustomValidity(
+                "The minimum purchase is 50 clicks."
             );
-
 
         } else {
 
-            paymentAmount.setCustomValidity(
+            clickQuantity.setCustomValidity(
                 ""
             );
 
         }
-
 
     }
 
@@ -2097,23 +1656,66 @@ paymentAmount.addEventListener(
 
 
 document.getElementById(
-    "payButton"
+    "purchaseButton"
 ).addEventListener(
 
     "click",
 
     function() {
 
+        enforceMinimumClicks();
 
-        enforceMinimumPayment();
 
+        const quantity =
+            Number(
+                clickQuantity.value
+            );
+
+
+        if (
+            !Number.isFinite(quantity) ||
+            quantity < 50
+        ) {
+
+            alert(
+                "The minimum purchase is 50 clicks."
+            );
+
+            clickQuantity.focus();
+
+            return;
+
+        }
+
+
+        const frequency =
+            purchaseFrequency.value;
+
+
+        const frequencyLabel =
+            purchaseFrequency.options[
+                purchaseFrequency.selectedIndex
+            ].textContent.trim();
+
+
+        /*
+            Stripe/payment connection will be
+            added here.
+
+            The selected quantity and frequency
+            are now ready for the financial backend.
+        */
 
         alert(
 
-            "Stripe payment will be connected here."
+            "Click purchase will be connected here.\n\n" +
+            "Clicks: " +
+            quantity.toLocaleString() +
+            "\n" +
+            "Frequency: " +
+            frequencyLabel
 
         );
-
 
     }
 
@@ -2126,7 +1728,6 @@ CHANGE PASSWORD
 ============================================================
 */
 
-
 document.getElementById(
     "changePasswordButton"
 ).addEventListener(
@@ -2135,13 +1736,9 @@ document.getElementById(
 
     function() {
 
-
         alert(
-
             "Password changes will be connected to Supabase Auth."
-
         );
-
 
     }
 
@@ -2154,7 +1751,6 @@ SIGN OUT
 ============================================================
 */
 
-
 document.getElementById(
     "signOutButton"
 ).addEventListener(
@@ -2163,19 +1759,15 @@ document.getElementById(
 
     function() {
 
-
         localStorage.removeItem(
             AUTH_STORAGE_KEY
         );
 
-
         accessToken =
             null;
 
-
         window.location.href =
             "/sponsor.html";
-
 
     }
 
@@ -2188,21 +1780,16 @@ INITIALIZE
 ============================================================
 */
 
-
 async function initializeSponsorView() {
-
 
     /*
         No saved session means this page is private.
     */
 
-
     if (!loadSavedSession()) {
-
 
         window.location.href =
             "/sponsor.html";
-
 
         return;
 
@@ -2211,38 +1798,31 @@ async function initializeSponsorView() {
 
     try {
 
-
         /*
-            First verify that this authenticated
-            user actually owns a sponsor account.
+            Verify authenticated sponsor account.
         */
-
 
         await loadSponsorProfile();
 
 
         /*
-            Load the single coherent campaign
-            reporting period.
+            Load sponsor-specific campaign
+            click activity.
         */
-
 
         await loadCampaignSummary();
 
 
         /*
-            Financial values stay explicitly at
-            zero until the payment/accounting
-            backend is connected.
+            Load current click price and
+            placeholder click inventory.
         */
 
-
-        loadFinancialDisplay();
+        await loadClickFinancialDisplay();
 
 
         loadingMessage.style.display =
             "none";
-
 
         dashboardContent.style.display =
             "block";
@@ -2250,13 +1830,9 @@ async function initializeSponsorView() {
 
     } catch (error) {
 
-
         console.error(
-
             "GR8SKUL sponsor dashboard failed.",
-
             error
-
         );
 
 
@@ -2273,15 +1849,12 @@ async function initializeSponsorView() {
             message.includes("401")
         ) {
 
-
             localStorage.removeItem(
                 AUTH_STORAGE_KEY
             );
 
-
             window.location.href =
                 "/sponsor.html";
-
 
             return;
 
@@ -2291,11 +1864,9 @@ async function initializeSponsorView() {
         loadingMessage.style.display =
             "none";
 
-
         errorMessage.textContent =
             error.message ||
             "Unable to load sponsor account.";
-
 
         errorMessage.style.display =
             "block";
@@ -2307,9 +1878,7 @@ async function initializeSponsorView() {
 
 initializeSponsorView();
 
-
 </script>
-
 
 </body>
 
