@@ -7,8 +7,9 @@
 <meta charset="UTF-8">
 
 <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
 >
 
 <title>GR8SKUL Sponsors</title>
@@ -175,7 +176,7 @@
         display: grid;
 
         grid-template-columns:
-            repeat(4, 1fr);
+            repeat(2, 1fr);
 
         gap: 10px;
     }
@@ -735,454 +736,185 @@
 
 </head>
 
-
 <body>
 
-
 <div class="app">
-
 
 <!-- =========================
      HEADER
      ========================= -->
 
-
 <div class="header">
 
+```
+<h1>
 
-    <h1>
+    <img
+        src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+        alt="GR8SKUL">
 
-        <img
-            src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-            alt="GR8SKUL">
-
-    </h1>
-
-
-    <div class="page-title">
-
-        SPONSORS
-
-    </div>
+</h1>
 
 
-    <div class="header-line"></div>
+<div class="page-title">
 
+    SPONSORS
 
 </div>
 
+
+<div class="header-line"></div>
+```
+
+</div>
 
 <!-- =========================
      PUBLIC TICKER
      ========================= -->
 
-
 <div class="ticker">
 
+```
+<div class="ticker-title">
 
-    <div class="ticker-title">
+    GR8SKUL TODAY
 
-        GR8SKUL TODAY
+</div>
+
+
+<div class="ticker-grid">
+
+
+    <div class="ticker-item">
+
+        <div
+            class="ticker-value"
+            id="publicClickPrice">
+            —
+        </div>
+
+        <div class="ticker-label">
+
+            CLICK PRICE
+
+        </div>
 
     </div>
 
 
-    <div class="ticker-grid">
+    <div class="ticker-item">
 
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicUsers">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                USERS
-
-            </div>
-
+        <div
+            class="ticker-value"
+            id="publicAverageDailyClicks">
+            —
         </div>
 
+        <div class="ticker-label">
 
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicSponsors">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                SPONSORS
-
-            </div>
+            AVG. DAILY CLICKS / SPONSOR
 
         </div>
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicExposure">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                EXPOSURE
-
-            </div>
-
-        </div>
-
-
-        <div class="ticker-item">
-
-            <div
-                class="ticker-value"
-                id="publicClicks">
-                —
-            </div>
-
-            <div class="ticker-label">
-
-                CLICKS
-
-            </div>
-
-        </div>
-
 
     </div>
 
 
 </div>
+```
 
+</div>
 
 <!-- =========================
      CONTENT
      ========================= -->
 
-
 <div class="content">
-
 
 <!-- =========================
      LOGIN / SIGNUP AREA
      ========================= -->
 
-
 <div id="authArea">
 
+```
+<div class="auth-section">
 
-    <div class="auth-section">
 
+    <!-- =========================
+         SPONSOR SIGN IN
+         ========================= -->
 
-        <!-- =========================
-             SPONSOR SIGN IN
-             ========================= -->
 
+    <div class="section-title">
 
-        <div class="section-title">
-
-            SPONSOR SIGN IN
-
-        </div>
-
-
-        <div class="form">
-
-
-            <div class="field">
-
-                <label for="signInEmail">
-
-                    EMAIL
-
-                </label>
-
-                <input
-                    id="signInEmail"
-                    type="email"
-                    autocomplete="email"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signInPassword">
-
-                    PASSWORD
-
-                </label>
-
-                <input
-                    id="signInPassword"
-                    type="password"
-                    autocomplete="current-password"
-                >
-
-            </div>
-
-
-            <button
-                id="signInButton"
-                class="primary-button"
-                type="button">
-
-                SIGN IN
-
-            </button>
-
-
-            <div class="password-recovery">
-
-                <a
-                    href="#"
-                    id="forgotPasswordLink">
-
-                    Forgot your password?
-
-                </a>
-
-            </div>
-
-
-            <div
-                class="form-message"
-                id="authMessage">
-            </div>
-
-
-        </div>
-
-
-        <!-- =========================
-             DIVIDER
-             ========================= -->
-
-
-        <div class="auth-divider"></div>
-
-
-        <!-- =========================
-             SPONSOR SIGN UP
-             ========================= -->
-
-
-        <div class="section-title">
-
-            SPONSOR SIGN UP
-
-        </div>
-
-
-        <div class="form">
-
-
-            <div class="field">
-
-                <label for="companyName">
-
-                    COMPANY NAME
-
-                </label>
-
-                <input
-    id="companyName"
-    type="text"
-    maxlength="90"
-    autocomplete="organization"
->
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signupTagline">
-
-                    TAGLINE
-
-                </label>
-
-                <input
-                    id="signupTagline"
-                    class="signup-tagline"
-                    type="text"
-                    maxlength="90"
-                    autocomplete="off"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signupWebsite">
-
-                    WEBSITE
-
-                </label>
-
-                <input
-                    id="signupWebsite"
-                    type="url"
-                    autocomplete="url"
-                    placeholder="https://"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signUpEmail">
-
-                    EMAIL
-
-                </label>
-
-                <input
-                    id="signUpEmail"
-                    type="email"
-                    autocomplete="email"
-                >
-
-            </div>
-
-
-            <div class="field">
-
-                <label for="signUpPassword">
-
-                    CREATE PASSWORD
-
-                </label>
-
-                <input
-                    id="signUpPassword"
-                    type="password"
-                    autocomplete="new-password"
-                >
-
-            </div>
-
-
-            <button
-                id="signUpButton"
-                class="primary-button"
-                type="button">
-
-                SIGN UP
-
-            </button>
-
-
-        </div>
-
+        SPONSOR SIGN IN
 
     </div>
 
 
-</div>
+    <div class="form">
 
 
-<!-- =========================
-     DASHBOARD
-     ========================= -->
+        <div class="field">
 
+            <label for="signInEmail">
 
-<div id="dashboard">
+                EMAIL
 
+            </label>
 
-    <div
-        class="sponsor-name"
-        id="sponsorName">
-    </div>
-
-
-    <div
-        class="dashboard-date"
-        id="dashboardDate">
-    </div>
-
-
-    <div class="dashboard-grid">
-
-
-        <div class="metric">
-
-            <div
-                class="metric-value"
-                id="dailyUsers">
-                —
-            </div>
-
-            <div class="metric-label">
-
-                TODAY'S USERS
-
-            </div>
+            <input
+                id="signInEmail"
+                type="email"
+                autocomplete="email"
+            >
 
         </div>
 
 
-        <div class="metric">
+        <div class="field">
 
-            <div
-                class="metric-value"
-                id="dailyImpressions">
-                —
-            </div>
+            <label for="signInPassword">
 
-            <div class="metric-label">
+                PASSWORD
 
-                IMPRESSIONS
+            </label>
 
-            </div>
-
-        </div>
-
-
-        <div class="metric">
-
-            <div
-                class="metric-value"
-                id="dailyClicks">
-                —
-            </div>
-
-            <div class="metric-label">
-
-                CLICKS
-
-            </div>
+            <input
+                id="signInPassword"
+                type="password"
+                autocomplete="current-password"
+            >
 
         </div>
 
 
-        <div class="metric">
+        <button
+            id="signInButton"
+            class="primary-button"
+            type="button">
 
-            <div
-                class="metric-value"
-                id="dailyCtr">
-                —
-            </div>
+            SIGN IN
 
-            <div class="metric-label">
+        </button>
 
-                CLICK RATE
 
-            </div>
+        <div class="password-recovery">
 
+            <a
+                href="#"
+                id="forgotPasswordLink">
+
+                Forgot your password?
+
+            </a>
+
+        </div>
+
+
+        <div
+            class="form-message"
+            id="authMessage">
         </div>
 
 
@@ -1190,194 +922,274 @@
 
 
     <!-- =========================
-         CAMPAIGN REPORT
+         DIVIDER
          ========================= -->
 
 
-    <div class="report-section">
+    <div class="auth-divider"></div>
 
 
-        <div class="report-title">
+    <!-- =========================
+         SPONSOR SIGN UP
+         ========================= -->
 
-            CAMPAIGN REPORT
+
+    <div class="section-title">
+
+        SPONSOR SIGN UP
+
+    </div>
+
+
+    <div class="form">
+
+
+        <div class="field">
+
+            <label for="companyName">
+
+                COMPANY NAME
+
+            </label>
+
+            <input
+                id="companyName"
+                type="text"
+                maxlength="90"
+                autocomplete="organization"
+            >
 
         </div>
 
 
-        <div class="date-row">
+        <div class="field">
+
+            <label for="signupTagline">
+
+                TAGLINE
+
+            </label>
+
+            <input
+                id="signupTagline"
+                class="signup-tagline"
+                type="text"
+                maxlength="90"
+                autocomplete="off"
+            >
+
+        </div>
 
 
-            <div class="field">
+        <div class="field">
 
-                <label for="startDate">
+            <label for="signupWebsite">
 
-                    START DATE
+                WEBSITE
 
-                </label>
+            </label>
 
-                <input
-                    id="startDate"
-                    type="date"
-                >
+            <input
+                id="signupWebsite"
+                type="url"
+                autocomplete="url"
+                placeholder="https://"
+            >
 
-            </div>
+        </div>
 
 
-            <div class="field">
+        <div class="field">
 
-                <label for="endDate">
+            <label for="signUpEmail">
 
-                    END DATE
+                EMAIL
 
-                </label>
+            </label>
 
-                <input
-                    id="endDate"
-                    type="date"
-                >
+            <input
+                id="signUpEmail"
+                type="email"
+                autocomplete="email"
+            >
 
-            </div>
+        </div>
 
+
+        <div class="field">
+
+            <label for="signUpPassword">
+
+                CREATE PASSWORD
+
+            </label>
+
+            <input
+                id="signUpPassword"
+                type="password"
+                autocomplete="new-password"
+            >
 
         </div>
 
 
         <button
-            id="reportButton"
-            class="report-button"
+            id="signUpButton"
+            class="primary-button"
             type="button">
 
-            VIEW REPORT
+            SIGN UP
 
         </button>
 
 
+    </div>
+
+
+</div>
+```
+
+</div>
+
+<!-- =========================
+     DASHBOARD
+     ========================= -->
+
+<div id="dashboard">
+
+```
+<div
+    class="sponsor-name"
+    id="sponsorName">
+</div>
+
+
+<div
+    class="dashboard-date"
+    id="dashboardDate">
+</div>
+
+
+<div class="dashboard-grid">
+
+
+    <div class="metric">
+
         <div
-            class="report-summary"
-            id="reportSummary"
-            style="display:none;">
+            class="metric-value"
+            id="dailyUsers">
+            —
+        </div>
+
+        <div class="metric-label">
+
+            TODAY'S USERS
+
+        </div>
+
+    </div>
 
 
-            <div class="report-row">
+    <div class="metric">
 
-                <span class="report-label">
-                    CAMPAIGN
-                </span>
+        <div
+            class="metric-value"
+            id="dailyImpressions">
+            —
+        </div>
 
-                <span
-                    class="report-value"
-                    id="reportSponsor">
-                </span>
+        <div class="metric-label">
 
-            </div>
+            IMPRESSIONS
 
+        </div>
 
-            <div class="report-row">
-
-                <span class="report-label">
-                    DAYS ACTIVE
-                </span>
-
-                <span
-                    class="report-value"
-                    id="reportDays">
-                </span>
-
-            </div>
+    </div>
 
 
-            <div class="report-row">
+    <div class="metric">
 
-                <span class="report-label">
-                    IMPRESSIONS
-                </span>
+        <div
+            class="metric-value"
+            id="dailyClicks">
+            —
+        </div>
 
-                <span
-                    class="report-value"
-                    id="reportImpressions">
-                </span>
+        <div class="metric-label">
 
-            </div>
+            CLICKS
 
+        </div>
 
-            <div class="report-row">
-
-                <span class="report-label">
-                    CLICKS
-                </span>
-
-                <span
-                    class="report-value"
-                    id="reportClicks">
-                </span>
-
-            </div>
+    </div>
 
 
-            <div class="report-row">
+    <div class="metric">
 
-                <span class="report-label">
-                    CTR
-                </span>
+        <div
+            class="metric-value"
+            id="dailyCtr">
+            —
+        </div>
 
-                <span
-                    class="report-value"
-                    id="reportCtr">
-                </span>
+        <div class="metric-label">
 
-            </div>
+            CLICK RATE
 
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<!-- =========================
+     CAMPAIGN REPORT
+     ========================= -->
+
+
+<div class="report-section">
+
+
+    <div class="report-title">
+
+        CAMPAIGN REPORT
+
+    </div>
+
+
+    <div class="date-row">
+
+
+        <div class="field">
+
+            <label for="startDate">
+
+                START DATE
+
+            </label>
+
+            <input
+                id="startDate"
+                type="date"
+            >
 
         </div>
 
 
-        <!-- =========================
-             DAILY HISTORY
-             ========================= -->
+        <div class="field">
 
+            <label for="endDate">
 
-        <div
-            class="daily-history"
-            id="dailyHistory"
-            style="display:none;">
+                END DATE
 
+            </label>
 
-            <div class="report-title">
-
-                DAILY HISTORY
-
-            </div>
-
-
-            <div
-                class="history-row history-header">
-
-
-                <div>
-                    DATE
-                </div>
-
-
-                <div>
-                    IMP.
-                </div>
-
-
-                <div>
-                    CLICKS
-                </div>
-
-
-                <div>
-                    CTR
-                </div>
-
-
-            </div>
-
-
-            <div id="historyRows"></div>
-
+            <input
+                id="endDate"
+                type="date"
+            >
 
         </div>
 
@@ -1386,43 +1198,183 @@
 
 
     <button
-        id="signOutButton"
-        class="signout"
+        id="reportButton"
+        class="report-button"
         type="button">
 
-        SIGN OUT
+        VIEW REPORT
 
     </button>
 
 
-</div>
+    <div
+        class="report-summary"
+        id="reportSummary"
+        style="display:none;">
+
+
+        <div class="report-row">
+
+            <span class="report-label">
+                CAMPAIGN
+            </span>
+
+            <span
+                class="report-value"
+                id="reportSponsor">
+            </span>
+
+        </div>
+
+
+        <div class="report-row">
+
+            <span class="report-label">
+                DAYS ACTIVE
+            </span>
+
+            <span
+                class="report-value"
+                id="reportDays">
+            </span>
+
+        </div>
+
+
+        <div class="report-row">
+
+            <span class="report-label">
+                IMPRESSIONS
+            </span>
+
+            <span
+                class="report-value"
+                id="reportImpressions">
+            </span>
+
+        </div>
+
+
+        <div class="report-row">
+
+            <span class="report-label">
+                CLICKS
+            </span>
+
+            <span
+                class="report-value"
+                id="reportClicks">
+            </span>
+
+        </div>
+
+
+        <div class="report-row">
+
+            <span class="report-label">
+                CTR
+            </span>
+
+            <span
+                class="report-value"
+                id="reportCtr">
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =========================
+         DAILY HISTORY
+         ========================= -->
+
+
+    <div
+        class="daily-history"
+        id="dailyHistory"
+        style="display:none;">
+
+
+        <div class="report-title">
+
+            DAILY HISTORY
+
+        </div>
+
+
+        <div
+            class="history-row history-header">
+
+
+            <div>
+                DATE
+            </div>
+
+
+            <div>
+                IMP.
+            </div>
+
+
+            <div>
+                CLICKS
+            </div>
+
+
+            <div>
+                CTR
+            </div>
+
+
+        </div>
+
+
+        <div id="historyRows"></div>
+
+
+    </div>
 
 
 </div>
 
+
+<button
+    id="signOutButton"
+    class="signout"
+    type="button">
+
+    SIGN OUT
+
+</button>
+```
+
+</div>
+
+</div>
 
 <!-- =========================
      FOOTER
      ========================= -->
 
-
 <div class="footer">
 
-    GR8SKUL SPONSORS
+```
+GR8SKUL SPONSORS
 
-    &nbsp;·&nbsp;
+&nbsp;·&nbsp;
 
-    <a href="/">
+<a href="/">
 
-        BACK TO GR8SKUL
+    BACK TO GR8SKUL
 
-    </a>
+</a>
+```
 
 </div>
 
-
 </div>
-
 
 <script>
 
@@ -1580,42 +1532,51 @@ async function loadPublicTicker() {
             result[0];
 
 
-        document.getElementById(
-            "publicUsers"
-        ).textContent =
+        /*
+            CLICK PRICE
+
+            This will come from the public
+            sponsor ticker RPC.
+        */
+
+
+        const clickPrice =
             Number(
-                data.daily_users
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "publicSponsors"
-        ).textContent =
-            Number(
-                data.daily_sponsors
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "publicExposure"
-        ).textContent =
-            Number(
-                data.average_exposure
-            ).toLocaleString(
-                undefined,
-                {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 2
-                }
+                data.click_price || 0
             );
 
 
         document.getElementById(
-            "publicClicks"
+            "publicClickPrice"
         ).textContent =
+            "$" +
+            clickPrice.toFixed(2);
+
+
+        /*
+            ROLLING 30-DAY AVERAGE
+
+            This will come from the public
+            sponsor ticker RPC.
+        */
+
+
+        const averageDailyClicks =
             Number(
-                data.daily_clicks
-            ).toLocaleString();
+                data.average_daily_clicks_per_sponsor || 0
+            );
+
+
+        document.getElementById(
+            "publicAverageDailyClicks"
+        ).textContent =
+            averageDailyClicks.toLocaleString(
+                undefined,
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
 
 
     } catch (error) {
@@ -1664,54 +1625,108 @@ async function signUp() {
             "signUpPassword"
         ).value;
 
+
     if (!companyName) {
+
         authMessage.textContent =
             "Enter your company name.";
+
         return;
+
     }
+
+
+    if (companyName.length > 90) {
+
+        authMessage.textContent =
+            "Your company name must be 90 characters or fewer.";
+
+        return;
+
+    }
+
 
     if (tagline.length > 90) {
+
         authMessage.textContent =
             "Your tagline must be 90 characters or fewer.";
+
         return;
+
     }
 
+
     if (!website) {
+
         authMessage.textContent =
             "Enter your website address.";
+
         return;
+
     }
+
 
     let websiteUrl;
 
+
     try {
-        websiteUrl = new URL(website);
+
+        websiteUrl =
+            new URL(
+                website
+            );
+
     } catch (error) {
+
         authMessage.textContent =
             "Enter a valid website address.";
+
         return;
+
     }
 
-    if (websiteUrl.protocol !== "https:") {
+
+    if (
+        websiteUrl.protocol !==
+        "https:"
+    ) {
+
         authMessage.textContent =
             "Your website must use HTTPS.";
+
         return;
+
     }
 
-    if (!email || !password) {
+
+    if (
+        !email ||
+        !password
+    ) {
+
         authMessage.textContent =
             "Enter an email and create a password.";
+
         return;
+
     }
 
-    if (password.length < 6) {
+
+    if (
+        password.length < 6
+    ) {
+
         authMessage.textContent =
             "Your password must be at least 6 characters.";
+
         return;
+
     }
+
 
     authMessage.textContent =
         "Creating sponsor account...";
+
 
     try {
 
@@ -1740,6 +1755,7 @@ async function signUp() {
                                 password,
 
                             data: {
+
                                 business_name:
                                     companyName,
 
@@ -1748,20 +1764,24 @@ async function signUp() {
 
                                 website:
                                     websiteUrl.href
+
                             }
 
                         })
                 }
             );
 
+
         const result =
             await response.json();
+
 
         console.log(
             "GR8SKUL SIGNUP RESPONSE:",
             response.status,
             result
         );
+
 
         if (!response.ok) {
 
@@ -1771,29 +1791,40 @@ async function signUp() {
                 result.error_description ||
                 "Sponsor account creation failed."
             );
+
         }
 
-        if (result.access_token) {
+
+        if (
+            result.access_token
+        ) {
 
             saveSession(
                 result
             );
 
+
             authMessage.textContent =
                 "Sponsor account created.";
 
+
             await showDashboard();
 
+
             return;
+
         }
+
 
         authMessage.textContent =
             "Account created. Check your email to confirm your account, then sign in.";
+
 
         document.getElementById(
             "signInEmail"
         ).value =
             email;
+
 
         document.getElementById(
             "signInPassword"
@@ -1807,10 +1838,14 @@ async function signUp() {
             error
         );
 
+
         authMessage.textContent =
             error.message;
+
     }
+
 }
+
 
 /*
     ============================================================
@@ -1833,7 +1868,10 @@ async function signIn() {
         ).value;
 
 
-    if (!email || !password) {
+    if (
+        !email ||
+        !password
+    ) {
 
         authMessage.textContent =
             "Enter an email and password.";
@@ -1857,21 +1895,26 @@ async function signIn() {
                     method: "POST",
 
                     headers: {
+
                         "apikey":
                             SUPABASE_KEY,
 
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body:
                         JSON.stringify({
+
                             email:
                                 email,
 
                             password:
                                 password
+
                         })
+
                 }
             );
 
@@ -2202,14 +2245,20 @@ async function loadCampaignReport() {
         ).value;
 
 
-    if (!startDate || !endDate) {
+    if (
+        !startDate ||
+        !endDate
+    ) {
 
         return;
 
     }
 
 
-    if (startDate > endDate) {
+    if (
+        startDate >
+        endDate
+    ) {
 
         alert(
             "The start date must be before the end date."
@@ -2230,12 +2279,15 @@ async function loadCampaignReport() {
 
                     body:
                         JSON.stringify({
+
                             p_start_date:
                                 startDate,
 
                             p_end_date:
                                 endDate
+
                         })
+
                 }
             );
 
@@ -2360,12 +2412,15 @@ async function loadDailyHistory(
 
                     body:
                         JSON.stringify({
+
                             p_start_date:
                                 startDate,
 
                             p_end_date:
                                 endDate
+
                         })
+
                 }
             );
 
@@ -2381,7 +2436,7 @@ async function loadDailyHistory(
 
 
         const result =
-    await response.json();
+            await response.json();
 
 
         const historyRows =
@@ -2682,7 +2737,6 @@ if (
 }
 
 </script>
-
 
 </body>
 
