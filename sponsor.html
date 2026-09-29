@@ -1491,103 +1491,39 @@ async function supabaseRequest(
 
 
 async function loadPublicTicker() {
-
     try {
-
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_public_sponsor_ticker",
-                {
-                    method: "POST",
-                    body: JSON.stringify({})
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Public ticker request failed: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
-
-        if (
-            !Array.isArray(result) ||
-            result.length === 0
-        ) {
-
-            return;
-
-        }
-
-
-        const data =
-            result[0];
-
-
-        /*
-            CLICK PRICE
-
-            This will come from the public
-            sponsor ticker RPC.
-        */
-
-
-        const clickPrice =
-            Number(
-                data.click_price || 0
-            );
-
-
-        document.getElementById(
-            "publicClickPrice"
-        ).textContent =
-            "$" +
-            clickPrice.toFixed(2);
-
-
-        /*
-            ROLLING 30-DAY AVERAGE
-
-            This will come from the public
-            sponsor ticker RPC.
-        */
-
-
-        const averageDailyClicks =
-            Number(
-                data.average_daily_clicks_per_sponsor || 0
-            );
-
-
-        document.getElementById(
-            "publicAverageDailyClicks"
-        ).textContent =
-            averageDailyClicks.toLocaleString(
-                undefined,
-                {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                }
-            );
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL public ticker failed.",
-            error
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/rpc/get_public_sponsor_ticker`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_ANON_KEY
+                },
+                body: "{}"
+            }
         );
 
-    }
+        if (!response.ok) {
+            throw new Error("Ticker request failed");
+        }
 
+        const data = await response.json();
+
+        document.getElementById("publicClickPrice").textContent =
+            Number(data.click_price || 0).toLocaleString(undefined, {
+                style: "currency",
+                currency: "USD",
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            });
+
+        document.getElementById("publicAverageDailyClicks").textContent =
+            Math.floor(Number(data.avg_daily_clicks_per_sponsor || 0)).toLocaleString();
+
+    } catch (error) {
+        console.error("Public ticker error:", error);
+    }
 }
 
 
