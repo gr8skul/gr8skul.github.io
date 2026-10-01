@@ -879,33 +879,83 @@ async function supabaseRequest(
 
 
 async function loadPublicTicker() {
+
     try {
-        const data = await supabaseRequest(
-            "/rest/v1/rpc/get_public_sponsor_ticker",
-            "POST",
-            {}
+
+        const response =
+            await supabaseRequest(
+                "/rest/v1/rpc/get_public_sponsor_ticker",
+                {
+                    method: "POST",
+
+                    body: JSON.stringify({})
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            throw new Error(
+                "Ticker request failed: " +
+                response.status +
+                " " +
+                errorText
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "GR8SKUL TICKER RESPONSE:",
+            data
         );
 
-        const ticker = Array.isArray(data) ? data[0] : data;
 
-        const value = ticker && ticker.average_exposure != null
-            ? Number(ticker.average_exposure).toFixed(1)
-            : "0.0";
+        const ticker =
+            Array.isArray(data)
+                ? data[0]
+                : data;
+
+
+        const value =
+            ticker &&
+            ticker.average_exposure != null
+                ? Math.round(
+                    Number(
+                        ticker.average_exposure
+                    )
+                ).toString()
+                : "0";
+
 
         document.getElementById(
             "publicAverageDailyExposures"
-        ).textContent = value;
+        ).textContent =
+            value;
+
 
     } catch (error) {
+
         console.error(
             "Failed to load public sponsor ticker:",
             error
         );
 
+
         document.getElementById(
             "publicAverageDailyExposures"
-        ).textContent = "0.0";
+        ).textContent =
+            "0";
+
     }
+
 }
 
 
