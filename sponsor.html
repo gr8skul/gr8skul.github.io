@@ -32,705 +32,425 @@ content="width=device-width, initial-scale=1.0"
 
 <style>
 
-    * {
-        box-sizing: border-box;
-    }
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+
+    margin: 0;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    min-height: 100%;
+}
+
+body {
+
+    overflow-x: hidden;
+}
+
+.app {
+
+    width: 100%;
+
+    max-width: 700px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    padding: 0 20px;
+
+    display: flex;
+
+    flex-direction: column;
+}
 
 
-    html,
-    body {
+/* =========================
+   HEADER
+   ========================= */
 
-        margin: 0;
+.header {
 
-        background: #ffffff;
+    flex-shrink: 0;
 
-        color: #111111;
+    background: #ffffff;
 
-        font-family:
-            Arial,
-            Helvetica,
-            sans-serif;
+    padding-top: 35px;
+}
 
-        min-height: 100%;
-    }
+h1 {
+
+    margin: 0 0 35px;
+
+    text-align: center;
+
+    font-size: 42px;
+
+    letter-spacing: 6px;
+
+    font-weight: 700;
+}
+
+h1 img {
+
+    display: block;
+
+    width: auto;
+
+    height: 42px;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+}
+
+.page-title {
+
+    text-align: center;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    font-weight: bold;
+
+    margin-bottom: 25px;
+}
+
+.header-line {
+
+    border-bottom: 1px solid #cccccc;
+
+    margin-bottom: 0;
+}
 
 
-    body {
+/* =========================
+   PUBLIC TICKER
+   ========================= */
 
-        overflow-x: hidden;
-    }
+.ticker {
 
+    padding: 18px 0 15px;
+
+    border-bottom: 1px solid #cccccc;
+}
+
+.ticker-title {
+
+    text-align: center;
+
+    font-size: 11px;
+
+    color: #888888;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 14px;
+}
+
+.ticker-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr;
+
+    gap: 10px;
+}
+
+.ticker-item {
+
+    text-align: center;
+}
+
+.ticker-value {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    min-height: 24px;
+}
+
+.ticker-label {
+
+    margin-top: 5px;
+
+    font-size: 9px;
+
+    color: #888888;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   MAIN
+   ========================= */
+
+.content {
+
+    flex: 1;
+
+    padding: 30px 0 40px;
+}
+
+.section-title {
+
+    text-align: center;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   AUTHENTICATION
+   ========================= */
+
+.auth-section {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    margin: 0 auto;
+}
+
+.auth-divider {
+
+    border-top: 1px solid #cccccc;
+
+    margin: 40px 0;
+}
+
+.form {
+
+    width: 100%;
+
+    margin: 0 auto;
+}
+
+.field {
+
+    margin-bottom: 15px;
+}
+
+label {
+
+    display: block;
+
+    font-size: 11px;
+
+    color: #777777;
+
+    margin-bottom: 6px;
+
+    letter-spacing: 0.5px;
+}
+
+input {
+
+    width: 100%;
+
+    height: 46px;
+
+    border: 1px solid #111111;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    padding: 0 12px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+input:focus {
+
+    background: #f5f5f5;
+}
+
+button {
+
+    border: 1px solid #111111;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    padding: 12px 18px;
+
+    min-height: 46px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+button:hover {
+
+    background: #eeeeee;
+}
+
+.primary-button {
+
+    width: 100%;
+
+    font-weight: bold;
+
+    margin-top: 5px;
+}
+
+.form-message {
+
+    min-height: 24px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #777777;
+
+    line-height: 1.5;
+}
+
+.password-recovery {
+
+    text-align: center;
+
+    margin-top: 15px;
+
+    font-size: 11px;
+}
+
+.password-recovery a {
+
+    color: #777777;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.password-recovery a:hover {
+
+    color: #111111;
+
+    text-decoration: underline;
+}
+
+.signup-tagline {
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+
+    flex-shrink: 0;
+
+    padding: 20px 0 25px;
+
+    text-align: center;
+
+    border-top: 1px solid #cccccc;
+
+    font-size: 10px;
+
+    color: #999999;
+}
+
+.footer a {
+
+    color: #777777;
+
+    text-decoration: none;
+}
+
+.footer a:hover {
+
+    color: #111111;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 500px) {
 
     .app {
 
-        width: 100%;
-
-        max-width: 700px;
-
-        min-height: 100vh;
-
-        margin: 0 auto;
-
-        padding: 0 20px;
-
-        display: flex;
-
-        flex-direction: column;
+        padding: 0 15px;
     }
-
-
-    /* =========================
-       HEADER
-       ========================= */
-
 
     .header {
 
-        flex-shrink: 0;
-
-        background: #ffffff;
-
-        padding-top: 35px;
+        padding-top: 25px;
     }
-
-
-    h1 {
-
-        margin: 0 0 35px;
-
-        text-align: center;
-
-        font-size: 42px;
-
-        letter-spacing: 6px;
-
-        font-weight: 700;
-    }
-
 
     h1 img {
 
-        display: block;
-
-        width: auto;
-
-        height: 42px;
-
-        max-width: 100%;
-
-        margin: 0 auto;
+        height: 34px;
     }
-
-
-    .page-title {
-
-        text-align: center;
-
-        font-size: 14px;
-
-        letter-spacing: 2px;
-
-        font-weight: bold;
-
-        margin-bottom: 25px;
-    }
-
-
-    .header-line {
-
-        border-bottom: 1px solid #cccccc;
-
-        margin-bottom: 0;
-    }
-
-
-    /* =========================
-       PUBLIC TICKER
-       ========================= */
-
-
-    .ticker {
-
-        padding: 18px 0 15px;
-
-        border-bottom: 1px solid #cccccc;
-    }
-
-
-    .ticker-title {
-
-        text-align: center;
-
-        font-size: 11px;
-
-        color: #888888;
-
-        letter-spacing: 1px;
-
-        margin-bottom: 14px;
-    }
-
-
-    .ticker-grid {
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-        gap: 10px;
-    }
-
-
-    .ticker-item {
-
-        text-align: center;
-    }
-
 
     .ticker-value {
 
-        font-size: 20px;
-
-        font-weight: bold;
-
-        min-height: 24px;
+        font-size: 17px;
     }
-
 
     .ticker-label {
 
-        margin-top: 5px;
-
-        font-size: 9px;
-
-        color: #888888;
-
-        letter-spacing: 0.5px;
+        font-size: 8px;
     }
-
-
-    /* =========================
-       MAIN
-       ========================= */
-
 
     .content {
 
-        flex: 1;
-
-        padding: 30px 0 40px;
+        padding-top: 25px;
     }
 
-
-    .section-title {
-
-        text-align: center;
-
-        font-size: 13px;
-
-        font-weight: bold;
-
-        letter-spacing: 1px;
-
-        margin-bottom: 25px;
-    }
-
-
-    /* =========================
-       AUTHENTICATION
-       ========================= */
-
-
-    .auth-section {
-
-        width: 100%;
-
-        max-width: 420px;
-
-        margin: 0 auto;
-    }
-
-
-    .auth-divider {
-
-        border-top: 1px solid #cccccc;
-
-        margin: 40px 0;
-    }
-
-
-    .form {
-
-        width: 100%;
-
-        margin: 0 auto;
-    }
-
-
-    .field {
-
-        margin-bottom: 15px;
-    }
-
-
-    label {
-
-        display: block;
-
-        font-size: 11px;
-
-        color: #777777;
-
-        margin-bottom: 6px;
-
-        letter-spacing: 0.5px;
-    }
-
-
-    input {
-
-        width: 100%;
-
-        height: 46px;
-
-        border: 1px solid #111111;
-
-        background: #ffffff;
-
-        color: #111111;
-
-        padding: 0 12px;
-
-        font-family:
-            Arial,
-            Helvetica,
-            sans-serif;
-
-        font-size: 15px;
-
-        outline: none;
-    }
-
-
-    input:focus {
-
-        background: #f5f5f5;
-    }
-
-
-    button {
-
-        border: 1px solid #111111;
-
-        background: #ffffff;
-
-        color: #111111;
-
-        cursor: pointer;
-
-        font-size: 14px;
-
-        padding: 12px 18px;
-
-        min-height: 46px;
-
-        font-family:
-            Arial,
-            Helvetica,
-            sans-serif;
-    }
-
-
-    button:hover {
-
-        background: #eeeeee;
-    }
-
-
-    .primary-button {
-
-        width: 100%;
-
-        font-weight: bold;
-
-        margin-top: 5px;
-    }
-
-
-    .form-message {
-
-        min-height: 24px;
-
-        margin-top: 15px;
-
-        text-align: center;
-
-        font-size: 12px;
-
-        color: #777777;
-
-        line-height: 1.5;
-    }
-
-
-    .password-recovery {
-
-        text-align: center;
-
-        margin-top: 15px;
-
-        font-size: 11px;
-    }
-
-
-    .password-recovery a {
-
-        color: #777777;
-
-        text-decoration: none;
-
-        cursor: pointer;
-    }
-
-
-    .password-recovery a:hover {
-
-        color: #111111;
-
-        text-decoration: underline;
-    }
-
-
-    .signup-tagline {
-
-        white-space: nowrap;
-
-        overflow: hidden;
-
-        text-overflow: ellipsis;
-    }
-
-
-    /* =========================
-       DASHBOARD
-       ========================= */
-
-
-    #dashboard {
-
-        display: none;
-    }
-
-
-    .sponsor-name {
-
-        text-align: center;
-
-        font-size: 22px;
-
-        font-weight: bold;
-
-        margin-bottom: 8px;
-    }
-
-
-    .dashboard-date {
-
-        text-align: center;
-
-        color: #888888;
-
-        font-size: 11px;
-
-        margin-bottom: 25px;
-    }
-
-
-    .dashboard-grid {
-
-        display: grid;
-
-        grid-template-columns:
-            repeat(2, 1fr);
-
-        border-top: 1px solid #cccccc;
-
-        border-left: 1px solid #cccccc;
-
-        margin-bottom: 35px;
-    }
-
-
-    .metric {
-
-        padding: 20px 10px;
-
-        text-align: center;
-
-        border-right: 1px solid #cccccc;
-
-        border-bottom: 1px solid #cccccc;
-    }
-
-
-    .metric-value {
-
-        font-size: 25px;
-
-        font-weight: bold;
-
-        min-height: 30px;
-    }
-
-
-    .metric-label {
-
-        margin-top: 6px;
-
-        font-size: 9px;
-
-        color: #888888;
-
-        letter-spacing: 0.5px;
-    }
-
-
-    .report-section {
-
-        margin-top: 10px;
-    }
-
-
-    .report-title {
-
-        text-align: center;
-
-        font-size: 12px;
-
-        font-weight: bold;
-
-        letter-spacing: 1px;
-
-        margin-bottom: 18px;
-    }
-
-
-    .date-row {
-
-        display: grid;
-
-        grid-template-columns:
-            1fr 1fr;
-
-        gap: 10px;
-
-        margin-bottom: 12px;
-    }
-
-
-    .report-button {
-
-        width: 100%;
-
-        margin-bottom: 20px;
-    }
-
-
-    .report-summary {
-
-        border-top: 1px solid #cccccc;
-
-        border-bottom: 1px solid #cccccc;
-    }
-
-
-    .report-row {
-
-        display: flex;
-
-        justify-content: space-between;
-
-        align-items: center;
-
-        min-height: 45px;
-
-        padding: 8px 0;
-
-        border-bottom: 1px solid #eeeeee;
-
-        font-size: 12px;
-    }
-
-
-    .report-row:last-child {
-
-        border-bottom: none;
-    }
-
-
-    .report-label {
-
-        color: #777777;
-    }
-
-
-    .report-value {
-
-        font-weight: bold;
-    }
-
-
-    .daily-history {
-
-        margin-top: 30px;
-    }
-
-
-    .history-row {
-
-        display: grid;
-
-        grid-template-columns:
-            1.2fr
-            1fr
-            1fr
-            1fr;
-
-        border-bottom: 1px solid #eeeeee;
-
-        padding: 10px 0;
-
-        font-size: 10px;
-
-        text-align: right;
-    }
-
-
-    .history-row > div:first-child {
-
-        text-align: left;
-    }
-
-
-    .history-header {
-
-        color: #888888;
-
-        font-size: 9px;
-
-        letter-spacing: 0.3px;
-
-        border-top: 1px solid #cccccc;
-    }
-
-
-    .signout {
-
-        margin-top: 35px;
-
-        width: 100%;
-    }
-
-
-    /* =========================
-       FOOTER
-       ========================= */
-
-
-    .footer {
-
-        flex-shrink: 0;
-
-        padding: 20px 0 25px;
-
-        text-align: center;
-
-        border-top: 1px solid #cccccc;
-
-        font-size: 10px;
-
-        color: #999999;
-    }
-
-
-    .footer a {
-
-        color: #777777;
-
-        text-decoration: none;
-    }
-
-
-    .footer a:hover {
-
-        color: #111111;
-
-        text-decoration: underline;
-    }
-
-
-    /* =========================
-       MOBILE
-       ========================= */
-
-
-    @media (max-width: 500px) {
-
-        .app {
-
-            padding: 0 15px;
-        }
-
-
-        .header {
-
-            padding-top: 25px;
-        }
-
-
-        h1 img {
-
-            height: 34px;
-        }
-
-
-        .ticker-grid {
-
-            gap: 5px;
-        }
-
-
-        .ticker-value {
-
-            font-size: 17px;
-        }
-
-
-        .ticker-label {
-
-            font-size: 8px;
-        }
-
-
-        .content {
-
-            padding-top: 25px;
-        }
-
-
-        .history-row {
-
-            grid-template-columns:
-                1.1fr
-                1fr
-                1fr
-                1fr;
-
-            font-size: 9px;
-        }
-
-    }
+}
 
 </style>
 
@@ -751,7 +471,8 @@ content="width=device-width, initial-scale=1.0"
 
     <img
         src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-        alt="GR8SKUL">
+        alt="GR8SKUL"
+    >
 
 </h1>
 
@@ -784,40 +505,22 @@ content="width=device-width, initial-scale=1.0"
 
 <div class="ticker-grid">
 
-
     <div class="ticker-item">
 
         <div
             class="ticker-value"
-            id="publicClickPrice">
+            id="publicAverageDailyExposures"
+        >
             —
         </div>
 
         <div class="ticker-label">
 
-            CLICK PRICE
+            AVERAGE, DAILY 60-SECOND EXPOSURES PER SPONSOR
 
         </div>
 
     </div>
-
-
-    <div class="ticker-item">
-
-        <div
-            class="ticker-value"
-            id="publicAverageDailyClicks">
-            —
-        </div>
-
-        <div class="ticker-label">
-
-            AVG. DAILY CLICKS / SPONSOR
-
-        </div>
-
-    </div>
-
 
 </div>
 ```
@@ -836,519 +539,214 @@ content="width=device-width, initial-scale=1.0"
 
 <div id="authArea">
 
-```
 <div class="auth-section">
 
+<!-- =========================
+     SPONSOR SIGN IN
+     ========================= -->
 
-    <!-- =========================
-         SPONSOR SIGN IN
-         ========================= -->
+<div class="section-title">
 
-
-    <div class="section-title">
-
-        SPONSOR SIGN IN
-
-    </div>
-
-
-    <div class="form">
-
-
-        <div class="field">
-
-            <label for="signInEmail">
-
-                EMAIL
-
-            </label>
-
-            <input
-                id="signInEmail"
-                type="email"
-                autocomplete="email"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="signInPassword">
-
-                PASSWORD
-
-            </label>
-
-            <input
-                id="signInPassword"
-                type="password"
-                autocomplete="current-password"
-            >
-
-        </div>
-
-
-        <button
-            id="signInButton"
-            class="primary-button"
-            type="button">
-
-            SIGN IN
-
-        </button>
-
-
-        <div class="password-recovery">
-
-            <a
-                href="#"
-                id="forgotPasswordLink">
-
-                Forgot your password?
-
-            </a>
-
-        </div>
-
-
-        <div
-            class="form-message"
-            id="authMessage">
-        </div>
-
-
-    </div>
-
-
-    <!-- =========================
-         DIVIDER
-         ========================= -->
-
-
-    <div class="auth-divider"></div>
-
-
-    <!-- =========================
-         SPONSOR SIGN UP
-         ========================= -->
-
-
-    <div class="section-title">
-
-        SPONSOR SIGN UP
-
-    </div>
-
-
-    <div class="form">
-
-
-        <div class="field">
-
-            <label for="companyName">
-
-                COMPANY NAME
-
-            </label>
-
-            <input
-                id="companyName"
-                type="text"
-                maxlength="90"
-                autocomplete="organization"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="signupTagline">
-
-                TAGLINE
-
-            </label>
-
-            <input
-                id="signupTagline"
-                class="signup-tagline"
-                type="text"
-                maxlength="90"
-                autocomplete="off"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="signupWebsite">
-
-                WEBSITE
-
-            </label>
-
-            <input
-                id="signupWebsite"
-                type="url"
-                autocomplete="url"
-                placeholder="https://"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="signUpEmail">
-
-                EMAIL
-
-            </label>
-
-            <input
-                id="signUpEmail"
-                type="email"
-                autocomplete="email"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="signUpPassword">
-
-                CREATE PASSWORD
-
-            </label>
-
-            <input
-                id="signUpPassword"
-                type="password"
-                autocomplete="new-password"
-            >
-
-        </div>
-
-
-        <button
-            id="signUpButton"
-            class="primary-button"
-            type="button">
-
-            SIGN UP
-
-        </button>
-
-
-    </div>
-
-
-</div>
+```
+SPONSOR SIGN IN
 ```
 
 </div>
 
-<!-- =========================
-     DASHBOARD
-     ========================= -->
-
-<div id="dashboard">
+<div class="form">
 
 ```
-<div
-    class="sponsor-name"
-    id="sponsorName">
-</div>
+<div class="field">
 
+    <label for="signInEmail">
 
-<div
-    class="dashboard-date"
-    id="dashboardDate">
-</div>
+        EMAIL
 
+    </label>
 
-<div class="dashboard-grid">
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="dailyUsers">
-            —
-        </div>
-
-        <div class="metric-label">
-
-            TODAY'S USERS
-
-        </div>
-
-    </div>
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="dailyImpressions">
-            —
-        </div>
-
-        <div class="metric-label">
-
-            IMPRESSIONS
-
-        </div>
-
-    </div>
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="dailyClicks">
-            —
-        </div>
-
-        <div class="metric-label">
-
-            CLICKS
-
-        </div>
-
-    </div>
-
-
-    <div class="metric">
-
-        <div
-            class="metric-value"
-            id="dailyCtr">
-            —
-        </div>
-
-        <div class="metric-label">
-
-            CLICK RATE
-
-        </div>
-
-    </div>
-
+    <input
+        id="signInEmail"
+        type="email"
+        autocomplete="email"
+    >
 
 </div>
 
 
-<!-- =========================
-     CAMPAIGN REPORT
-     ========================= -->
+<div class="field">
 
+    <label for="signInPassword">
 
-<div class="report-section">
+        PASSWORD
 
+    </label>
 
-    <div class="report-title">
-
-        CAMPAIGN REPORT
-
-    </div>
-
-
-    <div class="date-row">
-
-
-        <div class="field">
-
-            <label for="startDate">
-
-                START DATE
-
-            </label>
-
-            <input
-                id="startDate"
-                type="date"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label for="endDate">
-
-                END DATE
-
-            </label>
-
-            <input
-                id="endDate"
-                type="date"
-            >
-
-        </div>
-
-
-    </div>
-
-
-    <button
-        id="reportButton"
-        class="report-button"
-        type="button">
-
-        VIEW REPORT
-
-    </button>
-
-
-    <div
-        class="report-summary"
-        id="reportSummary"
-        style="display:none;">
-
-
-        <div class="report-row">
-
-            <span class="report-label">
-                CAMPAIGN
-            </span>
-
-            <span
-                class="report-value"
-                id="reportSponsor">
-            </span>
-
-        </div>
-
-
-        <div class="report-row">
-
-            <span class="report-label">
-                DAYS ACTIVE
-            </span>
-
-            <span
-                class="report-value"
-                id="reportDays">
-            </span>
-
-        </div>
-
-
-        <div class="report-row">
-
-            <span class="report-label">
-                IMPRESSIONS
-            </span>
-
-            <span
-                class="report-value"
-                id="reportImpressions">
-            </span>
-
-        </div>
-
-
-        <div class="report-row">
-
-            <span class="report-label">
-                CLICKS
-            </span>
-
-            <span
-                class="report-value"
-                id="reportClicks">
-            </span>
-
-        </div>
-
-
-        <div class="report-row">
-
-            <span class="report-label">
-                CTR
-            </span>
-
-            <span
-                class="report-value"
-                id="reportCtr">
-            </span>
-
-        </div>
-
-
-    </div>
-
-
-    <!-- =========================
-         DAILY HISTORY
-         ========================= -->
-
-
-    <div
-        class="daily-history"
-        id="dailyHistory"
-        style="display:none;">
-
-
-        <div class="report-title">
-
-            DAILY HISTORY
-
-        </div>
-
-
-        <div
-            class="history-row history-header">
-
-
-            <div>
-                DATE
-            </div>
-
-
-            <div>
-                IMP.
-            </div>
-
-
-            <div>
-                CLICKS
-            </div>
-
-
-            <div>
-                CTR
-            </div>
-
-
-        </div>
-
-
-        <div id="historyRows"></div>
-
-
-    </div>
-
+    <input
+        id="signInPassword"
+        type="password"
+        autocomplete="current-password"
+    >
 
 </div>
 
 
 <button
-    id="signOutButton"
-    class="signout"
-    type="button">
+    id="signInButton"
+    class="primary-button"
+    type="button"
+>
 
-    SIGN OUT
+    SIGN IN
+
+</button>
+
+
+<div class="password-recovery">
+
+    <a
+        href="#"
+        id="forgotPasswordLink"
+    >
+
+        Forgot your password?
+
+    </a>
+
+</div>
+
+
+<div
+    class="form-message"
+    id="authMessage"
+></div>
+```
+
+</div>
+
+<!-- =========================
+     DIVIDER
+     ========================= -->
+
+<div class="auth-divider"></div>
+
+<!-- =========================
+     SPONSOR SIGN UP
+     ========================= -->
+
+<div class="section-title">
+
+```
+SPONSOR SIGN UP
+```
+
+</div>
+
+<div class="form">
+
+```
+<div class="field">
+
+    <label for="companyName">
+
+        COMPANY NAME
+
+    </label>
+
+    <input
+        id="companyName"
+        type="text"
+        maxlength="90"
+        autocomplete="organization"
+    >
+
+</div>
+
+
+<div class="field">
+
+    <label for="signupTagline">
+
+        TAGLINE
+
+    </label>
+
+    <input
+        id="signupTagline"
+        class="signup-tagline"
+        type="text"
+        maxlength="90"
+        autocomplete="off"
+    >
+
+</div>
+
+
+<div class="field">
+
+    <label for="signupWebsite">
+
+        WEBSITE
+
+    </label>
+
+    <input
+        id="signupWebsite"
+        type="url"
+        autocomplete="url"
+        placeholder="https://"
+    >
+
+</div>
+
+
+<div class="field">
+
+    <label for="signUpEmail">
+
+        EMAIL
+
+    </label>
+
+    <input
+        id="signUpEmail"
+        type="email"
+        autocomplete="email"
+    >
+
+</div>
+
+
+<div class="field">
+
+    <label for="signUpPassword">
+
+        CREATE PASSWORD
+
+    </label>
+
+    <input
+        id="signUpPassword"
+        type="password"
+        autocomplete="new-password"
+    >
+
+</div>
+
+
+<button
+    id="signUpButton"
+    class="primary-button"
+    type="button"
+>
+
+    SIGN UP
 
 </button>
 ```
+
+</div>
+
+</div>
 
 </div>
 
@@ -1408,18 +806,6 @@ let accessToken = null;
 */
 
 
-const authArea =
-    document.getElementById(
-        "authArea"
-    );
-
-
-const dashboard =
-    document.getElementById(
-        "dashboard"
-    );
-
-
 const authMessage =
     document.getElementById(
         "authMessage"
@@ -1470,6 +856,7 @@ async function supabaseRequest(
             endpoint,
             {
                 ...options,
+
                 headers: {
                     ...headers,
                     ...(options.headers || {})
@@ -1491,39 +878,68 @@ async function supabaseRequest(
 
 
 async function loadPublicTicker() {
+
     try {
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/rpc/get_public_sponsor_ticker`,
-            {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "apikey": SUPABASE_ANON_KEY
-                },
-                body: "{}"
-            }
-        );
+
+        const response =
+            await supabaseRequest(
+                "/rest/v1/rpc/get_public_sponsor_ticker",
+                {
+                    method: "POST",
+
+                    body:
+                        JSON.stringify({})
+                }
+            );
+
 
         if (!response.ok) {
-            throw new Error("Ticker request failed");
+
+            throw new Error(
+                "Ticker request failed: " +
+                response.status
+            );
+
         }
 
-        const data = await response.json();
 
-        document.getElementById("publicClickPrice").textContent =
-            Number(data.click_price || 0).toLocaleString(undefined, {
-                style: "currency",
-                currency: "USD",
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            });
+        const data =
+            await response.json();
 
-        document.getElementById("publicAverageDailyClicks").textContent =
-            Math.floor(Number(data.avg_daily_clicks_per_sponsor || 0)).toLocaleString();
+
+        const tickerValue =
+            document.getElementById(
+                "publicAverageDailyExposures"
+            );
+
+
+        /*
+            The current public ticker RPC returns
+            average_exposure.
+
+            This represents the average number of
+            60-second sponsor exposures per active
+            sponsor for today.
+        */
+
+
+        tickerValue.textContent =
+            Math.floor(
+                Number(
+                    data.average_exposure || 0
+                )
+            ).toLocaleString();
+
 
     } catch (error) {
-        console.error("Public ticker error:", error);
+
+        console.error(
+            "GR8SKUL public sponsor ticker failed.",
+            error
+        );
+
     }
+
 }
 
 
@@ -1541,20 +957,24 @@ async function signUp() {
             "companyName"
         ).value.trim();
 
+
     const tagline =
         document.getElementById(
             "signupTagline"
         ).value.trim();
+
 
     const website =
         document.getElementById(
             "signupWebsite"
         ).value.trim();
 
+
     const email =
         document.getElementById(
             "signUpEmail"
         ).value.trim();
+
 
     const password =
         document.getElementById(
@@ -1766,6 +1186,7 @@ async function signUp() {
             "signInPassword"
         ).value =
             "";
+
 
     } catch (error) {
 
@@ -2008,519 +1429,6 @@ async function showDashboard() {
 
 /*
     ============================================================
-    LOAD PRIVATE DASHBOARD
-    ============================================================
-*/
-
-
-async function loadDashboard() {
-
-    try {
-
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_my_sponsor_dashboard",
-                {
-                    method: "POST",
-                    body: JSON.stringify({})
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Sponsor dashboard request failed: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
-
-        if (
-            !Array.isArray(result) ||
-            result.length === 0
-        ) {
-
-            throw new Error(
-                "This login is not connected to a sponsor account."
-            );
-
-        }
-
-
-        const data =
-            result[0];
-
-
-        document.getElementById(
-            "sponsorName"
-        ).textContent =
-            data.sponsor_name;
-
-
-        document.getElementById(
-            "dailyUsers"
-        ).textContent =
-            Number(
-                data.daily_users
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "dailyImpressions"
-        ).textContent =
-            Number(
-                data.daily_impressions
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "dailyClicks"
-        ).textContent =
-            Number(
-                data.daily_clicks
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "dailyCtr"
-        ).textContent =
-            Number(
-                data.daily_ctr_percent
-            ).toFixed(2) +
-            "%";
-
-
-        document.getElementById(
-            "dashboardDate"
-        ).textContent =
-            formatDate(
-                data.report_date
-            );
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL sponsor dashboard failed.",
-            error
-        );
-
-
-        document.getElementById(
-            "sponsorName"
-        ).textContent =
-            "SPONSOR ACCOUNT";
-
-
-        document.getElementById(
-            "dashboardDate"
-        ).textContent =
-            error.message;
-
-    }
-
-}
-
-
-/*
-    ============================================================
-    DEFAULT DATES
-    ============================================================
-*/
-
-
-function setDefaultDates() {
-
-    const today =
-        new Date();
-
-
-    const todayString =
-        today.toISOString()
-            .split("T")[0];
-
-
-    document.getElementById(
-        "startDate"
-    ).value =
-        todayString;
-
-
-    document.getElementById(
-        "endDate"
-    ).value =
-        todayString;
-
-}
-
-
-/*
-    ============================================================
-    CAMPAIGN REPORT
-    ============================================================
-*/
-
-
-async function loadCampaignReport() {
-
-    const startDate =
-        document.getElementById(
-            "startDate"
-        ).value;
-
-
-    const endDate =
-        document.getElementById(
-            "endDate"
-        ).value;
-
-
-    if (
-        !startDate ||
-        !endDate
-    ) {
-
-        return;
-
-    }
-
-
-    if (
-        startDate >
-        endDate
-    ) {
-
-        alert(
-            "The start date must be before the end date."
-        );
-
-        return;
-
-    }
-
-
-    try {
-
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_my_sponsor_campaign_summary",
-                {
-                    method: "POST",
-
-                    body:
-                        JSON.stringify({
-
-                            p_start_date:
-                                startDate,
-
-                            p_end_date:
-                                endDate
-
-                        })
-
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Campaign report request failed: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
-
-        if (
-            !Array.isArray(result) ||
-            result.length === 0
-        ) {
-
-            throw new Error(
-                "No campaign data found."
-            );
-
-        }
-
-
-        const summary =
-            result[0];
-
-
-        document.getElementById(
-            "reportSummary"
-        ).style.display =
-            "block";
-
-
-        document.getElementById(
-            "reportSponsor"
-        ).textContent =
-            summary.sponsor_name;
-
-
-        document.getElementById(
-            "reportDays"
-        ).textContent =
-            Number(
-                summary.days_active
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "reportImpressions"
-        ).textContent =
-            Number(
-                summary.impressions
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "reportClicks"
-        ).textContent =
-            Number(
-                summary.clicks
-            ).toLocaleString();
-
-
-        document.getElementById(
-            "reportCtr"
-        ).textContent =
-            Number(
-                summary.ctr_percent
-            ).toFixed(2) +
-            "%";
-
-
-        await loadDailyHistory(
-            startDate,
-            endDate
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL campaign report failed.",
-            error
-        );
-
-
-        alert(
-            error.message
-        );
-
-    }
-
-}
-
-
-/*
-    ============================================================
-    DAILY HISTORY
-    ============================================================
-*/
-
-
-async function loadDailyHistory(
-    startDate,
-    endDate
-) {
-
-    try {
-
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_my_sponsor_report",
-                {
-                    method: "POST",
-
-                    body:
-                        JSON.stringify({
-
-                            p_start_date:
-                                startDate,
-
-                            p_end_date:
-                                endDate
-
-                        })
-
-                }
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Daily report request failed: " +
-                response.status
-            );
-
-        }
-
-
-        const result =
-            await response.json();
-
-
-        const historyRows =
-            document.getElementById(
-                "historyRows"
-            );
-
-
-        historyRows.innerHTML =
-            "";
-
-
-        document.getElementById(
-            "dailyHistory"
-        ).style.display =
-            "block";
-
-
-        if (
-            !Array.isArray(result) ||
-            result.length === 0
-        ) {
-
-            historyRows.innerHTML =
-                "<div style='padding:15px 0; color:#888; font-size:11px;'>No activity for this period.</div>";
-
-            return;
-
-        }
-
-
-        result.forEach(
-            function(day) {
-
-                const row =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                row.className =
-                    "history-row";
-
-
-                row.innerHTML =
-
-                    "<div>" +
-                    formatDate(
-                        day.report_date
-                    ) +
-                    "</div>" +
-
-                    "<div>" +
-                    Number(
-                        day.impressions
-                    ).toLocaleString() +
-                    "</div>" +
-
-                    "<div>" +
-                    Number(
-                        day.clicks
-                    ).toLocaleString() +
-                    "</div>" +
-
-                    "<div>" +
-                    Number(
-                        day.ctr_percent
-                    ).toFixed(2) +
-                    "%" +
-                    "</div>";
-
-
-                historyRows.appendChild(
-                    row
-                );
-
-            }
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL daily history failed.",
-            error
-        );
-
-    }
-
-}
-
-
-/*
-    ============================================================
-    SIGN OUT
-    ============================================================
-*/
-
-
-function signOut() {
-
-    accessToken =
-        null;
-
-
-    try {
-
-        localStorage.removeItem(
-            AUTH_STORAGE_KEY
-        );
-
-    } catch (error) {
-
-        console.error(
-            error
-        );
-
-    }
-
-
-    dashboard.style.display =
-        "none";
-
-
-    authArea.style.display =
-        "block";
-
-
-    document.getElementById(
-        "signInEmail"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "signInPassword"
-    ).value =
-        "";
-
-
-    authMessage.textContent =
-        "";
-
-}
-
-
-/*
-    ============================================================
     PASSWORD RECOVERY
     ============================================================
 */
@@ -2543,50 +1451,6 @@ document.getElementById(
 
 /*
     ============================================================
-    DATE FORMATTING
-    ============================================================
-*/
-
-
-function formatDate(
-    dateString
-) {
-
-    if (!dateString) {
-
-        return "";
-
-    }
-
-
-    const parts =
-        dateString.split(
-            "-"
-        );
-
-
-    if (
-        parts.length !== 3
-    ) {
-
-        return dateString;
-
-    }
-
-
-    return (
-        parts[1] +
-        "/" +
-        parts[2] +
-        "/" +
-        parts[0]
-    );
-
-}
-
-
-/*
-    ============================================================
     BUTTONS
     ============================================================
 */
@@ -2605,22 +1469,6 @@ document.getElementById(
 ).addEventListener(
     "click",
     signUp
-);
-
-
-document.getElementById(
-    "signOutButton"
-).addEventListener(
-    "click",
-    signOut
-);
-
-
-document.getElementById(
-    "reportButton"
-).addEventListener(
-    "click",
-    loadCampaignReport
 );
 
 
@@ -2658,6 +1506,7 @@ document.getElementById(
 
 loadPublicTicker();
 
+
 setInterval(
     loadPublicTicker,
     10000
@@ -2671,6 +1520,7 @@ if (
     showDashboard();
 
 }
+
 
 </script>
 
