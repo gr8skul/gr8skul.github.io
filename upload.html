@@ -1,0 +1,1671 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<title>GR8SKUL Works</title>
+
+<link
+    rel="icon"
+    type="image/png"
+    href="/gr8skul-icon.PNG"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="/gr8skul-icon.PNG"
+>
+
+<link
+    rel="manifest"
+    href="/manifest.json"
+>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+
+    margin: 0;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    min-height: 100%;
+}
+
+body {
+
+    overflow-x: hidden;
+}
+
+.app {
+
+    width: 100%;
+
+    max-width: 700px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    padding: 0 20px;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+
+    flex-shrink: 0;
+
+    background: #ffffff;
+
+    padding-top: 35px;
+}
+
+h1 {
+
+    margin: 0 0 35px;
+
+    text-align: center;
+
+    font-size: 42px;
+
+    letter-spacing: 6px;
+
+    font-weight: 700;
+}
+
+h1 img {
+
+    display: block;
+
+    width: auto;
+
+    height: 42px;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+}
+
+.page-title {
+
+    text-align: center;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    font-weight: bold;
+
+    margin-bottom: 25px;
+}
+
+.header-line {
+
+    border-bottom: 1px solid #cccccc;
+
+    margin-bottom: 0;
+}
+
+
+/* =========================
+   MAIN
+   ========================= */
+
+.content {
+
+    flex: 1;
+
+    padding: 30px 0 40px;
+}
+
+.section-title {
+
+    text-align: center;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   WORKS
+   ========================= */
+
+.works-section {
+
+    width: 100%;
+
+    max-width: 600px;
+
+    margin: 0 auto;
+}
+
+.works-list {
+
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+.work {
+
+    display: grid;
+
+    grid-template-columns: 42px 1fr 70px;
+
+    align-items: center;
+
+    min-height: 68px;
+
+    border-bottom: 1px solid #cccccc;
+
+    cursor: grab;
+
+    user-select: none;
+
+    background: #ffffff;
+}
+
+.work:first-child {
+
+    border-top: 1px solid #cccccc;
+}
+
+.work:active {
+
+    cursor: grabbing;
+}
+
+.work.dragging {
+
+    opacity: 0.45;
+}
+
+.work-number {
+
+    font-size: 11px;
+
+    color: #888888;
+
+    text-align: left;
+}
+
+.work-info {
+
+    min-width: 0;
+
+    padding: 10px 10px 10px 0;
+}
+
+.work-artist {
+
+    font-size: 12px;
+
+    color: #777777;
+
+    margin-bottom: 5px;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.work-title {
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+}
+
+.edit-button {
+
+    min-height: 34px;
+
+    padding: 6px 10px;
+
+    font-size: 10px;
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   ADD BUTTON
+   ========================= */
+
+.add-area {
+
+    margin-top: 25px;
+}
+
+.add-button {
+
+    width: 100%;
+
+    font-weight: bold;
+}
+
+
+/* =========================
+   ADD FORM
+   ========================= */
+
+.add-form {
+
+    display: none;
+
+    margin-top: 30px;
+
+    padding-top: 30px;
+
+    border-top: 1px solid #cccccc;
+}
+
+.add-form.visible {
+
+    display: block;
+}
+
+.form {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    margin: 0 auto;
+}
+
+.field {
+
+    margin-bottom: 15px;
+}
+
+label {
+
+    display: block;
+
+    font-size: 11px;
+
+    color: #777777;
+
+    margin-bottom: 6px;
+
+    letter-spacing: 0.5px;
+}
+
+input,
+select {
+
+    width: 100%;
+
+    height: 46px;
+
+    border: 1px solid #111111;
+
+    border-radius: 0;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    padding: 0 12px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+input:focus,
+select:focus {
+
+    background: #f5f5f5;
+}
+
+input[type="file"] {
+
+    padding: 10px 12px;
+
+    font-size: 13px;
+}
+
+select {
+
+    appearance: auto;
+
+    cursor: pointer;
+}
+
+.primary-button {
+
+    width: 100%;
+
+    font-weight: bold;
+
+    margin-top: 5px;
+}
+
+.secondary-button {
+
+    width: 100%;
+
+    margin-top: 10px;
+}
+
+.form-message {
+
+    min-height: 24px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #777777;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   WORK INFORMATION
+   ========================= */
+
+.work-meta {
+
+    display: none;
+
+    font-size: 10px;
+
+    color: #888888;
+
+    margin-top: 5px;
+}
+
+.work-meta.visible {
+
+    display: block;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+
+    flex-shrink: 0;
+
+    padding: 20px 0 25px;
+
+    text-align: center;
+
+    border-top: 1px solid #cccccc;
+
+    font-size: 10px;
+
+    color: #999999;
+}
+
+.footer a {
+
+    color: #777777;
+
+    text-decoration: none;
+}
+
+.footer a:hover {
+
+    color: #111111;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 500px) {
+
+    .app {
+
+        padding: 0 15px;
+    }
+
+    .header {
+
+        padding-top: 25px;
+    }
+
+    h1 img {
+
+        height: 34px;
+    }
+
+    .content {
+
+        padding-top: 25px;
+    }
+
+    .work {
+
+        grid-template-columns: 35px 1fr 62px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =========================
+     HEADER
+     ========================= -->
+
+<div class="header">
+
+```
+<h1>
+
+    <img
+        src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+        alt="GR8SKUL"
+    >
+
+</h1>
+
+
+<div class="page-title">
+
+    WORKS
+
+</div>
+
+
+<div class="header-line"></div>
+```
+
+</div>
+
+<!-- =========================
+     CONTENT
+     ========================= -->
+
+<div class="content">
+
+```
+<div class="works-section">
+
+
+    <!-- =========================
+         WORKS LIST
+         ========================= -->
+
+    <div
+        class="works-list"
+        id="worksList"
+    ></div>
+
+
+    <!-- =========================
+         ADD
+         ========================= -->
+
+    <div class="add-area">
+
+        <button
+            id="addButton"
+            class="add-button"
+            type="button"
+        >
+
+            ADD
+
+        </button>
+
+    </div>
+
+
+    <!-- =========================
+         ADD FORM
+         ========================= -->
+
+    <div
+        class="add-form"
+        id="addForm"
+    >
+
+        <div class="section-title">
+
+            ADD WORK
+
+        </div>
+
+
+        <div class="form">
+
+
+            <!-- ARTIST -->
+
+            <div class="field">
+
+                <label for="artistName">
+
+                    ARTIST NAME
+
+                </label>
+
+                <input
+                    id="artistName"
+                    type="text"
+                    maxlength="90"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- TITLE -->
+
+            <div class="field">
+
+                <label for="trackTitle">
+
+                    TRACK TITLE
+
+                </label>
+
+                <input
+                    id="trackTitle"
+                    type="text"
+                    maxlength="90"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- MP3 -->
+
+            <div class="field">
+
+                <label for="mp3File">
+
+                    MP3
+
+                </label>
+
+                <input
+                    id="mp3File"
+                    type="file"
+                    accept=".mp3,audio/mpeg"
+                >
+
+            </div>
+
+
+            <!-- GENRE -->
+
+            <div class="field">
+
+                <label for="genre">
+
+                    GENRE
+
+                </label>
+
+                <select id="genre">
+
+                    <option value="">
+
+                        SELECT GENRE
+
+                    </option>
+
+                    <option value="Classical">
+
+                        CLASSICAL
+
+                    </option>
+
+                    <option value="Rock">
+
+                        ROCK
+
+                    </option>
+
+                    <option value="Jazz">
+
+                        JAZZ
+
+                    </option>
+
+                    <option value="Blues">
+
+                        BLUES
+
+                    </option>
+
+                    <option value="Electronic">
+
+                        ELECTRONIC
+
+                    </option>
+
+                    <option value="Ambient">
+
+                        AMBIENT
+
+                    </option>
+
+                    <option value="Folk">
+
+                        FOLK
+
+                    </option>
+
+                    <option value="Country">
+
+                        COUNTRY
+
+                    </option>
+
+                    <option value="Pop">
+
+                        POP
+
+                    </option>
+
+                    <option value="Hip-Hop">
+
+                        HIP-HOP
+
+                    </option>
+
+                    <option value="Soundtrack">
+
+                        SOUNDTRACK
+
+                    </option>
+
+                    <option value="Other">
+
+                        OTHER
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- MOOD -->
+
+            <div class="field">
+
+                <label for="mood">
+
+                    MOOD
+
+                </label>
+
+                <select id="mood">
+
+                    <option value="">
+
+                        SELECT MOOD
+
+                    </option>
+
+                    <option value="Calm">
+
+                        CALM
+
+                    </option>
+
+                    <option value="Peaceful">
+
+                        PEACEFUL
+
+                    </option>
+
+                    <option value="Happy">
+
+                        HAPPY
+
+                    </option>
+
+                    <option value="Energetic">
+
+                        ENERGETIC
+
+                    </option>
+
+                    <option value="Dark">
+
+                        DARK
+
+                    </option>
+
+                    <option value="Melancholic">
+
+                        MELANCHOLIC
+
+                    </option>
+
+                    <option value="Romantic">
+
+                        ROMANTIC
+
+                    </option>
+
+                    <option value="Dramatic">
+
+                        DRAMATIC
+
+                    </option>
+
+                    <option value="Mysterious">
+
+                        MYSTERIOUS
+
+                    </option>
+
+                    <option value="Dreamy">
+
+                        DREAMY
+
+                    </option>
+
+                    <option value="Uplifting">
+
+                        UPLIFTING
+
+                    </option>
+
+                    <option value="Intense">
+
+                        INTENSE
+
+                    </option>
+
+                    <option value="Other">
+
+                        OTHER
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- UPLOAD -->
+
+            <button
+                id="uploadButton"
+                class="primary-button"
+                type="button"
+            >
+
+                UPLOAD
+
+            </button>
+
+
+            <button
+                id="cancelButton"
+                class="secondary-button"
+                type="button"
+            >
+
+                CANCEL
+
+            </button>
+
+
+            <div
+                class="form-message"
+                id="formMessage"
+            ></div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+```
+
+</div>
+
+<!-- =========================
+     FOOTER
+     ========================= -->
+
+<div class="footer">
+
+```
+GR8SKUL
+
+&nbsp;·&nbsp;
+
+<a href="/">
+
+    BACK TO GR8SKUL
+
+</a>
+```
+
+</div>
+
+<script>
+
+/*
+    ============================================================
+    GR8SKUL WORKS
+    ============================================================
+*/
+
+
+const CATALOG_URL =
+    "/catalog.json";
+
+
+let works = [];
+
+let draggedElement = null;
+
+
+/*
+    ============================================================
+    DOM
+    ============================================================
+*/
+
+
+const worksList =
+    document.getElementById(
+        "worksList"
+    );
+
+
+const addButton =
+    document.getElementById(
+        "addButton"
+    );
+
+
+const addForm =
+    document.getElementById(
+        "addForm"
+    );
+
+
+const cancelButton =
+    document.getElementById(
+        "cancelButton"
+    );
+
+
+const uploadButton =
+    document.getElementById(
+        "uploadButton"
+    );
+
+
+const formMessage =
+    document.getElementById(
+        "formMessage"
+    );
+
+
+/*
+    ============================================================
+    LOAD CURRENT WORKS
+    ============================================================
+*/
+
+
+async function loadWorks() {
+
+    try {
+
+        const response =
+            await fetch(
+                CATALOG_URL +
+                "?t=" +
+                Date.now()
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Could not load the works catalog."
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            Array.isArray(data)
+        ) {
+
+            works = data;
+
+        } else if (
+            Array.isArray(data.tracks)
+        ) {
+
+            works = data.tracks;
+
+        } else {
+
+            works = [];
+
+        }
+
+
+        renderWorks();
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL works could not be loaded:",
+            error
+        );
+
+
+        works = [];
+
+        renderWorks();
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    RENDER WORKS
+    ============================================================
+*/
+
+
+function renderWorks() {
+
+    worksList.innerHTML = "";
+
+
+    works.forEach(
+        function(work, index) {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "work";
+
+
+            row.draggable =
+                true;
+
+
+            row.dataset.index =
+                index;
+
+
+            const number =
+                document.createElement(
+                    "div"
+                );
+
+
+            number.className =
+                "work-number";
+
+
+            number.textContent =
+                String(
+                    index + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const info =
+                document.createElement(
+                    "div"
+                );
+
+
+            info.className =
+                "work-info";
+
+
+            const artist =
+                document.createElement(
+                    "div"
+                );
+
+
+            artist.className =
+                "work-artist";
+
+
+            artist.textContent =
+                work.artist ||
+                work.artists ||
+                work.artist_name ||
+                "";
+
+
+            const title =
+                document.createElement(
+                    "div"
+                );
+
+
+            title.className =
+                "work-title";
+
+
+            title.textContent =
+                work.title ||
+                work.track_title ||
+                work.name ||
+                work.file ||
+                "";
+
+
+            info.appendChild(
+                artist
+            );
+
+
+            info.appendChild(
+                title
+            );
+
+
+            const edit =
+                document.createElement(
+                    "button"
+                );
+
+
+            edit.type =
+                "button";
+
+
+            edit.className =
+                "edit-button";
+
+
+            edit.textContent =
+                "EDIT";
+
+
+            edit.addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+                    editWork(
+                        index
+                    );
+
+                }
+            );
+
+
+            row.appendChild(
+                number
+            );
+
+
+            row.appendChild(
+                info
+            );
+
+
+            row.appendChild(
+                edit
+            );
+
+
+            addDragHandlers(
+                row
+            );
+
+
+            worksList.appendChild(
+                row
+            );
+
+        }
+    );
+
+}
+
+
+/*
+    ============================================================
+    DRAG AND DROP
+    ============================================================
+*/
+
+
+function addDragHandlers(
+    element
+) {
+
+    element.addEventListener(
+        "dragstart",
+        function() {
+
+            draggedElement =
+                element;
+
+            element.classList.add(
+                "dragging"
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragend",
+        function() {
+
+            element.classList.remove(
+                "dragging"
+            );
+
+            draggedElement =
+                null;
+
+            saveLocalOrder();
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragover",
+        function(event) {
+
+            event.preventDefault();
+
+
+            if (
+                !draggedElement ||
+                draggedElement === element
+            ) {
+
+                return;
+
+            }
+
+
+            const rect =
+                element.getBoundingClientRect();
+
+
+            const midpoint =
+                rect.top +
+                rect.height / 2;
+
+
+            if (
+                event.clientY <
+                midpoint
+            ) {
+
+                worksList.insertBefore(
+                    draggedElement,
+                    element
+                );
+
+            } else {
+
+                worksList.insertBefore(
+                    draggedElement,
+                    element.nextSibling
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/*
+    ============================================================
+    SAVE LOCAL ORDER
+    ============================================================
+*/
+
+
+function saveLocalOrder() {
+
+    const rows =
+        Array.from(
+            worksList.children
+        );
+
+
+    const reordered =
+        rows.map(
+            function(row) {
+
+                return works[
+                    Number(
+                        row.dataset.index
+                    )
+                ];
+
+            }
+        );
+
+
+    works =
+        reordered;
+
+
+    renderWorks();
+
+
+    /*
+        The order is deliberately retained
+        locally for this first page version.
+
+        The next connection will write the
+        resulting order to GitHub's
+        track-order.json.
+    */
+
+
+    try {
+
+        localStorage.setItem(
+            "gr8skul-works-order",
+            JSON.stringify(
+                works
+            )
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Could not save local works order:",
+            error
+        );
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    EDIT
+    ============================================================
+*/
+
+
+function editWork(
+    index
+) {
+
+    const work =
+        works[index];
+
+
+    if (!work) {
+
+        return;
+
+    }
+
+
+    document.getElementById(
+        "artistName"
+    ).value =
+        work.artist ||
+        work.artists ||
+        work.artist_name ||
+        "";
+
+
+    document.getElementById(
+        "trackTitle"
+    ).value =
+        work.title ||
+        work.track_title ||
+        work.name ||
+        "";
+
+
+    document.getElementById(
+        "genre"
+    ).value =
+        work.genre ||
+        "";
+
+
+    document.getElementById(
+        "mood"
+    ).value =
+        work.mood ||
+        "";
+
+
+    formMessage.textContent =
+        "Editing works will be connected to the publishing system next.";
+
+
+    addForm.classList.add(
+        "visible"
+    );
+
+
+    addButton.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+}
+
+
+/*
+    ============================================================
+    ADD FORM
+    ============================================================
+*/
+
+
+addButton.addEventListener(
+    "click",
+    function() {
+
+        addForm.classList.toggle(
+            "visible"
+        );
+
+
+        if (
+            addForm.classList.contains(
+                "visible"
+            )
+        ) {
+
+            document.getElementById(
+                "artistName"
+            ).focus();
+
+        }
+
+    }
+);
+
+
+/*
+    ============================================================
+    CANCEL
+    ============================================================
+*/
+
+
+cancelButton.addEventListener(
+    "click",
+    function() {
+
+        clearForm();
+
+        addForm.classList.remove(
+            "visible"
+        );
+
+    }
+);
+
+
+/*
+    ============================================================
+    CLEAR FORM
+    ============================================================
+*/
+
+
+function clearForm() {
+
+    document.getElementById(
+        "artistName"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "trackTitle"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "mp3File"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "genre"
+    ).value =
+        "";
+
+
+    document.getElementById(
+        "mood"
+    ).value =
+        "";
+
+
+    formMessage.textContent =
+        "";
+
+}
+
+
+/*
+    ============================================================
+    UPLOAD
+    ============================================================
+*/
+
+
+uploadButton.addEventListener(
+    "click",
+    function() {
+
+        const artist =
+            document.getElementById(
+                "artistName"
+            ).value.trim();
+
+
+        const title =
+            document.getElementById(
+                "trackTitle"
+            ).value.trim();
+
+
+        const file =
+            document.getElementById(
+                "mp3File"
+            ).files[0];
+
+
+        const genre =
+            document.getElementById(
+                "genre"
+            ).value;
+
+
+        const mood =
+            document.getElementById(
+                "mood"
+            ).value;
+
+
+        if (!artist) {
+
+            formMessage.textContent =
+                "Enter the artist name.";
+
+            return;
+
+        }
+
+
+        if (!title) {
+
+            formMessage.textContent =
+                "Enter the track title.";
+
+            return;
+
+        }
+
+
+        if (!file) {
+
+            formMessage.textContent =
+                "Choose an MP3 file.";
+
+            return;
+
+        }
+
+
+        if (
+            !file.name
+                .toLowerCase()
+                .endsWith(".mp3")
+        ) {
+
+            formMessage.textContent =
+                "The uploaded file must be an MP3.";
+
+            return;
+
+        }
+
+
+        if (!genre) {
+
+            formMessage.textContent =
+                "Select a genre.";
+
+            return;
+
+        }
+
+
+        if (!mood) {
+
+            formMessage.textContent =
+                "Select a mood.";
+
+            return;
+
+        }
+
+
+        formMessage.textContent =
+            "The upload connection will be added next.";
+
+    }
+);
+
+
+/*
+    ============================================================
+    START
+    ============================================================
+*/
+
+
+loadWorks();
+
+</script>
+
+</body>
+
+</html>
