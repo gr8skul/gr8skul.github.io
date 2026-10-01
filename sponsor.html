@@ -877,69 +877,35 @@ async function supabaseRequest(
 */
 
 
+
 async function loadPublicTicker() {
-
     try {
+        const data = await supabaseRequest(
+            "/rest/v1/rpc/get_public_sponsor_ticker",
+            "POST",
+            {}
+        );
 
-        const response =
-            await supabaseRequest(
-                "/rest/v1/rpc/get_public_sponsor_ticker",
-                {
-                    method: "POST",
+        const ticker = Array.isArray(data) ? data[0] : data;
 
-                    body:
-                        JSON.stringify({})
-                }
-            );
+        const value = ticker && ticker.average_exposure != null
+            ? Number(ticker.average_exposure).toFixed(1)
+            : "0.0";
 
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Ticker request failed: " +
-                response.status
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        const tickerValue =
-            document.getElementById(
-                "publicAverageDailyExposures"
-            );
-
-
-        /*
-            The current public ticker RPC returns
-            average_exposure.
-
-            This represents the average number of
-            60-second sponsor exposures per active
-            sponsor for today.
-        */
-
-
-        tickerValue.textContent =
-            Math.floor(
-                Number(
-                    data.average_exposure || 0
-                )
-            ).toLocaleString();
-
+        document.getElementById(
+            "publicAverageDailyExposures"
+        ).textContent = value;
 
     } catch (error) {
-
         console.error(
-            "GR8SKUL public sponsor ticker failed.",
+            "Failed to load public sponsor ticker:",
             error
         );
 
+        document.getElementById(
+            "publicAverageDailyExposures"
+        ).textContent = "0.0";
     }
-
 }
 
 
