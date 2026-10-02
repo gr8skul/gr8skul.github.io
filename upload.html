@@ -2383,120 +2383,90 @@ uploadButton.addEventListener(
              *     /functions/v1/upload-work
              */
 
-            const response =
-                await fetch(
-                    UPLOAD_WORK_FUNCTION,
-                    {
+           ```js
+const response =
+    await fetch(
+        UPLOAD_WORK_FUNCTION,
+        {
 
-                        method:
-                            "POST",
+            method:
+                "POST",
 
-                        headers: {
+            headers: {
 
-                            "apikey":
-                                SUPABASE_KEY,
+                "apikey":
+                    SUPABASE_KEY
 
-                            "Authorization":
-                                "Bearer " +
-                                SUPABASE_KEY
+            },
 
-                        },
-
-                        body:
-                            formData
-
-                    }
-                );
-
-
-            const result =
-                await response.json();
-
-
-            if (
-                !response.ok
-            ) {
-
-                throw new Error(
-                    result.error ||
-                    result.message ||
-                    (
-                        "HTTP " +
-                        response.status
-                    )
-                );
-
-            }
-
-
-            if (
-                result.success !==
-                true
-            ) {
-
-                throw new Error(
-                    result.error ||
-                    "Work could not be saved"
-                );
-
-            }
-
-
-            setFormStatus(
-                editingIndex !== null
-                    ? "WORK SAVED"
-                    : "WORK UPLOADED"
-            );
-
-
-            /*
-             * Reload from catalog/backend after success.
-             */
-
-            await loadWorks();
-
-
-            setTimeout(
-                function() {
-
-                    addForm.classList.remove(
-                        "visible"
-                    );
-
-
-                    resetForm();
-
-                },
-                1000
-            );
-
-
-        } catch (error) {
-
-            console.error(
-                "Could not save work:",
-                error
-            );
-
-
-            setFormStatus(
-                error.message ||
-                "UPLOAD FAILED"
-            );
-
-        } finally {
-
-            uploadButton.disabled =
-                false;
-
-
-            uploadButton.textContent =
-                "UPLOAD";
+            body:
+                formData
 
         }
+    );
 
-    }
+
+const result =
+    await response.json();
+
+
+if (
+    !response.ok
+) {
+
+    throw new Error(
+        result.error ||
+        result.message ||
+        (
+            "HTTP " +
+            response.status
+        )
+    );
+
+}
+
+
+if (
+    result.success !==
+    true
+) {
+
+    throw new Error(
+        result.error ||
+        "Work could not be saved"
+    );
+
+}
+
+
+setFormStatus(
+    editingIndex !== null
+        ? "WORK SAVED"
+        : "WORK UPLOADED"
 );
+
+
+/*
+ * Reload from catalog/backend after success.
+ */
+
+await loadWorks();
+
+
+setTimeout(
+    function() {
+
+        addForm.classList.remove(
+            "visible"
+        );
+
+
+        resetForm();
+
+    },
+    1000
+);
+
 
 
 /* =========================================================
