@@ -1738,7 +1738,7 @@ function startSponsorRotation() {
     */
 
 
-    async function loadCatalog() {
+   async function loadCatalog() {
 
         try {
 
@@ -1808,7 +1808,216 @@ function startSponsorRotation() {
         }
 
     }
+'''
 
+new = '''    async function loadCatalog() {
+
+        try {
+
+            /*
+                ============================================================
+                LOAD CATALOG
+                ============================================================
+
+                catalog.json contains the available works.
+
+                track-order.json contains the permanent order saved
+                from the WORKS page.
+
+                The WORKS page writes the exact music file paths into
+                track-order.json. We use those paths here to arrange
+                the player.
+            */
+
+
+            const catalogResponse =
+                await fetch(
+                    "catalog.json?cache=" +
+                    Date.now()
+                );
+
+
+            if (!catalogResponse.ok) {
+
+                throw new Error(
+                    "Catalog could not be loaded."
+                );
+
+            }
+
+
+            const catalog =
+                await catalogResponse.json();
+
+
+            /*
+                ============================================================
+                LOAD PERMANENT TRACK ORDER
+                ============================================================
+            */
+
+
+            const orderResponse =
+                await fetch(
+                    "track-order.json?cache=" +
+                    Date.now()
+                );
+
+
+            let trackOrder = [];
+
+
+            if (orderResponse.ok) {
+
+                const orderData =
+                    await orderResponse.json();
+
+
+                if (Array.isArray(orderData)) {
+
+                    trackOrder =
+                        orderData;
+
+                }
+
+            }
+
+
+            /*
+                ============================================================
+                ARRANGE CATALOG USING track-order.json
+                ============================================================
+
+                Every path in track-order.json is matched against the
+                catalog.
+
+                Any new catalog tracks that are not yet in
+                track-order.json are appended afterward.
+            */
+
+
+            const catalogByPath =
+                new Map();
+
+
+            catalog.forEach(
+                function(trackData) {
+
+                    if (
+                        trackData &&
+                        trackData.path
+                    ) {
+
+                        catalogByPath.set(
+                            trackData.path,
+                            trackData
+                        );
+
+                    }
+
+                }
+            );
+
+
+            const orderedCatalog = [];
+
+
+            trackOrder.forEach(
+                function(path) {
+
+                    if (
+                        catalogByPath.has(path)
+                    ) {
+
+                        orderedCatalog.push(
+                            catalogByPath.get(path)
+                        );
+
+                        catalogByPath.delete(path);
+
+                    }
+
+                }
+            );
+
+
+            /*
+                Add any newly discovered tracks that do not yet
+                exist in track-order.json.
+            */
+
+
+            catalog.forEach(
+                function(trackData) {
+
+                    if (
+                        trackData &&
+                        trackData.path &&
+                        catalogByPath.has(
+                            trackData.path
+                        )
+                    ) {
+
+                        orderedCatalog.push(
+                            trackData
+                        );
+
+                        catalogByPath.delete(
+                            trackData.path
+                        );
+
+                    }
+
+                }
+            );
+
+
+            tracksContainer.innerHTML =
+                "";
+
+
+            orderedCatalog.forEach(
+                function(trackData) {
+
+                    const track =
+                        createTrackElement(
+                            trackData
+                        );
+
+
+                    tracksContainer.appendChild(
+                        track
+                    );
+
+                }
+            );
+
+
+            tracks =
+                Array.from(
+                    document.querySelectorAll(
+                        ".track"
+                    )
+                );
+
+
+            updateAllTrackMuteButtons();
+
+
+            attachTrackListeners();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            tracksContainer.innerHTML =
+                "<div style='padding:20px 0; color:#777;'>Music catalog loading...</div>";
+
+        }
+
+    }
 
     /*
         ============================================================
