@@ -1025,16 +1025,30 @@ function editWork(
 
 
 /* =========================================================
-   POINTER DRAG
+   DRAG TO REARRANGE
    ========================================================= */
 
+let draggedRow = null;
 
-function addPointerDragHandlers(
-    element
-) {
+
+/* =========================================================
+   ADD DRAG HANDLERS
+   ========================================================= */
+
+function addPointerDragHandlers(element) {
+
+    element.setAttribute(
+        "draggable",
+        "true"
+    );
+
+
+    /* -----------------------------------------------------
+       START DRAG
+       ----------------------------------------------------- */
 
     element.addEventListener(
-        "pointerdown",
+        "dragstart",
         function(event) {
 
             if (
@@ -1043,86 +1057,80 @@ function addPointerDragHandlers(
                 )
             ) {
 
-                return;
-
-            }
-
-
-            touchDrag = {
-
-                element:
-                    element,
-
-                index:
-                    Number(
-                        element.dataset.index
-                    ),
-
-                pointerId:
-                    event.pointerId,
-
-                startY:
-                    event.clientY,
-
-                active:
-                    false
-
-            };
-
-
-            element.setPointerCapture(
-                event.pointerId
-            );
-
-        }
-    );
-
-
-    element.addEventListener(
-        "pointermove",
-        function(event) {
-
-            if (
-                !touchDrag ||
-                touchDrag.element !== element ||
-                touchDrag.pointerId !== event.pointerId
-            ) {
-
-                return;
-
-            }
-
-
-            const distance =
-                Math.abs(
-                    event.clientY -
-                    touchDrag.startY
-                );
-
-
-            if (
-                !touchDrag.active &&
-                distance >= 8
-            ) {
-
-                touchDrag.active =
-                    true;
-
-                element.classList.add(
-                    "dragging"
-                );
-
-            }
-
-
-            if (
-                touchDrag.active
-            ) {
-
                 event.preventDefault();
 
-                moveTouchRow(
-                    event.clientY
+                return;
+
+            }
+
+
+            draggedRow =
+                element;
+
+
+            element.classList.add(
+                "dragging"
+            );
+
+
+            event.dataTransfer.effectAllowed =
+                "move";
+
+
+            event.dataTransfer.setData(
+                "text/plain",
+                element.dataset.index
+            );
+
+        }
+    );
+
+
+    /* -----------------------------------------------------
+       DRAG OVER
+       ----------------------------------------------------- */
+
+    element.addEventListener(
+        "dragover",
+        function(event) {
+
+            event.preventDefault();
+
+
+            if (
+                !draggedRow ||
+                draggedRow === element
+            ) {
+
+                return;
+
+            }
+
+
+            const rect =
+                element.getBoundingClientRect();
+
+
+            const midpoint =
+                rect.top +
+                rect.height / 2;
+
+
+            if (
+                event.clientY <
+                midpoint
+            ) {
+
+                worksList.insertBefore(
+                    draggedRow,
+                    element
+                );
+
+            } else {
+
+                worksList.insertBefore(
+                    draggedRow,
+                    element.nextSibling
                 );
 
             }
@@ -1131,157 +1139,49 @@ function addPointerDragHandlers(
     );
 
 
+    /* -----------------------------------------------------
+       DROP
+       ----------------------------------------------------- */
+
     element.addEventListener(
-        "pointerup",
+        "drop",
         function(event) {
 
-            if (
-                touchDrag &&
-                touchDrag.element === element &&
-                touchDrag.pointerId === event.pointerId
-            ) {
-
-                finishPointerDrag();
-
-            }
+            event.preventDefault();
 
         }
     );
 
 
+    /* -----------------------------------------------------
+       END DRAG
+       ----------------------------------------------------- */
+
     element.addEventListener(
-        "pointercancel",
-        function(event) {
+        "dragend",
+        function() {
 
-            if (
-                touchDrag &&
-                touchDrag.element === element &&
-                touchDrag.pointerId === event.pointerId
-            ) {
+            if (!draggedRow) {
 
-                finishPointerDrag();
+                return;
 
             }
 
-        }
-    );
 
-}
-
-
-/* =========================================================
-   MOVE DRAGGED ROW
-   ========================================================= */
-
-
-function moveTouchRow(
-    clientY
-) {
-
-    if (!touchDrag) {
-
-        return;
-
-    }
-
-
-    const rows =
-        Array.from(
-            worksList.children
-        );
-
-
-    const dragged =
-        touchDrag.element;
-
-
-    for (
-        const row of rows
-    ) {
-
-        if (
-            row === dragged
-        ) {
-
-            continue;
-
-        }
-
-
-        const rect =
-            row.getBoundingClientRect();
-
-
-        const midpoint =
-            rect.top +
-            rect.height / 2;
-
-
-        if (
-            clientY < midpoint
-        ) {
-
-            worksList.insertBefore(
-                dragged,
-                row
+            draggedRow.classList.remove(
+                "dragging"
             );
 
-            return;
+
+            draggedRow = null;
+
+
+            saveCurrentDomOrder();
 
         }
-
-    }
-
-
-    worksList.appendChild(
-        dragged
     );
 
 }
-
-
-/* =========================================================
-   FINISH DRAG
-   ========================================================= */
-
-
-function finishPointerDrag() {
-
-    if (!touchDrag) {
-
-        return;
-
-    }
-
-
-    const wasDragged =
-        touchDrag.active;
-
-
-    const element =
-        touchDrag.element;
-
-
-    element.classList.remove(
-        "dragging"
-    );
-
-
-    touchDrag = null;
-
-
-    if (wasDragged) {
-
-        saveCurrentDomOrder();
-
-    }
-
-}
-
-
-/* =========================================================
-   SAVE CURRENT DOM ORDER
-   ========================================================= */
 
 
 async function saveCurrentDomOrder() {
