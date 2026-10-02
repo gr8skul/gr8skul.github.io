@@ -100,10 +100,6 @@ h1 {
     cursor: grabbing;
 }
 
-.work-row.dragging {
-    opacity: 0.45;
-}
-
 .work-number {
     color: #888888;
     font-size: 12px;
@@ -130,6 +126,10 @@ h1 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.work-details {
+    display: none;
 }
 
 .edit-button {
@@ -195,6 +195,13 @@ h1 {
     display: block;
 }
 
+.form-heading {
+    margin-bottom: 20px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: #666666;
+}
+
 .form-row {
     margin-bottom: 16px;
 }
@@ -210,8 +217,8 @@ h1 {
 .form-input,
 .form-select {
     width: 100%;
-    height: 38px;
-    padding: 0 10px;
+    min-height: 38px;
+    padding: 8px 10px;
     border: 1px solid #cccccc;
     background: #ffffff;
     color: #111111;
@@ -223,6 +230,18 @@ h1 {
 .form-select:focus {
     outline: none;
     border-color: #111111;
+}
+
+.form-select[multiple] {
+    min-height: 150px;
+    padding: 5px;
+}
+
+.form-help {
+    margin-top: 5px;
+    font-size: 9px;
+    line-height: 1.4;
+    color: #999999;
 }
 
 .form-actions {
@@ -245,6 +264,25 @@ h1 {
 .form-button:hover {
     background: #111111;
     color: #ffffff;
+}
+
+.form-button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.form-button:disabled:hover {
+    background: #ffffff;
+    color: #111111;
+}
+
+.form-status {
+    min-height: 18px;
+    margin-top: 12px;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #666666;
 }
 
 .back {
@@ -304,19 +342,23 @@ h1 {
             WORKS
         </div>
 
+
         <div
             id="worksList"
             class="works-list"
         ></div>
 
+
         <div class="drag-note">
             DRAG TO REARRANGE
         </div>
+
 
         <div
             id="orderStatus"
             class="order-status"
         ></div>
+
 
         <button
             id="addButton"
@@ -332,24 +374,44 @@ h1 {
             class="add-form"
         >
 
+            <div
+                id="formHeading"
+                class="form-heading"
+            >
+                ADD WORK
+            </div>
+
+
             <div class="form-row">
 
-                <label class="form-label">
-                    ARTIST
+                <label
+                    class="form-label"
+                    for="artistInput"
+                >
+                    ARTIST(S)
                 </label>
 
                 <input
                     id="artistInput"
                     class="form-input"
                     type="text"
+                    autocomplete="off"
+                    placeholder="Artist name"
                 >
+
+                <div class="form-help">
+                    Separate multiple artists with commas.
+                </div>
 
             </div>
 
 
             <div class="form-row">
 
-                <label class="form-label">
+                <label
+                    class="form-label"
+                    for="titleInput"
+                >
                     TITLE
                 </label>
 
@@ -357,6 +419,8 @@ h1 {
                     id="titleInput"
                     class="form-input"
                     type="text"
+                    autocomplete="off"
+                    placeholder="Work title"
                 >
 
             </div>
@@ -364,7 +428,10 @@ h1 {
 
             <div class="form-row">
 
-                <label class="form-label">
+                <label
+                    class="form-label"
+                    for="mp3Input"
+                >
                     MP3
                 </label>
 
@@ -375,23 +442,27 @@ h1 {
                     accept=".mp3,audio/mpeg"
                 >
 
+                <div class="form-help">
+                    MP3 files only.
+                </div>
+
             </div>
 
 
             <div class="form-row">
 
-                <label class="form-label">
-                    GENRE
+                <label
+                    class="form-label"
+                    for="genreInput"
+                >
+                    GENRE(S)
                 </label>
 
                 <select
                     id="genreInput"
                     class="form-select"
+                    multiple
                 >
-
-                    <option value="">
-                        SELECT GENRE
-                    </option>
 
                     <option value="Acoustic">
                         ACOUSTIC
@@ -443,23 +514,27 @@ h1 {
 
                 </select>
 
+                <div class="form-help">
+                    Hold CTRL (Windows) or CMD (Mac) to select more than one.
+                </div>
+
             </div>
 
 
             <div class="form-row">
 
-                <label class="form-label">
-                    MOOD
+                <label
+                    class="form-label"
+                    for="moodInput"
+                >
+                    MOOD(S)
                 </label>
 
                 <select
                     id="moodInput"
                     class="form-select"
+                    multiple
                 >
-
-                    <option value="">
-                        SELECT MOOD
-                    </option>
 
                     <option value="Calm">
                         CALM
@@ -499,6 +574,10 @@ h1 {
 
                 </select>
 
+                <div class="form-help">
+                    Hold CTRL (Windows) or CMD (Mac) to select more than one.
+                </div>
+
             </div>
 
 
@@ -521,6 +600,13 @@ h1 {
                 </button>
 
             </div>
+
+
+            <div
+                id="formStatus"
+                class="form-status"
+            ></div>
+
 
         </div>
 
@@ -547,13 +633,25 @@ h1 {
    ========================================================= */
 
 
+/* ---------------------------------------------------------
+   EXISTING CATALOG
+   --------------------------------------------------------- */
+
 const CATALOG_URL =
     "/catalog.json";
 
 
+/* ---------------------------------------------------------
+   EXISTING LOCAL ORDER
+   --------------------------------------------------------- */
+
 const LOCAL_ORDER_KEY =
     "gr8skul-works-order";
 
+
+/* ---------------------------------------------------------
+   SUPABASE
+   --------------------------------------------------------- */
 
 const SUPABASE_URL =
     "https://rijzolipyabfggrrhgab.supabase.co";
@@ -563,21 +661,42 @@ const SUPABASE_KEY =
     "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
 
 
+/* ---------------------------------------------------------
+   EXISTING WORKING REARRANGE FUNCTION
+   --------------------------------------------------------- */
+
 const UPDATE_ORDER_FUNCTION =
     SUPABASE_URL +
     "/functions/v1/update-track-order";
 
 
+/* ---------------------------------------------------------
+   NEW UPLOAD FUNCTION
+   ---------------------------------------------------------
+   The backend will be created next.
+
+   DO NOT change the existing UPDATE_ORDER_FUNCTION.
+   --------------------------------------------------------- */
+
+const UPLOAD_WORK_FUNCTION =
+    SUPABASE_URL +
+    "/functions/v1/upload-work";
+
+
+/* ---------------------------------------------------------
+   STATE
+   --------------------------------------------------------- */
+
 let works = [];
 
+let draggedRow = null;
 
-let touchDrag = null;
+let editingIndex = null;
 
 
 /* =========================================================
    ELEMENTS
    ========================================================= */
-
 
 const worksList =
     document.getElementById(
@@ -603,16 +722,238 @@ const addForm =
     );
 
 
+const formHeading =
+    document.getElementById(
+        "formHeading"
+    );
+
+
+const artistInput =
+    document.getElementById(
+        "artistInput"
+    );
+
+
+const titleInput =
+    document.getElementById(
+        "titleInput"
+    );
+
+
+const mp3Input =
+    document.getElementById(
+        "mp3Input"
+    );
+
+
+const genreInput =
+    document.getElementById(
+        "genreInput"
+    );
+
+
+const moodInput =
+    document.getElementById(
+        "moodInput"
+    );
+
+
 const cancelButton =
     document.getElementById(
         "cancelButton"
     );
 
 
+const uploadButton =
+    document.getElementById(
+        "uploadButton"
+    );
+
+
+const formStatus =
+    document.getElementById(
+        "formStatus"
+    );
+
+
+/* =========================================================
+   NORMALIZE WORK
+   =========================================================
+   This lets the page understand BOTH:
+
+   OLD:
+       "music/song.mp3"
+
+   NEW:
+       {
+           file: "...",
+           title: "...",
+           artists: [...],
+           genres: [...],
+           moods: [...]
+       }
+
+   This is important during the transition.
+   ========================================================= */
+
+function normalizeWork(work) {
+
+    if (typeof work === "string") {
+
+        const file =
+            work;
+
+        const filename =
+            file
+                .split("/")
+                .pop();
+
+
+        const withoutExtension =
+            filename
+                ? filename.replace(
+                    /\.mp3$/i,
+                    ""
+                )
+                : "";
+
+
+        return {
+
+            file:
+                file,
+
+            title:
+                withoutExtension,
+
+            artists:
+                [],
+
+            genres:
+                [],
+
+            moods:
+                []
+
+        };
+
+    }
+
+
+    if (
+        work &&
+        typeof work === "object"
+    ) {
+
+        return {
+
+            ...work,
+
+            file:
+                work.file ||
+                work.filename ||
+                work.path ||
+                work.url ||
+                work.src ||
+                work.audio ||
+                "",
+
+            title:
+                work.title ||
+                work.track_title ||
+                work.name ||
+                "",
+
+            artists:
+                normalizeArray(
+                    work.artists ||
+                    work.artist ||
+                    work.artist_name
+                ),
+
+            genres:
+                normalizeArray(
+                    work.genres ||
+                    work.genre
+                ),
+
+            moods:
+                normalizeArray(
+                    work.moods ||
+                    work.mood
+                )
+
+        };
+
+    }
+
+
+    return {
+
+        file: "",
+
+        title: "",
+
+        artists: [],
+
+        genres: [],
+
+        moods: []
+
+    };
+
+}
+
+
+/* =========================================================
+   NORMALIZE ARRAY
+   ========================================================= */
+
+function normalizeArray(value) {
+
+    if (Array.isArray(value)) {
+
+        return value
+            .map(
+                function(item) {
+
+                    return String(item)
+                        .trim();
+
+                }
+            )
+            .filter(Boolean);
+
+    }
+
+
+    if (
+        typeof value ===
+        "string"
+    ) {
+
+        return value
+            .split(",")
+            .map(
+                function(item) {
+
+                    return item.trim();
+
+                }
+            )
+            .filter(Boolean);
+
+    }
+
+
+    return [];
+
+}
+
+
 /* =========================================================
    LOAD WORKS
    ========================================================= */
-
 
 async function loadWorks() {
 
@@ -625,6 +966,7 @@ async function loadWorks() {
                 Date.now()
             );
 
+
         if (!response.ok) {
 
             throw new Error(
@@ -633,20 +975,27 @@ async function loadWorks() {
 
         }
 
+
         const data =
             await response.json();
 
 
-        if (Array.isArray(data)) {
+        let loadedWorks;
 
-            works = data;
+
+        if (
+            Array.isArray(data)
+        ) {
+
+            loadedWorks =
+                data;
 
         } else if (
             data &&
             Array.isArray(data.tracks)
         ) {
 
-            works =
+            loadedWorks =
                 data.tracks;
 
         } else {
@@ -656,6 +1005,12 @@ async function loadWorks() {
             );
 
         }
+
+
+        works =
+            loadedWorks.map(
+                normalizeWork
+            );
 
 
         applyLocalOrder();
@@ -668,6 +1023,7 @@ async function loadWorks() {
             "Could not load works:",
             error
         );
+
 
         worksList.innerHTML =
             "<div style=\"padding:20px;text-align:center;color:#888;font-size:12px;\">" +
@@ -683,14 +1039,28 @@ async function loadWorks() {
    WORK KEY
    ========================================================= */
 
-
 function getWorkKey(work) {
 
-    if (typeof work === "string") {
+    if (
+        typeof work ===
+        "string"
+    ) {
 
         return work;
 
     }
+
+
+    if (
+        !work ||
+        typeof work !==
+        "object"
+    ) {
+
+        return "";
+
+    }
+
 
     return (
         work.file ||
@@ -708,7 +1078,6 @@ function getWorkKey(work) {
 /* =========================================================
    APPLY LOCAL ORDER
    ========================================================= */
-
 
 function applyLocalOrder() {
 
@@ -728,10 +1097,16 @@ function applyLocalOrder() {
 
 
         const savedWorks =
-            JSON.parse(saved);
+            JSON.parse(
+                saved
+            );
 
 
-        if (!Array.isArray(savedWorks)) {
+        if (
+            !Array.isArray(
+                savedWorks
+            )
+        ) {
 
             return;
 
@@ -740,11 +1115,15 @@ function applyLocalOrder() {
 
         const savedKeys =
             savedWorks
-                .map(getWorkKey)
+                .map(
+                    getWorkKey
+                )
                 .filter(Boolean);
 
 
-        if (!savedKeys.length) {
+        if (
+            !savedKeys.length
+        ) {
 
             return;
 
@@ -759,7 +1138,10 @@ function applyLocalOrder() {
             function(work) {
 
                 const key =
-                    getWorkKey(work);
+                    getWorkKey(
+                        work
+                    );
+
 
                 if (key) {
 
@@ -780,13 +1162,22 @@ function applyLocalOrder() {
         savedKeys.forEach(
             function(key) {
 
-                if (byKey.has(key)) {
+                if (
+                    byKey.has(
+                        key
+                    )
+                ) {
 
                     reordered.push(
-                        byKey.get(key)
+                        byKey.get(
+                            key
+                        )
                     );
 
-                    byKey.delete(key);
+
+                    byKey.delete(
+                        key
+                    );
 
                 }
 
@@ -798,18 +1189,26 @@ function applyLocalOrder() {
             function(work) {
 
                 const key =
-                    getWorkKey(work);
+                    getWorkKey(
+                        work
+                    );
+
 
                 if (
                     key &&
-                    byKey.has(key)
+                    byKey.has(
+                        key
+                    )
                 ) {
 
                     reordered.push(
                         work
                     );
 
-                    byKey.delete(key);
+
+                    byKey.delete(
+                        key
+                    );
 
                 }
 
@@ -817,7 +1216,9 @@ function applyLocalOrder() {
         );
 
 
-        if (reordered.length) {
+        if (
+            reordered.length
+        ) {
 
             works =
                 reordered;
@@ -840,10 +1241,10 @@ function applyLocalOrder() {
    RENDER WORKS
    ========================================================= */
 
-
 function renderWorks() {
 
-    worksList.innerHTML = "";
+    worksList.innerHTML =
+        "";
 
 
     works.forEach(
@@ -874,8 +1275,12 @@ function renderWorks() {
 
 
             number.textContent =
-                String(index + 1)
-                    .padStart(2, "0");
+                String(
+                    index + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
 
 
             const info =
@@ -899,10 +1304,10 @@ function renderWorks() {
 
 
             artist.textContent =
-                work.artist ||
-                work.artists ||
-                work.artist_name ||
-                "";
+                work.artists
+                    .join(
+                        ", "
+                    );
 
 
             const title =
@@ -917,10 +1322,9 @@ function renderWorks() {
 
             title.textContent =
                 work.title ||
-                work.track_title ||
-                work.name ||
-                work.file ||
-                "";
+                getFilenameTitle(
+                    work.file
+                );
 
 
             info.appendChild(
@@ -967,6 +1371,7 @@ function renderWorks() {
 
                     event.stopPropagation();
 
+
                     editWork(
                         work,
                         index
@@ -1007,24 +1412,173 @@ function renderWorks() {
 
 
 /* =========================================================
-   EDIT
+   FILENAME TITLE
    ========================================================= */
 
+function getFilenameTitle(
+    file
+) {
+
+    if (!file) {
+
+        return "";
+
+    }
+
+
+    const filename =
+        file
+            .split("/")
+            .pop();
+
+
+    return filename
+        ? filename.replace(
+            /\.mp3$/i,
+            ""
+        )
+        : "";
+
+}
+
+
+/* =========================================================
+   EDIT WORK
+   ========================================================= */
 
 function editWork(
     work,
     index
 ) {
 
-    console.log(
-        "EDIT WORK:",
-        index,
-        work
+    editingIndex =
+        index;
+
+
+    formHeading.textContent =
+        "EDIT WORK";
+
+
+    artistInput.value =
+        work.artists.join(
+            ", "
+        );
+
+
+    titleInput.value =
+        work.title ||
+        getFilenameTitle(
+            work.file
+        );
+
+
+    setSelectedValues(
+        genreInput,
+        work.genres
     );
 
-    alert(
-        "EDIT is not connected yet."
+
+    setSelectedValues(
+        moodInput,
+        work.moods
     );
+
+
+    mp3Input.value =
+        "";
+
+
+    formStatus.textContent =
+        "";
+
+
+    addForm.classList.add(
+        "visible"
+    );
+
+
+    window.scrollTo(
+        {
+            top:
+                addForm.offsetTop -
+                20,
+
+            behavior:
+                "smooth"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   SET MULTI-SELECT VALUES
+   ========================================================= */
+
+function setSelectedValues(
+    select,
+    values
+) {
+
+    const selected =
+        new Set(
+            values || []
+        );
+
+
+    Array.from(
+        select.options
+    ).forEach(
+        function(option) {
+
+            option.selected =
+                selected.has(
+                    option.value
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GET MULTI-SELECT VALUES
+   ========================================================= */
+
+function getSelectedValues(
+    select
+) {
+
+    return Array.from(
+        select.selectedOptions
+    ).map(
+        function(option) {
+
+            return option.value;
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ARTIST VALUES
+   ========================================================= */
+
+function getArtistValues() {
+
+    return artistInput.value
+        .split(",")
+        .map(
+            function(value) {
+
+                return value.trim();
+
+            }
+        )
+        .filter(Boolean);
 
 }
 
@@ -1033,14 +1587,9 @@ function editWork(
    DRAG TO REARRANGE
    ========================================================= */
 
-let draggedRow = null;
-
-
-/* =========================================================
-   ADD DRAG HANDLERS
-   ========================================================= */
-
-function addPointerDragHandlers(element) {
+function addPointerDragHandlers(
+    element
+) {
 
     element.setAttribute(
         "draggable",
@@ -1178,7 +1727,8 @@ function addPointerDragHandlers(element) {
             );
 
 
-            draggedRow = null;
+            draggedRow =
+                null;
 
 
             saveCurrentDomOrder();
@@ -1189,6 +1739,23 @@ function addPointerDragHandlers(element) {
 }
 
 
+/* =========================================================
+   SAVE CURRENT DOM ORDER
+   =========================================================
+   IMPORTANT:
+
+   This remains compatible with the existing
+   update-track-order Edge Function.
+
+   The backend still receives ONLY:
+
+       [
+           "music/file-a.mp3",
+           "music/file-b.mp3"
+       ]
+
+   ========================================================= */
+
 async function saveCurrentDomOrder() {
 
     const rows =
@@ -1198,7 +1765,9 @@ async function saveCurrentDomOrder() {
 
 
     const previousWorks =
-        [...works];
+        [
+            ...works
+        ];
 
 
     const reordered =
@@ -1233,9 +1802,8 @@ async function saveCurrentDomOrder() {
 
 
     /* -----------------------------------------------------
-       Keep a local copy immediately.
+       LOCAL COPY
        ----------------------------------------------------- */
-
 
     try {
 
@@ -1257,9 +1825,12 @@ async function saveCurrentDomOrder() {
 
 
     /* -----------------------------------------------------
-       Build the exact track-order.json array.
-       ----------------------------------------------------- */
+       BUILD TRACK ORDER
 
+       The metadata objects stay on the page,
+       but the existing rearrange backend
+       receives only their file paths.
+       ----------------------------------------------------- */
 
     const tracks =
         works
@@ -1284,11 +1855,14 @@ async function saveCurrentDomOrder() {
         works =
             previousWorks;
 
+
         renderWorks();
+
 
         setOrderStatus(
             "COULD NOT SAVE ORDER"
         );
+
 
         return;
 
@@ -1306,7 +1880,9 @@ async function saveCurrentDomOrder() {
             await fetch(
                 UPDATE_ORDER_FUNCTION,
                 {
-                    method: "POST",
+
+                    method:
+                        "POST",
 
                     headers: {
 
@@ -1323,10 +1899,12 @@ async function saveCurrentDomOrder() {
                     },
 
                     body:
-                        JSON.stringify({
-                            tracks:
-                                tracks
-                        })
+                        JSON.stringify(
+                            {
+                                tracks:
+                                    tracks
+                            }
+                        )
 
                 }
             );
@@ -1336,7 +1914,9 @@ async function saveCurrentDomOrder() {
             await response.json();
 
 
-        if (!response.ok) {
+        if (
+            !response.ok
+        ) {
 
             throw new Error(
                 result.error ||
@@ -1351,7 +1931,8 @@ async function saveCurrentDomOrder() {
 
 
         if (
-            result.success !== true
+            result.success !==
+            true
         ) {
 
             throw new Error(
@@ -1425,7 +2006,6 @@ async function saveCurrentDomOrder() {
    STATUS
    ========================================================= */
 
-
 function setOrderStatus(
     message
 ) {
@@ -1437,21 +2017,103 @@ function setOrderStatus(
 
 
 /* =========================================================
-   ADD FORM
+   FORM STATUS
    ========================================================= */
 
+function setFormStatus(
+    message
+) {
+
+    formStatus.textContent =
+        message;
+
+}
+
+
+/* =========================================================
+   RESET FORM
+   ========================================================= */
+
+function resetForm() {
+
+    editingIndex =
+        null;
+
+
+    formHeading.textContent =
+        "ADD WORK";
+
+
+    artistInput.value =
+        "";
+
+
+    titleInput.value =
+        "";
+
+
+    mp3Input.value =
+        "";
+
+
+    setSelectedValues(
+        genreInput,
+        []
+    );
+
+
+    setSelectedValues(
+        moodInput,
+        []
+    );
+
+
+    setFormStatus(
+        ""
+    );
+
+}
+
+
+/* =========================================================
+   OPEN ADD FORM
+   ========================================================= */
 
 addButton.addEventListener(
     "click",
     function() {
 
-        addForm.classList.toggle(
+        if (
+            addForm.classList.contains(
+                "visible"
+            )
+        ) {
+
+            addForm.classList.remove(
+                "visible"
+            );
+
+            resetForm();
+
+            return;
+
+        }
+
+
+        resetForm();
+
+
+        addForm.classList.add(
             "visible"
         );
 
     }
 );
 
+
+/* =========================================================
+   CANCEL
+   ========================================================= */
 
 cancelButton.addEventListener(
     "click",
@@ -1461,6 +2123,378 @@ cancelButton.addEventListener(
             "visible"
         );
 
+
+        resetForm();
+
+    }
+);
+
+
+/* =========================================================
+   UPLOAD / SAVE
+   =========================================================
+   The actual backend is the next piece.
+
+   This handler collects the complete work record
+   and will send it to the new upload-work Edge Function.
+
+   ========================================================= */
+
+uploadButton.addEventListener(
+    "click",
+    async function() {
+
+        setFormStatus(
+            ""
+        );
+
+
+        const artists =
+            getArtistValues();
+
+
+        const title =
+            titleInput.value.trim();
+
+
+        const genres =
+            getSelectedValues(
+                genreInput
+            );
+
+
+        const moods =
+            getSelectedValues(
+                moodInput
+            );
+
+
+        const file =
+            mp3Input.files[0] ||
+            null;
+
+
+        /* -------------------------------------------------
+           ADD VALIDATION
+           ------------------------------------------------- */
+
+        if (
+            editingIndex === null &&
+            !file
+        ) {
+
+            setFormStatus(
+                "SELECT AN MP3"
+            );
+
+            return;
+
+        }
+
+
+        if (!title) {
+
+            setFormStatus(
+                "TITLE REQUIRED"
+            );
+
+            return;
+
+        }
+
+
+        if (!artists.length) {
+
+            setFormStatus(
+                "ARTIST REQUIRED"
+            );
+
+            return;
+
+        }
+
+
+        if (!genres.length) {
+
+            setFormStatus(
+                "SELECT AT LEAST ONE GENRE"
+            );
+
+            return;
+
+        }
+
+
+        if (!moods.length) {
+
+            setFormStatus(
+                "SELECT AT LEAST ONE MOOD"
+            );
+
+            return;
+
+        }
+
+
+        /* -------------------------------------------------
+           MP3 VALIDATION
+           ------------------------------------------------- */
+
+        if (
+            file &&
+            !(
+                file.type ===
+                "audio/mpeg"
+                ||
+                /\.mp3$/i.test(
+                    file.name
+                )
+            )
+        ) {
+
+            setFormStatus(
+                "MP3 FILES ONLY"
+            );
+
+            return;
+
+        }
+
+
+        /* -------------------------------------------------
+           BUILD TRACK DATA
+           ------------------------------------------------- */
+
+        const metadata = {
+
+            title:
+                title,
+
+            artists:
+                artists,
+
+            genres:
+                genres,
+
+            moods:
+                moods
+
+        };
+
+
+        /* -------------------------------------------------
+           EDIT EXISTING WORK
+
+           If editing and no replacement MP3 was selected,
+           retain the existing file.
+           ------------------------------------------------- */
+
+        if (
+            editingIndex !== null
+        ) {
+
+            const existingWork =
+                works[
+                    editingIndex
+                ];
+
+
+            metadata.file =
+                getWorkKey(
+                    existingWork
+                );
+
+        }
+
+
+        /* -------------------------------------------------
+           BUILD FORM DATA
+           ------------------------------------------------- */
+
+        const formData =
+            new FormData();
+
+
+        formData.append(
+            "metadata",
+            JSON.stringify(
+                metadata
+            )
+        );
+
+
+        if (file) {
+
+            formData.append(
+                "mp3",
+                file,
+                file.name
+            );
+
+        }
+
+
+        if (
+            editingIndex !== null
+        ) {
+
+            formData.append(
+                "mode",
+                "edit"
+            );
+
+        } else {
+
+            formData.append(
+                "mode",
+                "add"
+            );
+
+        }
+
+
+        /* -------------------------------------------------
+           DISABLE BUTTON WHILE WORKING
+           ------------------------------------------------- */
+
+        uploadButton.disabled =
+            true;
+
+
+        uploadButton.textContent =
+            editingIndex !== null
+                ? "SAVING..."
+                : "UPLOADING...";
+
+
+        setFormStatus(
+            "PLEASE WAIT..."
+        );
+
+
+        try {
+
+            /*
+             * The Edge Function does not exist yet.
+             *
+             * We are deliberately connecting this page
+             * to the endpoint we are about to create:
+             *
+             *     /functions/v1/upload-work
+             */
+
+            const response =
+                await fetch(
+                    UPLOAD_WORK_FUNCTION,
+                    {
+
+                        method:
+                            "POST",
+
+                        headers: {
+
+                            "apikey":
+                                SUPABASE_KEY,
+
+                            "Authorization":
+                                "Bearer " +
+                                SUPABASE_KEY
+
+                        },
+
+                        body:
+                            formData
+
+                    }
+                );
+
+
+            const result =
+                await response.json();
+
+
+            if (
+                !response.ok
+            ) {
+
+                throw new Error(
+                    result.error ||
+                    result.message ||
+                    (
+                        "HTTP " +
+                        response.status
+                    )
+                );
+
+            }
+
+
+            if (
+                result.success !==
+                true
+            ) {
+
+                throw new Error(
+                    result.error ||
+                    "Work could not be saved"
+                );
+
+            }
+
+
+            setFormStatus(
+                editingIndex !== null
+                    ? "WORK SAVED"
+                    : "WORK UPLOADED"
+            );
+
+
+            /*
+             * Reload from catalog/backend after success.
+             */
+
+            await loadWorks();
+
+
+            setTimeout(
+                function() {
+
+                    addForm.classList.remove(
+                        "visible"
+                    );
+
+
+                    resetForm();
+
+                },
+                1000
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Could not save work:",
+                error
+            );
+
+
+            setFormStatus(
+                error.message ||
+                "UPLOAD FAILED"
+            );
+
+        } finally {
+
+            uploadButton.disabled =
+                false;
+
+
+            uploadButton.textContent =
+                "UPLOAD";
+
+        }
+
     }
 );
 
@@ -1468,7 +2502,6 @@ cancelButton.addEventListener(
 /* =========================================================
    START
    ========================================================= */
-
 
 loadWorks();
 
