@@ -1,13 +1,13 @@
 [
   {
-    "name": "The Won (string instrumental).mp3",
-    "path": "music/The Won (string instrumental).mp3",
-    "timestamp": 1790170540
-  },
-  {
     "name": "Arnt We Rich.mp3",
     "path": "music/Arnt We Rich.mp3",
     "timestamp": 1790089017
+  },
+  {
+    "name": "The Won (string instrumental).mp3",
+    "path": "music/The Won (string instrumental).mp3",
+    "timestamp": 1790170540
   },
   {
     "name": "Piano Peace.mp3",
@@ -40,11 +40,6 @@
     "timestamp": 1790099424
   },
   {
-    "name": "Eye Dragon (LIVE).mp3",
-    "path": "music/Eye Dragon (LIVE).mp3",
-    "timestamp": 1790099424
-  },
-  {
     "name": "Arnt We Rich (Instrumental).mp3",
     "path": "music/Arnt We Rich (Instrumental).mp3",
     "timestamp": 1790099424
@@ -58,5 +53,10 @@
     "name": "Thugavelt.mp3",
     "path": "music/Thugavelt.mp3",
     "timestamp": 1790088262
+  },
+  {
+    "name": "Eye Dragon (LIVE).mp3",
+    "path": "music/Eye Dragon (LIVE).mp3",
+    "timestamp": 1790099424
   }
 ]
