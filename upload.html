@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 
 <html lang="en">
@@ -20,16 +19,6 @@
     href="/gr8skul-icon.PNG"
 >
 
-<link
-    rel="apple-touch-icon"
-    href="/gr8skul-icon.PNG"
->
-
-<link
-    rel="manifest"
-    href="/manifest.json"
->
-
 <style>
 
 * {
@@ -38,493 +27,244 @@
 
 html,
 body {
-
     margin: 0;
-
+    padding: 0;
     background: #ffffff;
-
     color: #111111;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    min-height: 100%;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-
-    overflow-x: hidden;
-
-    touch-action: manipulation;
-}
-
-.app {
-
-    width: 100%;
-
-    max-width: 700px;
-
     min-height: 100vh;
-
-    margin: 0 auto;
-
-    padding: 0 20px;
-
-    display: flex;
-
-    flex-direction: column;
 }
 
-
-/* =========================
-   HEADER
-   ========================= */
+.page {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 30px 20px 40px;
+}
 
 .header {
+    text-align: center;
+    margin-bottom: 30px;
+}
 
-    flex-shrink: 0;
-
-    background: #ffffff;
-
-    padding-top: 35px;
+.logo {
+    display: block;
+    width: 190px;
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto 24px;
 }
 
 h1 {
-
-    margin: 0 0 35px;
-
-    text-align: center;
-
-    font-size: 42px;
-
-    letter-spacing: 6px;
-
-    font-weight: 700;
+    margin: 0;
+    font-size: 24px;
+    font-weight: 400;
+    letter-spacing: 3px;
 }
 
-h1 img {
-
-    display: block;
-
-    width: auto;
-
-    height: 42px;
-
-    max-width: 100%;
-
-    margin: 0 auto;
-}
-
-.page-title {
-
-    text-align: center;
-
-    font-size: 14px;
-
-    letter-spacing: 2px;
-
-    font-weight: bold;
-
-    margin-bottom: 25px;
-}
-
-.header-line {
-
-    border-bottom: 1px solid #cccccc;
-
-    margin-bottom: 0;
-}
-
-
-/* =========================
-   MAIN
-   ========================= */
-
-.content {
-
-    flex: 1;
-
-    padding: 30px 0 40px;
+.section {
+    margin-top: 30px;
 }
 
 .section-title {
-
-    text-align: center;
-
-    font-size: 13px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 25px;
-}
-
-
-/* =========================
-   WORKS
-   ========================= */
-
-.works-section {
-
-    width: 100%;
-
-    max-width: 600px;
-
-    margin: 0 auto;
-}
-
-.rearrange-note {
-
-    text-align: center;
-
-    font-size: 10px;
-
-    letter-spacing: 1px;
-
-    color: #999999;
-
-    margin-bottom: 15px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: #666666;
+    margin-bottom: 10px;
 }
 
 .works-list {
-
-    width: 100%;
-
-    margin-bottom: 20px;
+    border-top: 1px solid #d8d8d8;
 }
 
-.work {
-
+.work-row {
     display: grid;
-
-    grid-template-columns: 42px 1fr 70px;
-
+    grid-template-columns: 38px 1fr 70px;
     align-items: center;
-
-    min-height: 68px;
-
-    border-bottom: 1px solid #cccccc;
-
+    min-height: 52px;
+    border-bottom: 1px solid #d8d8d8;
     cursor: grab;
-
     user-select: none;
-
-    -webkit-user-select: none;
-
-    -webkit-touch-callout: none;
-
     background: #ffffff;
-
-    touch-action: none;
-
-    transition:
-        opacity 0.15s ease,
-        background 0.15s ease;
 }
 
-.work:first-child {
-
-    border-top: 1px solid #cccccc;
-}
-
-.work:active {
-
+.work-row:active {
     cursor: grabbing;
 }
 
-.work.dragging {
-
+.work-row.dragging {
     opacity: 0.45;
-
-    background: #f5f5f5;
 }
 
 .work-number {
-
-    font-size: 11px;
-
     color: #888888;
-
+    font-size: 12px;
     text-align: left;
 }
 
 .work-info {
-
     min-width: 0;
-
-    padding: 10px 10px 10px 0;
+    padding-right: 10px;
 }
 
 .work-artist {
-
-    font-size: 12px;
-
-    color: #777777;
-
-    margin-bottom: 5px;
-
+    font-size: 13px;
+    font-weight: bold;
     white-space: nowrap;
-
     overflow: hidden;
-
     text-overflow: ellipsis;
 }
 
 .work-title {
-
-    font-size: 14px;
-
-    font-weight: bold;
-
+    font-size: 12px;
+    color: #666666;
+    margin-top: 3px;
     white-space: nowrap;
-
     overflow: hidden;
-
     text-overflow: ellipsis;
 }
 
 .edit-button {
-
-    min-height: 34px;
-
-    padding: 6px 10px;
-
-    font-size: 10px;
-
-    letter-spacing: 0.5px;
-}
-
-
-/* =========================
-   ADD BUTTON
-   ========================= */
-
-.add-area {
-
-    margin-top: 25px;
-}
-
-.add-button {
-
-    width: 100%;
-
-    font-weight: bold;
-}
-
-
-/* =========================
-   ADD FORM
-   ========================= */
-
-.add-form {
-
-    display: none;
-
-    margin-top: 30px;
-
-    padding-top: 30px;
-
-    border-top: 1px solid #cccccc;
-}
-
-.add-form.visible {
-
-    display: block;
-}
-
-.form {
-
-    width: 100%;
-
-    max-width: 420px;
-
-    margin: 0 auto;
-}
-
-.field {
-
-    margin-bottom: 15px;
-}
-
-label {
-
-    display: block;
-
-    font-size: 11px;
-
-    color: #777777;
-
-    margin-bottom: 6px;
-
-    letter-spacing: 0.5px;
-}
-
-input,
-select {
-
-    width: 100%;
-
-    height: 46px;
-
+    justify-self: end;
+    width: 58px;
+    padding: 6px 0;
     border: 1px solid #111111;
-
-    border-radius: 0;
-
     background: #ffffff;
-
     color: #111111;
-
-    padding: 0 12px;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    font-size: 15px;
-
-    outline: none;
-}
-
-input:focus,
-select:focus {
-
-    background: #f5f5f5;
-}
-
-input[type="file"] {
-
-    padding: 10px 12px;
-
-    font-size: 13px;
-}
-
-select {
-
-    appearance: auto;
-
+    font-size: 10px;
+    letter-spacing: 1px;
     cursor: pointer;
 }
 
-.primary-button {
-
-    width: 100%;
-
-    font-weight: bold;
-
-    margin-top: 5px;
+.edit-button:hover {
+    background: #111111;
+    color: #ffffff;
 }
 
-.secondary-button {
-
-    width: 100%;
-
+.drag-note {
     margin-top: 10px;
-}
-
-.form-message {
-
-    min-height: 24px;
-
-    margin-top: 15px;
-
-    text-align: center;
-
-    font-size: 12px;
-
-    color: #777777;
-
-    line-height: 1.5;
-}
-
-
-/* =========================
-   WORK INFORMATION
-   ========================= */
-
-.work-meta {
-
-    display: none;
-
     font-size: 10px;
-
-    color: #888888;
-
-    margin-top: 5px;
+    letter-spacing: 1px;
+    color: #999999;
+    text-align: center;
 }
 
-.work-meta.visible {
+.order-status {
+    min-height: 18px;
+    margin-top: 10px;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #666666;
+}
 
+.add-button {
+    display: block;
+    width: 100%;
+    margin-top: 22px;
+    padding: 13px 0;
+    border: 1px solid #111111;
+    background: #ffffff;
+    color: #111111;
+    font-size: 11px;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background: #111111;
+    color: #ffffff;
+}
+
+.add-form {
+    display: none;
+    margin-top: 20px;
+    border: 1px solid #d8d8d8;
+    padding: 20px;
+}
+
+.add-form.visible {
     display: block;
 }
 
+.form-row {
+    margin-bottom: 16px;
+}
 
-/* =========================
-   FOOTER
-   ========================= */
-
-.footer {
-
-    flex-shrink: 0;
-
-    padding: 20px 0 25px;
-
-    text-align: center;
-
-    border-top: 1px solid #cccccc;
-
+.form-label {
+    display: block;
+    margin-bottom: 6px;
     font-size: 10px;
-
-    color: #999999;
+    letter-spacing: 1.5px;
+    color: #666666;
 }
 
-.footer a {
-
-    color: #777777;
-
-    text-decoration: none;
-}
-
-.footer a:hover {
-
+.form-input,
+.form-select {
+    width: 100%;
+    height: 38px;
+    padding: 0 10px;
+    border: 1px solid #cccccc;
+    background: #ffffff;
     color: #111111;
-
-    text-decoration: underline;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
 }
 
+.form-input:focus,
+.form-select:focus {
+    outline: none;
+    border-color: #111111;
+}
 
-/* =========================
-   MOBILE
-   ========================= */
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.form-button {
+    flex: 1;
+    height: 40px;
+    border: 1px solid #111111;
+    background: #ffffff;
+    color: #111111;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+}
+
+.form-button:hover {
+    background: #111111;
+    color: #ffffff;
+}
+
+.back {
+    display: block;
+    margin-top: 40px;
+    text-align: center;
+    color: #666666;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+
+.back:hover {
+    color: #111111;
+}
 
 @media (max-width: 500px) {
 
-    .app {
-
-        padding: 0 15px;
+    .page {
+        padding-left: 14px;
+        padding-right: 14px;
     }
 
-    .header {
-
-        padding-top: 25px;
-    }
-
-    h1 img {
-
-        height: 34px;
-    }
-
-    .content {
-
-        padding-top: 25px;
-    }
-
-    .work {
-
-        grid-template-columns: 35px 1fr 62px;
+    .work-row {
+        grid-template-columns: 32px 1fr 62px;
     }
 
 }
@@ -536,155 +276,96 @@ select {
 
 <body>
 
-<div class="app">
+
+<div class="page">
 
 
-<!-- =========================
-     HEADER
-     ========================= -->
+    <div class="header">
 
-<div class="header">
+        <img
+            class="logo"
+            src="/GR8SKUL-HEADER-LOGO.png"
+            alt="GR8SKUL"
+        >
 
-<h1>
+        <h1>WORKS</h1>
 
-    <img
-        src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-        alt="GR8SKUL"
-    >
-
-</h1>
-
-
-<div class="page-title">
-
-    WORKS
-
-</div>
-
-
-<div class="header-line"></div>
-
-</div>
-
-
-<!-- =========================
-     CONTENT
-     ========================= -->
-
-<div class="content">
-
-
-<div class="works-section">
-
-
-    <!-- =========================
-         WORKS LIST
-         ========================= -->
-
-    <div
-        class="rearrange-note"
-        id="rearrangeNote"
-    >
-        DRAG TO REARRANGE
     </div>
 
 
-    <div
-        class="works-list"
-        id="worksList"
-    ></div>
+    <div class="section">
 
+        <div class="section-title">
+            WORKS
+        </div>
 
-    <!-- =========================
-         ADD
-         ========================= -->
+        <div
+            id="worksList"
+            class="works-list"
+        ></div>
 
-    <div class="add-area">
+        <div class="drag-note">
+            DRAG TO REARRANGE
+        </div>
+
+        <div
+            id="orderStatus"
+            class="order-status"
+        ></div>
 
         <button
             id="addButton"
             class="add-button"
             type="button"
         >
-
-            ADD
-
+            + ADD
         </button>
 
-    </div>
 
+        <div
+            id="addForm"
+            class="add-form"
+        >
 
-    <!-- =========================
-         ADD FORM
-         ========================= -->
+            <div class="form-row">
 
-    <div
-        class="add-form"
-        id="addForm"
-    >
-
-        <div class="section-title">
-
-            ADD WORK
-
-        </div>
-
-
-        <div class="form">
-
-
-            <!-- ARTIST -->
-
-            <div class="field">
-
-                <label for="artistName">
-
-                    ARTIST NAME
-
+                <label class="form-label">
+                    ARTIST
                 </label>
 
                 <input
-                    id="artistName"
+                    id="artistInput"
+                    class="form-input"
                     type="text"
-                    maxlength="90"
-                    autocomplete="off"
                 >
 
             </div>
 
 
-            <!-- TITLE -->
+            <div class="form-row">
 
-            <div class="field">
-
-                <label for="trackTitle">
-
-                    TRACK TITLE
-
+                <label class="form-label">
+                    TITLE
                 </label>
 
                 <input
-                    id="trackTitle"
+                    id="titleInput"
+                    class="form-input"
                     type="text"
-                    maxlength="90"
-                    autocomplete="off"
                 >
 
             </div>
 
 
-            <!-- MP3 -->
+            <div class="form-row">
 
-            <div class="field">
-
-                <label for="mp3File">
-
+                <label class="form-label">
                     MP3
-
                 </label>
 
                 <input
-                    id="mp3File"
+                    id="mp3Input"
+                    class="form-input"
                     type="file"
                     accept=".mp3,audio/mpeg"
                 >
@@ -692,94 +373,67 @@ select {
             </div>
 
 
-            <!-- GENRE -->
+            <div class="form-row">
 
-            <div class="field">
-
-                <label for="genre">
-
+                <label class="form-label">
                     GENRE
-
                 </label>
 
-                <select id="genre">
+                <select
+                    id="genreInput"
+                    class="form-select"
+                >
 
                     <option value="">
-
                         SELECT GENRE
-
                     </option>
 
-                    <option value="Classical">
-
-                        CLASSICAL
-
+                    <option value="Acoustic">
+                        ACOUSTIC
                     </option>
 
-                    <option value="Rock">
-
-                        ROCK
-
-                    </option>
-
-                    <option value="Jazz">
-
-                        JAZZ
-
+                    <option value="Alternative">
+                        ALTERNATIVE
                     </option>
 
                     <option value="Blues">
-
                         BLUES
-
                     </option>
 
-                    <option value="Electronic">
-
-                        ELECTRONIC
-
-                    </option>
-
-                    <option value="Ambient">
-
-                        AMBIENT
-
-                    </option>
-
-                    <option value="Folk">
-
-                        FOLK
-
+                    <option value="Classical">
+                        CLASSICAL
                     </option>
 
                     <option value="Country">
-
                         COUNTRY
-
                     </option>
 
-                    <option value="Pop">
+                    <option value="Electronic">
+                        ELECTRONIC
+                    </option>
 
-                        POP
-
+                    <option value="Folk">
+                        FOLK
                     </option>
 
                     <option value="Hip-Hop">
-
                         HIP-HOP
-
                     </option>
 
-                    <option value="Soundtrack">
+                    <option value="Jazz">
+                        JAZZ
+                    </option>
 
-                        SOUNDTRACK
+                    <option value="Pop">
+                        POP
+                    </option>
 
+                    <option value="Rock">
+                        ROCK
                     </option>
 
                     <option value="Other">
-
                         OTHER
-
                     </option>
 
                 </select>
@@ -787,100 +441,55 @@ select {
             </div>
 
 
-            <!-- MOOD -->
+            <div class="form-row">
 
-            <div class="field">
-
-                <label for="mood">
-
+                <label class="form-label">
                     MOOD
-
                 </label>
 
-                <select id="mood">
+                <select
+                    id="moodInput"
+                    class="form-select"
+                >
 
                     <option value="">
-
                         SELECT MOOD
-
                     </option>
 
                     <option value="Calm">
-
                         CALM
-
-                    </option>
-
-                    <option value="Peaceful">
-
-                        PEACEFUL
-
-                    </option>
-
-                    <option value="Happy">
-
-                        HAPPY
-
-                    </option>
-
-                    <option value="Energetic">
-
-                        ENERGETIC
-
                     </option>
 
                     <option value="Dark">
-
                         DARK
-
                     </option>
 
-                    <option value="Melancholic">
+                    <option value="Energetic">
+                        ENERGETIC
+                    </option>
 
-                        MELANCHOLIC
+                    <option value="Happy">
+                        HAPPY
+                    </option>
 
+                    <option value="Melancholy">
+                        MELANCHOLY
+                    </option>
+
+                    <option value="Peaceful">
+                        PEACEFUL
                     </option>
 
                     <option value="Romantic">
-
                         ROMANTIC
-
                     </option>
 
-                    <option value="Dramatic">
-
-                        DRAMATIC
-
-                    </option>
-
-                    <option value="Mysterious">
-
-                        MYSTERIOUS
-
-                    </option>
-
-                    <option value="Dreamy">
-
-                        DREAMY
-
+                    <option value="Serious">
+                        SERIOUS
                     </option>
 
                     <option value="Uplifting">
-
                         UPLIFTING
-
-                    </option>
-
-                    <option value="Intense">
-
-                        INTENSE
-
-                    </option>
-
-                    <option value="Other">
-
-                        OTHER
-
                     </option>
 
                 </select>
@@ -888,96 +497,92 @@ select {
             </div>
 
 
-            <!-- UPLOAD -->
+            <div class="form-actions">
 
-            <button
-                id="uploadButton"
-                class="primary-button"
-                type="button"
-            >
+                <button
+                    id="cancelButton"
+                    class="form-button"
+                    type="button"
+                >
+                    CANCEL
+                </button>
 
-                UPLOAD
+                <button
+                    id="uploadButton"
+                    class="form-button"
+                    type="button"
+                >
+                    UPLOAD
+                </button>
 
-            </button>
-
-
-            <button
-                id="cancelButton"
-                class="secondary-button"
-                type="button"
-            >
-
-                CANCEL
-
-            </button>
-
-
-            <div
-                class="form-message"
-                id="formMessage"
-            ></div>
-
+            </div>
 
         </div>
 
     </div>
 
 
-</div>
-
-</div>
-
-
-<!-- =========================
-     FOOTER
-     ========================= -->
-
-<div class="footer">
-
-    GR8SKUL
-
-    &nbsp;·&nbsp;
-
-    <a href="/">
-
+    <a
+        class="back"
+        href="/"
+    >
         BACK TO GR8SKUL
-
     </a>
+
 
 </div>
 
 
 <script>
 
-/*
-    ============================================================
-    GR8SKUL WORKS
-    ============================================================
-*/
+
+/* =========================================================
+   GR8SKUL
+   WORKS
+   ========================================================= */
+
 
 const CATALOG_URL =
     "/catalog.json";
+
 
 const LOCAL_ORDER_KEY =
     "gr8skul-works-order";
 
 
+const SUPABASE_URL =
+    "https://rijzolipyabfggrrhgab.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
+
+
+const UPDATE_ORDER_FUNCTION =
+    SUPABASE_URL +
+    "/functions/v1/update-track-order";
+
+
 let works = [];
 
-let draggedIndex = null;
 
 let touchDrag = null;
 
 
-/*
-    ============================================================
-    DOM
-    ============================================================
-*/
+/* =========================================================
+   ELEMENTS
+   ========================================================= */
+
 
 const worksList =
     document.getElementById(
         "worksList"
+    );
+
+
+const orderStatus =
+    document.getElementById(
+        "orderStatus"
     );
 
 
@@ -999,23 +604,10 @@ const cancelButton =
     );
 
 
-const uploadButton =
-    document.getElementById(
-        "uploadButton"
-    );
+/* =========================================================
+   LOAD WORKS
+   ========================================================= */
 
-
-const formMessage =
-    document.getElementById(
-        "formMessage"
-    );
-
-
-/*
-    ============================================================
-    LOAD CURRENT WORKS
-    ============================================================
-*/
 
 async function loadWorks() {
 
@@ -1028,74 +620,90 @@ async function loadWorks() {
                 Date.now()
             );
 
-
         if (!response.ok) {
 
             throw new Error(
-                "Could not load the works catalog."
+                "Could not load catalog"
             );
 
         }
-
 
         const data =
             await response.json();
 
 
-        if (
-            Array.isArray(data)
-        ) {
+        if (Array.isArray(data)) {
 
             works = data;
 
         } else if (
+            data &&
             Array.isArray(data.tracks)
         ) {
 
-            works = data.tracks;
+            works =
+                data.tracks;
 
         } else {
 
-            works = [];
+            throw new Error(
+                "Invalid catalog format"
+            );
 
         }
 
 
-        /*
-            Apply locally saved order.
-
-            This allows the page to remember a rearrangement
-            until the GitHub publishing connection is added.
-        */
-
         applyLocalOrder();
 
-
         renderWorks();
-
 
     } catch (error) {
 
         console.error(
-            "GR8SKUL works could not be loaded:",
+            "Could not load works:",
             error
         );
 
-
-        works = [];
-
-        renderWorks();
+        worksList.innerHTML =
+            "<div style=\"padding:20px;text-align:center;color:#888;font-size:12px;\">" +
+            "COULD NOT LOAD WORKS" +
+            "</div>";
 
     }
 
 }
 
 
-/*
-    ============================================================
-    APPLY LOCAL ORDER
-    ============================================================
-*/
+/* =========================================================
+   WORK KEY
+   ========================================================= */
+
+
+function getWorkKey(work) {
+
+    if (typeof work === "string") {
+
+        return work;
+
+    }
+
+    return (
+        work.file ||
+        work.filename ||
+        work.path ||
+        work.url ||
+        work.src ||
+        work.audio ||
+        ""
+    );
+
+}
+
+
+/* =========================================================
+   APPLY LOCAL ORDER
+   ========================================================= */
+
 
 function applyLocalOrder() {
 
@@ -1115,29 +723,30 @@ function applyLocalOrder() {
 
 
         const savedWorks =
-            JSON.parse(
-                saved
-            );
+            JSON.parse(saved);
 
 
-        if (
-            !Array.isArray(savedWorks)
-        ) {
+        if (!Array.isArray(savedWorks)) {
 
             return;
 
         }
 
 
-        /*
-            Match saved works to the current catalog
-            using the MP3/file identity.
+        const savedKeys =
+            savedWorks
+                .map(getWorkKey)
+                .filter(Boolean);
 
-            This means the metadata stays attached
-            to the work while its position changes.
-        */
 
-        const currentByFile =
+        if (!savedKeys.length) {
+
+            return;
+
+        }
+
+
+        const byKey =
             new Map();
 
 
@@ -1145,13 +754,11 @@ function applyLocalOrder() {
             function(work) {
 
                 const key =
-                    getWorkKey(
-                        work
-                    );
+                    getWorkKey(work);
 
                 if (key) {
 
-                    currentByFile.set(
+                    byKey.set(
                         key,
                         work
                     );
@@ -1165,27 +772,16 @@ function applyLocalOrder() {
         const reordered = [];
 
 
-        savedWorks.forEach(
-            function(savedWork) {
+        savedKeys.forEach(
+            function(key) {
 
-                const key =
-                    getWorkKey(
-                        savedWork
-                    );
-
-
-                if (
-                    key &&
-                    currentByFile.has(key)
-                ) {
+                if (byKey.has(key)) {
 
                     reordered.push(
-                        currentByFile.get(key)
+                        byKey.get(key)
                     );
 
-                    currentByFile.delete(
-                        key
-                    );
+                    byKey.delete(key);
 
                 }
 
@@ -1193,27 +789,40 @@ function applyLocalOrder() {
         );
 
 
-        /*
-            Any newly added works that were not
-            present in the saved order are added
-            to the beginning.
-        */
+        works.forEach(
+            function(work) {
 
-        const newWorks =
-            Array.from(
-                currentByFile.values()
-            );
+                const key =
+                    getWorkKey(work);
+
+                if (
+                    key &&
+                    byKey.has(key)
+                ) {
+
+                    reordered.push(
+                        work
+                    );
+
+                    byKey.delete(key);
+
+                }
+
+            }
+        );
 
 
-        works =
-            newWorks.concat(
-                reordered
-            );
+        if (reordered.length) {
+
+            works =
+                reordered;
+
+        }
 
     } catch (error) {
 
         console.error(
-            "Could not apply saved works order:",
+            "Could not apply local works order:",
             error
         );
 
@@ -1222,41 +831,10 @@ function applyLocalOrder() {
 }
 
 
-/*
-    ============================================================
-    WORK IDENTITY
-    ============================================================
-*/
+/* =========================================================
+   RENDER WORKS
+   ========================================================= */
 
-function getWorkKey(
-    work
-) {
-
-    if (!work) {
-
-        return "";
-
-    }
-
-
-    return (
-        work.file ||
-        work.filename ||
-        work.path ||
-        work.url ||
-        work.src ||
-        work.audio ||
-        ""
-    );
-
-}
-
-
-/*
-    ============================================================
-    RENDER WORKS
-    ============================================================
-*/
 
 function renderWorks() {
 
@@ -1264,10 +842,7 @@ function renderWorks() {
 
 
     works.forEach(
-        function(
-            work,
-            index
-        ) {
+        function(work, index) {
 
             const row =
                 document.createElement(
@@ -1276,30 +851,11 @@ function renderWorks() {
 
 
             row.className =
-                "work";
+                "work-row";
 
 
             row.dataset.index =
                 index;
-
-
-            row.setAttribute(
-                "role",
-                "button"
-            );
-
-
-            row.setAttribute(
-                "aria-label",
-                "Drag to rearrange " +
-                (
-                    work.title ||
-                    work.track_title ||
-                    work.name ||
-                    work.file ||
-                    "work"
-                )
-            );
 
 
             const number =
@@ -1313,12 +869,8 @@ function renderWorks() {
 
 
             number.textContent =
-                String(
-                    index + 1
-                ).padStart(
-                    2,
-                    "0"
-                );
+                String(index + 1)
+                    .padStart(2, "0");
 
 
             const info =
@@ -1382,16 +934,26 @@ function renderWorks() {
                 );
 
 
-            edit.type =
-                "button";
-
-
             edit.className =
                 "edit-button";
 
 
+            edit.type =
+                "button";
+
+
             edit.textContent =
                 "EDIT";
+
+
+            edit.addEventListener(
+                "pointerdown",
+                function(event) {
+
+                    event.stopPropagation();
+
+                }
+            );
 
 
             edit.addEventListener(
@@ -1401,6 +963,7 @@ function renderWorks() {
                     event.stopPropagation();
 
                     editWork(
+                        work,
                         index
                     );
 
@@ -1438,22 +1001,33 @@ function renderWorks() {
 }
 
 
-/*
-    ============================================================
-    POINTER / TOUCH DRAG
-    ============================================================
+/* =========================================================
+   EDIT
+   ========================================================= */
 
-    This replaces the desktop-only HTML5 drag system.
 
-    Pointer events work with:
+function editWork(
+    work,
+    index
+) {
 
-        mouse
-        trackpad
-        iPhone
-        iPad
-        Android
-        touch screens
-*/
+    console.log(
+        "EDIT WORK:",
+        index,
+        work
+    );
+
+    alert(
+        "EDIT is not connected yet."
+    );
+
+}
+
+
+/* =========================================================
+   POINTER DRAG
+   ========================================================= */
+
 
 function addPointerDragHandlers(
     element
@@ -1463,14 +1037,9 @@ function addPointerDragHandlers(
         "pointerdown",
         function(event) {
 
-            /*
-                Do not start a drag when the EDIT button
-                is pressed.
-            */
-
             if (
                 event.target.closest(
-                    "button"
+                    ".edit-button"
                 )
             ) {
 
@@ -1479,19 +1048,15 @@ function addPointerDragHandlers(
             }
 
 
-            const index =
-                Number(
-                    element.dataset.index
-                );
-
-
             touchDrag = {
 
                 element:
                     element,
 
                 index:
-                    index,
+                    Number(
+                        element.dataset.index
+                    ),
 
                 pointerId:
                     event.pointerId,
@@ -1505,20 +1070,9 @@ function addPointerDragHandlers(
             };
 
 
-            try {
-
-                element.setPointerCapture(
-                    event.pointerId
-                );
-
-            } catch (error) {
-
-                /*
-                    Some browsers may not support
-                    pointer capture in every situation.
-                */
-
-            }
+            element.setPointerCapture(
+                event.pointerId
+            );
 
         }
     );
@@ -1528,16 +1082,10 @@ function addPointerDragHandlers(
         "pointermove",
         function(event) {
 
-            if (!touchDrag) {
-
-                return;
-
-            }
-
-
             if (
-                event.pointerId !==
-                touchDrag.pointerId
+                !touchDrag ||
+                touchDrag.element !== element ||
+                touchDrag.pointerId !== event.pointerId
             ) {
 
                 return;
@@ -1545,52 +1093,40 @@ function addPointerDragHandlers(
             }
 
 
-            const movement =
+            const distance =
                 Math.abs(
                     event.clientY -
                     touchDrag.startY
                 );
 
 
-            /*
-                Small movements are ignored so
-                normal tapping remains normal.
-            */
-
             if (
                 !touchDrag.active &&
-                movement < 8
-            ) {
-
-                return;
-
-            }
-
-
-            if (
-                !touchDrag.active
+                distance >= 8
             ) {
 
                 touchDrag.active =
                     true;
 
-                touchDrag.element.classList.add(
+                element.classList.add(
                     "dragging"
                 );
 
             }
 
 
-            event.preventDefault();
+            if (
+                touchDrag.active
+            ) {
 
+                event.preventDefault();
 
-            moveTouchRow(
-                event.clientY
-            );
+                moveTouchRow(
+                    event.clientY
+                );
 
-        },
-        {
-            passive: false
+            }
+
         }
     );
 
@@ -1599,24 +1135,15 @@ function addPointerDragHandlers(
         "pointerup",
         function(event) {
 
-            if (!touchDrag) {
-
-                return;
-
-            }
-
-
             if (
-                event.pointerId !==
-                touchDrag.pointerId
+                touchDrag &&
+                touchDrag.element === element &&
+                touchDrag.pointerId === event.pointerId
             ) {
 
-                return;
+                finishPointerDrag();
 
             }
-
-
-            finishPointerDrag();
 
         }
     );
@@ -1626,24 +1153,15 @@ function addPointerDragHandlers(
         "pointercancel",
         function(event) {
 
-            if (!touchDrag) {
-
-                return;
-
-            }
-
-
             if (
-                event.pointerId !==
-                touchDrag.pointerId
+                touchDrag &&
+                touchDrag.element === element &&
+                touchDrag.pointerId === event.pointerId
             ) {
 
-                return;
+                finishPointerDrag();
 
             }
-
-
-            finishPointerDrag();
 
         }
     );
@@ -1651,14 +1169,13 @@ function addPointerDragHandlers(
 }
 
 
-/*
-    ============================================================
-    MOVE TOUCH ROW
-    ============================================================
-*/
+/* =========================================================
+   MOVE DRAGGED ROW
+   ========================================================= */
+
 
 function moveTouchRow(
-    pointerY
+    clientY
 ) {
 
     if (!touchDrag) {
@@ -1668,14 +1185,14 @@ function moveTouchRow(
     }
 
 
-    const draggedElement =
-        touchDrag.element;
-
-
     const rows =
         Array.from(
             worksList.children
         );
+
+
+    const dragged =
+        touchDrag.element;
 
 
     for (
@@ -1683,8 +1200,7 @@ function moveTouchRow(
     ) {
 
         if (
-            row ===
-            draggedElement
+            row === dragged
         ) {
 
             continue;
@@ -1702,12 +1218,11 @@ function moveTouchRow(
 
 
         if (
-            pointerY <
-            midpoint
+            clientY < midpoint
         ) {
 
             worksList.insertBefore(
-                draggedElement,
+                dragged,
                 row
             );
 
@@ -1718,23 +1233,17 @@ function moveTouchRow(
     }
 
 
-    /*
-        If the pointer is below all rows,
-        put the dragged row at the bottom.
-    */
-
     worksList.appendChild(
-        draggedElement
+        dragged
     );
 
 }
 
 
-/*
-    ============================================================
-    FINISH POINTER DRAG
-    ============================================================
-*/
+/* =========================================================
+   FINISH DRAG
+   ========================================================= */
+
 
 function finishPointerDrag() {
 
@@ -1745,47 +1254,46 @@ function finishPointerDrag() {
     }
 
 
-    const draggedElement =
-        touchDrag.element;
-
-
-    const wasDragging =
+    const wasDragged =
         touchDrag.active;
 
 
-    draggedElement.classList.remove(
+    const element =
+        touchDrag.element;
+
+
+    element.classList.remove(
         "dragging"
     );
 
 
-    touchDrag =
-        null;
+    touchDrag = null;
 
 
-    if (!wasDragging) {
+    if (wasDragged) {
 
-        return;
+        saveCurrentDomOrder();
 
     }
-
-
-    saveCurrentDomOrder();
 
 }
 
 
-/*
-    ============================================================
-    SAVE CURRENT DOM ORDER
-    ============================================================
-*/
+/* =========================================================
+   SAVE CURRENT DOM ORDER
+   ========================================================= */
 
-function saveCurrentDomOrder() {
+
+async function saveCurrentDomOrder() {
 
     const rows =
         Array.from(
             worksList.children
         );
+
+
+    const previousWorks =
+        [...works];
 
 
     const reordered =
@@ -1802,17 +1310,27 @@ function saveCurrentDomOrder() {
         );
 
 
+    if (
+        reordered.length !==
+        works.length
+    ) {
+
+        return;
+
+    }
+
+
     works =
         reordered;
 
 
-    /*
-        Store the actual new order.
+    renderWorks();
 
-        The page is now using this order as
-        the playlist order represented by
-        the Works list.
-    */
+
+    /* -----------------------------------------------------
+       Keep a local copy immediately.
+       ----------------------------------------------------- */
+
 
     try {
 
@@ -1833,91 +1351,190 @@ function saveCurrentDomOrder() {
     }
 
 
-    /*
-        Re-render immediately so the numbers
-        become 01, 02, 03, etc. in the new order.
-    */
-
-    renderWorks();
-
-}
+    /* -----------------------------------------------------
+       Build the exact track-order.json array.
+       ----------------------------------------------------- */
 
 
-/*
-    ============================================================
-    EDIT
-    ============================================================
-*/
-
-function editWork(
-    index
-) {
-
-    const work =
-        works[index];
+    const tracks =
+        works
+            .map(
+                getWorkKey
+            )
+            .filter(
+                Boolean
+            );
 
 
-    if (!work) {
+    if (
+        tracks.length !==
+        works.length
+    ) {
+
+        console.error(
+            "One or more works has no file path."
+        );
+
+
+        works =
+            previousWorks;
+
+        renderWorks();
+
+        setOrderStatus(
+            "COULD NOT SAVE ORDER"
+        );
 
         return;
 
     }
 
 
-    document.getElementById(
-        "artistName"
-    ).value =
-        work.artist ||
-        work.artists ||
-        work.artist_name ||
-        "";
-
-
-    document.getElementById(
-        "trackTitle"
-    ).value =
-        work.title ||
-        work.track_title ||
-        work.name ||
-        "";
-
-
-    document.getElementById(
-        "genre"
-    ).value =
-        work.genre ||
-        "";
-
-
-    document.getElementById(
-        "mood"
-    ).value =
-        work.mood ||
-        "";
-
-
-    formMessage.textContent =
-        "Editing works will be connected to the publishing system next.";
-
-
-    addForm.classList.add(
-        "visible"
+    setOrderStatus(
+        "SAVING ORDER..."
     );
 
 
-    addButton.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+    try {
+
+        const response =
+            await fetch(
+                UPDATE_ORDER_FUNCTION,
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY
+
+                    },
+
+                    body:
+                        JSON.stringify({
+                            tracks:
+                                tracks
+                        })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error ||
+                result.message ||
+                (
+                    "HTTP " +
+                    response.status
+                )
+            );
+
+        }
+
+
+        if (
+            result.success !== true
+        ) {
+
+            throw new Error(
+                result.error ||
+                "Order update failed"
+            );
+
+        }
+
+
+        setOrderStatus(
+            "ORDER SAVED"
+        );
+
+
+        setTimeout(
+            function() {
+
+                setOrderStatus(
+                    ""
+                );
+
+            },
+            2500
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not permanently save works order:",
+            error
+        );
+
+
+        works =
+            previousWorks;
+
+
+        try {
+
+            localStorage.setItem(
+                LOCAL_ORDER_KEY,
+                JSON.stringify(
+                    works
+                )
+            );
+
+        } catch (storageError) {
+
+            console.error(
+                storageError
+            );
+
+        }
+
+
+        renderWorks();
+
+
+        setOrderStatus(
+            "COULD NOT SAVE ORDER"
+        );
+
+    }
 
 }
 
 
-/*
-    ============================================================
-    ADD FORM
-    ============================================================
-*/
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+
+function setOrderStatus(
+    message
+) {
+
+    orderStatus.textContent =
+        message;
+
+}
+
+
+/* =========================================================
+   ADD FORM
+   ========================================================= */
+
 
 addButton.addEventListener(
     "click",
@@ -1927,35 +1544,13 @@ addButton.addEventListener(
             "visible"
         );
 
-
-        if (
-            addForm.classList.contains(
-                "visible"
-            )
-        ) {
-
-            document.getElementById(
-                "artistName"
-            ).focus();
-
-        }
-
     }
 );
 
 
-/*
-    ============================================================
-    CANCEL
-    ============================================================
-*/
-
 cancelButton.addEventListener(
     "click",
     function() {
-
-        clearForm();
-
 
         addForm.classList.remove(
             "visible"
@@ -1965,174 +1560,17 @@ cancelButton.addEventListener(
 );
 
 
-/*
-    ============================================================
-    CLEAR FORM
-    ============================================================
-*/
+/* =========================================================
+   START
+   ========================================================= */
 
-function clearForm() {
-
-    document.getElementById(
-        "artistName"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "trackTitle"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "mp3File"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "genre"
-    ).value =
-        "";
-
-
-    document.getElementById(
-        "mood"
-    ).value =
-        "";
-
-
-    formMessage.textContent =
-        "";
-
-}
-
-
-/*
-    ============================================================
-    UPLOAD
-    ============================================================
-*/
-
-uploadButton.addEventListener(
-    "click",
-    function() {
-
-        const artist =
-            document.getElementById(
-                "artistName"
-            ).value.trim();
-
-
-        const title =
-            document.getElementById(
-                "trackTitle"
-            ).value.trim();
-
-
-        const file =
-            document.getElementById(
-                "mp3File"
-            ).files[0];
-
-
-        const genre =
-            document.getElementById(
-                "genre"
-            ).value;
-
-
-        const mood =
-            document.getElementById(
-                "mood"
-            ).value;
-
-
-        if (!artist) {
-
-            formMessage.textContent =
-                "Enter the artist name.";
-
-            return;
-
-        }
-
-
-        if (!title) {
-
-            formMessage.textContent =
-                "Enter the track title.";
-
-            return;
-
-        }
-
-
-        if (!file) {
-
-            formMessage.textContent =
-                "Choose an MP3 file.";
-
-            return;
-
-        }
-
-
-        if (
-            !file.name
-                .toLowerCase()
-                .endsWith(".mp3")
-        ) {
-
-            formMessage.textContent =
-                "The uploaded file must be an MP3.";
-
-            return;
-
-        }
-
-
-        if (!genre) {
-
-            formMessage.textContent =
-                "Select a genre.";
-
-            return;
-
-        }
-
-
-        if (!mood) {
-
-            formMessage.textContent =
-                "Select a mood.";
-
-            return;
-
-        }
-
-
-        formMessage.textContent =
-            "The upload connection will be added next.";
-
-    }
-);
-
-
-/*
-    ============================================================
-    START
-    ============================================================
-*/
 
 loadWorks();
 
+
 </script>
 
-</div>
 
 </body>
 
 </html>
-```
