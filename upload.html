@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 
 <html lang="en">
@@ -626,7 +627,6 @@ h1 {
 
 <script>
 
-
 /* =========================================================
    GR8SKUL
    WORKS
@@ -671,11 +671,7 @@ const UPDATE_ORDER_FUNCTION =
 
 
 /* ---------------------------------------------------------
-   NEW UPLOAD FUNCTION
-   ---------------------------------------------------------
-   The backend will be created next.
-
-   DO NOT change the existing UPDATE_ORDER_FUNCTION.
+   UPLOAD FUNCTION
    --------------------------------------------------------- */
 
 const UPLOAD_WORK_FUNCTION =
@@ -778,27 +774,14 @@ const formStatus =
 
 /* =========================================================
    NORMALIZE WORK
-   =========================================================
-   This lets the page understand BOTH:
-
-   OLD:
-       "music/song.mp3"
-
-   NEW:
-       {
-           file: "...",
-           title: "...",
-           artists: [...],
-           genres: [...],
-           moods: [...]
-       }
-
-   This is important during the transition.
    ========================================================= */
 
 function normalizeWork(work) {
 
-    if (typeof work === "string") {
+    if (
+        typeof work ===
+        "string"
+    ) {
 
         const file =
             work;
@@ -808,7 +791,6 @@ function normalizeWork(work) {
                 .split("/")
                 .pop();
 
-
         const withoutExtension =
             filename
                 ? filename.replace(
@@ -816,7 +798,6 @@ function normalizeWork(work) {
                     ""
                 )
                 : "";
-
 
         return {
 
@@ -842,7 +823,8 @@ function normalizeWork(work) {
 
     if (
         work &&
-        typeof work === "object"
+        typeof work ===
+        "object"
     ) {
 
         return {
@@ -890,15 +872,20 @@ function normalizeWork(work) {
 
     return {
 
-        file: "",
+        file:
+            "",
 
-        title: "",
+        title:
+            "",
 
-        artists: [],
+        artists:
+            [],
 
-        genres: [],
+        genres:
+            [],
 
-        moods: []
+        moods:
+            []
 
     };
 
@@ -909,16 +896,21 @@ function normalizeWork(work) {
    NORMALIZE ARRAY
    ========================================================= */
 
-function normalizeArray(value) {
+function normalizeArray(
+    value
+) {
 
-    if (Array.isArray(value)) {
+    if (
+        Array.isArray(value)
+    ) {
 
         return value
             .map(
                 function(item) {
 
-                    return String(item)
-                        .trim();
+                    return String(
+                        item
+                    ).trim();
 
                 }
             )
@@ -957,142 +949,96 @@ function normalizeArray(value) {
 
 async function loadWorks() {
 
+    try {
 
-        try {
-
-            const response =
-                await fetch(
-                    UPLOAD_WORK_FUNCTION,
-                    {
-
-                        method:
-                            "POST",
-
-                        headers: {
-
-                            "apikey":
-                                SUPABASE_KEY
-
-                        },
-
-                        body:
-                            formData
-
-                    }
-                );
-
-
-            const result =
-                await response.json();
-
-
-            if (
-                !response.ok
-            ) {
-
-                throw new Error(
-                    result.error ||
-                    result.message ||
-                    (
-                        "HTTP " +
-                        response.status
-                    )
-                );
-
-            }
-
-
-            if (
-                result.success !==
-                true
-            ) {
-
-                throw new Error(
-                    result.error ||
-                    "Work could not be saved"
-                );
-
-            }
-
-
-            setFormStatus(
-                editingIndex !== null
-                    ? "WORK SAVED"
-                    : "WORK UPLOADED"
+        const response =
+            await fetch(
+                CATALOG_URL +
+                "?t=" +
+                Date.now()
             );
 
 
-            /*
-             * Reload from catalog/backend after success.
-             */
+        if (
+            !response.ok
+        ) {
 
-            await loadWorks();
-
-
-            setTimeout(
-                function() {
-
-                    addForm.classList.remove(
-                        "visible"
-                    );
-
-
-                    resetForm();
-
-                },
-                1000
+            throw new Error(
+                "Could not load catalog"
             );
-
-
-        } catch (error) {
-
-            console.error(
-                "Could not save work:",
-                error
-            );
-
-
-            setFormStatus(
-                error.message ||
-                "UPLOAD FAILED"
-            );
-
-
-        } finally {
-
-            uploadButton.disabled =
-                false;
-
-
-            uploadButton.textContent =
-                "UPLOAD";
 
         }
 
+
+        const data =
+            await response.json();
+
+
+        let loadedWorks;
+
+
+        if (
+            Array.isArray(data)
+        ) {
+
+            loadedWorks =
+                data;
+
+        } else if (
+            data &&
+            Array.isArray(
+                data.tracks
+            )
+        ) {
+
+            loadedWorks =
+                data.tracks;
+
+        } else {
+
+            throw new Error(
+                "Invalid catalog format"
+            );
+
+        }
+
+
+        works =
+            loadedWorks.map(
+                normalizeWork
+            );
+
+
+        applyLocalOrder();
+
+        renderWorks();
+
+
+    } catch (error) {
+
+        console.error(
+            "Could not load works:",
+            error
+        );
+
+
+        worksList.innerHTML =
+            "<div style=\"padding:20px;text-align:center;color:#888;font-size:12px;\">" +
+            "COULD NOT LOAD WORKS" +
+            "</div>";
+
     }
-);
 
-
-/* =========================================================
-   START
-   ========================================================= */
-
-loadWorks();
-
-
-</script>
-
-
-</body>
-
-</html>
+}
 
 
 /* =========================================================
    WORK KEY
    ========================================================= */
 
-function getWorkKey(work) {
+function getWorkKey(
+    work
+) {
 
     if (
         typeof work ===
@@ -1209,7 +1155,8 @@ function applyLocalOrder() {
         );
 
 
-        const reordered = [];
+        const reordered =
+            [];
 
 
         savedKeys.forEach(
@@ -1301,7 +1248,10 @@ function renderWorks() {
 
 
     works.forEach(
-        function(work, index) {
+        function(
+            work,
+            index
+        ) {
 
             const row =
                 document.createElement(
@@ -1357,10 +1307,9 @@ function renderWorks() {
 
 
             artist.textContent =
-                work.artists
-                    .join(
-                        ", "
-                    );
+                work.artists.join(
+                    ", "
+                );
 
 
             const title =
@@ -1650,10 +1599,6 @@ function addPointerDragHandlers(
     );
 
 
-    /* -----------------------------------------------------
-       START DRAG
-       ----------------------------------------------------- */
-
     element.addEventListener(
         "dragstart",
         function(event) {
@@ -1692,10 +1637,6 @@ function addPointerDragHandlers(
         }
     );
 
-
-    /* -----------------------------------------------------
-       DRAG OVER
-       ----------------------------------------------------- */
 
     element.addEventListener(
         "dragover",
@@ -1746,10 +1687,6 @@ function addPointerDragHandlers(
     );
 
 
-    /* -----------------------------------------------------
-       DROP
-       ----------------------------------------------------- */
-
     element.addEventListener(
         "drop",
         function(event) {
@@ -1759,10 +1696,6 @@ function addPointerDragHandlers(
         }
     );
 
-
-    /* -----------------------------------------------------
-       END DRAG
-       ----------------------------------------------------- */
 
     element.addEventListener(
         "dragend",
@@ -1794,19 +1727,6 @@ function addPointerDragHandlers(
 
 /* =========================================================
    SAVE CURRENT DOM ORDER
-   =========================================================
-   IMPORTANT:
-
-   This remains compatible with the existing
-   update-track-order Edge Function.
-
-   The backend still receives ONLY:
-
-       [
-           "music/file-a.mp3",
-           "music/file-b.mp3"
-       ]
-
    ========================================================= */
 
 async function saveCurrentDomOrder() {
@@ -1854,10 +1774,6 @@ async function saveCurrentDomOrder() {
     renderWorks();
 
 
-    /* -----------------------------------------------------
-       LOCAL COPY
-       ----------------------------------------------------- */
-
     try {
 
         localStorage.setItem(
@@ -1876,14 +1792,6 @@ async function saveCurrentDomOrder() {
 
     }
 
-
-    /* -----------------------------------------------------
-       BUILD TRACK ORDER
-
-       The metadata objects stay on the page,
-       but the existing rearrange backend
-       receives only their file paths.
-       ----------------------------------------------------- */
 
     const tracks =
         works
@@ -2146,7 +2054,9 @@ addButton.addEventListener(
                 "visible"
             );
 
+
             resetForm();
+
 
             return;
 
@@ -2185,12 +2095,6 @@ cancelButton.addEventListener(
 
 /* =========================================================
    UPLOAD / SAVE
-   =========================================================
-   The actual backend is the next piece.
-
-   This handler collects the complete work record
-   and will send it to the new upload-work Edge Function.
-
    ========================================================= */
 
 uploadButton.addEventListener(
@@ -2234,304 +2138,5 @@ uploadButton.addEventListener(
         if (
             editingIndex === null &&
             !file
-        ) {
-
-            setFormStatus(
-                "SELECT AN MP3"
-            );
-
-            return;
-
-        }
-
-
-        if (!title) {
-
-            setFormStatus(
-                "TITLE REQUIRED"
-            );
-
-            return;
-
-        }
-
-
-        if (!artists.length) {
-
-            setFormStatus(
-                "ARTIST REQUIRED"
-            );
-
-            return;
-
-        }
-
-
-        if (!genres.length) {
-
-            setFormStatus(
-                "SELECT AT LEAST ONE GENRE"
-            );
-
-            return;
-
-        }
-
-
-        if (!moods.length) {
-
-            setFormStatus(
-                "SELECT AT LEAST ONE MOOD"
-            );
-
-            return;
-
-        }
-
-
-        /* -------------------------------------------------
-           MP3 VALIDATION
-           ------------------------------------------------- */
-
-        if (
-            file &&
-            !(
-                file.type ===
-                "audio/mpeg"
-                ||
-                /\.mp3$/i.test(
-                    file.name
-                )
-            )
-        ) {
-
-            setFormStatus(
-                "MP3 FILES ONLY"
-            );
-
-            return;
-
-        }
-
-
-        /* -------------------------------------------------
-           BUILD TRACK DATA
-           ------------------------------------------------- */
-
-        const metadata = {
-
-            title:
-                title,
-
-            artists:
-                artists,
-
-            genres:
-                genres,
-
-            moods:
-                moods
-
-        };
-
-
-        /* -------------------------------------------------
-           EDIT EXISTING WORK
-
-           If editing and no replacement MP3 was selected,
-           retain the existing file.
-           ------------------------------------------------- */
-
-        if (
-            editingIndex !== null
-        ) {
-
-            const existingWork =
-                works[
-                    editingIndex
-                ];
-
-
-            metadata.file =
-                getWorkKey(
-                    existingWork
-                );
-
-        }
-
-
-        /* -------------------------------------------------
-           BUILD FORM DATA
-           ------------------------------------------------- */
-
-        const formData =
-            new FormData();
-
-
-        formData.append(
-            "metadata",
-            JSON.stringify(
-                metadata
-            )
-        );
-
-
-        if (file) {
-
-            formData.append(
-                "mp3",
-                file,
-                file.name
-            );
-
-        }
-
-
-        if (
-            editingIndex !== null
-        ) {
-
-            formData.append(
-                "mode",
-                "edit"
-            );
-
-        } else {
-
-            formData.append(
-                "mode",
-                "add"
-            );
-
-        }
-
-
-        /* -------------------------------------------------
-           DISABLE BUTTON WHILE WORKING
-           ------------------------------------------------- */
-
-        uploadButton.disabled =
-            true;
-
-
-        uploadButton.textContent =
-            editingIndex !== null
-                ? "SAVING..."
-                : "UPLOADING...";
-
-
-        setFormStatus(
-            "PLEASE WAIT..."
-        );
-
-
-        try {
-
-            /*
-             * The Edge Function does not exist yet.
-             *
-             * We are deliberately connecting this page
-             * to the endpoint we are about to create:
-             *
-             *     /functions/v1/upload-work
-             */
-
-
-const response =
-    await fetch(
-        UPLOAD_WORK_FUNCTION,
-        {
-
-            method:
-                "POST",
-
-            headers: {
-
-                "apikey":
-                    SUPABASE_KEY
-
-            },
-
-            body:
-                formData
-
-        }
-    );
-
-
-const result =
-    await response.json();
-
-
-if (
-    !response.ok
-) {
-
-    throw new Error(
-        result.error ||
-        result.message ||
-        (
-            "HTTP " +
-            response.status
         )
-    );
-
-}
-
-
-if (
-    result.success !==
-    true
-) {
-
-    throw new Error(
-        result.error ||
-        "Work could not be saved"
-    );
-
-}
-
-
-setFormStatus(
-    editingIndex !== null
-        ? "WORK SAVED"
-        : "WORK UPLOADED"
-);
-
-
-/*
- * Reload from catalog/backend after success.
- */
-
-await loadWorks();
-
-
-setTimeout(
-    function() {
-
-        addForm.classList.remove(
-            "visible"
-        );
-
-
-        resetForm();
-
-    },
-    1000
-);
-
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-loadWorks();
-
-
-</script>
-
-
-</body>
-
-</html>
+```
