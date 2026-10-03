@@ -114,5 +114,20 @@
       "Melancholy",
       "Romantic"
     ]
+  },
+  "music/Piano Peace 1.mp3": {
+    "title": "Piano Piece",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Classical",
+      "Jazz"
+    ],
+    "moods": [
+      "Dark",
+      "Melancholy",
+      "Romantic"
+    ]
   }
 }
