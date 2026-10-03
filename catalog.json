@@ -1,10 +1,5 @@
 [
   {
-    "name": "88' Summer TEST.mp3",
-    "path": "music/88' Summer TEST.mp3",
-    "timestamp": 1790993298
-  },
-  {
     "name": "Arnt We Rich.mp3",
     "path": "music/Arnt We Rich.mp3",
     "timestamp": 1790089017
@@ -63,5 +58,10 @@
     "name": "Eye Dragon (LIVE).mp3",
     "path": "music/Eye Dragon (LIVE).mp3",
     "timestamp": 1790099424
+  },
+  {
+    "name": "88' Summer TEST.mp3",
+    "path": "music/88' Summer TEST.mp3",
+    "timestamp": 1790993298
   }
 ]
