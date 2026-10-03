@@ -10,5 +10,17 @@
     "moods": [
       "Energetic"
     ]
+  },
+  "music/Land Locked (accoustic) 1.mp3": {
+    "title": "Landlocked (guitar)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Acoustic"
+    ],
+    "moods": [
+      "Happy"
+    ]
   }
 }
