@@ -143,5 +143,20 @@
     "moods": [
       "Serious"
     ]
+  },
+  "music/Thugavelt 1.mp3": {
+    "title": "Thugavelt",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Blues",
+      "Jazz",
+      "Rock"
+    ],
+    "moods": [
+      "Energetic",
+      "Uplifting"
+    ]
   }
 }
