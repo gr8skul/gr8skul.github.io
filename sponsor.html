@@ -523,7 +523,7 @@ button:hover {
     </div>
 
 </div>
-```
+
 
 </div>
 
@@ -547,15 +547,15 @@ button:hover {
 
 <div class="section-title">
 
-```
+
 SPONSOR SIGN IN
-```
+
 
 </div>
 
 <div class="form">
 
-```
+
 <div class="field">
 
     <label for="signInEmail">
@@ -619,7 +619,7 @@ SPONSOR SIGN IN
     class="form-message"
     id="authMessage"
 ></div>
-```
+
 
 </div>
 
@@ -635,15 +635,15 @@ SPONSOR SIGN IN
 
 <div class="section-title">
 
-```
+
 SPONSOR SIGN UP
-```
+
 
 </div>
 
 <div class="form">
 
-```
+
 <div class="field">
 
     <label for="companyName">
@@ -742,7 +742,7 @@ SPONSOR SIGN UP
     SIGN UP
 
 </button>
-```
+
 
 </div>
 
@@ -758,7 +758,7 @@ SPONSOR SIGN UP
 
 <div class="footer">
 
-```
+
 GR8SKUL SPONSORS
 
 &nbsp;·&nbsp;
@@ -1117,29 +1117,32 @@ async function signUp() {
                             "application/json"
                     },
 
-                    body:
-                        JSON.stringify({
+body:
+    JSON.stringify({
 
-                            email:
-                                email,
+        email:
+            email,
 
-                            password:
-                                password,
+        password:
+            password,
 
-                            data: {
+        data: {
 
-                                business_name:
-                                    companyName,
+            account_type:
+                "sponsor",
 
-                                tagline:
-                                    tagline,
+            business_name:
+                companyName,
 
-                                website:
-                                    websiteUrl.href
+            tagline:
+                tagline,
 
-                            }
+            website:
+                websiteUrl.href
 
-                        })
+        }
+
+    })
                 }
             );
 
