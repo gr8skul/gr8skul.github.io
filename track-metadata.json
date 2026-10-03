@@ -35,5 +35,18 @@
     "moods": [
       "Energetic"
     ]
+  },
+  "music/Arnt We Rich (Instrumental)1.mp3": {
+    "title": "aRnt We Rich (instrumental)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Pop"
+    ],
+    "moods": [
+      "Happy",
+      "Serious"
+    ]
   }
 }
