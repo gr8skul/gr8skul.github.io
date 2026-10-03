@@ -88,5 +88,18 @@
     "moods": [
       "Happy"
     ]
+  },
+  "music/Outside Madness (strings) 1.mp3": {
+    "title": "Outside Madness (strings)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Classical"
+    ],
+    "moods": [
+      "Dark",
+      "Serious"
+    ]
   }
 }
