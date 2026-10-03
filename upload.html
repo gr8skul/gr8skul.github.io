@@ -639,7 +639,9 @@ h1 {
 
 const CATALOG_URL =
     "/catalog.json";
-
+    
+const METADATA_URL =
+    "/track-metadata.json";
 
 /* ---------------------------------------------------------
    EXISTING LOCAL ORDER
@@ -949,6 +951,7 @@ function normalizeArray(
 }
 
 
+
 /* =========================================================
    LOAD WORKS
    ========================================================= */
@@ -957,16 +960,36 @@ async function loadWorks() {
 
     try {
 
-        const response =
-            await fetch(
-                CATALOG_URL +
-                "?t=" +
-                Date.now()
+        const results =
+            await Promise.all(
+                [
+
+                    fetch(
+                        CATALOG_URL +
+                        "?t=" +
+                        Date.now()
+                    ),
+
+                    fetch(
+                        METADATA_URL +
+                        "?t=" +
+                        Date.now()
+                    )
+
+                ]
             );
 
 
+        const catalogResponse =
+            results[0];
+
+
+        const metadataResponse =
+            results[1];
+
+
         if (
-            !response.ok
+            !catalogResponse.ok
         ) {
 
             throw new Error(
@@ -976,29 +999,46 @@ async function loadWorks() {
         }
 
 
-        const data =
-            await response.json();
+        if (
+            !metadataResponse.ok
+        ) {
+
+            throw new Error(
+                "Could not load track metadata"
+            );
+
+        }
+
+
+        const catalogData =
+            await catalogResponse.json();
+
+
+        const metadataData =
+            await metadataResponse.json();
 
 
         let loadedWorks;
 
 
         if (
-            Array.isArray(data)
-        ) {
-
-            loadedWorks =
-                data;
-
-        } else if (
-            data &&
             Array.isArray(
-                data.tracks
+                catalogData
             )
         ) {
 
             loadedWorks =
-                data.tracks;
+                catalogData;
+
+        } else if (
+            catalogData &&
+            Array.isArray(
+                catalogData.tracks
+            )
+        ) {
+
+            loadedWorks =
+                catalogData.tracks;
 
         } else {
 
@@ -1009,9 +1049,105 @@ async function loadWorks() {
         }
 
 
+        /*
+         * track-metadata.json is keyed by
+         * the exact MP3 path.
+         *
+         * Example:
+         *
+         * "music/example.mp3": {
+         *     title: "Example",
+         *     artists: ["Artist"],
+         *     genres: ["Classical"],
+         *     moods: ["Calm"]
+         * }
+         *
+         * We keep the catalog as the source
+         * of existence and order, then add
+         * metadata to each catalog entry.
+         */
+
+        let metadataMap =
+            metadataData;
+
+
+        if (
+            metadataData &&
+            typeof metadataData ===
+            "object" &&
+            metadataData.metadata &&
+            typeof metadataData.metadata ===
+            "object"
+        ) {
+
+            metadataMap =
+                metadataData.metadata;
+
+        }
+
+
         works =
             loadedWorks.map(
-                normalizeWork
+                function(work) {
+
+                    const normalized =
+                        normalizeWork(
+                            work
+                        );
+
+
+                    const key =
+                        getWorkKey(
+                            normalized
+                        );
+
+
+                    const metadata =
+                        metadataMap &&
+                        key
+                            ? metadataMap[key]
+                            : null;
+
+
+                    if (
+                        metadata &&
+                        typeof metadata ===
+                        "object"
+                    ) {
+
+                        normalized.title =
+                            metadata.title ||
+                            normalized.title ||
+                            "";
+
+
+                        normalized.artists =
+                            normalizeArray(
+                                metadata.artists ||
+                                metadata.artist ||
+                                metadata.artist_name
+                            );
+
+
+                        normalized.genres =
+                            normalizeArray(
+                                metadata.genres ||
+                                metadata.genre
+                            );
+
+
+                        normalized.moods =
+                            normalizeArray(
+                                metadata.moods ||
+                                metadata.mood
+                            );
+
+                    }
+
+
+                    return normalized;
+
+                }
             );
 
 
@@ -1036,6 +1172,8 @@ async function loadWorks() {
     }
 
 }
+
+
 
 
 /* =========================================================
