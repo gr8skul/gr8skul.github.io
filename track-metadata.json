@@ -129,5 +129,19 @@
       "Melancholy",
       "Romantic"
     ]
+  },
+  "music/The Won (string instrumental) 1.mp3": {
+    "title": "The Won (string instrumental)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Classical",
+      "Pop",
+      "Rock"
+    ],
+    "moods": [
+      "Serious"
+    ]
   }
 }
