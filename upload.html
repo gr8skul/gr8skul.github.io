@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 
 <html lang="en">
@@ -9,7 +10,6 @@
 <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
-
 >
 
 <title>GR8SKUL Works</title>
@@ -50,7 +50,7 @@ body {
 
 .header {
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 0;
 }
 
 .logo {
@@ -63,6 +63,8 @@ body {
 
 h1 {
     margin: 0;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #d8d8d8;
     font-size: 24px;
     font-weight: 400;
     letter-spacing: 3px;
@@ -73,10 +75,7 @@ h1 {
 }
 
 .section-title {
-    font-size: 12px;
-    letter-spacing: 2px;
-    color: #666666;
-    margin-bottom: 10px;
+    display: none;
 }
 
 .works-list {
@@ -153,11 +152,12 @@ h1 {
 }
 
 .drag-note {
-    margin-top: 10px;
+    margin-top: 0;
+    margin-bottom: 10px;
     font-size: 10px;
     letter-spacing: 1px;
     color: #999999;
-    text-align: center;
+    text-align: left;
 }
 
 .order-status {
@@ -172,7 +172,8 @@ h1 {
 .add-button {
     display: block;
     width: 100%;
-    margin-top: 22px;
+    margin-top: 18px;
+    margin-bottom: 25px;
     padding: 13px 0;
     border: 1px solid #111111;
     background: #ffffff;
@@ -410,7 +411,7 @@ h1 {
     justify-content: space-between;
     align-items: center;
     gap: 15px;
-    margin-top: -10px;
+    margin-top: 0;
     margin-bottom: 25px;
     padding-bottom: 12px;
     border-bottom: 1px solid #d8d8d8;
@@ -474,7 +475,6 @@ h1 {
 
 <div class="header">
 
-```
 <img
     class="logo"
     src="/GR8SKUL-HEADER-LOGO.png"
@@ -483,8 +483,8 @@ h1 {
 
 <h1>WORKS</h1>
 
-
 </div>
+
 
 <!-- =========================================================
      AUTHENTICATION SCREEN
@@ -567,6 +567,7 @@ h1 {
 
 </div>
 
+
 <!-- =========================================================
      PROTECTED WORKS CONTENT
      ========================================================= -->
@@ -575,6 +576,23 @@ h1 {
     id="protectedContent"
 >
 
+
+<!-- =========================================================
+     ADD BUTTON
+     ========================================================= -->
+
+<button
+    id="addButton"
+    class="add-button"
+    type="button"
+>
+    + ADD
+</button>
+
+
+<!-- =========================================================
+     ACCOUNT BAR
+     ========================================================= -->
 
 <div class="account-bar">
 
@@ -596,280 +614,271 @@ h1 {
 
 <div class="section">
 
-    <div class="section-title">
-        WORKS
+
+<!-- =========================================================
+     DRAG NOTE
+     ========================================================= -->
+
+<div class="drag-note">
+    DRAG TO REARRANGE
+</div>
+
+
+<div
+    id="worksList"
+    class="works-list"
+></div>
+
+
+<div
+    id="orderStatus"
+    class="order-status"
+></div>
+
+
+<div
+    id="addForm"
+    class="add-form"
+>
+
+    <div
+        id="formHeading"
+        class="form-heading"
+    >
+        ADD WORK
     </div>
 
 
-    <div
-        id="worksList"
-        class="works-list"
-    ></div>
+    <div class="form-row">
 
-
-    <div class="drag-note">
-        DRAG TO REARRANGE
-    </div>
-
-
-    <div
-        id="orderStatus"
-        class="order-status"
-    ></div>
-
-
-    <button
-        id="addButton"
-        class="add-button"
-        type="button"
-    >
-        + ADD
-    </button>
-
-
-    <div
-        id="addForm"
-        class="add-form"
-    >
-
-        <div
-            id="formHeading"
-            class="form-heading"
+        <label
+            class="form-label"
+            for="artistInput"
         >
-            ADD WORK
+            ARTIST(S)
+        </label>
+
+        <input
+            id="artistInput"
+            class="form-input"
+            type="text"
+            autocomplete="off"
+            placeholder="Artist name"
+        >
+
+        <div class="form-help">
+            Separate multiple artists with commas.
         </div>
-
-
-        <div class="form-row">
-
-            <label
-                class="form-label"
-                for="artistInput"
-            >
-                ARTIST(S)
-            </label>
-
-            <input
-                id="artistInput"
-                class="form-input"
-                type="text"
-                autocomplete="off"
-                placeholder="Artist name"
-            >
-
-            <div class="form-help">
-                Separate multiple artists with commas.
-            </div>
-
-        </div>
-
-
-        <div class="form-row">
-
-            <label
-                class="form-label"
-                for="titleInput"
-            >
-                TITLE
-            </label>
-
-            <input
-                id="titleInput"
-                class="form-input"
-                type="text"
-                autocomplete="off"
-                placeholder="Work title"
-            >
-
-        </div>
-
-
-        <div class="form-row">
-
-            <label
-                class="form-label"
-                for="mp3Input"
-            >
-                MP3
-            </label>
-
-            <input
-                id="mp3Input"
-                class="form-input"
-                type="file"
-                accept=".mp3,audio/mpeg"
-            >
-
-            <div
-                id="mp3Help"
-                class="form-help"
-            >
-                MP3 files only.
-            </div>
-
-        </div>
-
-
-        <div class="form-row">
-
-            <label
-                class="form-label"
-                for="genreInput"
-            >
-                GENRE(S)
-            </label>
-
-            <select
-                id="genreInput"
-                class="form-select"
-                multiple
-            >
-
-                <option value="Acoustic">
-                    ACOUSTIC
-                </option>
-
-                <option value="Alternative">
-                    ALTERNATIVE
-                </option>
-
-                <option value="Blues">
-                    BLUES
-                </option>
-
-                <option value="Classical">
-                    CLASSICAL
-                </option>
-
-                <option value="Country">
-                    COUNTRY
-                </option>
-
-                <option value="Electronic">
-                    ELECTRONIC
-                </option>
-
-                <option value="Folk">
-                    FOLK
-                </option>
-
-                <option value="Hip-Hop">
-                    HIP-HOP
-                </option>
-
-                <option value="Jazz">
-                    JAZZ
-                </option>
-
-                <option value="Pop">
-                    POP
-                </option>
-
-                <option value="Rock">
-                    ROCK
-                </option>
-
-                <option value="Other">
-                    OTHER
-                </option>
-
-            </select>
-
-            <div class="form-help">
-                Hold CTRL (Windows) or CMD (Mac) to select more than one.
-            </div>
-
-        </div>
-
-
-        <div class="form-row">
-
-            <label
-                class="form-label"
-                for="moodInput"
-            >
-                MOOD(S)
-            </label>
-
-            <select
-                id="moodInput"
-                class="form-select"
-                multiple
-            >
-
-                <option value="Calm">
-                    CALM
-                </option>
-
-                <option value="Dark">
-                    DARK
-                </option>
-
-                <option value="Energetic">
-                    ENERGETIC
-                </option>
-
-                <option value="Happy">
-                    HAPPY
-                </option>
-
-                <option value="Melancholy">
-                    MELANCHOLY
-                </option>
-
-                <option value="Peaceful">
-                    PEACEFUL
-                </option>
-
-                <option value="Romantic">
-                    ROMANTIC
-                </option>
-
-                <option value="Serious">
-                    SERIOUS
-                </option>
-
-                <option value="Uplifting">
-                    UPLIFTING
-                </option>
-
-            </select>
-
-            <div class="form-help">
-                Hold CTRL (Windows) or CMD (Mac) to select more than one.
-            </div>
-
-        </div>
-
-
-        <div class="form-actions">
-
-            <button
-                id="cancelButton"
-                class="form-button"
-                type="button"
-            >
-                CANCEL
-            </button>
-
-            <button
-                id="uploadButton"
-                class="form-button"
-                type="button"
-            >
-                UPLOAD
-            </button>
-
-        </div>
-
-
-        <div
-            id="formStatus"
-            class="form-status"
-        ></div>
-
 
     </div>
+
+
+    <div class="form-row">
+
+        <label
+            class="form-label"
+            for="titleInput"
+        >
+            TITLE
+        </label>
+
+        <input
+            id="titleInput"
+            class="form-input"
+            type="text"
+            autocomplete="off"
+            placeholder="Work title"
+        >
+
+    </div>
+
+
+    <div class="form-row">
+
+        <label
+            class="form-label"
+            for="mp3Input"
+        >
+            MP3
+        </label>
+
+        <input
+            id="mp3Input"
+            class="form-input"
+            type="file"
+            accept=".mp3,audio/mpeg"
+        >
+
+        <div
+            id="mp3Help"
+            class="form-help"
+        >
+            MP3 files only.
+        </div>
+
+    </div>
+
+
+    <div class="form-row">
+
+        <label
+            class="form-label"
+            for="genreInput"
+        >
+            GENRE(S)
+        </label>
+
+        <select
+            id="genreInput"
+            class="form-select"
+            multiple
+        >
+
+            <option value="Acoustic">
+                ACOUSTIC
+            </option>
+
+            <option value="Alternative">
+                ALTERNATIVE
+            </option>
+
+            <option value="Blues">
+                BLUES
+            </option>
+
+            <option value="Classical">
+                CLASSICAL
+            </option>
+
+            <option value="Country">
+                COUNTRY
+            </option>
+
+            <option value="Electronic">
+                ELECTRONIC
+            </option>
+
+            <option value="Folk">
+                FOLK
+            </option>
+
+            <option value="Hip-Hop">
+                HIP-HOP
+            </option>
+
+            <option value="Jazz">
+                JAZZ
+            </option>
+
+            <option value="Pop">
+                POP
+            </option>
+
+            <option value="Rock">
+                ROCK
+            </option>
+
+            <option value="Other">
+                OTHER
+            </option>
+
+        </select>
+
+        <div class="form-help">
+            Hold CTRL (Windows) or CMD (Mac) to select more than one.
+        </div>
+
+    </div>
+
+
+    <div class="form-row">
+
+        <label
+            class="form-label"
+            for="moodInput"
+        >
+            MOOD(S)
+        </label>
+
+        <select
+            id="moodInput"
+            class="form-select"
+            multiple
+        >
+
+            <option value="Calm">
+                CALM
+            </option>
+
+            <option value="Dark">
+                DARK
+            </option>
+
+            <option value="Energetic">
+                ENERGETIC
+            </option>
+
+            <option value="Happy">
+                HAPPY
+            </option>
+
+            <option value="Melancholy">
+                MELANCHOLY
+            </option>
+
+            <option value="Peaceful">
+                PEACEFUL
+            </option>
+
+            <option value="Romantic">
+                ROMANTIC
+            </option>
+
+            <option value="Serious">
+                SERIOUS
+            </option>
+
+            <option value="Uplifting">
+                UPLIFTING
+            </option>
+
+        </select>
+
+        <div class="form-help">
+            Hold CTRL (Windows) or CMD (Mac) to select more than one.
+        </div>
+
+    </div>
+
+
+    <div class="form-actions">
+
+        <button
+            id="cancelButton"
+            class="form-button"
+            type="button"
+        >
+            CANCEL
+        </button>
+
+        <button
+            id="uploadButton"
+            class="form-button"
+            type="button"
+        >
+            UPLOAD
+        </button>
+
+    </div>
+
+
+    <div
+        id="formStatus"
+        class="form-status"
+    ></div>
+
+
+</div>
 
 </div>
 
@@ -880,11 +889,12 @@ h1 {
 >
     BACK TO GR8SKUL
 </a>
-```
+
 
 </div>
 
 </div>
+
 
 <script>
 
@@ -3217,3 +3227,4 @@ checkAuthentication();
 </body>
 
 </html>
+```
