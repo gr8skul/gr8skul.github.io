@@ -1,8 +1,8 @@
 [
   {
-    "name": "Arnt We Rich (Instrumental)1.mp3",
-    "path": "music/Arnt We Rich (Instrumental)1.mp3",
-    "timestamp": 1791002727
+    "name": "Arnt We Rich 1.mp3",
+    "path": "music/Arnt We Rich 1.mp3",
+    "timestamp": 1791002816
   },
   {
     "name": "Piano Peace 1.mp3",
@@ -20,14 +20,14 @@
     "timestamp": 1791003386
   },
   {
-    "name": "Arnt We Rich 1.mp3",
-    "path": "music/Arnt We Rich 1.mp3",
-    "timestamp": 1791002816
-  },
-  {
     "name": "The Won (string instrumental) 1.mp3",
     "path": "music/The Won (string instrumental) 1.mp3",
     "timestamp": 1791003327
+  },
+  {
+    "name": "Arnt We Rich (Instrumental)1.mp3",
+    "path": "music/Arnt We Rich (Instrumental)1.mp3",
+    "timestamp": 1791002727
   },
   {
     "name": "Patience 1.mp3",
