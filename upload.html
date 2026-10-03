@@ -20,6 +20,8 @@ content="width=device-width, initial-scale=1.0"
     href="/gr8skul-icon.PNG"
 >
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
 * {
@@ -300,6 +302,151 @@ h1 {
     color: #111111;
 }
 
+
+/* =========================================================
+   AUTHENTICATION
+   ========================================================= */
+
+#authScreen {
+    display: none;
+}
+
+.auth-box {
+    width: 100%;
+    max-width: 420px;
+    margin: 50px auto 0;
+}
+
+.auth-title {
+    text-align: center;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 25px;
+}
+
+.auth-field {
+    margin-bottom: 16px;
+}
+
+.auth-label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    color: #666666;
+}
+
+.auth-input {
+    width: 100%;
+    height: 42px;
+    padding: 8px 10px;
+    border: 1px solid #cccccc;
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+}
+
+.auth-input:focus {
+    outline: none;
+    border-color: #111111;
+}
+
+.auth-button {
+    width: 100%;
+    height: 42px;
+    margin-top: 5px;
+    border: 1px solid #111111;
+    background: #ffffff;
+    color: #111111;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    cursor: pointer;
+}
+
+.auth-button:hover {
+    background: #111111;
+    color: #ffffff;
+}
+
+.auth-button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+.auth-message {
+    min-height: 20px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: #666666;
+    line-height: 1.5;
+}
+
+.auth-back {
+    display: block;
+    margin-top: 35px;
+    text-align: center;
+    color: #777777;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+
+.auth-back:hover {
+    color: #111111;
+}
+
+
+/* =========================================================
+   WORKS ACCOUNT BAR
+   ========================================================= */
+
+.account-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-top: -10px;
+    margin-bottom: 25px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.account-email {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: #888888;
+}
+
+.sign-out-button {
+    flex-shrink: 0;
+    border: 1px solid #111111;
+    background: #ffffff;
+    color: #111111;
+    padding: 6px 10px;
+    font-size: 9px;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.sign-out-button:hover {
+    background: #111111;
+    color: #ffffff;
+}
+
+#protectedContent {
+    display: none;
+}
+
+
 @media (max-width: 500px) {
 
     .page {
@@ -309,6 +456,10 @@ h1 {
 
     .work-row {
         grid-template-columns: 32px 1fr 62px;
+    }
+
+    .account-bar {
+        align-items: flex-start;
     }
 
 }
@@ -321,16 +472,124 @@ h1 {
 
 <div class="page">
 
-```
 <div class="header">
 
-    <img
-        class="logo"
-        src="/GR8SKUL-HEADER-LOGO.png"
-        alt="GR8SKUL"
-    >
+```
+<img
+    class="logo"
+    src="/GR8SKUL-HEADER-LOGO.png"
+    alt="GR8SKUL"
+>
 
-    <h1>WORKS</h1>
+<h1>WORKS</h1>
+```
+
+</div>
+
+<!-- =========================================================
+     AUTHENTICATION SCREEN
+     ========================================================= -->
+
+<div
+    id="authScreen"
+>
+
+```
+<div class="auth-box">
+
+    <div class="auth-title">
+        WORKS SIGN IN
+    </div>
+
+
+    <div class="auth-field">
+
+        <label
+            class="auth-label"
+            for="authEmail"
+        >
+            EMAIL
+        </label>
+
+        <input
+            id="authEmail"
+            class="auth-input"
+            type="email"
+            autocomplete="email"
+        >
+
+    </div>
+
+
+    <div class="auth-field">
+
+        <label
+            class="auth-label"
+            for="authPassword"
+        >
+            PASSWORD
+        </label>
+
+        <input
+            id="authPassword"
+            class="auth-input"
+            type="password"
+            autocomplete="current-password"
+        >
+
+    </div>
+
+
+    <button
+        id="signInButton"
+        class="auth-button"
+        type="button"
+    >
+        SIGN IN
+    </button>
+
+
+    <div
+        id="authMessage"
+        class="auth-message"
+    ></div>
+
+
+    <a
+        class="auth-back"
+        href="/"
+    >
+        BACK TO GR8SKUL
+    </a>
+
+</div>
+```
+
+</div>
+
+<!-- =========================================================
+     PROTECTED WORKS CONTENT
+     ========================================================= -->
+
+<div
+    id="protectedContent"
+>
+
+```
+<div class="account-bar">
+
+    <div
+        id="accountEmail"
+        class="account-email"
+    ></div>
+
+    <button
+        id="signOutButton"
+        class="sign-out-button"
+        type="button"
+    >
+        SIGN OUT
+    </button>
 
 </div>
 
@@ -625,35 +884,20 @@ h1 {
 
 </div>
 
+</div>
+
 <script>
 
 /* =========================================================
    GR8SKUL
    WORKS
+   AUTHENTICATION + WORKS
    ========================================================= */
 
 
-/* ---------------------------------------------------------
-   EXISTING CATALOG
-   --------------------------------------------------------- */
-
-const CATALOG_URL =
-    "/catalog.json";
-    
-const METADATA_URL =
-    "/track-metadata.json";
-
-/* ---------------------------------------------------------
-   EXISTING LOCAL ORDER
-   --------------------------------------------------------- */
-
-const LOCAL_ORDER_KEY =
-    "gr8skul-works-order";
-
-
-/* ---------------------------------------------------------
+/* =========================================================
    SUPABASE
-   --------------------------------------------------------- */
+   ========================================================= */
 
 const SUPABASE_URL =
     "https://rijzolipyabfggrrhgab.supabase.co";
@@ -663,27 +907,363 @@ const SUPABASE_KEY =
     "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
 
 
-/* ---------------------------------------------------------
-   EXISTING WORKING REARRANGE FUNCTION
-   --------------------------------------------------------- */
+const supabaseClient =
+    window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* =========================================================
+   EXISTING CATALOG
+   ========================================================= */
+
+const CATALOG_URL =
+    "/catalog.json";
+
+
+const METADATA_URL =
+    "/track-metadata.json";
+
+
+/* =========================================================
+   EXISTING LOCAL ORDER
+   ========================================================= */
+
+const LOCAL_ORDER_KEY =
+    "gr8skul-works-order";
+
+
+/* =========================================================
+   EXISTING WORKING FUNCTIONS
+   ========================================================= */
 
 const UPDATE_ORDER_FUNCTION =
     SUPABASE_URL +
     "/functions/v1/update-track-order";
 
 
-/* ---------------------------------------------------------
-   UPLOAD FUNCTION
-   --------------------------------------------------------- */
-
 const UPLOAD_WORK_FUNCTION =
     SUPABASE_URL +
     "/functions/v1/upload-work-index-ts";
 
 
-/* ---------------------------------------------------------
+/* =========================================================
+   AUTH ELEMENTS
+   ========================================================= */
+
+const authScreen =
+    document.getElementById(
+        "authScreen"
+    );
+
+
+const protectedContent =
+    document.getElementById(
+        "protectedContent"
+    );
+
+
+const authEmail =
+    document.getElementById(
+        "authEmail"
+    );
+
+
+const authPassword =
+    document.getElementById(
+        "authPassword"
+    );
+
+
+const signInButton =
+    document.getElementById(
+        "signInButton"
+    );
+
+
+const signOutButton =
+    document.getElementById(
+        "signOutButton"
+    );
+
+
+const authMessage =
+    document.getElementById(
+        "authMessage"
+    );
+
+
+const accountEmail =
+    document.getElementById(
+        "accountEmail"
+    );
+
+
+/* =========================================================
+   AUTHENTICATION
+   ========================================================= */
+
+async function showAuthenticatedPage(
+    session
+) {
+
+    if (
+        !session ||
+        !session.user
+    ) {
+
+        showLogin();
+
+        return;
+
+    }
+
+
+    authScreen.style.display =
+        "none";
+
+
+    protectedContent.style.display =
+        "block";
+
+
+    accountEmail.textContent =
+        session.user.email ||
+        "";
+
+
+    await loadWorks();
+
+}
+
+
+function showLogin() {
+
+    protectedContent.style.display =
+        "none";
+
+
+    authScreen.style.display =
+        "block";
+
+
+    accountEmail.textContent =
+        "";
+
+}
+
+
+async function checkAuthentication() {
+
+    const result =
+        await supabaseClient.auth.getSession();
+
+
+    const session =
+        result.data &&
+        result.data.session
+            ? result.data.session
+            : null;
+
+
+    if (session) {
+
+        await showAuthenticatedPage(
+            session
+        );
+
+    } else {
+
+        showLogin();
+
+    }
+
+}
+
+
+async function signIn() {
+
+    const email =
+        authEmail.value.trim();
+
+
+    const password =
+        authPassword.value;
+
+
+    if (
+        !email ||
+        !password
+    ) {
+
+        authMessage.textContent =
+            "ENTER AN EMAIL AND PASSWORD";
+
+        return;
+
+    }
+
+
+    signInButton.disabled =
+        true;
+
+
+    authMessage.textContent =
+        "SIGNING IN...";
+
+
+    try {
+
+        const result =
+            await supabaseClient.auth.signInWithPassword(
+                {
+                    email:
+                        email,
+
+                    password:
+                        password
+                }
+            );
+
+
+        if (
+            result.error
+        ) {
+
+            throw result.error;
+
+        }
+
+
+        authMessage.textContent =
+            "";
+
+
+        await showAuthenticatedPage(
+            result.data.session
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL Works sign in failed:",
+            error
+        );
+
+
+        authMessage.textContent =
+            error.message ||
+            "SIGN IN FAILED";
+
+
+    } finally {
+
+        signInButton.disabled =
+            false;
+
+    }
+
+}
+
+
+async function signOut() {
+
+    try {
+
+        await supabaseClient.auth.signOut();
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL Works sign out failed:",
+            error
+        );
+
+    }
+
+
+    authEmail.value =
+        "";
+
+
+    authPassword.value =
+        "";
+
+
+    authMessage.textContent =
+        "";
+
+
+    showLogin();
+
+}
+
+
+/* =========================================================
+   AUTH EVENTS
+   ========================================================= */
+
+signInButton.addEventListener(
+    "click",
+    signIn
+);
+
+
+signOutButton.addEventListener(
+    "click",
+    signOut
+);
+
+
+authPassword.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            signIn();
+
+        }
+
+    }
+);
+
+
+/*
+ * Keep the page synchronized with
+ * the Supabase Auth session.
+ */
+supabaseClient.auth.onAuthStateChange(
+    function(
+        event,
+        session
+    ) {
+
+        if (
+            session
+        ) {
+
+            showAuthenticatedPage(
+                session
+            );
+
+        } else {
+
+            showLogin();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
    STATE
-   --------------------------------------------------------- */
+   ========================================================= */
 
 let works = [];
 
@@ -778,6 +1358,49 @@ const formStatus =
     document.getElementById(
         "formStatus"
     );
+
+
+/* =========================================================
+   GET CURRENT ACCESS TOKEN
+   ========================================================= */
+
+async function getAccessToken() {
+
+    const result =
+        await supabaseClient.auth.getSession();
+
+
+    if (
+        result.error
+    ) {
+
+        throw result.error;
+
+    }
+
+
+    const session =
+        result.data &&
+        result.data.session
+            ? result.data.session
+            : null;
+
+
+    if (
+        !session ||
+        !session.access_token
+    ) {
+
+        throw new Error(
+            "YOUR WORKS SESSION HAS EXPIRED. PLEASE SIGN IN AGAIN."
+        );
+
+    }
+
+
+    return session.access_token;
+
+}
 
 
 /* =========================================================
@@ -951,7 +1574,6 @@ function normalizeArray(
 }
 
 
-
 /* =========================================================
    LOAD WORKS
    ========================================================= */
@@ -1048,24 +1670,6 @@ async function loadWorks() {
 
         }
 
-
-        /*
-         * track-metadata.json is keyed by
-         * the exact MP3 path.
-         *
-         * Example:
-         *
-         * "music/example.mp3": {
-         *     title: "Example",
-         *     artists: ["Artist"],
-         *     genres: ["Classical"],
-         *     moods: ["Calm"]
-         * }
-         *
-         * We keep the catalog as the source
-         * of existence and order, then add
-         * metadata to each catalog entry.
-         */
 
         let metadataMap =
             metadataData;
@@ -1172,8 +1776,6 @@ async function loadWorks() {
     }
 
 }
-
-
 
 
 /* =========================================================
@@ -1630,14 +2232,6 @@ function editWork(
     );
 
 
-    /*
-     * The file input is deliberately
-     * cleared when editing.
-     *
-     * The existing MP3 remains on
-     * GitHub unless the user chooses
-     * a replacement file.
-     */
     mp3Input.value =
         "";
 
@@ -1997,6 +2591,10 @@ async function saveCurrentDomOrder() {
 
     try {
 
+        const accessToken =
+            await getAccessToken();
+
+
         const response =
             await fetch(
                 UPDATE_ORDER_FUNCTION,
@@ -2015,7 +2613,7 @@ async function saveCurrentDomOrder() {
 
                         "Authorization":
                             "Bearer " +
-                            SUPABASE_KEY
+                            accessToken
 
                     },
 
@@ -2299,10 +2897,6 @@ uploadButton.addEventListener(
             null;
 
 
-        /* -------------------------------------------------
-           ADD VALIDATION
-           ------------------------------------------------- */
-
         if (
             editingIndex === null &&
             !file
@@ -2316,10 +2910,6 @@ uploadButton.addEventListener(
 
         }
 
-
-        /* -------------------------------------------------
-           COMMON VALIDATION
-           ------------------------------------------------- */
 
         if (!title) {
 
@@ -2382,10 +2972,6 @@ uploadButton.addEventListener(
         }
 
 
-        /* -------------------------------------------------
-           METADATA
-           ------------------------------------------------- */
-
         const metadata = {
 
             title:
@@ -2402,10 +2988,6 @@ uploadButton.addEventListener(
 
         };
 
-
-        /* -------------------------------------------------
-           EXISTING FILE FOR EDIT MODE
-           ------------------------------------------------- */
 
         let existingFile =
             "";
@@ -2440,10 +3022,6 @@ uploadButton.addEventListener(
         }
 
 
-        /* -------------------------------------------------
-           FORM DATA
-           ------------------------------------------------- */
-
         const formData =
             new FormData();
 
@@ -2464,16 +3042,6 @@ uploadButton.addEventListener(
         );
 
 
-        /*
-         * EDIT MODE:
-         *
-         * Send the existing file path
-         * separately from the metadata.
-         *
-         * The Edge Function uses this
-         * to identify which work is being
-         * edited.
-         */
         if (
             editingIndex !== null
         ) {
@@ -2486,17 +3054,6 @@ uploadButton.addEventListener(
         }
 
 
-        /*
-         * ADD:
-         *   MP3 is required.
-         *
-         * EDIT:
-         *   MP3 is optional.
-         *
-         * If an MP3 is supplied during
-         * editing, the Edge Function
-         * replaces the existing audio.
-         */
         if (file) {
 
             formData.append(
@@ -2506,10 +3063,6 @@ uploadButton.addEventListener(
 
         }
 
-
-        /* -------------------------------------------------
-           DISABLE BUTTON
-           ------------------------------------------------- */
 
         uploadButton.disabled =
             true;
@@ -2528,11 +3081,11 @@ uploadButton.addEventListener(
         );
 
 
-        /* -------------------------------------------------
-           SEND TO EDGE FUNCTION
-           ------------------------------------------------- */
-
         try {
+
+            const accessToken =
+                await getAccessToken();
+
 
             const response =
                 await fetch(
@@ -2545,7 +3098,11 @@ uploadButton.addEventListener(
                         headers: {
 
                             "apikey":
-                                SUPABASE_KEY
+                                SUPABASE_KEY,
+
+                            "Authorization":
+                                "Bearer " +
+                                accessToken
 
                         },
 
@@ -2650,11 +3207,10 @@ uploadButton.addEventListener(
 
 
 /* =========================================================
-   INITIAL LOAD
+   INITIAL AUTH CHECK
    ========================================================= */
 
-loadWorks();
-
+checkAuthentication();
 
 </script>
 
