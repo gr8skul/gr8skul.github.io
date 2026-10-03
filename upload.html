@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 
 <html lang="en">
@@ -10,6 +9,7 @@
 <meta
 name="viewport"
 content="width=device-width, initial-scale=1.0"
+
 >
 
 <title>GR8SKUL Works</title>
@@ -476,15 +476,15 @@ h1 {
 <div class="header">
 
 <img
-    class="logo"
-    src="/GR8SKUL-HEADER-LOGO.png"
-    alt="GR8SKUL"
+class="logo"
+src="/GR8SKUL-HEADER-LOGO.png"
+alt="GR8SKUL"
+
 >
 
 <h1>WORKS</h1>
 
 </div>
-
 
 <!-- =========================================================
      AUTHENTICATION SCREEN
@@ -494,397 +494,64 @@ h1 {
     id="authScreen"
 >
 
-
 <div class="auth-box">
 
-    <div class="auth-title">
-        WORKS SIGN IN
-    </div>
 
+<div class="auth-title">
+    WORKS SIGN IN
+</div>
 
-    <div class="auth-field">
+<div class="auth-field">
 
-        <label
-            class="auth-label"
-            for="authEmail"
-        >
-            EMAIL
-        </label>
-
-        <input
-            id="authEmail"
-            class="auth-input"
-            type="email"
-            autocomplete="email"
-        >
-
-    </div>
-
-
-    <div class="auth-field">
-
-        <label
-            class="auth-label"
-            for="authPassword"
-        >
-            PASSWORD
-        </label>
-
-        <input
-            id="authPassword"
-            class="auth-input"
-            type="password"
-            autocomplete="current-password"
-        >
-
-    </div>
-
-
-    <button
-        id="signInButton"
-        class="auth-button"
-        type="button"
+    <label
+        class="auth-label"
+        for="authEmail"
     >
-        SIGN IN
-    </button>
+        EMAIL
+    </label>
 
-
-    <div
-        id="authMessage"
-        class="auth-message"
-    ></div>
-
-
-    <a
-        class="auth-back"
-        href="/"
+    <input
+        id="authEmail"
+        class="auth-input"
+        type="email"
+        autocomplete="email"
     >
-        BACK TO GR8SKUL
-    </a>
 
 </div>
 
+<div class="auth-field">
+
+    <label
+        class="auth-label"
+        for="authPassword"
+    >
+        PASSWORD
+    </label>
+
+    <input
+        id="authPassword"
+        class="auth-input"
+        type="password"
+        autocomplete="current-password"
+    >
 
 </div>
-
-
-<!-- =========================================================
-     PROTECTED WORKS CONTENT
-     ========================================================= -->
-
-<div
-    id="protectedContent"
->
-
-
-<!-- =========================================================
-     ADD BUTTON
-     ========================================================= -->
 
 <button
-    id="addButton"
-    class="add-button"
+    id="signInButton"
+    class="auth-button"
     type="button"
 >
-    + ADD
+    SIGN IN
 </button>
 
-
-<!-- =========================================================
-     ACCOUNT BAR
-     ========================================================= -->
-
-<div class="account-bar">
-
-    <div
-        id="accountEmail"
-        class="account-email"
-    ></div>
-
-    <button
-        id="signOutButton"
-        class="sign-out-button"
-        type="button"
-    >
-        SIGN OUT
-    </button>
-
-</div>
-
-
-<div class="section">
-
-
-<!-- =========================================================
-     DRAG NOTE
-     ========================================================= -->
-
-<div class="drag-note">
-    DRAG TO REARRANGE
-</div>
-
-
 <div
-    id="worksList"
-    class="works-list"
+    id="authMessage"
+    class="auth-message"
 ></div>
-
-
-<div
-    id="orderStatus"
-    class="order-status"
-></div>
-
-
-<div
-    id="addForm"
-    class="add-form"
->
-
-    <div
-        id="formHeading"
-        class="form-heading"
-    >
-        ADD WORK
-    </div>
-
-
-    <div class="form-row">
-
-        <label
-            class="form-label"
-            for="artistInput"
-        >
-            ARTIST(S)
-        </label>
-
-        <input
-            id="artistInput"
-            class="form-input"
-            type="text"
-            autocomplete="off"
-            placeholder="Artist name"
-        >
-
-        <div class="form-help">
-            Separate multiple artists with commas.
-        </div>
-
-    </div>
-
-
-    <div class="form-row">
-
-        <label
-            class="form-label"
-            for="titleInput"
-        >
-            TITLE
-        </label>
-
-        <input
-            id="titleInput"
-            class="form-input"
-            type="text"
-            autocomplete="off"
-            placeholder="Work title"
-        >
-
-    </div>
-
-
-    <div class="form-row">
-
-        <label
-            class="form-label"
-            for="mp3Input"
-        >
-            MP3
-        </label>
-
-        <input
-            id="mp3Input"
-            class="form-input"
-            type="file"
-            accept=".mp3,audio/mpeg"
-        >
-
-        <div
-            id="mp3Help"
-            class="form-help"
-        >
-            MP3 files only.
-        </div>
-
-    </div>
-
-
-    <div class="form-row">
-
-        <label
-            class="form-label"
-            for="genreInput"
-        >
-            GENRE(S)
-        </label>
-
-        <select
-            id="genreInput"
-            class="form-select"
-            multiple
-        >
-
-            <option value="Acoustic">
-                ACOUSTIC
-            </option>
-
-            <option value="Alternative">
-                ALTERNATIVE
-            </option>
-
-            <option value="Blues">
-                BLUES
-            </option>
-
-            <option value="Classical">
-                CLASSICAL
-            </option>
-
-            <option value="Country">
-                COUNTRY
-            </option>
-
-            <option value="Electronic">
-                ELECTRONIC
-            </option>
-
-            <option value="Folk">
-                FOLK
-            </option>
-
-            <option value="Hip-Hop">
-                HIP-HOP
-            </option>
-
-            <option value="Jazz">
-                JAZZ
-            </option>
-
-            <option value="Pop">
-                POP
-            </option>
-
-            <option value="Rock">
-                ROCK
-            </option>
-
-            <option value="Other">
-                OTHER
-            </option>
-
-        </select>
-
-        <div class="form-help">
-            Hold CTRL (Windows) or CMD (Mac) to select more than one.
-        </div>
-
-    </div>
-
-
-    <div class="form-row">
-
-        <label
-            class="form-label"
-            for="moodInput"
-        >
-            MOOD(S)
-        </label>
-
-        <select
-            id="moodInput"
-            class="form-select"
-            multiple
-        >
-
-            <option value="Calm">
-                CALM
-            </option>
-
-            <option value="Dark">
-                DARK
-            </option>
-
-            <option value="Energetic">
-                ENERGETIC
-            </option>
-
-            <option value="Happy">
-                HAPPY
-            </option>
-
-            <option value="Melancholy">
-                MELANCHOLY
-            </option>
-
-            <option value="Peaceful">
-                PEACEFUL
-            </option>
-
-            <option value="Romantic">
-                ROMANTIC
-            </option>
-
-            <option value="Serious">
-                SERIOUS
-            </option>
-
-            <option value="Uplifting">
-                UPLIFTING
-            </option>
-
-        </select>
-
-        <div class="form-help">
-            Hold CTRL (Windows) or CMD (Mac) to select more than one.
-        </div>
-
-    </div>
-
-
-    <div class="form-actions">
-
-        <button
-            id="cancelButton"
-            class="form-button"
-            type="button"
-        >
-            CANCEL
-        </button>
-
-        <button
-            id="uploadButton"
-            class="form-button"
-            type="button"
-        >
-            UPLOAD
-        </button>
-
-    </div>
-
-
-    <div
-        id="formStatus"
-        class="form-status"
-    ></div>
-
-
-</div>
-
-</div>
-
 
 <a
-    class="back"
+    class="auth-back"
     href="/"
 >
     BACK TO GR8SKUL
@@ -895,6 +562,268 @@ h1 {
 
 </div>
 
+<!-- =========================================================
+     PROTECTED WORKS CONTENT
+     ========================================================= -->
+
+<div
+    id="protectedContent"
+>
+
+<!-- =========================================================
+     ADD BUTTON
+     ========================================================= -->
+
+<button
+id="addButton"
+class="add-button"
+type="button"
+
+>
+
+
++ ADD
+
+
+</button>
+
+<!-- =========================================================
+     ACCOUNT BAR
+     ========================================================= -->
+
+<div class="account-bar">
+
+
+<div
+    id="accountEmail"
+    class="account-email"
+></div>
+
+<button
+    id="signOutButton"
+    class="sign-out-button"
+    type="button"
+>
+    SIGN OUT
+</button>
+
+
+</div>
+
+<div class="section">
+
+<!-- =========================================================
+     DRAG NOTE
+     ========================================================= -->
+
+<div class="drag-note">
+    DRAG TO REARRANGE
+</div>
+
+<div
+    id="worksList"
+    class="works-list"
+></div>
+
+<div
+    id="orderStatus"
+    class="order-status"
+></div>
+
+<div
+    id="addForm"
+    class="add-form"
+>
+
+
+<div
+    id="formHeading"
+    class="form-heading"
+>
+    ADD WORK
+</div>
+
+<div class="form-row">
+
+    <label
+        class="form-label"
+        for="artistInput"
+    >
+        ARTIST(S)
+    </label>
+
+    <input
+        id="artistInput"
+        class="form-input"
+        type="text"
+        autocomplete="off"
+        placeholder="Artist name"
+    >
+
+    <div class="form-help">
+        Separate multiple artists with commas.
+    </div>
+
+</div>
+
+<div class="form-row">
+
+    <label
+        class="form-label"
+        for="titleInput"
+    >
+        TITLE
+    </label>
+
+    <input
+        id="titleInput"
+        class="form-input"
+        type="text"
+        autocomplete="off"
+        placeholder="Work title"
+    >
+
+</div>
+
+<div class="form-row">
+
+    <label
+        class="form-label"
+        for="mp3Input"
+    >
+        MP3
+    </label>
+
+    <input
+        id="mp3Input"
+        class="form-input"
+        type="file"
+        accept=".mp3,audio/mpeg"
+    >
+
+    <div
+        id="mp3Help"
+        class="form-help"
+    >
+        MP3 files only.
+    </div>
+
+</div>
+
+<div class="form-row">
+
+    <label
+        class="form-label"
+        for="genreInput"
+    >
+        GENRE(S)
+    </label>
+
+    <select
+        id="genreInput"
+        class="form-select"
+        multiple
+    >
+
+        <option value="Acoustic">ACOUSTIC</option>
+        <option value="Alternative">ALTERNATIVE</option>
+        <option value="Blues">BLUES</option>
+        <option value="Classical">CLASSICAL</option>
+        <option value="Country">COUNTRY</option>
+        <option value="Electronic">ELECTRONIC</option>
+        <option value="Folk">FOLK</option>
+        <option value="Hip-Hop">HIP-HOP</option>
+        <option value="Jazz">JAZZ</option>
+        <option value="Pop">POP</option>
+        <option value="Rock">ROCK</option>
+        <option value="Other">OTHER</option>
+
+    </select>
+
+    <div class="form-help">
+        Hold CTRL (Windows) or CMD (Mac) to select more than one.
+    </div>
+
+</div>
+
+<div class="form-row">
+
+    <label
+        class="form-label"
+        for="moodInput"
+    >
+        MOOD(S)
+    </label>
+
+    <select
+        id="moodInput"
+        class="form-select"
+        multiple
+    >
+
+        <option value="Calm">CALM</option>
+        <option value="Dark">DARK</option>
+        <option value="Energetic">ENERGETIC</option>
+        <option value="Happy">HAPPY</option>
+        <option value="Melancholy">MELANCHOLY</option>
+        <option value="Peaceful">PEACEFUL</option>
+        <option value="Romantic">ROMANTIC</option>
+        <option value="Serious">SERIOUS</option>
+        <option value="Uplifting">UPLIFTING</option>
+
+    </select>
+
+    <div class="form-help">
+        Hold CTRL (Windows) or CMD (Mac) to select more than one.
+    </div>
+
+</div>
+
+<div class="form-actions">
+
+    <button
+        id="cancelButton"
+        class="form-button"
+        type="button"
+    >
+        CANCEL
+    </button>
+
+    <button
+        id="uploadButton"
+        class="form-button"
+        type="button"
+    >
+        UPLOAD
+    </button>
+
+</div>
+
+<div
+    id="formStatus"
+    class="form-status"
+></div>
+
+
+</div>
+
+</div>
+
+<a
+class="back"
+href="/"
+
+>
+
+
+BACK TO GR8SKUL
+
+
+</a>
+
+</div>
+
+</div>
 
 <script>
 
@@ -1029,19 +958,15 @@ async function showAuthenticatedPage(
 
     }
 
-
     authScreen.style.display =
         "none";
-
 
     protectedContent.style.display =
         "block";
 
-
     accountEmail.textContent =
         session.user.email ||
         "";
-
 
     await loadWorks();
 
@@ -1053,10 +978,8 @@ function showLogin() {
     protectedContent.style.display =
         "none";
 
-
     authScreen.style.display =
         "block";
-
 
     accountEmail.textContent =
         "";
@@ -1069,13 +992,11 @@ async function checkAuthentication() {
     const result =
         await supabaseClient.auth.getSession();
 
-
     const session =
         result.data &&
         result.data.session
             ? result.data.session
             : null;
-
 
     if (session) {
 
@@ -1097,10 +1018,8 @@ async function signIn() {
     const email =
         authEmail.value.trim();
 
-
     const password =
         authPassword.value;
-
 
     if (
         !email ||
@@ -1114,14 +1033,11 @@ async function signIn() {
 
     }
 
-
     signInButton.disabled =
         true;
 
-
     authMessage.textContent =
         "SIGNING IN...";
-
 
     try {
 
@@ -1136,7 +1052,6 @@ async function signIn() {
                 }
             );
 
-
         if (
             result.error
         ) {
@@ -1145,15 +1060,12 @@ async function signIn() {
 
         }
 
-
         authMessage.textContent =
             "";
-
 
         await showAuthenticatedPage(
             result.data.session
         );
-
 
     } catch (error) {
 
@@ -1162,11 +1074,9 @@ async function signIn() {
             error
         );
 
-
         authMessage.textContent =
             error.message ||
             "SIGN IN FAILED";
-
 
     } finally {
 
@@ -1193,18 +1103,14 @@ async function signOut() {
 
     }
 
-
     authEmail.value =
         "";
-
 
     authPassword.value =
         "";
 
-
     authMessage.textContent =
         "";
-
 
     showLogin();
 
@@ -1379,7 +1285,6 @@ async function getAccessToken() {
     const result =
         await supabaseClient.auth.getSession();
 
-
     if (
         result.error
     ) {
@@ -1388,13 +1293,11 @@ async function getAccessToken() {
 
     }
 
-
     const session =
         result.data &&
         result.data.session
             ? result.data.session
             : null;
-
 
     if (
         !session ||
@@ -1406,7 +1309,6 @@ async function getAccessToken() {
         );
 
     }
-
 
     return session.access_token;
 
@@ -1461,7 +1363,6 @@ function normalizeWork(work) {
 
     }
 
-
     if (
         work &&
         typeof work ===
@@ -1509,7 +1410,6 @@ function normalizeWork(work) {
         };
 
     }
-
 
     return {
 
@@ -1559,7 +1459,6 @@ function normalizeArray(
 
     }
 
-
     if (
         typeof value ===
         "string"
@@ -1577,7 +1476,6 @@ function normalizeArray(
             .filter(Boolean);
 
     }
-
 
     return [];
 
@@ -1611,14 +1509,11 @@ async function loadWorks() {
                 ]
             );
 
-
         const catalogResponse =
             results[0];
 
-
         const metadataResponse =
             results[1];
-
 
         if (
             !catalogResponse.ok
@@ -1630,7 +1525,6 @@ async function loadWorks() {
 
         }
 
-
         if (
             !metadataResponse.ok
         ) {
@@ -1641,17 +1535,13 @@ async function loadWorks() {
 
         }
 
-
         const catalogData =
             await catalogResponse.json();
-
 
         const metadataData =
             await metadataResponse.json();
 
-
         let loadedWorks;
-
 
         if (
             Array.isArray(
@@ -1680,10 +1570,8 @@ async function loadWorks() {
 
         }
 
-
         let metadataMap =
             metadataData;
-
 
         if (
             metadataData &&
@@ -1699,7 +1587,6 @@ async function loadWorks() {
 
         }
 
-
         works =
             loadedWorks.map(
                 function(work) {
@@ -1709,19 +1596,16 @@ async function loadWorks() {
                             work
                         );
 
-
                     const key =
                         getWorkKey(
                             normalized
                         );
-
 
                     const metadata =
                         metadataMap &&
                         key
                             ? metadataMap[key]
                             : null;
-
 
                     if (
                         metadata &&
@@ -1734,7 +1618,6 @@ async function loadWorks() {
                             normalized.title ||
                             "";
 
-
                         normalized.artists =
                             normalizeArray(
                                 metadata.artists ||
@@ -1742,13 +1625,11 @@ async function loadWorks() {
                                 metadata.artist_name
                             );
 
-
                         normalized.genres =
                             normalizeArray(
                                 metadata.genres ||
                                 metadata.genre
                             );
-
 
                         normalized.moods =
                             normalizeArray(
@@ -1758,17 +1639,14 @@ async function loadWorks() {
 
                     }
 
-
                     return normalized;
 
                 }
             );
 
-
         applyLocalOrder();
 
         renderWorks();
-
 
     } catch (error) {
 
@@ -1776,7 +1654,6 @@ async function loadWorks() {
             "Could not load works:",
             error
         );
-
 
         worksList.innerHTML =
             "<div style=\"padding:20px;text-align:center;color:#888;font-size:12px;\">" +
@@ -1805,7 +1682,6 @@ function getWorkKey(
 
     }
 
-
     if (
         !work ||
         typeof work !==
@@ -1815,7 +1691,6 @@ function getWorkKey(
         return "";
 
     }
-
 
     return (
         work.file ||
@@ -1843,19 +1718,16 @@ function applyLocalOrder() {
                 LOCAL_ORDER_KEY
             );
 
-
         if (!saved) {
 
             return;
 
         }
 
-
         const savedWorks =
             JSON.parse(
                 saved
             );
-
 
         if (
             !Array.isArray(
@@ -1867,14 +1739,12 @@ function applyLocalOrder() {
 
         }
 
-
         const savedKeys =
             savedWorks
                 .map(
                     getWorkKey
                 )
                 .filter(Boolean);
-
 
         if (
             !savedKeys.length
@@ -1884,10 +1754,8 @@ function applyLocalOrder() {
 
         }
 
-
         const byKey =
             new Map();
-
 
         works.forEach(
             function(work) {
@@ -1896,7 +1764,6 @@ function applyLocalOrder() {
                     getWorkKey(
                         work
                     );
-
 
                 if (key) {
 
@@ -1910,10 +1777,8 @@ function applyLocalOrder() {
             }
         );
 
-
         const reordered =
             [];
-
 
         savedKeys.forEach(
             function(key) {
@@ -1930,7 +1795,6 @@ function applyLocalOrder() {
                         )
                     );
 
-
                     byKey.delete(
                         key
                     );
@@ -1940,7 +1804,6 @@ function applyLocalOrder() {
             }
         );
 
-
         works.forEach(
             function(work) {
 
@@ -1948,7 +1811,6 @@ function applyLocalOrder() {
                     getWorkKey(
                         work
                     );
-
 
                 if (
                     key &&
@@ -1961,7 +1823,6 @@ function applyLocalOrder() {
                         work
                     );
 
-
                     byKey.delete(
                         key
                     );
@@ -1970,7 +1831,6 @@ function applyLocalOrder() {
 
             }
         );
-
 
         if (
             reordered.length
@@ -2002,7 +1862,6 @@ function renderWorks() {
     worksList.innerHTML =
         "";
 
-
     works.forEach(
         function(
             work,
@@ -2014,24 +1873,19 @@ function renderWorks() {
                     "div"
                 );
 
-
             row.className =
                 "work-row";
 
-
             row.dataset.index =
                 index;
-
 
             const number =
                 document.createElement(
                     "div"
                 );
 
-
             number.className =
                 "work-number";
-
 
             number.textContent =
                 String(
@@ -2041,42 +1895,34 @@ function renderWorks() {
                     "0"
                 );
 
-
             const info =
                 document.createElement(
                     "div"
                 );
 
-
             info.className =
                 "work-info";
-
 
             const artist =
                 document.createElement(
                     "div"
                 );
 
-
             artist.className =
                 "work-artist";
-
 
             artist.textContent =
                 work.artists.join(
                     ", "
                 );
 
-
             const title =
                 document.createElement(
                     "div"
                 );
 
-
             title.className =
                 "work-title";
-
 
             title.textContent =
                 work.title ||
@@ -2084,34 +1930,27 @@ function renderWorks() {
                     work.file
                 );
 
-
             info.appendChild(
                 artist
             );
 
-
             info.appendChild(
                 title
             );
-
 
             const edit =
                 document.createElement(
                     "button"
                 );
 
-
             edit.className =
                 "edit-button";
-
 
             edit.type =
                 "button";
 
-
             edit.textContent =
                 "EDIT";
-
 
             edit.addEventListener(
                 "pointerdown",
@@ -2122,13 +1961,11 @@ function renderWorks() {
                 }
             );
 
-
             edit.addEventListener(
                 "click",
                 function(event) {
 
                     event.stopPropagation();
-
 
                     editWork(
                         work,
@@ -2138,26 +1975,21 @@ function renderWorks() {
                 }
             );
 
-
             row.appendChild(
                 number
             );
-
 
             row.appendChild(
                 info
             );
 
-
             row.appendChild(
                 edit
             );
 
-
             addPointerDragHandlers(
                 row
             );
-
 
             worksList.appendChild(
                 row
@@ -2183,12 +2015,10 @@ function getFilenameTitle(
 
     }
 
-
     const filename =
         file
             .split("/")
             .pop();
-
 
     return filename
         ? filename.replace(
@@ -2212,16 +2042,13 @@ function editWork(
     editingIndex =
         index;
 
-
     formHeading.textContent =
         "EDIT WORK";
-
 
     artistInput.value =
         work.artists.join(
             ", "
         );
-
 
     titleInput.value =
         work.title ||
@@ -2229,39 +2056,31 @@ function editWork(
             work.file
         );
 
-
     setSelectedValues(
         genreInput,
         work.genres
     );
-
 
     setSelectedValues(
         moodInput,
         work.moods
     );
 
-
     mp3Input.value =
         "";
-
 
     mp3Help.textContent =
         "Leave empty to keep the existing MP3, or select a new MP3 to replace it.";
 
-
     uploadButton.textContent =
         "SAVE";
-
 
     formStatus.textContent =
         "";
 
-
     addForm.classList.add(
         "visible"
     );
-
 
     window.scrollTo(
         {
@@ -2290,7 +2109,6 @@ function setSelectedValues(
         new Set(
             values || []
         );
-
 
     Array.from(
         select.options
@@ -2362,7 +2180,6 @@ function addPointerDragHandlers(
         "true"
     );
 
-
     element.addEventListener(
         "dragstart",
         function(event) {
@@ -2379,19 +2196,15 @@ function addPointerDragHandlers(
 
             }
 
-
             draggedRow =
                 element;
-
 
             element.classList.add(
                 "dragging"
             );
 
-
             event.dataTransfer.effectAllowed =
                 "move";
-
 
             event.dataTransfer.setData(
                 "text/plain",
@@ -2401,13 +2214,11 @@ function addPointerDragHandlers(
         }
     );
 
-
     element.addEventListener(
         "dragover",
         function(event) {
 
             event.preventDefault();
-
 
             if (
                 !draggedRow ||
@@ -2418,15 +2229,12 @@ function addPointerDragHandlers(
 
             }
 
-
             const rect =
                 element.getBoundingClientRect();
-
 
             const midpoint =
                 rect.top +
                 rect.height / 2;
-
 
             if (
                 event.clientY <
@@ -2450,7 +2258,6 @@ function addPointerDragHandlers(
         }
     );
 
-
     element.addEventListener(
         "drop",
         function(event) {
@@ -2459,7 +2266,6 @@ function addPointerDragHandlers(
 
         }
     );
-
 
     element.addEventListener(
         "dragend",
@@ -2471,15 +2277,12 @@ function addPointerDragHandlers(
 
             }
 
-
             draggedRow.classList.remove(
                 "dragging"
             );
 
-
             draggedRow =
                 null;
-
 
             saveCurrentDomOrder();
 
@@ -2500,12 +2303,10 @@ async function saveCurrentDomOrder() {
             worksList.children
         );
 
-
     const previousWorks =
         [
             ...works
         ];
-
 
     const reordered =
         rows.map(
@@ -2520,7 +2321,6 @@ async function saveCurrentDomOrder() {
             }
         );
 
-
     if (
         reordered.length !==
         works.length
@@ -2530,13 +2330,10 @@ async function saveCurrentDomOrder() {
 
     }
 
-
     works =
         reordered;
 
-
     renderWorks();
-
 
     try {
 
@@ -2556,7 +2353,6 @@ async function saveCurrentDomOrder() {
 
     }
 
-
     const tracks =
         works
             .map(
@@ -2565,7 +2361,6 @@ async function saveCurrentDomOrder() {
             .filter(
                 Boolean
             );
-
 
     if (
         tracks.length !==
@@ -2576,34 +2371,27 @@ async function saveCurrentDomOrder() {
             "One or more works has no file path."
         );
 
-
         works =
             previousWorks;
 
-
         renderWorks();
-
 
         setOrderStatus(
             "COULD NOT SAVE ORDER"
         );
 
-
         return;
 
     }
-
 
     setOrderStatus(
         "SAVING ORDER..."
     );
 
-
     try {
 
         const accessToken =
             await getAccessToken();
-
 
         const response =
             await fetch(
@@ -2638,10 +2426,8 @@ async function saveCurrentDomOrder() {
                 }
             );
 
-
         const result =
             await response.json();
-
 
         if (
             !response.ok
@@ -2658,7 +2444,6 @@ async function saveCurrentDomOrder() {
 
         }
 
-
         if (
             result.success !==
             true
@@ -2671,11 +2456,9 @@ async function saveCurrentDomOrder() {
 
         }
 
-
         setOrderStatus(
             "ORDER SAVED"
         );
-
 
         setTimeout(
             function() {
@@ -2688,7 +2471,6 @@ async function saveCurrentDomOrder() {
             2500
         );
 
-
     } catch (error) {
 
         console.error(
@@ -2696,10 +2478,8 @@ async function saveCurrentDomOrder() {
             error
         );
 
-
         works =
             previousWorks;
-
 
         try {
 
@@ -2718,9 +2498,7 @@ async function saveCurrentDomOrder() {
 
         }
 
-
         renderWorks();
-
 
         setOrderStatus(
             "COULD NOT SAVE ORDER"
@@ -2768,42 +2546,33 @@ function resetForm() {
     editingIndex =
         null;
 
-
     formHeading.textContent =
         "ADD WORK";
-
 
     artistInput.value =
         "";
 
-
     titleInput.value =
         "";
-
 
     mp3Input.value =
         "";
 
-
     mp3Help.textContent =
         "MP3 files only.";
-
 
     setSelectedValues(
         genreInput,
         []
     );
 
-
     setSelectedValues(
         moodInput,
         []
     );
 
-
     uploadButton.textContent =
         "UPLOAD";
-
 
     setFormStatus(
         ""
@@ -2816,35 +2585,58 @@ function resetForm() {
    OPEN ADD FORM
    ========================================================= */
 
-addButton.addEventListener(
+function openAddForm() {
+
+    if (
+        addForm.classList.contains(
+            "visible"
+        )
+    ) {
+
+        addForm.classList.remove(
+            "visible"
+        );
+
+        resetForm();
+
+        return;
+
+    }
+
+    resetForm();
+
+    addForm.classList.add(
+        "visible"
+    );
+
+}
+
+
+/*
+ * Use delegated click handling so the
+ * ADD button remains functional regardless
+ * of its position in the protected layout.
+ */
+protectedContent.addEventListener(
     "click",
-    function() {
+    function(event) {
 
-        if (
-            addForm.classList.contains(
-                "visible"
-            )
-        ) {
-
-            addForm.classList.remove(
-                "visible"
+        const button =
+            event.target.closest(
+                "#addButton"
             );
 
-
-            resetForm();
-
+        if (
+            !button
+        ) {
 
             return;
 
         }
 
+        event.preventDefault();
 
-        resetForm();
-
-
-        addForm.classList.add(
-            "visible"
-        );
+        openAddForm();
 
     }
 );
@@ -2861,7 +2653,6 @@ cancelButton.addEventListener(
         addForm.classList.remove(
             "visible"
         );
-
 
         resetForm();
 
@@ -2881,31 +2672,25 @@ uploadButton.addEventListener(
             ""
         );
 
-
         const artists =
             getArtistValues();
 
-
         const title =
             titleInput.value.trim();
-
 
         const genres =
             getSelectedValues(
                 genreInput
             );
 
-
         const moods =
             getSelectedValues(
                 moodInput
             );
 
-
         const file =
             mp3Input.files[0] ||
             null;
-
 
         if (
             editingIndex === null &&
@@ -2920,7 +2705,6 @@ uploadButton.addEventListener(
 
         }
 
-
         if (!title) {
 
             setFormStatus(
@@ -2930,7 +2714,6 @@ uploadButton.addEventListener(
             return;
 
         }
-
 
         if (!artists.length) {
 
@@ -2942,7 +2725,6 @@ uploadButton.addEventListener(
 
         }
 
-
         if (!genres.length) {
 
             setFormStatus(
@@ -2953,7 +2735,6 @@ uploadButton.addEventListener(
 
         }
 
-
         if (!moods.length) {
 
             setFormStatus(
@@ -2963,7 +2744,6 @@ uploadButton.addEventListener(
             return;
 
         }
-
 
         if (
             file &&
@@ -2981,7 +2761,6 @@ uploadButton.addEventListener(
 
         }
 
-
         const metadata = {
 
             title:
@@ -2998,10 +2777,8 @@ uploadButton.addEventListener(
 
         };
 
-
         let existingFile =
             "";
-
 
         if (
             editingIndex !== null
@@ -3012,12 +2789,10 @@ uploadButton.addEventListener(
                     editingIndex
                 ];
 
-
             existingFile =
                 getWorkKey(
                     existingWork
                 );
-
 
             if (!existingFile) {
 
@@ -3031,10 +2806,8 @@ uploadButton.addEventListener(
 
         }
 
-
         const formData =
             new FormData();
-
 
         formData.append(
             "metadata",
@@ -3043,14 +2816,12 @@ uploadButton.addEventListener(
             )
         );
 
-
         formData.append(
             "mode",
             editingIndex !== null
                 ? "edit"
                 : "add"
         );
-
 
         if (
             editingIndex !== null
@@ -3063,7 +2834,6 @@ uploadButton.addEventListener(
 
         }
 
-
         if (file) {
 
             formData.append(
@@ -3073,16 +2843,13 @@ uploadButton.addEventListener(
 
         }
 
-
         uploadButton.disabled =
             true;
-
 
         uploadButton.textContent =
             editingIndex !== null
                 ? "SAVING..."
                 : "UPLOADING...";
-
 
         setFormStatus(
             editingIndex !== null
@@ -3090,12 +2857,10 @@ uploadButton.addEventListener(
                 : "UPLOADING..."
         );
 
-
         try {
 
             const accessToken =
                 await getAccessToken();
-
 
             const response =
                 await fetch(
@@ -3122,10 +2887,8 @@ uploadButton.addEventListener(
                     }
                 );
 
-
             const result =
                 await response.json();
-
 
             if (
                 !response.ok
@@ -3142,7 +2905,6 @@ uploadButton.addEventListener(
 
             }
 
-
             if (
                 result.success !==
                 true
@@ -3155,7 +2917,6 @@ uploadButton.addEventListener(
 
             }
 
-
             setFormStatus(
                 editingIndex !== null
                     ? (
@@ -3166,9 +2927,7 @@ uploadButton.addEventListener(
                     : "WORK UPLOADED"
             );
 
-
             await loadWorks();
-
 
             setTimeout(
                 function() {
@@ -3177,13 +2936,11 @@ uploadButton.addEventListener(
                         "visible"
                     );
 
-
                     resetForm();
 
                 },
                 1000
             );
-
 
         } catch (error) {
 
@@ -3192,18 +2949,15 @@ uploadButton.addEventListener(
                 error
             );
 
-
             setFormStatus(
                 error.message ||
                 "WORK COULD NOT BE SAVED"
             );
 
-
         } finally {
 
             uploadButton.disabled =
                 false;
-
 
             uploadButton.textContent =
                 editingIndex !== null
@@ -3227,4 +2981,3 @@ checkAuthentication();
 </body>
 
 </html>
-```
