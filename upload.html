@@ -260,83 +260,6 @@ h1 {
     color: #999999;
 }
 
-
-/* =========================================================
-   HIERARCHICAL GENRE / MOOD TYPES
-   ========================================================= */
-
-.type-groups {
-    margin-top: 10px;
-}
-
-.type-group {
-    display: none;
-    margin-bottom: 12px;
-    border: 1px solid #e2e2e2;
-    background: #ffffff;
-}
-
-.type-group.visible {
-    display: block;
-}
-
-.type-group-heading {
-    padding: 9px 10px;
-    border-bottom: 1px solid #e2e2e2;
-    background: #fafafa;
-    font-size: 10px;
-    font-weight: bold;
-    letter-spacing: 1.2px;
-    color: #555555;
-}
-
-.type-options {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0;
-}
-
-.type-option {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    min-height: 36px;
-    padding: 7px 10px;
-    font-size: 11px;
-    color: #111111;
-    cursor: pointer;
-}
-
-.type-option:hover {
-    background: #f7f7f7;
-}
-
-.type-option input {
-    margin: 0;
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-}
-
-.type-option span {
-    line-height: 1.3;
-}
-
-.type-empty {
-    display: none;
-    margin-top: 10px;
-    padding: 10px;
-    border: 1px solid #e2e2e2;
-    font-size: 9px;
-    line-height: 1.4;
-    color: #999999;
-}
-
-.type-empty.visible {
-    display: block;
-}
-
-
 .form-actions {
     display: flex;
     gap: 10px;
@@ -376,6 +299,20 @@ h1 {
     font-size: 10px;
     letter-spacing: 1px;
     color: #666666;
+}
+
+.back {
+    display: block;
+    margin-top: 40px;
+    text-align: center;
+    color: #666666;
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+
+.back:hover {
+    color: #111111;
 }
 
 
@@ -538,10 +475,6 @@ h1 {
         align-items: flex-start;
     }
 
-    .type-options {
-        grid-template-columns: 1fr;
-    }
-
 }
 
 </style>
@@ -587,7 +520,11 @@ for="authEmail"
 
 >
 
-EMAIL </label>
+```
+EMAIL
+```
+
+</label>
 
 <input
 id="authEmail"
@@ -607,7 +544,11 @@ for="authPassword"
 
 >
 
-PASSWORD </label>
+```
+PASSWORD
+```
+
+</label>
 
 <input
 id="authPassword"
@@ -626,7 +567,9 @@ type="button"
 
 >
 
-SIGN IN </button>
+SIGN IN
+
+</button>
 
 <div
     id="authMessage"
@@ -639,7 +582,9 @@ href="/"
 
 >
 
-BACK TO GR8SKUL </a>
+BACK TO GR8SKUL
+
+</a>
 
 </div>
 
@@ -666,7 +611,7 @@ type="button"
 
 * ADD
 
-  </button>
+</button>
 
 <!-- =========================================================
      ADD / EDIT FORM
@@ -692,7 +637,11 @@ for="artistInput"
 
 >
 
-ARTIST(S) </label>
+```
+ARTIST(S)
+```
+
+</label>
 
 <input
 id="artistInput"
@@ -717,7 +666,11 @@ for="titleInput"
 
 >
 
-TITLE </label>
+```
+TITLE
+```
+
+</label>
 
 <input
 id="titleInput"
@@ -738,7 +691,11 @@ for="mp3Input"
 
 >
 
-MP3 </label>
+```
+MP3
+```
+
+</label>
 
 <input
 id="mp3Input"
@@ -769,7 +726,11 @@ for="genreInput"
 
 >
 
-GENRE(S) </label>
+```
+GENRE(S)
+```
+
+</label>
 
 <select
 id="genreInput"
@@ -778,6 +739,7 @@ multiple
 
 >
 
+```
 <option value="Classical">CLASSICAL</option>
 <option value="Rock">ROCK</option>
 <option value="Electronic">ELECTRONIC</option>
@@ -787,27 +749,275 @@ multiple
 <option value="Jazz">JAZZ</option>
 <option value="Pop">POP</option>
 <option value="Hip-Hop">HIP-HOP</option>
+```
 
 </select>
 
 <div class="form-help">
-    Select one or more genres. Each selected genre will reveal its available genre types below.
+    Select one or more broad genres. Hold CTRL (Windows) or CMD (Mac) to select more than one.
+</div>
+
 </div>
 
 <!-- =========================================================
-     GENRE TYPES — GENERATED FROM SELECTED GENRES
+     GENRE TYPE
      ========================================================= -->
 
-<div
-    id="genreTypeGroups"
-    class="type-groups"
-></div>
+<div class="form-row">
 
-<div
-    id="genreTypeEmpty"
-    class="type-empty"
+<label
+class="form-label"
+for="genreTypeInput"
+
 >
-    No genre types are selected. The broad genre alone is enough.
+
+```
+GENRE TYPE(S)
+```
+
+</label>
+
+<select
+id="genreTypeInput"
+class="form-select"
+multiple
+
+>
+
+```
+<optgroup label="CLASSICAL">
+
+    <option
+        value="Classical::Renaissance"
+        data-genre="Classical"
+        data-type="Renaissance"
+    >
+        RENAISSANCE
+    </option>
+
+    <option
+        value="Classical::Baroque"
+        data-genre="Classical"
+        data-type="Baroque"
+    >
+        BAROQUE
+    </option>
+
+    <option
+        value="Classical::Classical"
+        data-genre="Classical"
+        data-type="Classical"
+    >
+        CLASSICAL
+    </option>
+
+    <option
+        value="Classical::Romantic"
+        data-genre="Classical"
+        data-type="Romantic"
+    >
+        ROMANTIC
+    </option>
+
+    <option
+        value="Classical::Modern"
+        data-genre="Classical"
+        data-type="Modern"
+    >
+        MODERN
+    </option>
+
+    <option
+        value="Classical::Contemporary"
+        data-genre="Classical"
+        data-type="Contemporary"
+    >
+        CONTEMPORARY
+    </option>
+
+</optgroup>
+
+<optgroup label="ROCK">
+
+    <option
+        value="Rock::Classic Rock"
+        data-genre="Rock"
+        data-type="Classic Rock"
+    >
+        CLASSIC ROCK
+    </option>
+
+    <option
+        value="Rock::Alternative"
+        data-genre="Rock"
+        data-type="Alternative"
+    >
+        ALTERNATIVE
+    </option>
+
+    <option
+        value="Rock::Progressive"
+        data-genre="Rock"
+        data-type="Progressive"
+    >
+        PROGRESSIVE
+    </option>
+
+    <option
+        value="Rock::Hard Rock"
+        data-genre="Rock"
+        data-type="Hard Rock"
+    >
+        HARD ROCK
+    </option>
+
+</optgroup>
+
+<optgroup label="ELECTRONIC">
+
+    <option
+        value="Electronic::Ambient"
+        data-genre="Electronic"
+        data-type="Ambient"
+    >
+        AMBIENT
+    </option>
+
+    <option
+        value="Electronic::House"
+        data-genre="Electronic"
+        data-type="House"
+    >
+        HOUSE
+    </option>
+
+    <option
+        value="Electronic::Techno"
+        data-genre="Electronic"
+        data-type="Techno"
+    >
+        TECHNO
+    </option>
+
+</optgroup>
+
+<optgroup label="FOLK">
+
+    <option
+        value="Folk::Traditional"
+        data-genre="Folk"
+        data-type="Traditional"
+    >
+        TRADITIONAL
+    </option>
+
+    <option
+        value="Folk::Contemporary"
+        data-genre="Folk"
+        data-type="Contemporary"
+    >
+        CONTEMPORARY
+    </option>
+
+</optgroup>
+
+<optgroup label="BLUES">
+
+    <option
+        value="Blues::Traditional"
+        data-genre="Blues"
+        data-type="Traditional"
+    >
+        TRADITIONAL
+    </option>
+
+    <option
+        value="Blues::Contemporary"
+        data-genre="Blues"
+        data-type="Contemporary"
+    >
+        CONTEMPORARY
+    </option>
+
+</optgroup>
+
+<optgroup label="COUNTRY">
+
+    <option
+        value="Country::Traditional"
+        data-genre="Country"
+        data-type="Traditional"
+    >
+        TRADITIONAL
+    </option>
+
+    <option
+        value="Country::Contemporary"
+        data-genre="Country"
+        data-type="Contemporary"
+    >
+        CONTEMPORARY
+    </option>
+
+</optgroup>
+
+<optgroup label="JAZZ">
+
+    <option
+        value="Jazz::Traditional"
+        data-genre="Jazz"
+        data-type="Traditional"
+    >
+        TRADITIONAL
+    </option>
+
+    <option
+        value="Jazz::Contemporary"
+        data-genre="Jazz"
+        data-type="Contemporary"
+    >
+        CONTEMPORARY
+    </option>
+
+</optgroup>
+
+<optgroup label="POP">
+
+    <option
+        value="Pop::Contemporary"
+        data-genre="Pop"
+        data-type="Contemporary"
+    >
+        CONTEMPORARY
+    </option>
+
+</optgroup>
+
+<optgroup label="HIP-HOP">
+
+    <option
+        value="Hip-Hop::Old School"
+        data-genre="Hip-Hop"
+        data-type="Old School"
+    >
+        OLD SCHOOL
+    </option>
+
+    <option
+        value="Hip-Hop::Contemporary"
+        data-genre="Hip-Hop"
+        data-type="Contemporary"
+    >
+        CONTEMPORARY
+    </option>
+
+</optgroup>
+```
+
+</select>
+
+<div class="form-help">
+    Select one or more genre types. Selecting a genre type will automatically record its parent genre.
 </div>
 
 </div>
@@ -824,7 +1034,11 @@ for="moodInput"
 
 >
 
-MOOD(S) </label>
+```
+MOOD(S)
+```
+
+</label>
 
 <select
 id="moodInput"
@@ -833,33 +1047,222 @@ multiple
 
 >
 
+```
 <option value="Peaceful">PEACEFUL</option>
 <option value="Dark">DARK</option>
 <option value="Joyful">JOYFUL</option>
 <option value="Melancholic">MELANCHOLIC</option>
 <option value="Energetic">ENERGETIC</option>
 <option value="Romantic">ROMANTIC</option>
+```
 
 </select>
 
 <div class="form-help">
-    Select one or more moods. Each selected mood will reveal its available mood types below.
+    Select one or more broad moods. Hold CTRL (Windows) or CMD (Mac) to select more than one.
+</div>
+
 </div>
 
 <!-- =========================================================
-     MOOD TYPES — GENERATED FROM SELECTED MOODS
+     MOOD TYPE
      ========================================================= -->
 
-<div
-    id="moodTypeGroups"
-    class="type-groups"
-></div>
+<div class="form-row">
 
-<div
-    id="moodTypeEmpty"
-    class="type-empty"
+<label
+class="form-label"
+for="moodTypeInput"
+
 >
-    No mood types are selected. The broad mood alone is enough.
+
+```
+MOOD TYPE(S)
+```
+
+</label>
+
+<select
+id="moodTypeInput"
+class="form-select"
+multiple
+
+>
+
+```
+<optgroup label="PEACEFUL">
+
+    <option
+        value="Peaceful::Calm"
+        data-mood="Peaceful"
+        data-type="Calm"
+    >
+        CALM
+    </option>
+
+    <option
+        value="Peaceful::Serene"
+        data-mood="Peaceful"
+        data-type="Serene"
+    >
+        SERENE
+    </option>
+
+    <option
+        value="Peaceful::Meditative"
+        data-mood="Peaceful"
+        data-type="Meditative"
+    >
+        MEDITATIVE
+    </option>
+
+</optgroup>
+
+<optgroup label="DARK">
+
+    <option
+        value="Dark::Ominous"
+        data-mood="Dark"
+        data-type="Ominous"
+    >
+        OMINOUS
+    </option>
+
+    <option
+        value="Dark::Mysterious"
+        data-mood="Dark"
+        data-type="Mysterious"
+    >
+        MYSTERIOUS
+    </option>
+
+    <option
+        value="Dark::Haunting"
+        data-mood="Dark"
+        data-type="Haunting"
+    >
+        HAUNTING
+    </option>
+
+</optgroup>
+
+<optgroup label="JOYFUL">
+
+    <option
+        value="Joyful::Happy"
+        data-mood="Joyful"
+        data-type="Happy"
+    >
+        HAPPY
+    </option>
+
+    <option
+        value="Joyful::Playful"
+        data-mood="Joyful"
+        data-type="Playful"
+    >
+        PLAYFUL
+    </option>
+
+    <option
+        value="Joyful::Celebratory"
+        data-mood="Joyful"
+        data-type="Celebratory"
+    >
+        CELEBRATORY
+    </option>
+
+</optgroup>
+
+<optgroup label="MELANCHOLIC">
+
+    <option
+        value="Melancholic::Sad"
+        data-mood="Melancholic"
+        data-type="Sad"
+    >
+        SAD
+    </option>
+
+    <option
+        value="Melancholic::Lonely"
+        data-mood="Melancholic"
+        data-type="Lonely"
+    >
+        LONELY
+    </option>
+
+    <option
+        value="Melancholic::Nostalgic"
+        data-mood="Melancholic"
+        data-type="Nostalgic"
+    >
+        NOSTALGIC
+    </option>
+
+</optgroup>
+
+<optgroup label="ENERGETIC">
+
+    <option
+        value="Energetic::Exciting"
+        data-mood="Energetic"
+        data-type="Exciting"
+    >
+        EXCITING
+    </option>
+
+    <option
+        value="Energetic::Aggressive"
+        data-mood="Energetic"
+        data-type="Aggressive"
+    >
+        AGGRESSIVE
+    </option>
+
+    <option
+        value="Energetic::Driving"
+        data-mood="Energetic"
+        data-type="Driving"
+    >
+        DRIVING
+    </option>
+
+</optgroup>
+
+<optgroup label="ROMANTIC">
+
+    <option
+        value="Romantic::Tender"
+        data-mood="Romantic"
+        data-type="Tender"
+    >
+        TENDER
+    </option>
+
+    <option
+        value="Romantic::Passionate"
+        data-mood="Romantic"
+        data-type="Passionate"
+    >
+        PASSIONATE
+    </option>
+
+    <option
+        value="Romantic::Intimate"
+        data-mood="Romantic"
+        data-type="Intimate"
+    >
+        INTIMATE
+    </option>
+
+</optgroup>
+```
+
+</select>
+
+<div class="form-help">
+    Select one or more mood types. Selecting a mood type will automatically record its parent mood.
 </div>
 
 </div>
@@ -873,7 +1276,11 @@ type="button"
 
 >
 
-CANCEL </button>
+```
+CANCEL
+```
+
+</button>
 
 <button
 id="uploadButton"
@@ -882,7 +1289,11 @@ type="button"
 
 >
 
-UPLOAD </button>
+```
+UPLOAD
+```
+
+</button>
 
 </div>
 
@@ -911,7 +1322,9 @@ type="button"
 
 >
 
-SIGN OUT </button>
+SIGN OUT
+
+</button>
 
 </div>
 
@@ -943,14 +1356,15 @@ href="/"
 
 >
 
-BACK TO GR8SKUL </a>
+BACK TO GR8SKUL
+
+</a>
 
 </div>
 
 </div>
 
 <script>
-
 
 /* =========================================================
    GR8SKUL
@@ -1314,121 +1728,6 @@ let editingIndex = null;
 
 
 /* =========================================================
-   TAXONOMY
-   =========================================================
- *
- * This is the editable taxonomy.
- *
- * To add/remove a genre:
- * add/remove an entry in GENRE_TYPES.
- *
- * To add/remove a genre type:
- * add/remove a string inside that genre's array.
- *
- * The same structure is used for moods.
- *
- * This keeps the hierarchy in one place and
- * allows the interface to build itself from it.
- * ========================================================= */
-
-const GENRE_TYPES = {
-
-    "Classical": [
-        "Renaissance",
-        "Baroque",
-        "Classical",
-        "Romantic",
-        "Modern",
-        "Contemporary"
-    ],
-
-    "Rock": [
-        "Classic Rock",
-        "Alternative",
-        "Progressive",
-        "Hard Rock"
-    ],
-
-    "Electronic": [
-        "Ambient",
-        "House",
-        "Techno"
-    ],
-
-    "Folk": [
-        "Traditional",
-        "Contemporary"
-    ],
-
-    "Blues": [
-        "Traditional",
-        "Contemporary"
-    ],
-
-    "Country": [
-        "Traditional",
-        "Contemporary"
-    ],
-
-    "Jazz": [
-        "Traditional",
-        "Contemporary"
-    ],
-
-    "Pop": [
-        "Contemporary"
-    ],
-
-    "Hip-Hop": [
-        "Old School",
-        "Contemporary"
-    ]
-
-};
-
-
-const MOOD_TYPES = {
-
-    "Peaceful": [
-        "Calm",
-        "Serene",
-        "Meditative"
-    ],
-
-    "Dark": [
-        "Ominous",
-        "Mysterious",
-        "Haunting"
-    ],
-
-    "Joyful": [
-        "Happy",
-        "Playful",
-        "Celebratory"
-    ],
-
-    "Melancholic": [
-        "Sad",
-        "Lonely",
-        "Nostalgic"
-    ],
-
-    "Energetic": [
-        "Exciting",
-        "Aggressive",
-        "Driving"
-    ],
-
-    "Romantic": [
-        "Tender",
-        "Passionate",
-        "Intimate"
-    ]
-
-};
-
-
-/* =========================================================
    ELEMENTS
    ========================================================= */
 
@@ -1492,15 +1791,9 @@ const genreInput =
     );
 
 
-const genreTypeGroups =
+const genreTypeInput =
     document.getElementById(
-        "genreTypeGroups"
-    );
-
-
-const genreTypeEmpty =
-    document.getElementById(
-        "genreTypeEmpty"
+        "genreTypeInput"
     );
 
 
@@ -1510,15 +1803,9 @@ const moodInput =
     );
 
 
-const moodTypeGroups =
+const moodTypeInput =
     document.getElementById(
-        "moodTypeGroups"
-    );
-
-
-const moodTypeEmpty =
-    document.getElementById(
-        "moodTypeEmpty"
+        "moodTypeInput"
     );
 
 
@@ -2622,511 +2909,113 @@ function getFilenameTitle(
 
 
 /* =========================================================
-   HIERARCHICAL TYPE INTERFACE
+   EDIT WORK
    ========================================================= */
 
-/*
- * Creates the type checkboxes belonging to the
- * currently selected parent genres.
- *
- * Only selected genres are displayed.
- */
-function renderGenreTypeGroups(
-    previouslySelectedTypes
+function editWork(
+    work,
+    index,
+    row
 ) {
 
-    const previous =
-        normalizeGenreTypes(
-            previouslySelectedTypes ||
-            getSelectedGenreTypeValues()
+    editingIndex =
+        index;
+
+    formHeading.textContent =
+        "EDIT WORK";
+
+    artistInput.value =
+        work.artists.join(
+            ", "
         );
 
-    const selectedGenres =
-        getSelectedValues(
-            genreInput
+    titleInput.value =
+        work.title ||
+        getFilenameTitle(
+            work.file
         );
 
-    const previousKeys =
-        new Set();
-
-    previous.forEach(
-        function(item) {
-
-            if (
-                item.genre &&
-                item.type
-            ) {
-
-                previousKeys.add(
-                    item.genre +
-                    "::" +
-                    item.type
-                );
-
-            }
-
-        }
+    setSelectedValues(
+        genreInput,
+        work.genres
     );
 
-    genreTypeGroups.innerHTML =
+    setSelectedGenreTypeValues(
+        work.genreTypes
+    );
+
+    setSelectedValues(
+        moodInput,
+        work.moods
+    );
+
+    setSelectedMoodTypeValues(
+        work.moodTypes
+    );
+
+    mp3Input.value =
         "";
 
-    let visibleGroupCount =
-        0;
+    mp3Help.textContent =
+        "Leave empty to keep the existing MP3, or select a new MP3 to replace it.";
 
-    selectedGenres.forEach(
-        function(genre) {
+    uploadButton.textContent =
+        "SAVE";
 
-            const types =
-                GENRE_TYPES[
-                    genre
-                ] || [];
-
-            const group =
-                document.createElement(
-                    "div"
-                );
-
-            group.className =
-                "type-group visible";
-
-            group.dataset.genre =
-                genre;
-
-            const heading =
-                document.createElement(
-                    "div"
-                );
-
-            heading.className =
-                "type-group-heading";
-
-            heading.textContent =
-                genre.toUpperCase();
-
-            group.appendChild(
-                heading
-            );
-
-            const options =
-                document.createElement(
-                    "div"
-                );
-
-            options.className =
-                "type-options";
-
-            types.forEach(
-                function(type) {
-
-                    const label =
-                        document.createElement(
-                            "label"
-                        );
-
-                    label.className =
-                        "type-option";
-
-                    const checkbox =
-                        document.createElement(
-                            "input"
-                        );
-
-                    checkbox.type =
-                        "checkbox";
-
-                    checkbox.value =
-                        type;
-
-                    checkbox.dataset.genre =
-                        genre;
-
-                    checkbox.dataset.type =
-                        type;
-
-                    checkbox.checked =
-                        previousKeys.has(
-                            genre +
-                            "::" +
-                            type
-                        );
-
-                    checkbox.addEventListener(
-                        "change",
-                        function() {
-
-                            updateTypeEmptyMessage(
-                                genreTypeGroups,
-                                genreTypeEmpty,
-                                getSelectedGenreTypeValues()
-                            );
-
-                        }
-                    );
-
-                    const text =
-                        document.createElement(
-                            "span"
-                        );
-
-                    text.textContent =
-                        type.toUpperCase();
-
-                    label.appendChild(
-                        checkbox
-                    );
-
-                    label.appendChild(
-                        text
-                    );
-
-                    options.appendChild(
-                        label
-                    );
-
-                }
-            );
-
-            group.appendChild(
-                options
-            );
-
-            genreTypeGroups.appendChild(
-                group
-            );
-
-            visibleGroupCount +=
-                1;
-
-        }
-    );
-
-    genreTypeEmpty.classList.toggle(
-        "visible",
-        visibleGroupCount === 0
-    );
-
-    if (
-        visibleGroupCount > 0
-    ) {
-
-        updateTypeEmptyMessage(
-            genreTypeGroups,
-            genreTypeEmpty,
-            getSelectedGenreTypeValues()
-        );
-
-    }
-
-}
-
-
-/*
- * Creates the type checkboxes belonging to the
- * currently selected parent moods.
- */
-function renderMoodTypeGroups(
-    previouslySelectedTypes
-) {
-
-    const previous =
-        normalizeMoodTypes(
-            previouslySelectedTypes ||
-            getSelectedMoodTypeValues()
-        );
-
-    const selectedMoods =
-        getSelectedValues(
-            moodInput
-        );
-
-    const previousKeys =
-        new Set();
-
-    previous.forEach(
-        function(item) {
-
-            if (
-                item.mood &&
-                item.type
-            ) {
-
-                previousKeys.add(
-                    item.mood +
-                    "::" +
-                    item.type
-                );
-
-            }
-
-        }
-    );
-
-    moodTypeGroups.innerHTML =
+    formStatus.textContent =
         "";
 
-    let visibleGroupCount =
-        0;
-
-    selectedMoods.forEach(
-        function(mood) {
-
-            const types =
-                MOOD_TYPES[
-                    mood
-                ] || [];
-
-            const group =
-                document.createElement(
-                    "div"
-                );
-
-            group.className =
-                "type-group visible";
-
-            group.dataset.mood =
-                mood;
-
-            const heading =
-                document.createElement(
-                    "div"
-                );
-
-            heading.className =
-                "type-group-heading";
-
-            heading.textContent =
-                mood.toUpperCase();
-
-            group.appendChild(
-                heading
-            );
-
-            const options =
-                document.createElement(
-                    "div"
-                );
-
-            options.className =
-                "type-options";
-
-            types.forEach(
-                function(type) {
-
-                    const label =
-                        document.createElement(
-                            "label"
-                        );
-
-                    label.className =
-                        "type-option";
-
-                    const checkbox =
-                        document.createElement(
-                            "input"
-                        );
-
-                    checkbox.type =
-                        "checkbox";
-
-                    checkbox.value =
-                        type;
-
-                    checkbox.dataset.mood =
-                        mood;
-
-                    checkbox.dataset.type =
-                        type;
-
-                    checkbox.checked =
-                        previousKeys.has(
-                            mood +
-                            "::" +
-                            type
-                        );
-
-                    checkbox.addEventListener(
-                        "change",
-                        function() {
-
-                            updateTypeEmptyMessage(
-                                moodTypeGroups,
-                                moodTypeEmpty,
-                                getSelectedMoodTypeValues()
-                            );
-
-                        }
-                    );
-
-                    const text =
-                        document.createElement(
-                            "span"
-                        );
-
-                    text.textContent =
-                        type.toUpperCase();
-
-                    label.appendChild(
-                        checkbox
-                    );
-
-                    label.appendChild(
-                        text
-                    );
-
-                    options.appendChild(
-                        label
-                    );
-
-                }
-            );
-
-            group.appendChild(
-                options
-            );
-
-            moodTypeGroups.appendChild(
-                group
-            );
-
-            visibleGroupCount +=
-                1;
-
-        }
+    /*
+     * Move the form directly underneath
+     * the track currently being edited.
+     */
+    row.insertAdjacentElement(
+        "afterend",
+        addForm
     );
 
-    moodTypeEmpty.classList.toggle(
-        "visible",
-        visibleGroupCount === 0
-    );
-
-    if (
-        visibleGroupCount > 0
-    ) {
-
-        updateTypeEmptyMessage(
-            moodTypeGroups,
-            moodTypeEmpty,
-            getSelectedMoodTypeValues()
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   TYPE EMPTY MESSAGE
-   ========================================================= */
-
-function updateTypeEmptyMessage(
-    groupsElement,
-    emptyElement,
-    values
-) {
-
-    const groupCount =
-        groupsElement.children.length;
-
-    if (
-        groupCount === 0
-    ) {
-
-        emptyElement.textContent =
-            "No type choices are available because no parent selection has been made.";
-
-        emptyElement.classList.add(
-            "visible"
-        );
-
-        return;
-
-    }
-
-    if (
-        values &&
-        values.length
-    ) {
-
-        emptyElement.textContent =
-            values.length +
-            (
-                values.length === 1
-                    ? " type selected."
-                    : " types selected."
-            );
-
-        emptyElement.classList.add(
-            "visible"
-        );
-
-        return;
-
-    }
-
-    emptyElement.textContent =
-        "No types are selected. The broad classification alone is enough.";
-
-    emptyElement.classList.add(
+    addForm.classList.add(
         "visible"
     );
 
+    window.scrollTo(
+        {
+            top:
+                addForm.getBoundingClientRect().top +
+                window.scrollY -
+                20,
+
+            behavior:
+                "smooth"
+        }
+    );
+
 }
 
 
 /* =========================================================
-   GENRE SELECTION CHANGE
+   SET MULTI-SELECT VALUES
    ========================================================= */
 
-genreInput.addEventListener(
-    "change",
-    function() {
+function setSelectedValues(
+    select,
+    values
+) {
 
-        renderGenreTypeGroups();
+    const selected =
+        new Set(
+            values || []
+        );
 
-    }
-);
+    Array.from(
+        select.options
+    ).forEach(
+        function(option) {
 
-
-/* =========================================================
-   MOOD SELECTION CHANGE
-   ========================================================= */
-
-moodInput.addEventListener(
-    "change",
-    function() {
-
-        renderMoodTypeGroups();
-
-    }
-);
-
-
-/* =========================================================
-   GET SELECTED GENRE TYPE VALUES
-   ========================================================= */
-
-function getSelectedGenreTypeValues() {
-
-    return Array.from(
-        genreTypeGroups.querySelectorAll(
-            "input[type=\"checkbox\"]:checked"
-        )
-    ).map(
-        function(input) {
-
-            return {
-
-                genre:
-                    input.dataset.genre ||
-                    "",
-
-                type:
-                    input.dataset.type ||
-                    input.value ||
-                    ""
-
-            };
+            option.selected =
+                selected.has(
+                    option.value
+                );
 
         }
     );
@@ -3135,30 +3024,19 @@ function getSelectedGenreTypeValues() {
 
 
 /* =========================================================
-   GET SELECTED MOOD TYPE VALUES
+   GET MULTI-SELECT VALUES
    ========================================================= */
 
-function getSelectedMoodTypeValues() {
+function getSelectedValues(
+    select
+) {
 
     return Array.from(
-        moodTypeGroups.querySelectorAll(
-            "input[type=\"checkbox\"]:checked"
-        )
+        select.selectedOptions
     ).map(
-        function(input) {
+        function(option) {
 
-            return {
-
-                mood:
-                    input.dataset.mood ||
-                    "",
-
-                type:
-                    input.dataset.type ||
-                    input.value ||
-                    ""
-
-            };
+            return option.value;
 
         }
     );
@@ -3174,8 +3052,101 @@ function setSelectedGenreTypeValues(
     values
 ) {
 
-    renderGenreTypeGroups(
-        values
+    const normalized =
+        normalizeGenreTypes(
+            values
+        );
+
+    const selected =
+        new Set();
+
+    normalized.forEach(
+        function(item) {
+
+            const exactValue =
+                item.genre &&
+                item.type
+                    ? (
+                        item.genre +
+                        "::" +
+                        item.type
+                    )
+                    : "";
+
+            if (
+                exactValue
+            ) {
+
+                selected.add(
+                    exactValue
+                );
+
+                return;
+
+            }
+
+            Array.from(
+                genreTypeInput.options
+            ).forEach(
+                function(option) {
+
+                    if (
+                        option.dataset.type ===
+                        item.type
+                    ) {
+
+                        selected.add(
+                            option.value
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+    Array.from(
+        genreTypeInput.options
+    ).forEach(
+        function(option) {
+
+            option.selected =
+                selected.has(
+                    option.value
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GET GENRE TYPE VALUES
+   ========================================================= */
+
+function getSelectedGenreTypeValues() {
+
+    return Array.from(
+        genreTypeInput.selectedOptions
+    ).map(
+        function(option) {
+
+            return {
+
+                genre:
+                    option.dataset.genre ||
+                    "",
+
+                type:
+                    option.dataset.type ||
+                    option.textContent.trim()
+
+            };
+
+        }
     );
 
 }
@@ -3189,8 +3160,101 @@ function setSelectedMoodTypeValues(
     values
 ) {
 
-    renderMoodTypeGroups(
-        values
+    const normalized =
+        normalizeMoodTypes(
+            values
+        );
+
+    const selected =
+        new Set();
+
+    normalized.forEach(
+        function(item) {
+
+            const exactValue =
+                item.mood &&
+                item.type
+                    ? (
+                        item.mood +
+                        "::" +
+                        item.type
+                    )
+                    : "";
+
+            if (
+                exactValue
+            ) {
+
+                selected.add(
+                    exactValue
+                );
+
+                return;
+
+            }
+
+            Array.from(
+                moodTypeInput.options
+            ).forEach(
+                function(option) {
+
+                    if (
+                        option.dataset.type ===
+                        item.type
+                    ) {
+
+                        selected.add(
+                            option.value
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+    Array.from(
+        moodTypeInput.options
+    ).forEach(
+        function(option) {
+
+            option.selected =
+                selected.has(
+                    option.value
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   GET MOOD TYPE VALUES
+   ========================================================= */
+
+function getSelectedMoodTypeValues() {
+
+    return Array.from(
+        moodTypeInput.selectedOptions
+    ).map(
+        function(option) {
+
+            return {
+
+                mood:
+                    option.dataset.mood ||
+                    "",
+
+                type:
+                    option.dataset.type ||
+                    option.textContent.trim()
+
+            };
+
+        }
     );
 
 }
@@ -3711,14 +3775,8 @@ function resetForm() {
         []
     );
 
-    genreTypeGroups.innerHTML =
-        "";
-
-    genreTypeEmpty.textContent =
-        "No type choices are available because no parent selection has been made.";
-
-    genreTypeEmpty.classList.add(
-        "visible"
+    setSelectedGenreTypeValues(
+        []
     );
 
     setSelectedValues(
@@ -3726,14 +3784,8 @@ function resetForm() {
         []
     );
 
-    moodTypeGroups.innerHTML =
-        "";
-
-    moodTypeEmpty.textContent =
-        "No type choices are available because no parent selection has been made.";
-
-    moodTypeEmpty.classList.add(
-        "visible"
+    setSelectedMoodTypeValues(
+        []
     );
 
     uploadButton.textContent =
@@ -3847,70 +3899,37 @@ uploadButton.addEventListener(
         const title =
             titleInput.value.trim();
 
-
-        /*
-         * The primary genre selection is the source
-         * of the broad genre metadata.
-         */
         const selectedGenres =
             getSelectedValues(
                 genreInput
             );
 
-
-        /*
-         * The type selections are children of the
-         * selected genres.
-         */
         const genreTypes =
             getSelectedGenreTypeValues();
 
-
-        /*
-         * A type always carries its parent genre.
-         * This also protects the metadata if a type
-         * somehow exists without its parent having
-         * been selected directly.
-         */
         const genres =
             includeParentGenres(
                 selectedGenres,
                 genreTypes
             );
 
-
-        /*
-         * The primary mood selection is the source
-         * of the broad mood metadata.
-         */
         const selectedMoods =
             getSelectedValues(
                 moodInput
             );
 
-
-        /*
-         * The type selections are children of the
-         * selected moods.
-         */
         const moodTypes =
             getSelectedMoodTypeValues();
 
-
-        /*
-         * A type always carries its parent mood.
-         */
         const moods =
             includeParentMoods(
                 selectedMoods,
                 moodTypes
             );
 
-
         const file =
             mp3Input.files[0] ||
             null;
-
 
         if (
             editingIndex === null &&
@@ -3925,7 +3944,6 @@ uploadButton.addEventListener(
 
         }
 
-
         if (!title) {
 
             setFormStatus(
@@ -3935,7 +3953,6 @@ uploadButton.addEventListener(
             return;
 
         }
-
 
         if (!artists.length) {
 
@@ -3947,7 +3964,6 @@ uploadButton.addEventListener(
 
         }
 
-
         if (!genres.length) {
 
             setFormStatus(
@@ -3958,7 +3974,6 @@ uploadButton.addEventListener(
 
         }
 
-
         if (!moods.length) {
 
             setFormStatus(
@@ -3968,7 +3983,6 @@ uploadButton.addEventListener(
             return;
 
         }
-
 
         if (
             file &&
@@ -3986,46 +4000,13 @@ uploadButton.addEventListener(
 
         }
 
-
         /*
-         * IMPORTANT:
+         * Genre and mood are stored as the broad
+         * classification arrays.
          *
-         * The metadata object now contains exactly
-         * the two broad arrays plus the two hierarchical
-         * child arrays.
-         *
-         * Example:
-         *
-         * genres:
-         * [
-         *   "Classical",
-         *   "Rock"
-         * ]
-         *
-         * genreTypes:
-         * [
-         *   {
-         *     genre: "Classical",
-         *     type: "Baroque"
-         *   },
-         *   {
-         *     genre: "Rock",
-         *     type: "Progressive"
-         *   }
-         * ]
-         *
-         * moods:
-         * [
-         *   "Peaceful"
-         * ]
-         *
-         * moodTypes:
-         * [
-         *   {
-         *     mood: "Peaceful",
-         *     type: "Meditative"
-         *   }
-         * ]
+         * Genre types and mood types are stored
+         * separately as objects so their parent
+         * relationship is preserved.
          */
         const metadata = {
 
@@ -4049,10 +4030,8 @@ uploadButton.addEventListener(
 
         };
 
-
         let existingFile =
             "";
-
 
         if (
             editingIndex !== null
@@ -4080,10 +4059,8 @@ uploadButton.addEventListener(
 
         }
 
-
         const formData =
             new FormData();
-
 
         formData.append(
             "metadata",
@@ -4092,14 +4069,12 @@ uploadButton.addEventListener(
             )
         );
 
-
         formData.append(
             "mode",
             editingIndex !== null
                 ? "edit"
                 : "add"
         );
-
 
         if (
             editingIndex !== null
@@ -4112,7 +4087,6 @@ uploadButton.addEventListener(
 
         }
 
-
         if (file) {
 
             formData.append(
@@ -4121,7 +4095,6 @@ uploadButton.addEventListener(
             );
 
         }
-
 
         uploadButton.disabled =
             true;
@@ -4137,12 +4110,10 @@ uploadButton.addEventListener(
                 : "UPLOADING..."
         );
 
-
         try {
 
             const accessToken =
                 await getAccessToken();
-
 
             const response =
                 await fetch(
@@ -4169,10 +4140,8 @@ uploadButton.addEventListener(
                     }
                 );
 
-
             const result =
                 await response.json();
-
 
             if (
                 !response.ok
@@ -4189,7 +4158,6 @@ uploadButton.addEventListener(
 
             }
 
-
             if (
                 result.success !==
                 true
@@ -4202,7 +4170,6 @@ uploadButton.addEventListener(
 
             }
 
-
             setFormStatus(
                 editingIndex !== null
                     ? (
@@ -4213,9 +4180,7 @@ uploadButton.addEventListener(
                     : "WORK UPLOADED"
             );
 
-
             await loadWorks();
-
 
             setTimeout(
                 function() {
@@ -4234,7 +4199,6 @@ uploadButton.addEventListener(
                 },
                 1000
             );
-
 
         } catch (error) {
 
@@ -4270,9 +4234,9 @@ uploadButton.addEventListener(
 
 checkAuthentication();
 
-
 </script>
 
 </body>
 
 </html>
+
