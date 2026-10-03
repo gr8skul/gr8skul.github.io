@@ -158,5 +158,20 @@
       "Energetic",
       "Uplifting"
     ]
+  },
+  "music/We Lean (Instrumental) 1.mp3": {
+    "title": "We Lean (instrumental)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Classical",
+      "Jazz",
+      "Rock"
+    ],
+    "moods": [
+      "Dark",
+      "Melancholy"
+    ]
   }
 }
