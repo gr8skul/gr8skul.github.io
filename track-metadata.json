@@ -63,5 +63,17 @@
       "Romantic",
       "Serious"
     ]
+  },
+  "music/Eye Dragon (LIVE) 1.mp3": {
+    "title": "Eye Dragon (LIVE)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Rock"
+    ],
+    "moods": [
+      "Melancholy"
+    ]
   }
 }
