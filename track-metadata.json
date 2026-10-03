@@ -56,9 +56,11 @@
     ],
     "genres": [
       "Rock",
-      "Electronic"
+      "Electronic",
+      "Jazz"
     ],
     "moods": [
+      "Melancholic",
       "Romantic"
     ]
   },
