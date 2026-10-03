@@ -173,5 +173,17 @@
       "Dark",
       "Melancholy"
     ]
+  },
+  "music/88' Summer DELETE.mp3": {
+    "title": "delete",
+    "artists": [
+      "DELETE"
+    ],
+    "genres": [
+      "Acoustic"
+    ],
+    "moods": [
+      "Calm"
+    ]
   }
 }
