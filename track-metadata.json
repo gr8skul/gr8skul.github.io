@@ -75,5 +75,18 @@
     "moods": [
       "Melancholy"
     ]
+  },
+  "music/Land Locked (lectromatic) 1.mp3": {
+    "title": "Land Locked (lectromatic)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "moods": [
+      "Happy"
+    ]
   }
 }
