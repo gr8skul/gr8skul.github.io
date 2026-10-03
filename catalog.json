@@ -1,5 +1,15 @@
 [
   {
+    "name": "Arnt We Rich 1.mp3",
+    "path": "music/Arnt We Rich 1.mp3",
+    "timestamp": 1791002816
+  },
+  {
+    "name": "Piano Peace 1.mp3",
+    "path": "music/Piano Peace 1.mp3",
+    "timestamp": 1791003254
+  },
+  {
     "name": "We Lean (Instrumental) 1.mp3",
     "path": "music/We Lean (Instrumental) 1.mp3",
     "timestamp": 1791003439
@@ -13,11 +23,6 @@
     "name": "The Won (string instrumental) 1.mp3",
     "path": "music/The Won (string instrumental) 1.mp3",
     "timestamp": 1791003327
-  },
-  {
-    "name": "Piano Peace 1.mp3",
-    "path": "music/Piano Peace 1.mp3",
-    "timestamp": 1791003254
   },
   {
     "name": "Patience 1.mp3",
@@ -38,11 +43,6 @@
     "name": "Eye Dragon (LIVE) 1.mp3",
     "path": "music/Eye Dragon (LIVE) 1.mp3",
     "timestamp": 1791002889
-  },
-  {
-    "name": "Arnt We Rich 1.mp3",
-    "path": "music/Arnt We Rich 1.mp3",
-    "timestamp": 1791002816
   },
   {
     "name": "Arnt We Rich (Instrumental)1.mp3",
