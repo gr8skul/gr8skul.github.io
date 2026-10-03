@@ -101,5 +101,18 @@
       "Dark",
       "Serious"
     ]
+  },
+  "music/Patience 1.mp3": {
+    "title": "Patience",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Rock"
+    ],
+    "moods": [
+      "Melancholy",
+      "Romantic"
+    ]
   }
 }
