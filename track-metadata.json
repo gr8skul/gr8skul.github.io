@@ -22,5 +22,18 @@
     "moods": [
       "Happy"
     ]
+  },
+  "music/88' Summer 1.mp3": {
+    "title": "88' summer",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Alternative",
+      "Rock"
+    ],
+    "moods": [
+      "Energetic"
+    ]
   }
 }
