@@ -24,6 +24,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Synchronize with main
+        run: |
+          git fetch origin main
+          git reset --hard origin/main
+
       - name: Build and update music catalog
         run: |
           python3 <<'PY'
@@ -46,9 +51,12 @@ jobs:
                   path = os.path.join(MUSIC_FOLDER, filename)
 
                   if os.path.isfile(path):
-                      music_files.append(f"{MUSIC_FOLDER}/{filename}")
+                      music_files.append(
+                          f"{MUSIC_FOLDER}/{filename}"
+                      )
 
-          # Sort files by newest Git commit
+          # Get the timestamp of the newest Git commit
+          # affecting each music file.
           def git_timestamp(path):
               try:
                   return int(
@@ -67,12 +75,13 @@ jobs:
               except Exception:
                   return 0
 
+          # Newest uploads first.
           music_files.sort(
               key=git_timestamp,
               reverse=True
           )
 
-          # Read the existing manual order
+          # Read the existing manual order.
           existing_order = []
 
           if os.path.isfile(ORDER_FILE):
@@ -90,24 +99,24 @@ jobs:
               except Exception:
                   existing_order = []
 
-          # Keep only tracks that still exist
+          # Keep only tracks that still exist.
           existing_order = [
               path
               for path in existing_order
               if path in music_files
           ]
 
-          # Find newly uploaded tracks
+          # Find newly uploaded tracks.
           new_tracks = [
               path
               for path in music_files
               if path not in existing_order
           ]
 
-          # NEW TRACKS ALWAYS GO TO THE TOP
+          # New tracks always go to the top.
           final_order = new_tracks + existing_order
 
-          # Save the new manual order
+          # Save the updated manual order.
           with open(
               ORDER_FILE,
               "w",
@@ -121,7 +130,7 @@ jobs:
               )
               file.write("\n")
 
-          # Build catalog.json in exactly the chosen order
+          # Build catalog.json in exactly the chosen order.
           tracks = []
 
           for path in final_order:
@@ -149,7 +158,7 @@ jobs:
               file.write("\n")
           PY
 
-           - name: Commit updated catalog and track order
+      - name: Commit updated catalog and track order
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -163,6 +172,4 @@ jobs:
 
           git commit -m "Update music catalog and track order"
 
-          git pull --rebase origin main
-
-          git push origin main
+          git push origin HEAD:main
