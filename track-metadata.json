@@ -48,5 +48,20 @@
       "Happy",
       "Serious"
     ]
+  },
+  "music/Arnt We Rich 1.mp3": {
+    "title": "aRnt We Rich",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Pop",
+      "Rock"
+    ],
+    "moods": [
+      "Happy",
+      "Romantic",
+      "Serious"
+    ]
   }
 }
