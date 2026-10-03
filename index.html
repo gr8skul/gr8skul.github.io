@@ -1,329 +1,420 @@
 <!DOCTYPE html>
 
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
->
+<title>gr8skul</title>
 
-<title>GR8SKUL</title>
+<!-- GR8SKUL HOME-SCREEN ICON -->
 
-<link
-    rel="icon"
-    type="image/png"
-    href="/gr8skul-icon.PNG"
->
+<link rel="icon"
+      type="image/png"
+      href="/gr8skul-icon.PNG">
+
+<link rel="apple-touch-icon"
+      href="/gr8skul-icon.PNG">
+
+<link rel="manifest"
+      href="/manifest.json">
+
+<!-- GR8SKUL APP MANIFEST -->
 
 <style>
 
-* {
-    box-sizing: border-box;
-}
+    * {
+        box-sizing: border-box;
+    }
 
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    color: #fff;
-    font-family: Arial, Helvetica, sans-serif;
-    overflow: hidden;
-}
+    html,
+    body {
 
-body {
-    display: flex;
-    flex-direction: column;
-}
+        margin: 0;
 
-/* =========================
-   HEADER
-   ========================= */
+        background: #ffffff;
 
-header {
+        color: #111111;
 
-    height: 62px;
+        font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
 
-    flex-shrink: 0;
+        height: 100%;
+    }
 
-    display: flex;
+    body {
+        overflow: hidden;
+    }
 
-    align-items: center;
+    .app {
 
-    padding: 0 14px;
+        width: 100%;
 
-    border-bottom: 1px solid #222;
+        max-width: 700px;
 
-    background: #050505;
-}
+        height: 100vh;
 
-.logo {
+        margin: 0 auto;
 
-    width: 120px;
+        padding: 0 20px;
 
-    height: auto;
+        display: flex;
 
-    margin-right: 14px;
-}
+        flex-direction: column;
+    }
 
-.controls {
+    /* =========================
+       FIXED HEADER
+       ========================= */
 
-    display: flex;
+    .header {
 
-    align-items: center;
+        flex-shrink: 0;
 
-    gap: 8px;
-}
+        background: #ffffff;
 
-.control-button {
+        padding-top: 35px;
+    }
 
-    width: 34px;
+    h1 {
 
-    height: 34px;
+        margin: 0 0 35px;
 
-    border: 1px solid #333;
+        text-align: center;
 
-    border-radius: 4px;
+        font-size: 42px;
 
-    background: #111;
+        letter-spacing: 6px;
 
-    color: #fff;
+        font-weight: 700;
+    }
 
-    font-size: 17px;
+    h1 img {
 
-    cursor: pointer;
+        display: block;
 
-    display: flex;
+        width: auto;
 
-    align-items: center;
+        height: 42px;
 
-    justify-content: center;
-}
+        max-width: 100%;
 
-.control-button:hover {
+        margin: 0 auto;
+    }
 
-    background: #1c1c1c;
-}
+    .controls {
 
-.control-button.active {
+        display: flex;
 
-    background: #222;
+        justify-content: center;
 
-    border-color: #666;
-}
+        align-items: center;
 
-.now-playing {
+        gap: 10px;
 
-    margin-left: 18px;
+        margin-bottom: 25px;
+    }
 
-    min-width: 0;
+    button {
 
-    flex: 1;
+        border: 1px solid #111111;
 
-    overflow: hidden;
+        background: #ffffff;
 
-    white-space: nowrap;
+        color: #111111;
 
-    text-overflow: ellipsis;
+        cursor: pointer;
 
-    font-size: 14px;
+        font-size: 16px;
 
-    color: #ccc;
-}
+        padding: 12px 18px;
 
-.now-playing-title {
+        min-height: 46px;
+    }
 
-    color: #fff;
-}
+    button:hover {
 
-.now-playing-artist {
+        background: #eeeeee;
+    }
 
-    color: #777;
+    #playButton {
 
-    margin-left: 8px;
-}
+        min-width: 120px;
 
-.sponsor-line {
+        font-weight: bold;
+    }
 
-    margin-left: 12px;
+    #backButton,
+    #nextButton {
 
-    white-space: nowrap;
+        width: 50px;
 
-    font-size: 11px;
+        padding: 12px 5px;
 
-    color: #555;
-}
+        font-size: 24px;
 
-.sponsor-line a {
+        line-height: 1;
+    }
 
-    color: #777;
+    #shuffleButton.active {
 
-    text-decoration: none;
-}
+        background: #111111;
 
-.sponsor-line a:hover {
+        color: #ffffff;
+    }
 
-    color: #aaa;
-}
+    .now-playing {
 
-/* =========================
-   TRACK LIST
-   ========================= */
+        text-align: center;
 
-#track-list {
+        margin-bottom: 10px;
 
-    flex: 1;
+        min-height: 24px;
 
-    overflow-y: auto;
+        font-size: 14px;
 
-    padding: 8px 0 90px 0;
-}
+        color: #555555;
+    }
 
-.track {
+    .now-playing-actions {
 
-    display: flex;
+        display: flex;
 
-    align-items: center;
+        justify-content: center;
 
-    min-height: 44px;
+        align-items: center;
 
-    padding: 7px 14px;
+        gap: 12px;
 
-    border-bottom: 1px solid #111;
+        margin-top: 6px;
+    }
 
-    cursor: pointer;
-}
+    .now-playing-mute {
 
-.track:hover {
+        font-size: 11px;
 
-    background: #0d0d0d;
-}
+        color: #888888;
 
-.track.active {
+        text-decoration: none;
 
-    background: #151515;
-}
+        letter-spacing: 0.5px;
 
-.track-number {
+        cursor: pointer;
+    }
 
-    width: 38px;
+    .now-playing-mute:hover {
 
-    flex-shrink: 0;
+        color: #111111;
 
-    color: #444;
+        text-decoration: underline;
+    }
 
-    font-size: 12px;
+    /* =========================
+       SPONSOR
+       ========================= */
 
-    text-align: right;
+    .sponsor {
 
-    margin-right: 12px;
-}
+        text-align: center;
 
-.track-info {
+        min-height: 24px;
 
-    min-width: 0;
+        margin-bottom: 15px;
 
-    flex: 1;
+        font-size: 12px;
 
-    overflow: hidden;
-}
+        color: #888888;
+    }
 
-.track-title {
+    .sponsor a {
 
-    color: #ddd;
+        color: #555555;
 
-    font-size: 14px;
+        text-decoration: none;
 
-    white-space: nowrap;
+        font-weight: normal;
+    }
 
-    overflow: hidden;
+    .sponsor a:hover {
 
-    text-overflow: ellipsis;
-}
+        color: #111111;
 
-.track-artist {
+        text-decoration: underline;
+    }
 
-    color: #666;
+    .header-line {
 
-    font-size: 11px;
+        border-bottom: 1px solid #cccccc;
+    }
+    .sponsor-tagline {
 
-    margin-top: 2px;
+        display: block;
 
-    white-space: nowrap;
+        margin-top: 2px;
 
-    overflow: hidden;
+        font-size: 11px;
 
-    text-overflow: ellipsis;
-}
+        color: #888888;
 
-.track.active .track-title {
+        text-decoration: none;
 
-    color: #fff;
-}
+        font-weight: normal;
+    }
 
-.track-mute {
+    
+    /* =========================
+       SCROLLING TRACK AREA
+       ========================= */
 
-    width: 30px;
+    .track-list {
 
-    flex-shrink: 0;
+        flex: 1;
 
-    border: 0;
+        min-height: 0;
 
-    background: transparent;
+        overflow-y: auto;
 
-    color: #555;
+        overflow-x: hidden;
+    }
 
-    cursor: pointer;
+    .track {
 
-    font-size: 14px;
-}
+        display: flex;
 
-.track-mute:hover {
+        align-items: center;
 
-    color: #aaa;
-}
+        width: 100%;
 
-/* =========================
-   AUDIO FOOTER
-   ========================= */
+        min-height: 75px;
 
-.audio-footer {
+        padding: 12px 0;
 
-    position: fixed;
+        border-bottom: 1px solid #cccccc;
 
-    left: 0;
+        cursor: pointer;
 
-    right: 0;
+        user-select: none;
+    }
 
-    bottom: 0;
+    .track:hover {
 
-    height: 70px;
+        background: #f5f5f5;
+    }
 
-    background: #050505;
+    .track.selected {
 
-    border-top: 1px solid #222;
+        background: #eeeeee;
+    }
 
-    display: flex;
+    .track-info {
 
-    align-items: center;
+        min-width: 0;
 
-    padding: 0 14px;
+        text-align: left;
 
-    z-index: 20;
-}
+        flex: 1;
+    }
 
-audio {
+    .track-title {
 
-    width: 100%;
+        font-size: 17px;
 
-    height: 42px;
-}
+        font-weight: bold;
+
+        margin-bottom: 6px;
+    }
+
+    .track-actions {
+
+        display: flex;
+
+        align-items: center;
+
+        gap: 12px;
+    }
+
+    .mute-toggle {
+
+        font-size: 11px;
+
+        color: #888888;
+
+        text-decoration: none;
+
+        letter-spacing: 0.5px;
+
+        cursor: pointer;
+    }
+
+    .mute-toggle:hover {
+
+        color: #111111;
+
+        text-decoration: underline;
+    }
+
+    /* =========================
+       FIXED FOOTER
+       ========================= */
+
+    .player {
+
+        flex-shrink: 0;
+
+        background: #ffffff;
+
+        padding-top: 20px;
+
+        padding-bottom: 20px;
+
+        width: 100%;
+    }
+
+    audio {
+
+        width: 100%;
+    }
+
+    /* =========================
+       MOBILE
+       ========================= */
+
+    @media (max-width: 500px) {
+
+        .app {
+
+            padding: 0 15px;
+        }
+
+        .header {
+
+            padding-top: 25px;
+        }
+
+        h1 img {
+
+            height: 34px;
+        }
+
+        .controls {
+
+            flex-wrap: wrap;
+        }
+
+        .track {
+
+            min-height: 65px;
+        }
+
+        .track-actions {
+
+            gap: 9px;
+        }
+
+    }
 
 </style>
 
@@ -331,1049 +422,2790 @@ audio {
 
 <body>
 
-<header>
+<div class="app">
+
+<!-- =========================
+     FIXED HEADER
+     ========================= -->
+
+<div class="header">
+
+
+<h1>
 
     <img
-        src="/gr8skul-logo.PNG"
-        class="logo"
-        alt="GR8SKUL"
-    >
+        src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+        alt="GR8SKUL">
 
-    <div class="controls">
+</h1>
 
-        <button
-            id="back-button"
-            class="control-button"
-            type="button"
-            aria-label="Previous"
-        >
-            ◀
-        </button>
+<div class="controls">
 
-        <button
-            id="play-button"
-            class="control-button"
-            type="button"
-            aria-label="Play"
-        >
-            ▶
-        </button>
+    <button
+        id="backButton"
+        type="button"
+        aria-label="Previous track">
 
-        <button
-            id="next-button"
-            class="control-button"
-            type="button"
-            aria-label="Next"
-        >
-            ▶
-        </button>
+        ←
 
-        <button
-            id="shuffle-button"
-            class="control-button"
-            type="button"
-            aria-label="Shuffle"
-        >
-            🔀
-        </button>
+    </button>
 
-    </div>
+    <button
+        id="playButton"
+        type="button">
 
-    <div class="now-playing">
+        ▶ PLAY
 
-        <span
-            id="now-playing-title"
-            class="now-playing-title"
-        >
-            Nothing playing
-        </span>
+    </button>
 
-        <span
-            id="now-playing-artist"
-            class="now-playing-artist"
-        ></span>
+    <button
+        id="nextButton"
+        type="button"
+        aria-label="Next track">
 
-    </div>
+        →
 
-    <div
-        id="sponsor-line"
-        class="sponsor-line"
-    ></div>
+    </button>
 
-</header>
+    <button
+        id="shuffleButton"
+        type="button">
 
+        SHUFFLE OFF
 
-<div id="track-list"></div>
-
-
-<div class="audio-footer">
-
-    <audio
-        id="audio"
-        controls
-        preload="metadata"
-    ></audio>
+    </button>
 
 </div>
 
+<div
+    class="now-playing"
+    id="nowPlaying">
+</div>
+
+<!-- =========================
+     SPONSOR
+     ========================= -->
+
+<div
+    class="sponsor"
+    id="sponsor">
+</div>
+
+<div class="header-line"></div>
+
+
+</div>
+
+<!-- =========================
+     AUTOMATIC TRACK LIST
+     ========================= -->
+
+<div
+    class="track-list"
+    id="trackList">
+
+</div>
+
+<!-- =========================
+     FIXED FOOTER
+     ========================= -->
+
+<div class="player">
+
+
+<audio
+    id="audioPlayer"
+    controls
+    preload="none">
+</audio>
+
+
+</div>
+
+</div>
 
 <script>
 
-const SUPABASE_URL =
-    "https://rijzolipyabfggrrhgab.supabase.co";
+    /*
+        ============================================================
+        GR8SKUL AUTOMATIC MUSIC CATALOG
+        ============================================================
 
-const SUPABASE_KEY =
-    "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
+        The GitHub Action creates catalog.json.
 
+        This page reads catalog.json and creates
+        the track list automatically.
 
-/* =========================================================
-   ELEMENTS
-   ========================================================= */
+        You no longer need to add track HTML.
+    */
 
-const audio =
-    document.getElementById("audio");
-
-const trackList =
-    document.getElementById("track-list");
-
-const playButton =
-    document.getElementById("play-button");
-
-const backButton =
-    document.getElementById("back-button");
-
-const nextButton =
-    document.getElementById("next-button");
-
-const shuffleButton =
-    document.getElementById("shuffle-button");
-
-const nowPlayingTitle =
-    document.getElementById("now-playing-title");
-
-const nowPlayingArtist =
-    document.getElementById("now-playing-artist");
-
-const sponsorLine =
-    document.getElementById("sponsor-line");
-
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
-let tracks = [];
-
-let currentIndex = -1;
-
-let shuffleMode = false;
-
-let playStartedAt = null;
-
-let qualified = false;
-
-let listened30 = false;
-
-
-/* =========================================================
-   TITLE FALLBACK
-   ========================================================= */
-
-function cleanTitle(filename) {
-
-    return filename
-        .replace(/^music\//i, "")
-        .replace(/\.[^/.]+$/, "")
-        .replace(/\s+/g, " ")
-        .trim();
-}
-
-
-/* =========================================================
-   NORMALIZE PATH
-   ========================================================= */
-
-function normalizePath(path) {
-
-    if (!path) {
-        return "";
-    }
-
-    return decodeURIComponent(
-        String(path)
-            .replace(/^https?:\/\/[^/]+/i, "")
-            .replace(/^\/+/, "")
-    )
-    .trim();
-}
-
-
-/* =========================================================
-   METADATA LOOKUP
-   ========================================================= */
-
-function getMetadataForTrack(
-    trackPath,
-    metadata
-) {
-
-    const normalizedTrackPath =
-        normalizePath(trackPath);
 
     /*
-     * First try the exact key.
-     */
+        ============================================================
+        SESSION ID
+        ============================================================
+    */
 
-    if (
-        metadata &&
-        metadata[normalizedTrackPath]
-    ) {
 
-        return metadata[
-            normalizedTrackPath
-        ];
+    let sessionId =
+        localStorage.getItem(
+            "gr8skul-session-id"
+        );
+
+
+    if (!sessionId) {
+
+        sessionId =
+            crypto.randomUUID();
+
+        localStorage.setItem(
+            "gr8skul-session-id",
+            sessionId
+        );
 
     }
 
 
     /*
-     * Second try every metadata key after
-     * normalization.
-     *
-     * This protects us against harmless
-     * differences such as a leading slash
-     * or encoded characters.
-     */
+        ============================================================
+        GR8SKUL QUALIFIED USER
+        ============================================================
 
-    if (metadata) {
+        A visitor becomes a qualified user when actual audio
+        playback begins OR when the visitor meaningfully
+        scrolls through the track list.
 
-        for (
-            const key of Object.keys(metadata)
+        A page load alone does NOT qualify the visitor.
+
+        Qualification is recorded once per visitor per day.
+    */
+
+
+    async function qualifyUserByPlay() {
+
+        const today =
+            new Date().toLocaleDateString(
+                "en-CA",
+                {
+                    timeZone: "America/Chicago"
+                }
+            );
+
+
+        const lastQualifiedDate =
+            localStorage.getItem(
+                "gr8skul-qualified-play-date"
+            );
+
+
+        if (
+            lastQualifiedDate === today
         ) {
-
-            if (
-                normalizePath(key) ===
-                normalizedTrackPath
-            ) {
-
-                return metadata[key];
-
-            }
-
-        }
-
-    }
-
-
-    return null;
-}
-
-
-/* =========================================================
-   CREATE TRACK ELEMENT
-   ========================================================= */
-
-function createTrackElement(
-    trackData,
-    index
-) {
-
-    const track =
-        document.createElement("div");
-
-    track.className = "track";
-
-    track.dataset.index = index;
-
-    track.dataset.title =
-        trackData.title;
-
-    track.dataset.artist =
-        trackData.artist;
-
-    track.dataset.file =
-        trackData.path;
-
-
-    const number =
-        document.createElement("div");
-
-    number.className =
-        "track-number";
-
-    number.textContent =
-        String(index + 1);
-
-
-    const info =
-        document.createElement("div");
-
-    info.className =
-        "track-info";
-
-
-    const title =
-        document.createElement("div");
-
-    title.className =
-        "track-title";
-
-    title.textContent =
-        trackData.title;
-
-
-    const artist =
-        document.createElement("div");
-
-    artist.className =
-        "track-artist";
-
-    artist.textContent =
-        trackData.artist;
-
-
-    const mute =
-        document.createElement("button");
-
-    mute.className =
-        "track-mute";
-
-    mute.type =
-        "button";
-
-    mute.textContent =
-        "🔊";
-
-
-    info.appendChild(title);
-
-    if (trackData.artist) {
-
-        info.appendChild(artist);
-
-    }
-
-
-    track.appendChild(number);
-
-    track.appendChild(info);
-
-    track.appendChild(mute);
-
-
-    track.addEventListener(
-        "click",
-        function () {
-
-            selectTrack(index);
-
-        }
-    );
-
-
-    mute.addEventListener(
-        "click",
-        function (event) {
-
-            event.stopPropagation();
-
-            const muted =
-                track.dataset.muted === "true";
-
-            track.dataset.muted =
-                muted ? "false" : "true";
-
-            mute.textContent =
-                muted ? "🔊" : "🔇";
-
-            if (
-                currentIndex === index
-            ) {
-
-                audio.muted =
-                    !muted;
-
-            }
-
-            localStorage.setItem(
-                "gr8skul-muted-" +
-                trackData.path,
-                String(!muted)
-            );
-
-        }
-    );
-
-
-    const savedMute =
-        localStorage.getItem(
-            "gr8skul-muted-" +
-            trackData.path
-        );
-
-    if (savedMute === "true") {
-
-        track.dataset.muted =
-            "true";
-
-        mute.textContent =
-            "🔇";
-
-    }
-
-
-    return track;
-}
-
-
-/* =========================================================
-   LOAD CATALOG + METADATA + ORDER
-   ========================================================= */
-
-async function loadCatalog() {
-
-    try {
-
-        const [
-            catalogResponse,
-            metadataResponse,
-            orderResponse
-        ] = await Promise.all([
-
-            fetch(
-                "catalog.json?cache=" +
-                Date.now()
-            ),
-
-            fetch(
-                "track-metadata.json?cache=" +
-                Date.now()
-            ),
-
-            fetch(
-                "track-order.json?cache=" +
-                Date.now()
-            )
-
-        ]);
-
-
-        if (!catalogResponse.ok) {
-
-            throw new Error(
-                "Could not load catalog.json"
-            );
-
-        }
-
-        if (!metadataResponse.ok) {
-
-            throw new Error(
-                "Could not load track-metadata.json"
-            );
-
-        }
-
-        if (!orderResponse.ok) {
-
-            throw new Error(
-                "Could not load track-order.json"
-            );
-
-        }
-
-
-        const catalog =
-            await catalogResponse.json();
-
-        const metadata =
-            await metadataResponse.json();
-
-        const order =
-            await orderResponse.json();
-
-
-        console.log(
-            "GR8SKUL catalog:",
-            catalog
-        );
-
-        console.log(
-            "GR8SKUL metadata:",
-            metadata
-        );
-
-        console.log(
-            "GR8SKUL order:",
-            order
-        );
-
-
-        /*
-         * Build a lookup of catalog entries
-         * by their normalized path.
-         */
-
-        const catalogByPath = {};
-
-        catalog.forEach(
-            function (trackData) {
-
-                catalogByPath[
-                    normalizePath(
-                        trackData.path
-                    )
-                ] = trackData;
-
-            }
-        );
-
-
-        /*
-         * track-order.json contains the actual
-         * playlist paths.
-         *
-         * For each path:
-         *
-         * order path
-         *      ↓
-         * catalog entry
-         *      ↓
-         * metadata entry
-         */
-
-        tracks = [];
-
-
-        order.forEach(
-            function (orderedPath) {
-
-                const normalizedPath =
-                    normalizePath(
-                        orderedPath
-                    );
-
-                const catalogTrack =
-                    catalogByPath[
-                        normalizedPath
-                    ];
-
-
-                if (!catalogTrack) {
-
-                    console.warn(
-                        "No catalog entry for:",
-                        orderedPath
-                    );
-
-                    return;
-
-                }
-
-
-                const meta =
-                    getMetadataForTrack(
-                        orderedPath,
-                        metadata
-                    );
-
-
-                if (!meta) {
-
-                    console.warn(
-                        "NO METADATA FOUND FOR:",
-                        orderedPath
-                    );
-
-                } else {
-
-                    console.log(
-                        "METADATA MATCH:",
-                        orderedPath,
-                        meta
-                    );
-
-                }
-
-
-                const title =
-                    meta &&
-                    meta.title
-                        ? meta.title
-                        : cleanTitle(
-                            catalogTrack.name
-                        );
-
-
-                let artist = "";
-
-
-                if (
-                    meta &&
-                    Array.isArray(meta.artists)
-                ) {
-
-                    artist =
-                        meta.artists.join(", ");
-
-                } else if (
-                    meta &&
-                    meta.artists
-                ) {
-
-                    artist =
-                        String(
-                            meta.artists
-                        );
-
-                }
-
-
-                tracks.push({
-
-                    ...catalogTrack,
-
-                    title:
-                        title,
-
-                    artist:
-                        artist,
-
-                    metadata:
-                        meta || null
-
-                });
-
-            }
-        );
-
-
-        /*
-         * Clear and rebuild the visible playlist.
-         */
-
-        trackList.innerHTML = "";
-
-
-        tracks.forEach(
-            function (trackData, index) {
-
-                trackList.appendChild(
-                    createTrackElement(
-                        trackData,
-                        index
-                    )
-                );
-
-            }
-        );
-
-
-        console.log(
-            "GR8SKUL FINAL TRACKS:",
-            tracks
-        );
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL playlist error:",
-            error
-        );
-
-        trackList.innerHTML =
-            '<div style="padding:20px;color:#777;">' +
-            'Unable to load playlist.' +
-            '</div>';
-
-    }
-
-}
-
-
-/* =========================================================
-   SELECT TRACK
-   ========================================================= */
-
-function selectTrack(index) {
-
-    if (
-        index < 0 ||
-        index >= tracks.length
-    ) {
-
-        return;
-
-    }
-
-
-    currentIndex =
-        index;
-
-
-    const track =
-        tracks[index];
-
-
-    document
-        .querySelectorAll(".track")
-        .forEach(
-            function (element) {
-
-                element.classList.remove(
-                    "active"
-                );
-
-            }
-        );
-
-
-    const activeElement =
-        document.querySelector(
-            '.track[data-index="' +
-            index +
-            '"]'
-        );
-
-
-    if (activeElement) {
-
-        activeElement.classList.add(
-            "active"
-        );
-
-    }
-
-
-    nowPlayingTitle.textContent =
-        track.title;
-
-
-    nowPlayingArtist.textContent =
-        track.artist
-            ? "— " + track.artist
-            : "";
-
-
-    audio.src =
-        track.path;
-
-
-    const savedMute =
-        localStorage.getItem(
-            "gr8skul-muted-" +
-            track.path
-        );
-
-    audio.muted =
-        savedMute === "true";
-
-
-    playStartedAt = null;
-
-    qualified = false;
-
-    listened30 = false;
-
-
-    audio.play()
-        .then(
-            function () {
-
-                playStartedAt =
-                    Date.now();
-
-            }
-        )
-        .catch(
-            function (error) {
-
-                console.warn(
-                    "Playback did not start:",
-                    error
-                );
-
-            }
-        );
-
-}
-
-
-/* =========================================================
-   PLAY / PAUSE
-   ========================================================= */
-
-playButton.addEventListener(
-    "click",
-    function () {
-
-        if (currentIndex === -1) {
-
-            if (tracks.length > 0) {
-
-                selectTrack(0);
-
-            }
 
             return;
 
         }
 
 
-        if (audio.paused) {
+        try {
 
-            audio.play();
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_user",
+                    {
+                        method: "POST",
 
-        } else {
+                        headers: {
 
-            audio.pause();
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                p_visitor_id:
+                                    sessionId,
+
+                                p_activity_type:
+                                    "play"
+
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "User qualification failed: " +
+                    response.status
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "gr8skul-qualified-play-date",
+                today
+            );
+
+
+            console.log(
+                "GR8SKUL: visitor qualified by play."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL user qualification failed.",
+                error
+            );
 
         }
 
     }
-);
 
 
-audio.addEventListener(
-    "play",
-    function () {
+    /*
+        ============================================================
+        QUALIFY USER BY MEANINGFUL SCROLL
+        ============================================================
 
-        playButton.textContent =
-            "❚❚";
+        Scrolling the actual track list by at least 50 pixels
+        qualifies the visitor as a GR8SKUL user.
 
-        if (!playStartedAt) {
+        A tiny accidental movement does not qualify the visitor.
+    */
 
-            playStartedAt =
+
+    async function qualifyUserByScroll() {
+
+        const today =
+            new Date().toLocaleDateString(
+                "en-CA",
+                {
+                    timeZone: "America/Chicago"
+                }
+            );
+
+
+        const lastQualifiedDate =
+            localStorage.getItem(
+                "gr8skul-qualified-scroll-date"
+            );
+
+
+        if (
+            lastQualifiedDate === today
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_user",
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                p_visitor_id:
+                                    sessionId,
+
+                                p_activity_type:
+                                    "scroll"
+
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Scroll qualification failed: " +
+                    response.status
+                );
+
+            }
+
+
+            localStorage.setItem(
+                "gr8skul-qualified-scroll-date",
+                today
+            );
+
+
+            console.log(
+                "GR8SKUL: visitor qualified by scroll."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL scroll qualification failed.",
+                error
+            );
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        GR8SKUL LISTENER
+        ============================================================
+
+        A qualified user becomes a listener after 30 seconds
+        of actual audio playback.
+
+        Playback time accumulates across pauses and tracks.
+
+        The listener is recorded once per visitor per day.
+    */
+
+
+    const LISTENER_THRESHOLD_SECONDS = 30;
+
+
+    let playbackStartedAt = null;
+
+
+    function getTodayChicagoDate() {
+
+        return new Date().toLocaleDateString(
+            "en-CA",
+            {
+                timeZone: "America/Chicago"
+            }
+        );
+
+    }
+
+
+    function getStoredListenSeconds() {
+
+        const today =
+            getTodayChicagoDate();
+
+
+        const savedDate =
+            localStorage.getItem(
+                "gr8skul-listen-date"
+            );
+
+
+        if (
+            savedDate !== today
+        ) {
+
+            localStorage.setItem(
+                "gr8skul-listen-date",
+                today
+            );
+
+            localStorage.setItem(
+                "gr8skul-listen-seconds",
+                "0"
+            );
+
+            localStorage.removeItem(
+                "gr8skul-listener-qualified-date"
+            );
+
+            return 0;
+
+        }
+
+
+        return parseFloat(
+            localStorage.getItem(
+                "gr8skul-listen-seconds"
+            ) || "0"
+        );
+
+    }
+
+
+    function storeListenSeconds(seconds) {
+
+        localStorage.setItem(
+            "gr8skul-listen-date",
+            getTodayChicagoDate()
+        );
+
+
+        localStorage.setItem(
+            "gr8skul-listen-seconds",
+            String(seconds)
+        );
+
+    }
+
+
+    async function qualifyListener() {
+
+        const today =
+            getTodayChicagoDate();
+
+
+        const alreadyQualified =
+            localStorage.getItem(
+                "gr8skul-listener-qualified-date"
+            );
+
+
+        if (
+            alreadyQualified === today
+        ) {
+
+            return;
+
+        }
+
+
+        try {
+
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_listener",
+                    {
+                        method: "POST",
+
+                        headers: {
+
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+
+                                p_visitor_id:
+                                    sessionId
+
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Listener qualification failed: " +
+                    response.status
+                );
+
+            }
+
+
+            const result =
+                await response.json();
+
+
+            /*
+                The SQL function returns false if the visitor
+                somehow has not yet been qualified as a user.
+            */
+
+            if (result === false) {
+
+                console.warn(
+                    "GR8SKUL: listener threshold reached, but visitor was not yet a qualified user."
+                );
+
+                return;
+
+            }
+
+
+            localStorage.setItem(
+                "gr8skul-listener-qualified-date",
+                today
+            );
+
+
+            console.log(
+                "GR8SKUL: visitor qualified as a listener."
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL listener qualification failed.",
+                error
+            );
+
+        }
+
+    }
+
+
+    function recordPlaybackTime() {
+
+        if (
+            playbackStartedAt === null
+        ) {
+
+            return;
+
+        }
+
+
+        const elapsedSeconds =
+            (Date.now() -
+             playbackStartedAt) / 1000;
+
+
+        playbackStartedAt =
+            Date.now();
+
+
+        if (
+            elapsedSeconds <= 0
+        ) {
+
+            return;
+
+        }
+
+
+        let totalSeconds =
+            getStoredListenSeconds();
+
+
+        totalSeconds +=
+            elapsedSeconds;
+
+
+        storeListenSeconds(
+            totalSeconds
+        );
+
+
+        if (
+            totalSeconds >=
+            LISTENER_THRESHOLD_SECONDS
+        ) {
+
+            qualifyListener();
+
+        }
+
+    }
+
+
+    function startPlaybackClock() {
+
+        if (
+            playbackStartedAt === null
+        ) {
+
+            playbackStartedAt =
                 Date.now();
 
         }
 
     }
-);
 
 
-audio.addEventListener(
-    "pause",
-    function () {
+    function stopPlaybackClock() {
 
-        playButton.textContent =
-            "▶";
+        recordPlaybackTime();
+
+        playbackStartedAt = null;
 
     }
-);
 
 
-/* =========================================================
-   NEXT
-   ========================================================= */
-
-nextButton.addEventListener(
-    "click",
-    function () {
-
-        if (!tracks.length) {
-
-            return;
-
-        }
+    const tracksContainer =
+        document.getElementById("trackList");
 
 
-        let nextIndex;
+    const playButton =
+        document.getElementById("playButton");
 
 
-        if (shuffleMode) {
+    const backButton =
+        document.getElementById("backButton");
 
-            nextIndex =
-                Math.floor(
-                    Math.random() *
-                    tracks.length
-                );
 
-        } else {
+    const nextButton =
+        document.getElementById("nextButton");
 
-            nextIndex =
-                currentIndex + 1;
+
+    const shuffleButton =
+        document.getElementById("shuffleButton");
+
+
+    const audioPlayer =
+        document.getElementById("audioPlayer");
+
+
+    const nowPlaying =
+        document.getElementById("nowPlaying");
+
+
+    const sponsor =
+        document.getElementById("sponsor");
+
+
+    /*
+        ============================================================
+        MEANINGFUL TRACK-LIST SCROLL
+        ============================================================
+    */
+
+
+    tracksContainer.addEventListener(
+        "scroll",
+        function() {
 
             if (
-                nextIndex >=
-                tracks.length
+                tracksContainer.scrollTop >= 50
             ) {
 
-                nextIndex = 0;
+                qualifyUserByScroll();
 
             }
 
         }
-
-
-        selectTrack(nextIndex);
-
-    }
-);
-
-
-/* =========================================================
-   PREVIOUS
-   ========================================================= */
-
-backButton.addEventListener(
-    "click",
-    function () {
-
-        if (!tracks.length) {
-
-            return;
-
-        }
-
-
-        let previousIndex =
-            currentIndex - 1;
-
-
-        if (
-            previousIndex < 0
-        ) {
-
-            previousIndex =
-                tracks.length - 1;
-
-        }
-
-
-        selectTrack(
-            previousIndex
-        );
-
-    }
-);
-
-
-/* =========================================================
-   SHUFFLE
-   ========================================================= */
-
-shuffleButton.addEventListener(
-    "click",
-    function () {
-
-        shuffleMode =
-            !shuffleMode;
-
-        shuffleButton.classList.toggle(
-            "active",
-            shuffleMode
-        );
-
-    }
-);
-
-
-/* =========================================================
-   QUALIFICATION
-   ========================================================= */
-
-function qualifyUser() {
-
-    if (qualified) {
-
-        return;
-
-    }
-
-
-    qualified = true;
-
-
-    console.log(
-        "GR8SKUL qualified user"
     );
+
+
+    /*
+        ============================================================
+        SPONSOR ASSIGNMENT
+        ============================================================
+
+        Supabase assigns one sponsor to this browser session.
+
+        The assignment lasts 60 seconds.
+
+        Refreshing the page during that 60-second period
+        returns the same sponsor assignment.
+    */
+
+
+    let sponsorRotationTimer = null;
+function startSponsorRotation() {
+
+    if (sponsorRotationTimer !== null) {
+
+        clearInterval(
+            sponsorRotationTimer
+        );
+
+    }
+
+
+    sponsorRotationTimer =
+        setInterval(
+            function() {
+
+                loadSponsors();
+
+            },
+            60000
+        );
 
 }
 
+       async function loadSponsors() {
 
-/* =========================================================
-   30 SECOND LISTENER
-   ========================================================= */
+        try {
 
-audio.addEventListener(
-    "timeupdate",
-    function () {
+            const response =
+                await fetch(
+                    "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/assign_sponsor",
+                    {
+                        method: "POST",
 
-        if (
-            listened30 ||
-            !playStartedAt ||
-            audio.paused
-        ) {
+                        headers: {
 
-            return;
+                            "apikey":
+                                "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Authorization":
+                                "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                            "Content-Type":
+                                "application/json"
+
+                        },
+
+                        body:
+                            JSON.stringify({
+                                p_session_id:
+                                    sessionId
+                            })
+
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Supabase sponsor assignment failed: " +
+                    response.status
+                );
+
+            }
+
+
+            const assignment =
+                await response.json();
+
+
+            if (
+                !Array.isArray(assignment) ||
+                assignment.length === 0
+            ) {
+
+                sponsor.innerHTML = "";
+
+                console.warn(
+                    "GR8SKUL: No sponsor assignment returned."
+                );
+
+                return;
+
+            }
+
+
+            const ad =
+                assignment[0];
+
+
+            sponsor.innerHTML = "";
+
+
+            /*
+                ========================================================
+                SPONSOR BUSINESS NAME
+                ========================================================
+            */
+
+
+            const prefix =
+                document.createTextNode(
+                    "Brought to you by: "
+                );
+
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+
+            link.textContent =
+                ad.sponsor_name;
+
+
+            link.href =
+                ad.sponsor_url;
+
+
+            link.target =
+                "_blank";
+
+
+            link.rel =
+                "noopener noreferrer";
+
+
+            /*
+                ========================================================
+                SPONSOR CLICK TRACKING
+                ========================================================
+            */
+
+
+            link.addEventListener(
+                "click",
+                function () {
+
+                    fetch(
+                        "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/record_sponsor_click",
+                        {
+                            method: "POST",
+
+                            headers: {
+
+                                "apikey":
+                                    "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                                "Authorization":
+                                    "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm",
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify({
+                                    p_session_id:
+                                        sessionId
+                                }),
+
+                            keepalive:
+                                true
+
+                        }
+                    )
+
+                    .catch(
+                        function (error) {
+
+                            console.error(
+                                "GR8SKUL sponsor click tracking failed.",
+                                error
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+                       /*
+                ========================================================
+                SPONSOR TAGLINE
+                ========================================================
+
+                The tagline is descriptive text only.
+                It is not a separate clickable element.
+            */
+
+
+            const tagline =
+                document.createElement(
+                    "span"
+                );
+
+
+            tagline.textContent =
+                ad.sponsor_tagline;
+
+
+            tagline.className =
+                "sponsor-tagline";
+
+
+            /*
+                ========================================================
+                DISPLAY SPONSOR
+                ========================================================
+            */
+
+
+            sponsor.appendChild(
+                prefix
+            );
+
+
+            sponsor.appendChild(
+                link
+            );
+
+
+            if (
+                ad.sponsor_tagline
+            ) {
+
+                sponsor.appendChild(
+                    tagline
+                );
+
+            }
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL sponsor system could not connect to Supabase.",
+                error
+            );
+
+            sponsor.innerHTML = "";
 
         }
 
+    }
 
-        if (
-            audio.currentTime >= 30
-        ) {
 
-            listened30 = true;
+    /*
+        ============================================================
+        USER MUTE STORAGE
+        ============================================================
+    */
 
-            console.log(
-                "GR8SKUL 30-second listener"
+
+    const MUTE_STORAGE_KEY =
+        "gr8skul-muted-tracks";
+
+
+    let mutedTracks = {};
+
+
+    try {
+
+        const savedMuteSettings =
+            localStorage.getItem(
+                MUTE_STORAGE_KEY
+            );
+
+
+        if (savedMuteSettings) {
+
+            mutedTracks =
+                JSON.parse(
+                    savedMuteSettings
+                ) || {};
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL mute settings could not be loaded.",
+            error
+        );
+
+        mutedTracks = {};
+
+    }
+
+
+    function saveMuteSettings() {
+
+        try {
+
+            localStorage.setItem(
+                MUTE_STORAGE_KEY,
+                JSON.stringify(mutedTracks)
+            );
+
+        } catch (error) {
+
+            console.error(
+                "GR8SKUL mute settings could not be saved.",
+                error
             );
 
         }
 
     }
-);
 
 
-/* =========================================================
-   SCROLL QUALIFICATION
-   ========================================================= */
-
-trackList.addEventListener(
-    "scroll",
-    function () {
+    function isTrackMuted(index) {
 
         if (
-            trackList.scrollTop >= 50
+            index < 0 ||
+            index >= tracks.length
         ) {
 
-            qualifyUser();
+            return false;
+
+        }
+
+
+        const file =
+            tracks[index].dataset.file;
+
+
+        return mutedTracks[file] === true;
+
+    }
+
+
+    function setTrackMuted(
+        index,
+        muted
+    ) {
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        const file =
+            tracks[index].dataset.file;
+
+
+        if (muted) {
+
+            mutedTracks[file] = true;
+
+        } else {
+
+            delete mutedTracks[file];
+
+        }
+
+
+        saveMuteSettings();
+
+        updateTrackMuteButton(index);
+
+        updateNowPlayingMuteButton();
+
+
+        /*
+            Remove newly muted tracks from any
+            shuffle queue that already exists.
+        */
+
+        if (muted) {
+
+            shuffleQueue =
+                shuffleQueue.filter(
+                    function(queueIndex) {
+
+                        return !isTrackMuted(
+                            queueIndex
+                        );
+
+                    }
+                );
 
         }
 
     }
-);
 
-
-/* =========================================================
-   SPONSOR
-   ========================================================= */
-
-async function loadSponsor() {
 
     /*
-     * Existing sponsor behavior belongs here.
-     *
-     * This section intentionally does not
-     * affect playlist metadata.
-     */
-
-}
+        ============================================================
+        TRACK DATA
+        ============================================================
+    */
 
 
-/* =========================================================
-   INITIALIZE
-   ========================================================= */
+    let tracks = [];
 
-loadCatalog();
 
-loadSponsor();
+    let currentTrack = -1;
+
+
+    let shuffle = false;
+
+
+    let shuffleQueue = [];
+
+
+    let playHistory = [];
+
+
+    /*
+        ============================================================
+        CLEAN TRACK TITLE
+        ============================================================
+    */
+
+
+    function cleanTitle(filename) {
+
+        return filename
+            .replace(/\.[^/.]+$/, "")
+            .replace(/[_]+/g, " ")
+            .trim();
+
+    }
+
+
+    /*
+        ============================================================
+        CREATE TRACK HTML
+        ============================================================
+    */
+
+
+    function createTrackElement(trackData) {
+
+        const track =
+            document.createElement("div");
+
+
+        track.className =
+            "track";
+
+
+        track.dataset.title =
+            cleanTitle(trackData.name);
+
+
+        track.dataset.file =
+            trackData.path;
+
+
+        const trackInfo =
+            document.createElement("div");
+
+
+        trackInfo.className =
+            "track-info";
+
+
+        const title =
+            document.createElement("div");
+
+
+        title.className =
+            "track-title";
+
+
+        title.textContent =
+            cleanTitle(trackData.name);
+
+
+        const trackActions =
+            document.createElement("div");
+
+
+        trackActions.className =
+            "track-actions";
+
+
+        const muteButton =
+            document.createElement("a");
+
+
+        muteButton.className =
+            "mute-toggle";
+
+
+        muteButton.href =
+            "#";
+
+
+        muteButton.textContent =
+            "MUTE";
+
+
+        trackActions.appendChild(
+            muteButton
+        );
+
+
+        trackInfo.appendChild(
+            title
+        );
+
+
+        trackInfo.appendChild(
+            trackActions
+        );
+
+
+        track.appendChild(
+            trackInfo
+        );
+
+
+        return track;
+
+    }
+
+
+    /*
+        ============================================================
+        UPDATE TRACK MUTE BUTTON
+        ============================================================
+    */
+
+
+    function updateTrackMuteButton(index) {
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        const track =
+            tracks[index];
+
+
+        const muteButton =
+            track.querySelector(
+                ".mute-toggle"
+            );
+
+
+        if (!muteButton) {
+
+            return;
+
+        }
+
+
+        if (
+            isTrackMuted(index)
+        ) {
+
+            muteButton.textContent =
+                "UNMUTE";
+
+        } else {
+
+            muteButton.textContent =
+                "MUTE";
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        UPDATE ALL TRACK MUTE BUTTONS
+        ============================================================
+    */
+
+
+    function updateAllTrackMuteButtons() {
+
+        tracks.forEach(
+            function(track, index) {
+
+                updateTrackMuteButton(
+                    index
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+        ============================================================
+        LOAD CATALOG
+        ============================================================
+    */
+
+
+   async function loadCatalog() {
+
+        try {
+
+            const response =
+                await fetch(
+                    "catalog.json?cache=" +
+                    Date.now()
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Catalog could not be loaded."
+                );
+
+            }
+
+
+            const catalog =
+                await response.json();
+
+
+            tracksContainer.innerHTML =
+                "";
+
+
+            catalog.forEach(
+                function(trackData) {
+
+                    const track =
+                        createTrackElement(
+                            trackData
+                        );
+
+
+                    tracksContainer.appendChild(
+                        track
+                    );
+
+                }
+            );
+
+
+            tracks =
+                Array.from(
+                    document.querySelectorAll(
+                        ".track"
+                    )
+                );
+
+
+            updateAllTrackMuteButtons();
+
+
+            attachTrackListeners();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            tracksContainer.innerHTML =
+                "<div style='padding:20px 0; color:#777;'>Music catalog loading...</div>";
+
+        }
+
+    }
+
+      
+      async function loadCatalog() {
+
+        try {
+
+            /*
+                ============================================================
+                LOAD CATALOG
+                ============================================================
+
+                catalog.json contains the available works.
+
+                track-order.json contains the permanent order saved
+                from the WORKS page.
+
+                The WORKS page writes the exact music file paths into
+                track-order.json. We use those paths here to arrange
+                the player.
+            */
+
+
+            const catalogResponse =
+                await fetch(
+                    "catalog.json?cache=" +
+                    Date.now()
+                );
+
+
+            if (!catalogResponse.ok) {
+
+                throw new Error(
+                    "Catalog could not be loaded."
+                );
+
+            }
+
+
+            const catalog =
+                await catalogResponse.json();
+
+
+            /*
+                ============================================================
+                LOAD PERMANENT TRACK ORDER
+                ============================================================
+            */
+
+
+            const orderResponse =
+                await fetch(
+                    "track-order.json?cache=" +
+                    Date.now()
+                );
+
+
+            let trackOrder = [];
+
+
+            if (orderResponse.ok) {
+
+                const orderData =
+                    await orderResponse.json();
+
+
+                if (Array.isArray(orderData)) {
+
+                    trackOrder =
+                        orderData;
+
+                }
+
+            }
+
+
+            /*
+                ============================================================
+                ARRANGE CATALOG USING track-order.json
+                ============================================================
+
+                Every path in track-order.json is matched against the
+                catalog.
+
+                Any new catalog tracks that are not yet in
+                track-order.json are appended afterward.
+            */
+
+
+            const catalogByPath =
+                new Map();
+
+
+            catalog.forEach(
+                function(trackData) {
+
+                    if (
+                        trackData &&
+                        trackData.path
+                    ) {
+
+                        catalogByPath.set(
+                            trackData.path,
+                            trackData
+                        );
+
+                    }
+
+                }
+            );
+
+
+            const orderedCatalog = [];
+
+
+            trackOrder.forEach(
+                function(path) {
+
+                    if (
+                        catalogByPath.has(path)
+                    ) {
+
+                        orderedCatalog.push(
+                            catalogByPath.get(path)
+                        );
+
+                        catalogByPath.delete(path);
+
+                    }
+
+                }
+            );
+
+
+            /*
+                Add any newly discovered tracks that do not yet
+                exist in track-order.json.
+            */
+
+
+            catalog.forEach(
+                function(trackData) {
+
+                    if (
+                        trackData &&
+                        trackData.path &&
+                        catalogByPath.has(
+                            trackData.path
+                        )
+                    ) {
+
+                        orderedCatalog.push(
+                            trackData
+                        );
+
+                        catalogByPath.delete(
+                            trackData.path
+                        );
+
+                    }
+
+                }
+            );
+
+
+            tracksContainer.innerHTML =
+                "";
+
+
+            orderedCatalog.forEach(
+                function(trackData) {
+
+                    const track =
+                        createTrackElement(
+                            trackData
+                        );
+
+
+                    tracksContainer.appendChild(
+                        track
+                    );
+
+                }
+            );
+
+
+            tracks =
+                Array.from(
+                    document.querySelectorAll(
+                        ".track"
+                    )
+                );
+
+
+            updateAllTrackMuteButtons();
+
+
+            attachTrackListeners();
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            tracksContainer.innerHTML =
+                "<div style='padding:20px 0; color:#777;'>Music catalog loading...</div>";
+
+        }
+
+    }
+
+    /*
+        ============================================================
+        FIND NEXT ELIGIBLE TRACK
+        ============================================================
+    */
+
+
+    function findNextUnmutedTrack(
+        startIndex
+    ) {
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return -1;
+
+        }
+
+
+        let index =
+            startIndex;
+
+
+        for (
+            let count = 0;
+            count < tracks.length;
+            count++
+        ) {
+
+            if (
+                index >= tracks.length
+            ) {
+
+                index = 0;
+
+            }
+
+
+            if (
+                index < 0
+            ) {
+
+                index =
+                    tracks.length - 1;
+
+            }
+
+
+            if (
+                !isTrackMuted(index)
+            ) {
+
+                return index;
+
+            }
+
+
+            index++;
+
+        }
+
+
+        return -1;
+
+    }
+
+
+    /*
+        ============================================================
+        FIND PREVIOUS ELIGIBLE TRACK
+        ============================================================
+    */
+
+
+    function findPreviousUnmutedTrack(
+        startIndex
+    ) {
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return -1;
+
+        }
+
+
+        let index =
+            startIndex;
+
+
+        for (
+            let count = 0;
+            count < tracks.length;
+            count++
+        ) {
+
+            if (
+                index < 0
+            ) {
+
+                index =
+                    tracks.length - 1;
+
+            }
+
+
+            if (
+                index >= tracks.length
+            ) {
+
+                index = 0;
+
+            }
+
+
+            if (
+                !isTrackMuted(index)
+            ) {
+
+                return index;
+
+            }
+
+
+            index--;
+
+        }
+
+
+        return -1;
+
+    }
+
+
+    /*
+        ============================================================
+        SHUFFLE
+        ============================================================
+    */
+
+
+    function createShuffleQueue() {
+
+        shuffleQueue =
+            tracks
+                .map(
+                    function(track, index) {
+
+                        return index;
+
+                    }
+                )
+                .filter(
+                    function(index) {
+
+                        return !isTrackMuted(
+                            index
+                        );
+
+                    }
+                );
+
+
+        for (
+            let i = shuffleQueue.length - 1;
+            i > 0;
+            i--
+        ) {
+
+            const randomIndex =
+                Math.floor(
+                    Math.random() *
+                    (i + 1)
+                );
+
+
+            const temporary =
+                shuffleQueue[i];
+
+
+            shuffleQueue[i] =
+                shuffleQueue[randomIndex];
+
+
+            shuffleQueue[randomIndex] =
+                temporary;
+
+        }
+
+    }
+
+
+    function getNextShuffleTrack() {
+
+        /*
+            Remove any tracks that may have been
+            muted after the queue was created.
+        */
+
+        shuffleQueue =
+            shuffleQueue.filter(
+                function(index) {
+
+                    return !isTrackMuted(
+                        index
+                    );
+
+                }
+            );
+
+
+        if (
+            shuffleQueue.length === 0
+        ) {
+
+            createShuffleQueue();
+
+        }
+
+
+        if (
+            shuffleQueue.length === 0
+        ) {
+
+            return -1;
+
+        }
+
+
+        return shuffleQueue.shift();
+
+    }
+
+
+    /*
+        ============================================================
+        NOW PLAYING MUTE BUTTON
+        ============================================================
+    */
+
+
+    function updateNowPlayingMuteButton() {
+
+        const muteButton =
+            nowPlaying.querySelector(
+                ".now-playing-mute"
+            );
+
+
+        if (!muteButton) {
+
+            return;
+
+        }
+
+
+        if (
+            isTrackMuted(currentTrack)
+        ) {
+
+            muteButton.textContent =
+                "UNMUTE";
+
+        } else {
+
+            muteButton.textContent =
+                "MUTE";
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        MUTE CURRENT TRACK
+        ============================================================
+    */
+
+
+    function muteCurrentTrack() {
+
+        if (
+            currentTrack < 0 ||
+            currentTrack >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        setTrackMuted(
+            currentTrack,
+            true
+        );
+
+
+        /*
+            The current track has just been excluded
+            from automatic playback.
+
+            Immediately move to the next eligible track.
+        */
+
+        playNext();
+
+    }
+
+
+    /*
+        ============================================================
+        TOGGLE TRACK MUTE
+        ============================================================
+    */
+
+
+    function toggleTrackMute(index) {
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        const currentlyMuted =
+            isTrackMuted(index);
+
+
+        /*
+            UNMUTE
+        */
+
+        if (currentlyMuted) {
+
+            setTrackMuted(
+                index,
+                false
+            );
+
+
+            /*
+                Do not force a currently playing track
+                to change simply because it was unmuted.
+            */
+
+            return;
+
+        }
+
+
+        /*
+            MUTE
+        */
+
+        setTrackMuted(
+            index,
+            true
+        );
+
+
+        /*
+            If the user muted the track that is currently
+            playing, immediately move to the next eligible track.
+        */
+
+        if (
+            index === currentTrack
+        ) {
+
+            playNext();
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        LOAD TRACK
+        ============================================================
+    */
+
+
+    function selectTrack(
+        index,
+        startPlaying = true,
+        addToHistory = true
+    ) {
+
+        if (
+            index < 0 ||
+            index >= tracks.length
+        ) {
+
+            return;
+
+        }
+
+
+        if (
+            addToHistory &&
+            index !== currentTrack &&
+            currentTrack !== -1
+        ) {
+
+            playHistory.push(
+                currentTrack
+            );
+
+        }
+
+
+        currentTrack =
+            index;
+
+
+        tracks.forEach(
+            function(track) {
+
+                track.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        const track =
+            tracks[index];
+
+
+        track.classList.add(
+            "selected"
+        );
+
+
+        const title =
+            track.dataset.title;
+
+
+        const file =
+            track.dataset.file;
+
+
+        audioPlayer.src =
+            file;
+
+
+        /*
+            ========================================================
+            NOW PLAYING
+            ========================================================
+        */
+
+
+        nowPlaying.innerHTML =
+            "";
+
+
+        const nowPlayingText =
+            document.createElement(
+                "div"
+            );
+
+
+        nowPlayingText.textContent =
+            "Now playing: " +
+            title;
+
+
+        const nowPlayingActions =
+            document.createElement(
+                "div"
+            );
+
+
+        nowPlayingActions.className =
+            "now-playing-actions";
+
+
+        const muteButton =
+            document.createElement(
+                "a"
+            );
+
+
+        muteButton.className =
+            "now-playing-mute";
+
+
+        muteButton.href =
+            "#";
+
+
+        muteButton.textContent =
+            isTrackMuted(index)
+                ? "UNMUTE"
+                : "MUTE";
+
+
+        muteButton.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+
+                if (
+                    isTrackMuted(
+                        currentTrack
+                    )
+                ) {
+
+                    /*
+                        UNMUTE current track.
+                    */
+
+                    setTrackMuted(
+                        currentTrack,
+                        false
+                    );
+
+                } else {
+
+                    /*
+                        MUTE current track and
+                        immediately continue.
+                    */
+
+                    muteCurrentTrack();
+
+                }
+
+            }
+        );
+
+
+        nowPlayingActions.appendChild(
+            muteButton
+        );
+
+
+        nowPlaying.appendChild(
+            nowPlayingText
+        );
+
+
+        nowPlaying.appendChild(
+            nowPlayingActions
+        );
+
+
+        /*
+            Keep selected track visible.
+        */
+
+
+        track.scrollIntoView({
+            behavior: "smooth",
+            block: "nearest"
+        });
+
+
+        if (startPlaying) {
+
+            audioPlayer.play()
+
+                .then(
+                    function() {
+
+                        playButton.textContent =
+                            "❚❚ PAUSE";
+
+                    }
+                )
+
+                .catch(
+                    function() {
+
+                        playButton.textContent =
+                            "▶ PLAY";
+
+                    }
+                );
+
+        }
+
+    }
+
+
+    /*
+        ============================================================
+        FIRST PLAY
+        ============================================================
+    */
+
+
+    function chooseTrackToPlay() {
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        let chosenTrack;
+
+
+        if (shuffle) {
+
+            createShuffleQueue();
+
+
+            chosenTrack =
+                getNextShuffleTrack();
+
+        } else {
+
+            /*
+                Start with the first unmuted track.
+            */
+
+            chosenTrack =
+                findNextUnmutedTrack(0);
+
+        }
+
+
+        if (
+            chosenTrack === -1
+        ) {
+
+            return;
+
+        }
+
+
+        selectTrack(
+            chosenTrack,
+            true,
+            true
+        );
+
+    }
+
+
+    /*
+        ============================================================
+        NEXT
+        ============================================================
+    */
+
+
+    function playNext() {
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        let nextTrack;
+
+
+        if (shuffle) {
+
+            nextTrack =
+                getNextShuffleTrack();
+
+        } else {
+
+            nextTrack =
+                findNextUnmutedTrack(
+                    currentTrack + 1
+                );
+
+        }
+
+
+        if (
+            nextTrack === -1
+        ) {
+
+            /*
+                Every track is muted.
+            */
+
+            audioPlayer.pause();
+
+            playButton.textContent =
+                "▶ PLAY";
+
+            return;
+
+        }
+
+
+        selectTrack(
+            nextTrack,
+            true,
+            true
+        );
+
+    }
+
+
+    /*
+        ============================================================
+        PREVIOUS
+        ============================================================
+    */
+
+
+    function playPrevious() {
+
+        if (
+            tracks.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        if (shuffle) {
+
+            /*
+                Walk backward through playback history
+                until an unmuted track is found.
+            */
+
+            while (
+                playHistory.length > 0
+            ) {
+
+                const previousTrack =
+                    playHistory.pop();
+
+
+                if (
+                    !isTrackMuted(
+                        previousTrack
+                    )
+                ) {
+
+                    selectTrack(
+                        previousTrack,
+                        true,
+                        false
+                    );
+
+
+                    return;
+
+                }
+
+            }
+
+
+            return;
+
+        }
+
+
+        const previousTrack =
+            findPreviousUnmutedTrack(
+                currentTrack - 1
+            );
+
+
+        if (
+            previousTrack === -1
+        ) {
+
+            return;
+
+        }
+
+
+        selectTrack(
+            previousTrack,
+            true,
+            true
+        );
+
+    }
+
+
+    /*
+        ============================================================
+        PLAY / PAUSE
+        ============================================================
+    */
+
+
+    playButton.addEventListener(
+        "click",
+        function() {
+
+            if (
+                currentTrack === -1
+            ) {
+
+                chooseTrackToPlay();
+
+                return;
+
+            }
+
+
+            if (
+                audioPlayer.paused
+            ) {
+
+                audioPlayer.play()
+
+                    .then(
+                        function() {
+
+                            playButton.textContent =
+                                "❚❚ PAUSE";
+
+                        }
+                    );
+
+            } else {
+
+                audioPlayer.pause();
+
+                playButton.textContent =
+                    "▶ PLAY";
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        BACK
+        ============================================================
+    */
+
+
+    backButton.addEventListener(
+        "click",
+        function() {
+
+            if (
+                currentTrack === -1
+            ) {
+
+                chooseTrackToPlay();
+
+            } else {
+
+                playPrevious();
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        NEXT
+        ============================================================
+    */
+
+
+    nextButton.addEventListener(
+        "click",
+        function() {
+
+            if (
+                currentTrack === -1
+            ) {
+
+                chooseTrackToPlay();
+
+            } else {
+
+                playNext();
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        SHUFFLE
+        ============================================================
+    */
+
+
+    shuffleButton.addEventListener(
+        "click",
+        function() {
+
+            shuffle =
+                !shuffle;
+
+
+            if (shuffle) {
+
+                shuffleButton.textContent =
+                    "SHUFFLE ON";
+
+
+                shuffleButton.classList.add(
+                    "active"
+                );
+
+
+                createShuffleQueue();
+
+
+                /*
+                    Don't immediately repeat
+                    the current song.
+                */
+
+
+                if (
+                    currentTrack !== -1
+                ) {
+
+                    shuffleQueue =
+                        shuffleQueue.filter(
+                            function(index) {
+
+                                return (
+                                    index !==
+                                    currentTrack
+                                );
+
+                            }
+                        );
+
+                }
+
+
+            } else {
+
+                shuffleButton.textContent =
+                    "SHUFFLE OFF";
+
+
+                shuffleButton.classList.remove(
+                    "active"
+                );
+
+
+                shuffleQueue = [];
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        TRACK CLICKS
+        ============================================================
+    */
+
+
+    function attachTrackListeners() {
+
+        tracks.forEach(
+            function(track, index) {
+
+                const muteButton =
+                    track.querySelector(
+                        ".mute-toggle"
+                    );
+
+
+                muteButton.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+
+                        toggleTrackMute(
+                            index
+                        );
+
+                    }
+                );
+
+
+                track.addEventListener(
+                    "click",
+                    function(event) {
+
+                        if (
+                            event.target.closest(
+                                ".mute-toggle"
+                            )
+                        ) {
+
+                            return;
+
+                        }
+
+
+                        /*
+                            IMPORTANT:
+                            Manual track selection always works,
+                            even if the track is muted.
+                        */
+
+                        selectTrack(
+                            index,
+                            true,
+                            true
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+    }
+
+
+    /*
+        ============================================================
+        AUDIO PLAYING
+        ============================================================
+    */
+
+
+    audioPlayer.addEventListener(
+        "play",
+        function() {
+
+            playButton.textContent =
+                "❚❚ PAUSE";
+
+
+            /*
+                ACTUAL PLAYBACK HAS BEGUN.
+
+                This is the point at which the visitor
+                becomes a qualified GR8SKUL user.
+
+                It also starts the listener clock.
+            */
+
+            qualifyUserByPlay();
+
+            startPlaybackClock();
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        AUDIO PAUSED
+        ============================================================
+    */
+
+
+    audioPlayer.addEventListener(
+        "pause",
+        function() {
+
+            playButton.textContent =
+                "▶ PLAY";
+
+
+            /*
+                Preserve the actual amount of playback
+                completed before the pause.
+            */
+
+            stopPlaybackClock();
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        AUDIO FINISHED
+        ============================================================
+    */
+
+
+    audioPlayer.addEventListener(
+        "ended",
+        function() {
+
+            /*
+                Capture the final playback interval before
+                moving to the next track.
+            */
+
+            stopPlaybackClock();
+
+
+            playNext();
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        PAGE HIDDEN / CLOSED
+        ============================================================
+
+        Capture playback time if the visitor leaves the page
+        while audio is still playing.
+    */
+
+
+    document.addEventListener(
+        "visibilitychange",
+        function() {
+
+            if (
+                document.visibilityState ===
+                "hidden"
+            ) {
+
+                recordPlaybackTime();
+
+                playbackStartedAt =
+                    Date.now();
+
+            } else if (
+                !audioPlayer.paused &&
+                playbackStartedAt === null
+            ) {
+
+                playbackStartedAt =
+                    Date.now();
+
+            }
+
+        }
+    );
+
+
+    /*
+        ============================================================
+        START THE APP
+        ============================================================
+    */
+
+
+    loadCatalog();
+
+    loadSponsors();
+
+    startSponsorRotation();
 
 </script>
 
 </body>
-
 </html>
+
