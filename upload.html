@@ -191,8 +191,10 @@ h1 {
 .add-form {
     display: none;
     margin-top: 20px;
+    margin-bottom: 25px;
     border: 1px solid #d8d8d8;
     padding: 20px;
+    background: #ffffff;
 }
 
 .add-form.visible {
@@ -496,53 +498,60 @@ alt="GR8SKUL"
 
 <div class="auth-box">
 
-
 <div class="auth-title">
     WORKS SIGN IN
 </div>
 
 <div class="auth-field">
 
-    <label
-        class="auth-label"
-        for="authEmail"
-    >
-        EMAIL
-    </label>
 
-    <input
-        id="authEmail"
-        class="auth-input"
-        type="email"
-        autocomplete="email"
-    >
+<label
+    class="auth-label"
+    for="authEmail"
+>
+    EMAIL
+</label>
+
+<input
+    id="authEmail"
+    class="auth-input"
+    type="email"
+    autocomplete="email"
+>
+
 
 </div>
 
 <div class="auth-field">
 
-    <label
-        class="auth-label"
-        for="authPassword"
-    >
-        PASSWORD
-    </label>
+<label
+    class="auth-label"
+    for="authPassword"
+>
+    PASSWORD
+</label>
 
-    <input
-        id="authPassword"
-        class="auth-input"
-        type="password"
-        autocomplete="current-password"
-    >
+<input
+    id="authPassword"
+    class="auth-input"
+    type="password"
+    autocomplete="current-password"
+>
+
 
 </div>
 
 <button
-    id="signInButton"
-    class="auth-button"
-    type="button"
+id="signInButton"
+class="auth-button"
+type="button"
+
 >
-    SIGN IN
+
+
+SIGN IN
+
+
 </button>
 
 <div
@@ -551,12 +560,16 @@ alt="GR8SKUL"
 ></div>
 
 <a
-    class="auth-back"
-    href="/"
->
-    BACK TO GR8SKUL
-</a>
+class="auth-back"
+href="/"
 
+>
+
+
+BACK TO GR8SKUL
+
+
+</a>
 
 </div>
 
@@ -581,11 +594,199 @@ type="button"
 
 >
 
-
-+ ADD
-
+* ADD
 
 </button>
+
+<!-- =========================================================
+     ADD / EDIT FORM
+     ========================================================= -->
+
+<div
+    id="addForm"
+    class="add-form"
+>
+
+<div
+    id="formHeading"
+    class="form-heading"
+>
+    ADD WORK
+</div>
+
+<div class="form-row">
+
+
+<label
+    class="form-label"
+    for="artistInput"
+>
+    ARTIST(S)
+</label>
+
+<input
+    id="artistInput"
+    class="form-input"
+    type="text"
+    autocomplete="off"
+    placeholder="Artist name"
+>
+
+<div class="form-help">
+    Separate multiple artists with commas.
+</div>
+
+
+</div>
+
+<div class="form-row">
+
+
+<label
+    class="form-label"
+    for="titleInput"
+>
+    TITLE
+</label>
+
+<input
+    id="titleInput"
+    class="form-input"
+    type="text"
+    autocomplete="off"
+    placeholder="Work title"
+>
+
+
+</div>
+
+<div class="form-row">
+
+
+<label
+    class="form-label"
+    for="mp3Input"
+>
+    MP3
+</label>
+
+<input
+    id="mp3Input"
+    class="form-input"
+    type="file"
+    accept=".mp3,audio/mpeg"
+>
+
+<div
+    id="mp3Help"
+    class="form-help"
+>
+    MP3 files only.
+</div>
+
+
+</div>
+
+<div class="form-row">
+
+
+<label
+    class="form-label"
+    for="genreInput"
+>
+    GENRE(S)
+</label>
+
+<select
+    id="genreInput"
+    class="form-select"
+    multiple
+>
+
+    <option value="Acoustic">ACOUSTIC</option>
+    <option value="Alternative">ALTERNATIVE</option>
+    <option value="Blues">BLUES</option>
+    <option value="Classical">CLASSICAL</option>
+    <option value="Country">COUNTRY</option>
+    <option value="Electronic">ELECTRONIC</option>
+    <option value="Folk">FOLK</option>
+    <option value="Hip-Hop">HIP-HOP</option>
+    <option value="Jazz">JAZZ</option>
+    <option value="Pop">POP</option>
+    <option value="Rock">ROCK</option>
+    <option value="Other">OTHER</option>
+
+</select>
+
+<div class="form-help">
+    Hold CTRL (Windows) or CMD (Mac) to select more than one.
+</div>
+
+
+</div>
+
+<div class="form-row">
+
+<label
+    class="form-label"
+    for="moodInput"
+>
+    MOOD(S)
+</label>
+
+<select
+    id="moodInput"
+    class="form-select"
+    multiple
+>
+
+    <option value="Calm">CALM</option>
+    <option value="Dark">DARK</option>
+    <option value="Energetic">ENERGETIC</option>
+    <option value="Happy">HAPPY</option>
+    <option value="Melancholy">MELANCHOLY</option>
+    <option value="Peaceful">PEACEFUL</option>
+    <option value="Romantic">ROMANTIC</option>
+    <option value="Serious">SERIOUS</option>
+    <option value="Uplifting">UPLIFTING</option>
+
+</select>
+
+<div class="form-help">
+    Hold CTRL (Windows) or CMD (Mac) to select more than one.
+</div>
+
+
+</div>
+
+<div class="form-actions">
+
+
+<button
+    id="cancelButton"
+    class="form-button"
+    type="button"
+>
+    CANCEL
+</button>
+
+<button
+    id="uploadButton"
+    class="form-button"
+    type="button"
+>
+    UPLOAD
+</button>
+
+
+</div>
+
+<div
+    id="formStatus"
+    class="form-status"
+></div>
+
+</div>
 
 <!-- =========================================================
      ACCOUNT BAR
@@ -593,20 +794,23 @@ type="button"
 
 <div class="account-bar">
 
-
 <div
     id="accountEmail"
     class="account-email"
 ></div>
 
 <button
-    id="signOutButton"
-    class="sign-out-button"
-    type="button"
->
-    SIGN OUT
-</button>
+id="signOutButton"
+class="sign-out-button"
+type="button"
 
+>
+
+
+SIGN OUT
+
+
+</button>
 
 </div>
 
@@ -630,183 +834,6 @@ type="button"
     class="order-status"
 ></div>
 
-<div
-    id="addForm"
-    class="add-form"
->
-
-
-<div
-    id="formHeading"
-    class="form-heading"
->
-    ADD WORK
-</div>
-
-<div class="form-row">
-
-    <label
-        class="form-label"
-        for="artistInput"
-    >
-        ARTIST(S)
-    </label>
-
-    <input
-        id="artistInput"
-        class="form-input"
-        type="text"
-        autocomplete="off"
-        placeholder="Artist name"
-    >
-
-    <div class="form-help">
-        Separate multiple artists with commas.
-    </div>
-
-</div>
-
-<div class="form-row">
-
-    <label
-        class="form-label"
-        for="titleInput"
-    >
-        TITLE
-    </label>
-
-    <input
-        id="titleInput"
-        class="form-input"
-        type="text"
-        autocomplete="off"
-        placeholder="Work title"
-    >
-
-</div>
-
-<div class="form-row">
-
-    <label
-        class="form-label"
-        for="mp3Input"
-    >
-        MP3
-    </label>
-
-    <input
-        id="mp3Input"
-        class="form-input"
-        type="file"
-        accept=".mp3,audio/mpeg"
-    >
-
-    <div
-        id="mp3Help"
-        class="form-help"
-    >
-        MP3 files only.
-    </div>
-
-</div>
-
-<div class="form-row">
-
-    <label
-        class="form-label"
-        for="genreInput"
-    >
-        GENRE(S)
-    </label>
-
-    <select
-        id="genreInput"
-        class="form-select"
-        multiple
-    >
-
-        <option value="Acoustic">ACOUSTIC</option>
-        <option value="Alternative">ALTERNATIVE</option>
-        <option value="Blues">BLUES</option>
-        <option value="Classical">CLASSICAL</option>
-        <option value="Country">COUNTRY</option>
-        <option value="Electronic">ELECTRONIC</option>
-        <option value="Folk">FOLK</option>
-        <option value="Hip-Hop">HIP-HOP</option>
-        <option value="Jazz">JAZZ</option>
-        <option value="Pop">POP</option>
-        <option value="Rock">ROCK</option>
-        <option value="Other">OTHER</option>
-
-    </select>
-
-    <div class="form-help">
-        Hold CTRL (Windows) or CMD (Mac) to select more than one.
-    </div>
-
-</div>
-
-<div class="form-row">
-
-    <label
-        class="form-label"
-        for="moodInput"
-    >
-        MOOD(S)
-    </label>
-
-    <select
-        id="moodInput"
-        class="form-select"
-        multiple
-    >
-
-        <option value="Calm">CALM</option>
-        <option value="Dark">DARK</option>
-        <option value="Energetic">ENERGETIC</option>
-        <option value="Happy">HAPPY</option>
-        <option value="Melancholy">MELANCHOLY</option>
-        <option value="Peaceful">PEACEFUL</option>
-        <option value="Romantic">ROMANTIC</option>
-        <option value="Serious">SERIOUS</option>
-        <option value="Uplifting">UPLIFTING</option>
-
-    </select>
-
-    <div class="form-help">
-        Hold CTRL (Windows) or CMD (Mac) to select more than one.
-    </div>
-
-</div>
-
-<div class="form-actions">
-
-    <button
-        id="cancelButton"
-        class="form-button"
-        type="button"
-    >
-        CANCEL
-    </button>
-
-    <button
-        id="uploadButton"
-        class="form-button"
-        type="button"
-    >
-        UPLOAD
-    </button>
-
-</div>
-
-<div
-    id="formStatus"
-    class="form-status"
-></div>
-
-
-</div>
-
 </div>
 
 <a
@@ -815,9 +842,7 @@ href="/"
 
 >
 
-
 BACK TO GR8SKUL
-
 
 </a>
 
@@ -1969,7 +1994,8 @@ function renderWorks() {
 
                     editWork(
                         work,
-                        index
+                        index,
+                        row
                     );
 
                 }
@@ -2036,7 +2062,8 @@ function getFilenameTitle(
 
 function editWork(
     work,
-    index
+    index,
+    row
 ) {
 
     editingIndex =
@@ -2078,6 +2105,15 @@ function editWork(
     formStatus.textContent =
         "";
 
+    /*
+     * Move the form directly underneath
+     * the track currently being edited.
+     */
+    row.insertAdjacentElement(
+        "afterend",
+        addForm
+    );
+
     addForm.classList.add(
         "visible"
     );
@@ -2085,7 +2121,8 @@ function editWork(
     window.scrollTo(
         {
             top:
-                addForm.offsetTop -
+                addForm.getBoundingClientRect().top +
+                window.scrollY -
                 20,
 
             behavior:
@@ -2301,6 +2338,14 @@ async function saveCurrentDomOrder() {
     const rows =
         Array.from(
             worksList.children
+        ).filter(
+            function(element) {
+
+                return element.classList.contains(
+                    "work-row"
+                );
+
+            }
         );
 
     const previousWorks =
@@ -2605,6 +2650,15 @@ function openAddForm() {
 
     resetForm();
 
+    /*
+     * Always return the form to its position
+     * directly beneath the ADD button.
+     */
+    addButton.insertAdjacentElement(
+        "afterend",
+        addForm
+    );
+
     addForm.classList.add(
         "visible"
     );
@@ -2612,27 +2666,13 @@ function openAddForm() {
 }
 
 
-/*
- * Use delegated click handling so the
- * ADD button remains functional regardless
- * of its position in the protected layout.
- */
-protectedContent.addEventListener(
+/* =========================================================
+   ADD BUTTON
+   ========================================================= */
+
+addButton.addEventListener(
     "click",
     function(event) {
-
-        const button =
-            event.target.closest(
-                "#addButton"
-            );
-
-        if (
-            !button
-        ) {
-
-            return;
-
-        }
 
         event.preventDefault();
 
@@ -2655,6 +2695,15 @@ cancelButton.addEventListener(
         );
 
         resetForm();
+
+        /*
+         * Return the form to the ADD position
+         * after it has been used for editing.
+         */
+        addButton.insertAdjacentElement(
+            "afterend",
+            addForm
+        );
 
     }
 );
@@ -2937,6 +2986,11 @@ uploadButton.addEventListener(
                     );
 
                     resetForm();
+
+                    addButton.insertAdjacentElement(
+                        "afterend",
+                        addForm
+                    );
 
                 },
                 1000
