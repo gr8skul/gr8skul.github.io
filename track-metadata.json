@@ -55,16 +55,11 @@
       "gr8skul"
     ],
     "genres": [
-      "Alternative",
       "Electronic",
       "Jazz",
       "Rock"
     ],
     "genreTypes": [
-      {
-        "genre": "Alternative",
-        "type": "Alternative Pop"
-      },
       {
         "genre": "Rock",
         "type": "Alternative"
