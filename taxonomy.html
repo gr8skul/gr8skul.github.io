@@ -1,0 +1,2073 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GR8SKUL — Taxonomy</title>
+
+<link rel="icon" type="image/png" href="/gr8skul-icon.PNG">
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        color: #111111;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+        min-height: 100vh;
+    }
+
+    /* =========================================================
+       HEADER
+       ========================================================= */
+
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        background: #ffffff;
+        border-bottom: 1px solid #dddddd;
+        text-align: center;
+        padding: 16px 12px 12px;
+    }
+
+    .logo {
+        display: block;
+        width: min(260px, 70vw);
+        height: auto;
+        margin: 0 auto 8px;
+    }
+
+    .page-title {
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: #777777;
+        text-transform: uppercase;
+    }
+
+    /* =========================================================
+       AUTH
+       ========================================================= */
+
+    #authScreen {
+        width: min(360px, calc(100% - 32px));
+        margin: 70px auto;
+        text-align: center;
+    }
+
+    #authScreen h1 {
+        margin: 0 0 25px;
+        font-size: 14px;
+        font-weight: normal;
+        letter-spacing: 2px;
+    }
+
+    #authScreen input {
+        display: block;
+        width: 100%;
+        height: 38px;
+        margin-bottom: 10px;
+        padding: 0 10px;
+        border: 1px solid #cccccc;
+        background: #ffffff;
+        color: #111111;
+        font-size: 13px;
+        outline: none;
+    }
+
+    #authScreen input:focus {
+        border-color: #888888;
+    }
+
+    button {
+        border: 1px solid #bbbbbb;
+        background: #ffffff;
+        color: #222222;
+        cursor: pointer;
+        font-family: inherit;
+    }
+
+    button:hover {
+        background: #f4f4f4;
+    }
+
+    #signInButton {
+        width: 100%;
+        height: 38px;
+        margin-top: 5px;
+        font-size: 11px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    #authMessage {
+        min-height: 18px;
+        margin-top: 12px;
+        font-size: 11px;
+        color: #888888;
+    }
+
+    /* =========================================================
+       MAIN
+       ========================================================= */
+
+    #protectedContent {
+        width: min(760px, calc(100% - 28px));
+        margin: 0 auto;
+        padding: 24px 0 60px;
+    }
+
+    .account-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 24px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #eeeeee;
+    }
+
+    #accountEmail {
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 10px;
+        color: #888888;
+    }
+
+    #signOutButton {
+        flex-shrink: 0;
+        padding: 5px 9px;
+        font-size: 9px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* =========================================================
+       PAGE INTRO
+       ========================================================= */
+
+    .intro {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .intro-title {
+        font-size: 14px;
+        letter-spacing: 2px;
+        margin-bottom: 7px;
+    }
+
+    .intro-text {
+        max-width: 580px;
+        margin: 0 auto;
+        font-size: 10px;
+        line-height: 1.6;
+        color: #888888;
+    }
+
+    /* =========================================================
+       TAXONOMY SECTIONS
+       ========================================================= */
+
+    .taxonomy-section {
+        margin-bottom: 45px;
+    }
+
+    .section-heading {
+        text-align: center;
+        font-size: 12px;
+        letter-spacing: 3px;
+        margin-bottom: 12px;
+    }
+
+    .section-description {
+        text-align: center;
+        font-size: 9px;
+        color: #999999;
+        margin-bottom: 16px;
+    }
+
+    .tree {
+        border-top: 1px solid #cccccc;
+        border-bottom: 1px solid #cccccc;
+    }
+
+    /* =========================================================
+       GENRE / MOOD ROWS
+       ========================================================= */
+
+    .taxonomy-parent {
+        border-bottom: 1px solid #eeeeee;
+        background: #ffffff;
+    }
+
+    .taxonomy-parent:last-child {
+        border-bottom: none;
+    }
+
+    .taxonomy-parent-row {
+        display: flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 4px 8px;
+        gap: 8px;
+    }
+
+    .drag-handle {
+        width: 22px;
+        flex: 0 0 22px;
+        text-align: center;
+        color: #999999;
+        font-size: 15px;
+        line-height: 1;
+        cursor: grab;
+        user-select: none;
+    }
+
+    .drag-handle:active {
+        cursor: grabbing;
+    }
+
+    .parent-name {
+        flex: 1;
+        font-size: 12px;
+        letter-spacing: 0.4px;
+    }
+
+    .remove-button {
+        width: 25px;
+        height: 25px;
+        border: 1px solid #cccccc;
+        font-size: 15px;
+        line-height: 20px;
+        padding: 0;
+        color: #777777;
+    }
+
+    .remove-button:hover {
+        color: #000000;
+        background: #eeeeee;
+    }
+
+    /* =========================================================
+       CHILD TYPE ROWS
+       ========================================================= */
+
+    .taxonomy-types {
+        margin: 0 0 7px 38px;
+        padding: 0;
+        list-style: none;
+    }
+
+    .taxonomy-type {
+        display: flex;
+        align-items: center;
+        min-height: 32px;
+        margin: 2px 8px 2px 0;
+        padding: 2px 6px;
+        border-left: 1px solid #dddddd;
+        background: #fafafa;
+    }
+
+    .taxonomy-type .drag-handle {
+        font-size: 13px;
+        width: 20px;
+        flex-basis: 20px;
+    }
+
+    .type-name {
+        flex: 1;
+        font-size: 10px;
+        color: #555555;
+    }
+
+    .type-remove {
+        width: 22px;
+        height: 22px;
+        border: none;
+        background: transparent;
+        color: #999999;
+        font-size: 14px;
+        padding: 0;
+    }
+
+    .type-remove:hover {
+        background: #eeeeee;
+        color: #111111;
+    }
+
+    /* =========================================================
+       DRAG STATES
+       ========================================================= */
+
+    .dragging {
+        opacity: 0.35;
+    }
+
+    .drag-over {
+        border-top: 2px solid #111111 !important;
+    }
+
+    .taxonomy-type.drag-over {
+        border-top: 2px solid #111111 !important;
+    }
+
+    /* =========================================================
+       ADD CONTROLS
+       ========================================================= */
+
+    .add-parent-area {
+        display: flex;
+        justify-content: center;
+        margin-top: 14px;
+    }
+
+    .add-parent-button {
+        padding: 8px 15px;
+        font-size: 9px;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+    }
+
+    .add-type-area {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 2px 8px 8px 38px;
+    }
+
+    .add-type-input,
+    .add-parent-input {
+        flex: 1;
+        height: 30px;
+        padding: 0 8px;
+        border: 1px solid #dddddd;
+        background: #ffffff;
+        color: #111111;
+        font-family: inherit;
+        font-size: 10px;
+        outline: none;
+    }
+
+    .add-type-input:focus,
+    .add-parent-input:focus {
+        border-color: #999999;
+    }
+
+    .add-type-button,
+    .add-parent-submit {
+        height: 30px;
+        padding: 0 10px;
+        font-size: 9px;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+    }
+
+    /* =========================================================
+       SAVE AREA
+       ========================================================= */
+
+    .save-area {
+        position: sticky;
+        bottom: 0;
+        z-index: 500;
+        margin-top: 20px;
+        padding: 14px 0;
+        background: rgba(255, 255, 255, 0.96);
+        border-top: 1px solid #dddddd;
+        text-align: center;
+    }
+
+    #saveButton {
+        min-width: 170px;
+        height: 38px;
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    #saveStatus {
+        min-height: 18px;
+        margin-top: 8px;
+        font-size: 10px;
+        color: #888888;
+    }
+
+    /* =========================================================
+       EMPTY STATE
+       ========================================================= */
+
+    .empty-types {
+        margin: 5px 8px 8px 38px;
+        font-size: 9px;
+        color: #aaaaaa;
+        font-style: italic;
+    }
+
+    /* =========================================================
+       MOBILE
+       ========================================================= */
+
+    @media (max-width: 600px) {
+
+        #protectedContent {
+            width: calc(100% - 20px);
+        }
+
+        .taxonomy-type {
+            margin-right: 4px;
+        }
+
+        .taxonomy-types {
+            margin-left: 28px;
+        }
+
+        .add-type-area {
+            margin-left: 28px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <img
+        class="logo"
+        src="/GR8SKUL-HEADER-LOGO.png"
+        alt="GR8SKUL"
+    >
+    <div class="page-title">TAXONOMY MANAGEMENT</div>
+</header>
+
+
+<!-- =========================================================
+     AUTH SCREEN
+     ========================================================= -->
+
+<div id="authScreen">
+
+    <h1>ADMIN SIGN IN</h1>
+
+    <input
+        id="authEmail"
+        type="email"
+        autocomplete="email"
+        placeholder="EMAIL"
+    >
+
+    <input
+        id="authPassword"
+        type="password"
+        autocomplete="current-password"
+        placeholder="PASSWORD"
+    >
+
+    <button id="signInButton">
+        SIGN IN
+    </button>
+
+    <div id="authMessage"></div>
+
+</div>
+
+
+<!-- =========================================================
+     PROTECTED CONTENT
+     ========================================================= -->
+
+<div id="protectedContent" style="display:none;">
+
+    <div class="account-bar">
+
+        <div id="accountEmail"></div>
+
+        <button id="signOutButton">
+            SIGN OUT
+        </button>
+
+    </div>
+
+
+    <div class="intro">
+
+        <div class="intro-title">
+            GR8SKUL TAXONOMY
+        </div>
+
+        <div class="intro-text">
+            Manage the classifications used throughout GR8SKUL.
+            Drag genres and moods to change their order.
+            Drag individual types to change their order within their parent.
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         GENRES
+         ===================================================== -->
+
+    <section class="taxonomy-section">
+
+        <div class="section-heading">
+            GENRES
+        </div>
+
+        <div class="section-description">
+            Broad musical families and their optional types.
+        </div>
+
+        <div
+            id="genreTree"
+            class="tree"
+            data-taxonomy="genres"
+        ></div>
+
+        <div class="add-parent-area">
+
+            <button
+                class="add-parent-button"
+                data-add-parent="genre"
+            >
+                + ADD GENRE
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MOODS
+         ===================================================== -->
+
+    <section class="taxonomy-section">
+
+        <div class="section-heading">
+            MOODS
+        </div>
+
+        <div class="section-description">
+            Broad feelings and their optional types.
+        </div>
+
+        <div
+            id="moodTree"
+            class="tree"
+            data-taxonomy="moods"
+        ></div>
+
+        <div class="add-parent-area">
+
+            <button
+                class="add-parent-button"
+                data-add-parent="mood"
+            >
+                + ADD MOOD
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SAVE
+         ===================================================== -->
+
+    <div class="save-area">
+
+        <button id="saveButton">
+            SAVE TAXONOMY
+        </button>
+
+        <div id="saveStatus"></div>
+
+    </div>
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+/* ============================================================
+   GR8SKUL SUPABASE
+   ============================================================ */
+
+const SUPABASE_URL =
+    "https://rijzolipyabfggrrhgab.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
+
+const { createClient } =
+    window.supabase;
+
+const supabaseClient =
+    createClient(
+        SUPABASE_URL,
+        SUPABASE_KEY
+    );
+
+
+/* ============================================================
+   DEFAULT TAXONOMY
+   ------------------------------------------------------------
+   This is the current GR8SKUL taxonomy.
+   It is used only to seed the database if no taxonomy exists.
+   ============================================================ */
+
+const DEFAULT_TAXONOMY = {
+
+    genres: [
+
+        {
+            name: "Acoustic",
+            types: [
+                "Traditional",
+                "Contemporary"
+            ]
+        },
+
+        {
+            name: "Alternative",
+            types: [
+                "Alternative Rock",
+                "Alternative Pop",
+                "Indie"
+            ]
+        },
+
+        {
+            name: "Blues",
+            types: [
+                "Traditional",
+                "Contemporary"
+            ]
+        },
+
+        {
+            name: "Classical",
+            types: [
+                "Renaissance",
+                "Baroque",
+                "Classical",
+                "Romantic",
+                "Modern",
+                "Contemporary"
+            ]
+        },
+
+        {
+            name: "Country",
+            types: [
+                "Traditional",
+                "Contemporary"
+            ]
+        },
+
+        {
+            name: "Electronic",
+            types: [
+                "Ambient",
+                "House",
+                "Techno"
+            ]
+        },
+
+        {
+            name: "Folk",
+            types: [
+                "Traditional",
+                "Contemporary"
+            ]
+        },
+
+        {
+            name: "Hip-Hop",
+            types: [
+                "Old School",
+                "Contemporary"
+            ]
+        },
+
+        {
+            name: "Jazz",
+            types: [
+                "Traditional",
+                "Contemporary"
+            ]
+        },
+
+        {
+            name: "Pop",
+            types: [
+                "Contemporary"
+            ]
+        },
+
+        {
+            name: "Rock",
+            types: [
+                "Classic Rock",
+                "Alternative",
+                "Progressive",
+                "Hard Rock"
+            ]
+        },
+
+        {
+            name: "Other",
+            types: []
+        }
+
+    ],
+
+
+    moods: [
+
+        {
+            name: "Peaceful",
+            types: [
+                "Calm",
+                "Serene",
+                "Meditative"
+            ]
+        },
+
+        {
+            name: "Dark",
+            types: [
+                "Ominous",
+                "Mysterious",
+                "Haunting"
+            ]
+        },
+
+        {
+            name: "Joyful",
+            types: [
+                "Happy",
+                "Playful",
+                "Celebratory"
+            ]
+        },
+
+        {
+            name: "Melancholic",
+            types: [
+                "Sad",
+                "Lonely",
+                "Nostalgic"
+            ]
+        },
+
+        {
+            name: "Energetic",
+            types: [
+                "Exciting",
+                "Aggressive",
+                "Driving"
+            ]
+        },
+
+        {
+            name: "Romantic",
+            types: [
+                "Tender",
+                "Passionate",
+                "Intimate"
+            ]
+        }
+
+    ]
+
+};
+
+
+/* ============================================================
+   WORKING TAXONOMY
+   ============================================================ */
+
+let taxonomy = {
+    genres: [],
+    moods: []
+};
+
+let currentUser = null;
+
+
+/* ============================================================
+   DOM
+   ============================================================ */
+
+const authScreen =
+    document.getElementById("authScreen");
+
+const protectedContent =
+    document.getElementById("protectedContent");
+
+const authEmail =
+    document.getElementById("authEmail");
+
+const authPassword =
+    document.getElementById("authPassword");
+
+const signInButton =
+    document.getElementById("signInButton");
+
+const authMessage =
+    document.getElementById("authMessage");
+
+const accountEmail =
+    document.getElementById("accountEmail");
+
+const signOutButton =
+    document.getElementById("signOutButton");
+
+const genreTree =
+    document.getElementById("genreTree");
+
+const moodTree =
+    document.getElementById("moodTree");
+
+const saveButton =
+    document.getElementById("saveButton");
+
+const saveStatus =
+    document.getElementById("saveStatus");
+
+
+/* ============================================================
+   HELPERS
+   ============================================================ */
+
+function deepCopy(value) {
+    return JSON.parse(JSON.stringify(value));
+}
+
+
+function cleanName(value) {
+    return value
+        .replace(/\s+/g, " ")
+        .trim();
+}
+
+
+function escapeHTML(value) {
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+}
+
+
+function taxonomyNameExists(list, name) {
+
+    const lower =
+        name.toLowerCase();
+
+    return list.some(item =>
+        item.name.toLowerCase() === lower
+    );
+
+}
+
+
+function typeNameExists(parent, name) {
+
+    const lower =
+        name.toLowerCase();
+
+    return parent.types.some(type =>
+        type.toLowerCase() === lower
+    );
+
+}
+
+
+/* ============================================================
+   AUTH
+   ============================================================ */
+
+async function checkExistingSession() {
+
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.getSession();
+
+    if (error || !data.session) {
+        showSignedOut();
+        return;
+    }
+
+    await handleSignedIn(
+        data.session.user
+    );
+
+}
+
+
+async function handleSignedIn(user) {
+
+    currentUser = user;
+
+    authScreen.style.display =
+        "none";
+
+    protectedContent.style.display =
+        "block";
+
+    accountEmail.textContent =
+        user.email || "";
+
+    await loadTaxonomy();
+
+}
+
+
+function showSignedOut() {
+
+    currentUser = null;
+
+    authScreen.style.display =
+        "block";
+
+    protectedContent.style.display =
+        "none";
+
+}
+
+
+async function signIn() {
+
+    const email =
+        authEmail.value.trim();
+
+    const password =
+        authPassword.value;
+
+    if (!email || !password) {
+
+        authMessage.textContent =
+            "Enter your email and password.";
+
+        return;
+    }
+
+    signInButton.disabled = true;
+
+    authMessage.textContent =
+        "SIGNING IN...";
+
+    const {
+        data,
+        error
+    } = await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+    });
+
+    signInButton.disabled = false;
+
+    if (error) {
+
+        authMessage.textContent =
+            error.message;
+
+        return;
+    }
+
+    authMessage.textContent = "";
+
+    await handleSignedIn(
+        data.user
+    );
+
+}
+
+
+async function signOut() {
+
+    await supabaseClient.auth.signOut();
+
+    showSignedOut();
+
+}
+
+
+/* ============================================================
+   LOAD TAXONOMY
+   ============================================================ */
+
+async function loadTaxonomy() {
+
+    setSaveStatus(
+        "LOADING TAXONOMY..."
+    );
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("gr8skul_taxonomy")
+        .select("taxonomy")
+        .eq("id", "main")
+        .maybeSingle();
+
+
+    if (error) {
+
+        setSaveStatus(
+            "Unable to load taxonomy."
+        );
+
+        console.error(error);
+
+        return;
+    }
+
+
+    if (!data) {
+
+        taxonomy =
+            deepCopy(DEFAULT_TAXONOMY);
+
+        renderAll();
+
+        setSaveStatus(
+            "DEFAULT TAXONOMY — SAVE TO CREATE"
+        );
+
+        return;
+    }
+
+
+    if (
+        !data.taxonomy ||
+        !Array.isArray(data.taxonomy.genres) ||
+        !Array.isArray(data.taxonomy.moods)
+    ) {
+
+        taxonomy =
+            deepCopy(DEFAULT_TAXONOMY);
+
+        renderAll();
+
+        setSaveStatus(
+            "INVALID SAVED TAXONOMY — DEFAULT LOADED"
+        );
+
+        return;
+    }
+
+
+    taxonomy =
+        normalizeTaxonomy(
+            data.taxonomy
+        );
+
+    renderAll();
+
+    setSaveStatus(
+        "TAXONOMY LOADED"
+    );
+
+    setTimeout(() => {
+        setSaveStatus("");
+    }, 1800);
+
+}
+
+
+/* ============================================================
+   NORMALIZE
+   ============================================================ */
+
+function normalizeTaxonomy(source) {
+
+    function normalizeParents(list) {
+
+        return list
+            .filter(item =>
+                item &&
+                typeof item.name === "string"
+            )
+            .map(item => {
+
+                const name =
+                    cleanName(item.name);
+
+                let types =
+                    Array.isArray(item.types)
+                        ? item.types
+                        : [];
+
+                types =
+                    types
+                        .filter(type =>
+                            typeof type === "string"
+                        )
+                        .map(cleanName)
+                        .filter(Boolean);
+
+                return {
+                    name,
+                    types
+                };
+
+            })
+            .filter(item => item.name);
+
+    }
+
+    return {
+
+        genres:
+            normalizeParents(
+                source.genres
+            ),
+
+        moods:
+            normalizeParents(
+                source.moods
+            )
+
+    };
+
+}
+
+
+/* ============================================================
+   RENDER
+   ============================================================ */
+
+function renderAll() {
+
+    renderParents(
+        genreTree,
+        taxonomy.genres,
+        "genre"
+    );
+
+    renderParents(
+        moodTree,
+        taxonomy.moods,
+        "mood"
+    );
+
+}
+
+
+function renderParents(
+    container,
+    parents,
+    taxonomyType
+) {
+
+    container.innerHTML = "";
+
+    parents.forEach(
+        (parent, parentIndex) => {
+
+            const parentElement =
+                document.createElement("div");
+
+            parentElement.className =
+                "taxonomy-parent";
+
+            parentElement.draggable =
+                true;
+
+            parentElement.dataset.index =
+                parentIndex;
+
+            parentElement.dataset.kind =
+                taxonomyType;
+
+
+            const parentRow =
+                document.createElement("div");
+
+            parentRow.className =
+                "taxonomy-parent-row";
+
+
+            parentRow.innerHTML = `
+
+                <div
+                    class="drag-handle"
+                    title="Drag to reorder"
+                >☰</div>
+
+                <div class="parent-name">
+                    ${escapeHTML(parent.name)}
+                </div>
+
+                <button
+                    class="remove-button"
+                    title="Remove ${escapeHTML(parent.name)}"
+                    type="button"
+                >−</button>
+
+            `;
+
+
+            const removeParentButton =
+                parentRow.querySelector(
+                    ".remove-button"
+                );
+
+            removeParentButton.addEventListener(
+                "click",
+                () => {
+
+                    const confirmed =
+                        confirm(
+                            `Remove "${parent.name}" and all of its types?`
+                        );
+
+                    if (!confirmed) {
+                        return;
+                    }
+
+                    parents.splice(
+                        parentIndex,
+                        1
+                    );
+
+                    renderAll();
+
+                    markUnsaved();
+
+                }
+            );
+
+
+            parentElement.appendChild(
+                parentRow
+            );
+
+
+            const typeList =
+                document.createElement("div");
+
+            typeList.className =
+                "taxonomy-types";
+
+
+            if (!parent.types.length) {
+
+                const empty =
+                    document.createElement("div");
+
+                empty.className =
+                    "empty-types";
+
+                empty.textContent =
+                    "No types";
+
+                typeList.appendChild(
+                    empty
+                );
+
+            } else {
+
+                parent.types.forEach(
+                    (type, typeIndex) => {
+
+                        const typeElement =
+                            document.createElement("div");
+
+                        typeElement.className =
+                            "taxonomy-type";
+
+                        typeElement.draggable =
+                            true;
+
+                        typeElement.dataset.typeIndex =
+                            typeIndex;
+
+
+                        typeElement.innerHTML = `
+
+                            <div
+                                class="drag-handle"
+                                title="Drag to reorder"
+                            >☰</div>
+
+                            <div class="type-name">
+                                ${escapeHTML(type)}
+                            </div>
+
+                            <button
+                                class="type-remove"
+                                title="Remove ${escapeHTML(type)}"
+                                type="button"
+                            >−</button>
+
+                        `;
+
+
+                        typeElement
+                            .querySelector(".type-remove")
+                            .addEventListener(
+                                "click",
+                                () => {
+
+                                    parent.types.splice(
+                                        typeIndex,
+                                        1
+                                    );
+
+                                    renderAll();
+
+                                    markUnsaved();
+
+                                }
+                            );
+
+
+                        setupTypeDrag(
+                            typeElement,
+                            parent,
+                            typeList
+                        );
+
+
+                        typeList.appendChild(
+                            typeElement
+                        );
+
+                    }
+                );
+
+            }
+
+
+            parentElement.appendChild(
+                typeList
+            );
+
+
+            const addTypeArea =
+                document.createElement("div");
+
+            addTypeArea.className =
+                "add-type-area";
+
+            addTypeArea.innerHTML = `
+
+                <input
+                    class="add-type-input"
+                    type="text"
+                    placeholder="+ ADD TYPE"
+                    maxlength="80"
+                >
+
+                <button
+                    class="add-type-button"
+                    type="button"
+                >
+                    ADD
+                </button>
+
+            `;
+
+
+            const typeInput =
+                addTypeArea.querySelector(
+                    ".add-type-input"
+                );
+
+            const addTypeButton =
+                addTypeArea.querySelector(
+                    ".add-type-button"
+                );
+
+
+            function addType() {
+
+                const name =
+                    cleanName(
+                        typeInput.value
+                    );
+
+                if (!name) {
+                    return;
+                }
+
+                if (
+                    typeNameExists(
+                        parent,
+                        name
+                    )
+                ) {
+
+                    alert(
+                        `"${name}" already exists under ${parent.name}.`
+                    );
+
+                    return;
+                }
+
+                parent.types.push(
+                    name
+                );
+
+                typeInput.value = "";
+
+                renderAll();
+
+                markUnsaved();
+
+            }
+
+
+            addTypeButton.addEventListener(
+                "click",
+                addType
+            );
+
+
+            typeInput.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+                        addType();
+
+                    }
+
+                }
+            );
+
+
+            parentElement.appendChild(
+                addTypeArea
+            );
+
+
+            setupParentDrag(
+                parentElement,
+                parents,
+                container
+            );
+
+
+            container.appendChild(
+                parentElement
+            );
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   PARENT DRAGGING
+   ============================================================ */
+
+function setupParentDrag(
+    element,
+    parents,
+    container
+) {
+
+    element.addEventListener(
+        "dragstart",
+        event => {
+
+            element.classList.add(
+                "dragging"
+            );
+
+            event.dataTransfer.effectAllowed =
+                "move";
+
+            event.dataTransfer.setData(
+                "text/plain",
+                element.dataset.index
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragend",
+        () => {
+
+            element.classList.remove(
+                "dragging"
+            );
+
+            document
+                .querySelectorAll(
+                    ".drag-over"
+                )
+                .forEach(item =>
+                    item.classList.remove(
+                        "drag-over"
+                    )
+                );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragover",
+        event => {
+
+            event.preventDefault();
+
+            event.dataTransfer.dropEffect =
+                "move";
+
+            if (
+                event.target.closest(
+                    ".taxonomy-type"
+                )
+            ) {
+                return;
+            }
+
+            element.classList.add(
+                "drag-over"
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragleave",
+        event => {
+
+            if (
+                !element.contains(
+                    event.relatedTarget
+                )
+            ) {
+
+                element.classList.remove(
+                    "drag-over"
+                );
+
+            }
+
+        }
+    );
+
+
+    element.addEventListener(
+        "drop",
+        event => {
+
+            event.preventDefault();
+
+            element.classList.remove(
+                "drag-over"
+            );
+
+
+            if (
+                event.target.closest(
+                    ".taxonomy-type"
+                )
+            ) {
+                return;
+            }
+
+
+            const fromIndex =
+                Number(
+                    event.dataTransfer.getData(
+                        "text/plain"
+                    )
+                );
+
+            const toIndex =
+                Number(
+                    element.dataset.index
+                );
+
+
+            if (
+                Number.isNaN(fromIndex) ||
+                Number.isNaN(toIndex) ||
+                fromIndex === toIndex
+            ) {
+                return;
+            }
+
+
+            const moved =
+                parents.splice(
+                    fromIndex,
+                    1
+                )[0];
+
+
+            parents.splice(
+                toIndex,
+                0,
+                moved
+            );
+
+
+            renderAll();
+
+            markUnsaved();
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   TYPE DRAGGING
+   ============================================================ */
+
+function setupTypeDrag(
+    element,
+    parent,
+    container
+) {
+
+    element.addEventListener(
+        "dragstart",
+        event => {
+
+            event.stopPropagation();
+
+            element.classList.add(
+                "dragging"
+            );
+
+            event.dataTransfer.effectAllowed =
+                "move";
+
+            event.dataTransfer.setData(
+                "text/plain",
+                element.dataset.typeIndex
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragend",
+        event => {
+
+            event.stopPropagation();
+
+            element.classList.remove(
+                "dragging"
+            );
+
+            container
+                .querySelectorAll(
+                    ".drag-over"
+                )
+                .forEach(item =>
+                    item.classList.remove(
+                        "drag-over"
+                    )
+                );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragover",
+        event => {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            event.dataTransfer.dropEffect =
+                "move";
+
+            element.classList.add(
+                "drag-over"
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragleave",
+        event => {
+
+            event.stopPropagation();
+
+            element.classList.remove(
+                "drag-over"
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "drop",
+        event => {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            element.classList.remove(
+                "drag-over"
+            );
+
+
+            const fromIndex =
+                Number(
+                    event.dataTransfer.getData(
+                        "text/plain"
+                    )
+                );
+
+            const toIndex =
+                Number(
+                    element.dataset.typeIndex
+                );
+
+
+            if (
+                Number.isNaN(fromIndex) ||
+                Number.isNaN(toIndex) ||
+                fromIndex === toIndex
+            ) {
+                return;
+            }
+
+
+            const moved =
+                parent.types.splice(
+                    fromIndex,
+                    1
+                )[0];
+
+
+            parent.types.splice(
+                toIndex,
+                0,
+                moved
+            );
+
+
+            renderAll();
+
+            markUnsaved();
+
+        }
+    );
+
+}
+
+
+/* ============================================================
+   ADD PARENT
+   ============================================================ */
+
+document
+    .querySelectorAll(
+        "[data-add-parent]"
+    )
+    .forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                const kind =
+                    button.dataset.addParent;
+
+                const list =
+                    kind === "genre"
+                        ? taxonomy.genres
+                        : taxonomy.moods;
+
+                const label =
+                    kind === "genre"
+                        ? "genre"
+                        : "mood";
+
+
+                const name =
+                    prompt(
+                        `Enter new ${label}:`
+                    );
+
+
+                if (name === null) {
+                    return;
+                }
+
+
+                const clean =
+                    cleanName(name);
+
+
+                if (!clean) {
+                    return;
+                }
+
+
+                if (
+                    taxonomyNameExists(
+                        list,
+                        clean
+                    )
+                ) {
+
+                    alert(
+                        `"${clean}" already exists.`
+                    );
+
+                    return;
+                }
+
+
+                list.push({
+                    name: clean,
+                    types: []
+                });
+
+
+                renderAll();
+
+                markUnsaved();
+
+            }
+        );
+
+    });
+
+
+/* ============================================================
+   UNSAVED STATE
+   ============================================================ */
+
+function markUnsaved() {
+
+    saveStatus.textContent =
+        "UNSAVED CHANGES";
+
+    saveStatus.style.color =
+        "#555555";
+
+}
+
+
+/* ============================================================
+   SAVE
+   ============================================================ */
+
+async function saveTaxonomy() {
+
+    if (!currentUser) {
+        return;
+    }
+
+
+    saveButton.disabled =
+        true;
+
+    saveButton.textContent =
+        "SAVING...";
+
+    setSaveStatus(
+        "SAVING TAXONOMY..."
+    );
+
+
+    const cleanTaxonomy =
+        normalizeTaxonomy(
+            taxonomy
+        );
+
+
+    const {
+        error
+    } = await supabaseClient
+        .from("gr8skul_taxonomy")
+        .upsert(
+            {
+                id: "main",
+                taxonomy: cleanTaxonomy,
+                updated_at: new Date().toISOString(),
+                updated_by: currentUser.id
+            },
+            {
+                onConflict: "id"
+            }
+        );
+
+
+    saveButton.disabled =
+        false;
+
+    saveButton.textContent =
+        "SAVE TAXONOMY";
+
+
+    if (error) {
+
+        console.error(error);
+
+        setSaveStatus(
+            "SAVE FAILED — " + error.message
+        );
+
+        return;
+    }
+
+
+    taxonomy =
+        cleanTaxonomy;
+
+
+    setSaveStatus(
+        "TAXONOMY SAVED"
+    );
+
+
+    setTimeout(() => {
+
+        setSaveStatus("");
+
+    }, 2200);
+
+}
+
+
+/* ============================================================
+   STATUS
+   ============================================================ */
+
+function setSaveStatus(message) {
+
+    saveStatus.textContent =
+        message;
+
+    saveStatus.style.color =
+        "#888888";
+
+}
+
+
+/* ============================================================
+   EVENTS
+   ============================================================ */
+
+signInButton.addEventListener(
+    "click",
+    signIn
+);
+
+
+authPassword.addEventListener(
+    "keydown",
+    event => {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            signIn();
+
+        }
+
+    }
+);
+
+
+signOutButton.addEventListener(
+    "click",
+    signOut
+);
+
+
+saveButton.addEventListener(
+    "click",
+    saveTaxonomy
+);
+
+
+/* ============================================================
+   AUTH STATE
+   ============================================================ */
+
+supabaseClient.auth.onAuthStateChange(
+    async (event, session) => {
+
+        if (
+            event === "SIGNED_IN" &&
+            session
+        ) {
+
+            await handleSignedIn(
+                session.user
+            );
+
+        }
+
+        if (
+            event === "SIGNED_OUT"
+        ) {
+
+            showSignedOut();
+
+        }
+
+    }
+);
+
+
+/* ============================================================
+   START
+   ============================================================ */
+
+checkExistingSession();
+
+</script>
+
+</body>
+</html>
+
