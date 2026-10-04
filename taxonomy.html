@@ -1,5 +1,5 @@
-
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -407,35 +407,34 @@
         letter-spacing: 0.8px;
     }
 
-    .era-year-list {
+    .era-type-list {
         display: grid;
-        grid-template-columns: repeat(10, 1fr);
-        gap: 3px;
-        max-height: 118px;
-        overflow-y: auto;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 4px;
         margin: 0 8px 8px 38px;
         padding: 7px;
         border-left: 1px solid #dddddd;
         background: #fafafa;
     }
 
-    .era-year {
+    .era-type {
         min-width: 0;
-        height: 24px;
+        height: 28px;
         border: 1px solid #e2e2e2;
         background: #ffffff;
         text-align: center;
         font-size: 8px;
         color: #777777;
-        line-height: 22px;
+        line-height: 26px;
+        letter-spacing: 0.8px;
     }
 
-    .era-year:hover {
+    .era-type:hover {
         background: #eeeeee;
         color: #111111;
     }
 
-    .era-year-description {
+    .era-type-description {
         margin: 0 8px 8px 38px;
         font-size: 8px;
         color: #aaaaaa;
@@ -589,8 +588,8 @@
             margin-left: 28px;
         }
 
-        .era-year-list {
-            grid-template-columns: repeat(10, minmax(24px, 1fr));
+        .era-type-list {
+            grid-template-columns: repeat(3, minmax(70px, 1fr));
             overflow-x: auto;
         }
 
@@ -599,6 +598,7 @@
         }
     }
 </style>
+
 </head>
 
 <body>
@@ -612,37 +612,37 @@
     <div class="page-title">TAXONOMY MANAGEMENT</div>
 </header>
 
-
 <!-- =========================================================
      AUTH SCREEN
      ========================================================= -->
 
 <div id="authScreen">
 
-    <h1>ADMIN SIGN IN</h1>
+```
+<h1>ADMIN SIGN IN</h1>
 
-    <input
-        id="authEmail"
-        type="email"
-        autocomplete="email"
-        placeholder="EMAIL"
-    >
+<input
+    id="authEmail"
+    type="email"
+    autocomplete="email"
+    placeholder="EMAIL"
+>
 
-    <input
-        id="authPassword"
-        type="password"
-        autocomplete="current-password"
-        placeholder="PASSWORD"
-    >
+<input
+    id="authPassword"
+    type="password"
+    autocomplete="current-password"
+    placeholder="PASSWORD"
+>
 
-    <button id="signInButton">
-        SIGN IN
-    </button>
+<button id="signInButton">
+    SIGN IN
+</button>
 
-    <div id="authMessage"></div>
+<div id="authMessage"></div>
+```
 
 </div>
-
 
 <!-- =========================================================
      PROTECTED CONTENT
@@ -650,188 +650,189 @@
 
 <div id="protectedContent" style="display:none;">
 
-    <div class="account-bar">
+```
+<div class="account-bar">
 
-        <div id="accountEmail"></div>
+    <div id="accountEmail"></div>
 
-        <button id="signOutButton">
-            SIGN OUT
-        </button>
+    <button id="signOutButton">
+        SIGN OUT
+    </button>
 
+</div>
+
+
+<div class="intro">
+
+    <div class="intro-title">
+        GR8SKUL TAXONOMY
     </div>
 
-
-    <div class="intro">
-
-        <div class="intro-title">
-            GR8SKUL TAXONOMY
-        </div>
-
-        <div class="intro-text">
-            Manage the classifications used throughout GR8SKUL.
-            Drag genres, moods, eras, and regions to change their order.
-            Genres and moods contain optional types.
-            Eras contain automatically generated 00–99 year choices.
-            Regions can contain children at any depth.
-        </div>
-
-    </div>
-
-
-    <!-- =====================================================
-         GENRES
-         ===================================================== -->
-
-    <section class="taxonomy-section">
-
-        <div class="section-heading">
-            GENRES
-        </div>
-
-        <div class="section-description">
-            Broad musical families and their optional types.
-        </div>
-
-        <div
-            id="genreTree"
-            class="tree"
-            data-taxonomy="genres"
-        ></div>
-
-        <div class="add-parent-area">
-
-            <button
-                class="add-parent-button"
-                data-add-parent="genre"
-            >
-                + ADD GENRE
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         MOODS
-         ===================================================== -->
-
-    <section class="taxonomy-section">
-
-        <div class="section-heading">
-            MOODS
-        </div>
-
-        <div class="section-description">
-            Broad feelings and their optional types.
-        </div>
-
-        <div
-            id="moodTree"
-            class="tree"
-            data-taxonomy="moods"
-        ></div>
-
-        <div class="add-parent-area">
-
-            <button
-                class="add-parent-button"
-                data-add-parent="mood"
-            >
-                + ADD MOOD
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         ERAS
-         ===================================================== -->
-
-    <section class="taxonomy-section">
-
-        <div class="section-heading">
-            ERAS
-        </div>
-
-        <div class="section-description">
-            Add and arrange eras. Each era automatically contains
-            the years 00–99.
-        </div>
-
-        <div
-            id="eraTree"
-            class="tree"
-            data-taxonomy="eras"
-        ></div>
-
-        <div class="add-parent-area">
-
-            <button
-                class="add-parent-button"
-                id="addEraButton"
-            >
-                + ADD ERA
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         REGIONS
-         ===================================================== -->
-
-    <section class="taxonomy-section">
-
-        <div class="section-heading">
-            REGIONS
-        </div>
-
-        <div class="section-description">
-            Build geographic branches to any depth:
-            continent, country, state, city, or beyond.
-        </div>
-
-        <div
-            id="regionTree"
-            class="tree"
-            data-taxonomy="regions"
-        ></div>
-
-        <div class="add-parent-area">
-
-            <button
-                class="add-parent-button"
-                id="addRegionButton"
-            >
-                + ADD REGION
-            </button>
-
-        </div>
-
-    </section>
-
-
-    <!-- =====================================================
-         SAVE
-         ===================================================== -->
-
-    <div class="save-area">
-
-        <button id="saveButton">
-            SAVE TAXONOMY
-        </button>
-
-        <div id="saveStatus"></div>
-
+    <div class="intro-text">
+        Manage the classifications used throughout GR8SKUL.
+        Drag genres, moods, eras, and regions to change their order.
+        Genres and moods contain optional types.
+        Eras contain the fixed EARLY, MID, and LATE divisions.
+        Regions can contain children at any depth.
     </div>
 
 </div>
 
+
+<!-- =====================================================
+     GENRES
+     ===================================================== -->
+
+<section class="taxonomy-section">
+
+    <div class="section-heading">
+        GENRES
+    </div>
+
+    <div class="section-description">
+        Broad musical families and their optional types.
+    </div>
+
+    <div
+        id="genreTree"
+        class="tree"
+        data-taxonomy="genres"
+    ></div>
+
+    <div class="add-parent-area">
+
+        <button
+            class="add-parent-button"
+            data-add-parent="genre"
+        >
+            + ADD GENRE
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     MOODS
+     ===================================================== -->
+
+<section class="taxonomy-section">
+
+    <div class="section-heading">
+        MOODS
+    </div>
+
+    <div class="section-description">
+        Broad feelings and their optional types.
+    </div>
+
+    <div
+        id="moodTree"
+        class="tree"
+        data-taxonomy="moods"
+    ></div>
+
+    <div class="add-parent-area">
+
+        <button
+            class="add-parent-button"
+            data-add-parent="mood"
+        >
+            + ADD MOOD
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     ERAS
+     ===================================================== -->
+
+<section class="taxonomy-section">
+
+    <div class="section-heading">
+        ERAS
+    </div>
+
+    <div class="section-description">
+        Add and arrange eras. Each era automatically contains
+        the fixed EARLY, MID, and LATE divisions.
+    </div>
+
+    <div
+        id="eraTree"
+        class="tree"
+        data-taxonomy="eras"
+    ></div>
+
+    <div class="add-parent-area">
+
+        <button
+            class="add-parent-button"
+            id="addEraButton"
+        >
+            + ADD ERA
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     REGIONS
+     ===================================================== -->
+
+<section class="taxonomy-section">
+
+    <div class="section-heading">
+        REGIONS
+    </div>
+
+    <div class="section-description">
+        Build geographic branches to any depth:
+        continent, country, state, city, or beyond.
+    </div>
+
+    <div
+        id="regionTree"
+        class="tree"
+        data-taxonomy="regions"
+    ></div>
+
+    <div class="add-parent-area">
+
+        <button
+            class="add-parent-button"
+            id="addRegionButton"
+        >
+            + ADD REGION
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- =====================================================
+     SAVE
+     ===================================================== -->
+
+<div class="save-area">
+
+    <button id="saveButton">
+        SAVE TAXONOMY
+    </button>
+
+    <div id="saveStatus"></div>
+
+</div>
+```
+
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -863,6 +864,17 @@ const supabaseClient =
 
 const DELETE_TAXONOMY_URL =
     `${SUPABASE_URL}/functions/v1/delete-taxonomy`;
+
+
+/* ============================================================
+   ERA TYPES
+   ============================================================ */
+
+const ERA_TYPES = [
+    "EARLY",
+    "MID",
+    "LATE"
+];
 
 
 /* ============================================================
@@ -1034,7 +1046,9 @@ const DEFAULT_TAXONOMY = {
 
     ],
 
+
     eras: [],
+
 
     regions: []
 
@@ -1599,9 +1613,18 @@ function normalizeTaxonomy(source) {
                 item &&
                 typeof item.name === "string"
             )
-            .map(item => ({
-                name: cleanName(item.name)
-            }))
+            .map(item => {
+
+                const name =
+                    cleanName(item.name);
+
+                return {
+                    name,
+                    types:
+                        deepCopy(ERA_TYPES)
+                };
+
+            })
             .filter(item =>
                 /^\d{4}$/.test(item.name)
             );
@@ -2256,8 +2279,7 @@ function setupTypeDrag(
                 .forEach(item =>
                     item.classList.remove(
                         "drag-over"
-                    )
-                );
+                    );
 
         }
     );
@@ -2510,11 +2532,11 @@ function renderEras() {
                 .querySelector(".remove-button")
                 .addEventListener(
                     "click",
-                    () => {
+                    async () => {
 
                         const confirmed =
                             confirm(
-                                `Remove the ${era.name} era?`
+                                `Remove the ${era.name} era? This will also remove this era designation from all affected track metadata.`
                             );
 
 
@@ -2523,15 +2545,24 @@ function renderEras() {
                         }
 
 
-                        taxonomy.eras.splice(
-                            eraIndex,
-                            1
+                        const removeButton =
+                            row.querySelector(
+                                ".remove-button"
+                            );
+
+
+                        removeButton.disabled =
+                            true;
+
+
+                        await deleteTaxonomyDesignation(
+                            "era",
+                            era.name
                         );
 
 
-                        renderAll();
-
-                        markUnsaved();
+                        removeButton.disabled =
+                            false;
 
                     }
                 );
@@ -2542,56 +2573,53 @@ function renderEras() {
             );
 
 
-            const yearDescription =
+            const typeDescription =
                 document.createElement("div");
 
-            yearDescription.className =
-                "era-year-description";
+            typeDescription.className =
+                "era-type-description";
 
-            yearDescription.textContent =
-                "Year choices within this era:";
+            typeDescription.textContent =
+                "Period divisions within this era:";
 
 
             eraElement.appendChild(
-                yearDescription
+                typeDescription
             );
 
 
-            const yearList =
+            const typeList =
                 document.createElement("div");
 
-            yearList.className =
-                "era-year-list";
+            typeList.className =
+                "era-type-list";
 
 
-            for (
-                let year = 0;
-                year <= 99;
-                year++
-            ) {
+            ERA_TYPES.forEach(
+                type => {
 
-                const yearButton =
-                    document.createElement("div");
+                    const typeElement =
+                        document.createElement("div");
 
-                yearButton.className =
-                    "era-year";
+                    typeElement.className =
+                        "era-type";
 
-                yearButton.textContent =
-                    String(year)
-                        .padStart(2, "0");
+                    typeElement.textContent =
+                        type;
 
-                yearButton.title =
-                    `${era.name}${String(year).padStart(2, "0")}`;
+                    typeElement.title =
+                        `${era.name} ${type}`;
 
-                yearList.appendChild(
-                    yearButton
-                );
+                    typeList.appendChild(
+                        typeElement
+                    );
 
-            }
+                }
+            );
 
 
             eraElement.appendChild(
-                yearList
+                typeList
             );
 
 
@@ -2797,7 +2825,9 @@ document
 
 
             taxonomy.eras.push({
-                name: clean
+                name: clean,
+                types:
+                    deepCopy(ERA_TYPES)
             });
 
 
