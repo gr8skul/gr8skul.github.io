@@ -1,818 +1,520 @@
 <!DOCTYPE html>
-<html lang="en"> <head>
-<meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>gr8skul</title>
+
 <!-- GR8SKUL HOME-SCREEN ICON -->
+
 <link rel="icon" type="image/png" href="/gr8skul-icon.PNG">
 <link rel="apple-touch-icon" href="/gr8skul-icon.PNG">
 <link rel="manifest" href="/manifest.json">
+
 <!-- GR8SKUL APP MANIFEST -->
-<style> * { box-sizing: border-box; } html, body { margin: 0; background: #ffffff; color: #111111; font-family: Arial, Helvetica, sans-serif; height: 100%; } body { overflow: hidden; } .app { width: 100%; max-width: 700px; height: 100vh; margin: 0 auto; padding: 0 20px; display: flex; flex-direction: column; } /* ========================= FIXED HEADER ========================= */ .header { flex-shrink: 0; background: #ffffff; padding-top: 35px; } h1 { margin: 0 0 35px; text-align: center; font-size: 42px; letter-spacing: 6px; font-weight: 700; } h1 img { display: block; width: auto; height: 42px; max-width: 100%; margin: 0 auto; } .controls { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; } button { border: 1px solid #111111; background: #ffffff; color: #111111; cursor: pointer; font-size: 16px; padding: 12px 18px; min-height: 46px; } button:hover { background: #eeeeee; } #playButton { min-width: 120px; font-weight: bold; } #backButton, #nextButton { width: 50px; padding: 12px 5px; font-size: 24px; line-height: 1; } #shuffleButton.active { background: #111111; color: #ffffff; } /* ========================================================= PLAYER FILTERS ========================================================= */ .taxonomy-filters { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; margin-bottom: 10px; } .taxonomy-filter { position: relative; width: 100%; } .taxonomy-trigger { position: relative; display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 42px; padding: 9px 12px; border: 1px solid #cccccc; background: #ffffff; color: #111111; font-family: Arial, Helvetica, sans-serif; font-size: 12px; text-align: left; cursor: pointer; } .taxonomy-trigger:hover, .taxonomy-filter.open .taxonomy-trigger { border-color: #111111; } .taxonomy-trigger-text { min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; } .taxonomy-trigger-arrow { flex-shrink: 0; margin-left: 10px; font-size: 10px; color: #777777; transition: transform 0.15s ease; } .taxonomy-filter.open .taxonomy-trigger-arrow { transform: rotate(180deg); } .taxonomy-panel { display: none; position: absolute; z-index: 100; top: 100%; left: 0; width: 100%; max-height: 55vh; overflow-y: auto; margin-top: 4px; border: 1px solid #cccccc; background: #ffffff; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); } .taxonomy-filter.open .taxonomy-panel { display: block; } .taxonomy-parent { border-bottom: 1px solid #eeeeee; } .taxonomy-parent:last-child { border-bottom: none; } .taxonomy-parent-row { display: flex; align-items: center; min-height: 42px; padding: 0 10px; } .taxonomy-parent-row:hover { background: #fafafa; } .taxonomy-check { width: 15px; height: 15px; margin: 0 9px 0 0; accent-color: #111111; cursor: pointer; flex-shrink: 0; } .taxonomy-parent-label { flex: 1; min-width: 0; font-size: 11px; letter-spacing: 0.8px; cursor: pointer; } .taxonomy-expand { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; min-height: 28px; border: 0; background: transparent; color: #777777; font-size: 11px; cursor: pointer; } .taxonomy-expand:hover { color: #111111; background: transparent; } .taxonomy-parent.expanded .taxonomy-expand { transform: rotate(180deg); } .taxonomy-types { display: none; padding: 3px 10px 10px 34px; border-top: 1px solid #f0f0f0; background: #fafafa; } .taxonomy-parent.expanded .taxonomy-types { display: block; } .taxonomy-type-row { display: flex; align-items: center; min-height: 32px; padding: 0 4px; } .taxonomy-type-row:hover { background: #f3f3f3; } .taxonomy-type-check { width: 14px; height: 14px; margin: 0 8px 0 0; accent-color: #111111; cursor: pointer; flex-shrink: 0; } .taxonomy-type-label { font-size: 10px; letter-spacing: 0.6px; color: #555555; cursor: pointer; } .taxonomy-empty { padding: 10px 12px; font-size: 9px; color: #999999; letter-spacing: 0.5px; } .taxonomy-summary { margin-top: 0; padding: 0; min-height: 0; font-size: 9px; line-height: 1.4; color: #777777; } .filter-status { min-height: 0; margin-bottom: 0; text-align: center; font-size: 9px; letter-spacing: 0.7px; color: #888888; } /* ========================= NOW PLAYING ========================= */ .now-playing { text-align: center; margin-bottom: 10px; min-height: 24px; font-size: 14px; color: #555555; } .now-playing-actions { display: flex; justify-content: center; align-items: center; gap: 12px; margin-top: 6px; } .now-playing-mute { font-size: 11px; color: #888888; text-decoration: none; letter-spacing: 0.5px; cursor: pointer; } .now-playing-mute:hover { color: #111111; text-decoration: underline; } /* ========================= SPONSOR ========================= */ .sponsor { text-align: center; min-height: 24px; margin-bottom: 15px; font-size: 12px; color: #888888; } .sponsor a { color: #555555; text-decoration: none; font-weight: normal; } .sponsor a:hover { color: #111111; text-decoration: underline; } .header-line { border-bottom: 1px solid #cccccc; } .sponsor-tagline { display: block; margin-top: 2px; font-size: 11px; color: #888888; text-decoration: none; font-weight: normal; } /* ========================= SCROLLING TRACK AREA ========================= */ .track-list { flex: 1; min-height: 0; overflow-y: auto; overflow-x: hidden; } .track { display: flex; align-items: center; width: 100%; min-height: 75px; padding: 12px 0; border-bottom: 1px solid #cccccc; cursor: pointer; user-select: none; } .track:hover { background: #f5f5f5; } .track.selected { background: #eeeeee; } .track-info { min-width: 0; text-align: left; flex: 1; } .track-title { font-size: 17px; font-weight: bold; margin-bottom: 4px; } .track-artist { font-size: 12px; color: #777777; margin-bottom: 6px; } .track-actions { display: flex; align-items: center; gap: 12px; } .mute-toggle { font-size: 11px; color: #888888; text-decoration: none; letter-spacing: 0.5px; cursor: pointer; } .mute-toggle:hover { color: #111111; text-decoration: underline; } .empty-filter-message { padding: 30px 10px; text-align: center; font-size: 11px; letter-spacing: 1px; color: #888888; } /* ========================= FIXED FOOTER ========================= */ .player { flex-shrink: 0; background: #ffffff; padding-top: 20px; padding-bottom: 20px; width: 100%; } audio { width: 100%; } /* ========================= MOBILE ========================= */ @media (max-width: 500px) { .app { padding: 0 15px; } .header { padding-top: 25px; } h1 img { height: 34px; } .controls { gap: 7px; margin-bottom: 12px; } #backButton, #nextButton { width: 46px; } #playButton { min-width: 105px; } #shuffleButton { padding-left: 12px; padding-right: 12px; } .taxonomy-filters { grid-template-columns: 1fr; gap: 7px; margin-bottom: 8px; } .taxonomy-panel { max-height: 48vh; } .track { min-height: 65px; } .track-actions { gap: 9px; } } </style>
-</head>
-<body>
-<div class="app">
-<!-- ========================= FIXED HEADER ========================= -->
-<div class="header">
-<h1>
-<img
-    src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-    alt="GR8SKUL">
-</h1>
-<div class="controls">
-<button
-    id="backButton"
-    type="button"
-    aria-label="Previous track">
 
-    ←
+<style>
 
-</button>
+* {
+    box-sizing: border-box;
+}
 
-<button
-    id="playButton"
-    type="button">
+html,
+body {
+    margin: 0;
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100%;
+}
 
-    ▶ PLAY
+body {
+    overflow: hidden;
+}
 
-</button>
+.app {
+    width: 100%;
+    max-width: 700px;
+    height: 100vh;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+}
 
-<button
-    id="nextButton"
-    type="button"
-    aria-label="Next track">
+/* =========================
+   FIXED HEADER
+   ========================= */
 
-    →
+.header {
+    flex-shrink: 0;
+    background: #ffffff;
+    padding-top: 35px;
+}
 
-</button>
+h1 {
+    margin: 0 0 35px;
+    text-align: center;
+    font-size: 42px;
+    letter-spacing: 6px;
+    font-weight: 700;
+}
 
-<button
-    id="shuffleButton"
-    type="button">
+h1 img {
+    display: block;
+    width: auto;
+    height: 42px;
+    max-width: 100%;
+    margin: 0 auto;
+}
 
-    SHUFFLE OFF
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
 
-</button>
-</div>
-<!-- ========================================================= GENRE + MOOD FILTERS ========================================================= -->
-<div class="taxonomy-filters">
-<!-- ========================================================= GENRE ========================================================= -->
-<div id="genreTree" class="taxonomy-filter" >
-<button
-id="genreTrigger"
-class="taxonomy-trigger"
-type="button"
-aria-expanded="false">
-<span
-id="genreTriggerText"
-class="taxonomy-trigger-text">
-GENRE(S): ALL
-</span>
-<span
-class="taxonomy-trigger-arrow">
-▼
-</span>
-</button>
-<div id="genrePanel" class="taxonomy-panel" >
-<!-- ACOUSTIC -->
-<div class="taxonomy-parent" data-parent="Acoustic" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Acoustic">
-<label class="taxonomy-parent-label"> ACOUSTIC </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Acoustic types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Acoustic"
-data-type="Traditional">
-<label class="taxonomy-type-label"> TRADITIONAL </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Acoustic"
-data-type="Contemporary">
-<label class="taxonomy-type-label"> CONTEMPORARY </label>
-</div>
-</div>
-</div>
-<!-- ALTERNATIVE -->
-<div class="taxonomy-parent" data-parent="Alternative" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Alternative">
-<label class="taxonomy-parent-label"> ALTERNATIVE </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Alternative types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Alternative"
-data-type="Alternative Rock">
-<label class="taxonomy-type-label"> ALTERNATIVE ROCK </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Alternative"
-data-type="Alternative Pop">
-<label class="taxonomy-type-label"> ALTERNATIVE POP </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Alternative"
-data-type="Indie">
-<label class="taxonomy-type-label"> INDIE </label>
-</div>
-</div>
-</div>
-<!-- BLUES -->
-<div class="taxonomy-parent" data-parent="Blues" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Blues">
-<label class="taxonomy-parent-label"> BLUES </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Blues types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Blues"
-data-type="Traditional">
-<label class="taxonomy-type-label"> TRADITIONAL </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Blues"
-data-type="Contemporary">
-<label class="taxonomy-type-label"> CONTEMPORARY </label>
-</div>
-</div>
-</div>
-<!-- CLASSICAL -->
-<div class="taxonomy-parent" data-parent="Classical" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Classical">
-<label class="taxonomy-parent-label"> CLASSICAL </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Classical types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Classical"
-data-type="Renaissance">
-<label class="taxonomy-type-label"> RENAISSANCE </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Classical"
-data-type="Baroque">
-<label class="taxonomy-type-label"> BAROQUE </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Classical"
-data-type="Classical">
-<label class="taxonomy-type-label"> CLASSICAL </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Classical"
-data-type="Romantic">
-<label class="taxonomy-type-label"> ROMANTIC </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Classical"
-data-type="Modern">
-<label class="taxonomy-type-label"> MODERN </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Classical"
-data-type="Contemporary">
-<label class="taxonomy-type-label"> CONTEMPORARY </label>
-</div>
-</div>
-</div>
-<!-- COUNTRY -->
-<div class="taxonomy-parent" data-parent="Country" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Country">
-<label class="taxonomy-parent-label"> COUNTRY </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Country types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Country"
-data-type="Traditional">
-<label class="taxonomy-type-label"> TRADITIONAL </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Country"
-data-type="Contemporary">
-<label class="taxonomy-type-label"> CONTEMPORARY </label>
-</div>
-</div>
-</div>
-<!-- ELECTRONIC -->
-<div class="taxonomy-parent" data-parent="Electronic" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Electronic">
-<label class="taxonomy-parent-label"> ELECTRONIC </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Electronic types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Electronic"
-data-type="Ambient">
-<label class="taxonomy-type-label"> AMBIENT </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Electronic"
-data-type="House">
-<label class="taxonomy-type-label"> HOUSE </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Electronic"
-data-type="Techno">
-<label class="taxonomy-type-label"> TECHNO </label>
-</div>
-</div>
-</div>
-<!-- FOLK -->
-<div class="taxonomy-parent" data-parent="Folk" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Folk">
-<label class="taxonomy-parent-label"> FOLK </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Folk types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Folk"
-data-type="Traditional">
-<label class="taxonomy-type-label"> TRADITIONAL </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Folk"
-data-type="Contemporary">
-<label class="taxonomy-type-label"> CONTEMPORARY </label>
-</div>
-</div>
-</div>
-<!-- HIP-HOP -->
-<div class="taxonomy-parent" data-parent="Hip-Hop" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Hip-Hop">
-<label class="taxonomy-parent-label"> HIP-HOP </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Hip-Hop types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Hip-Hop"
-data-type="Old School">
-<label class="taxonomy-type-label"> OLD SCHOOL </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Hip-Hop"
-data-type="Contemporary">
-<label class="taxonomy-type-label"> CONTEMPORARY </label>
-</div>
-</div>
-</div>
-<!-- JAZZ -->
-<div class="taxonomy-parent" data-parent="Jazz" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Jazz">
-<label class="taxonomy-parent-label"> JAZZ </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Jazz types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Jazz"
-data-type="Traditional">
-<label class="taxonomy-type-label"> TRADITIONAL </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Jazz"
-data-type="Contemporary">
-<label class="taxonomy-type-label"> CONTEMPORARY </label>
-</div>
-</div>
-</div>
-<!-- POP -->
-<div class="taxonomy-parent" data-parent="Pop" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Pop">
-<label class="taxonomy-parent-label"> POP </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Pop types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Pop"
-data-type="Contemporary">
-<label class="taxonomy-type-label"> CONTEMPORARY </label>
-</div>
-</div>
-</div>
-<!-- ROCK -->
-<div class="taxonomy-parent" data-parent="Rock" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Rock">
-<label class="taxonomy-parent-label"> ROCK </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Rock types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Rock"
-data-type="Classic Rock">
-<label class="taxonomy-type-label"> CLASSIC ROCK </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Rock"
-data-type="Alternative">
-<label class="taxonomy-type-label"> ALTERNATIVE </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Rock"
-data-type="Progressive">
-<label class="taxonomy-type-label"> PROGRESSIVE </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Rock"
-data-type="Hard Rock">
-<label class="taxonomy-type-label"> HARD ROCK </label>
-</div>
-</div>
-</div>
-<!-- OTHER -->
-<div class="taxonomy-parent" data-parent="Other" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Other">
-<label class="taxonomy-parent-label"> OTHER </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Other types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-empty"> No subcategories currently defined. </div>
-</div>
-</div>
-</div>
-<div id="genreSummary" class="taxonomy-summary" ></div>
-</div>
-<!-- ========================================================= MOOD ========================================================= -->
-<div id="moodTree" class="taxonomy-filter" >
-<button
-id="moodTrigger"
-class="taxonomy-trigger"
-type="button"
-aria-expanded="false">
-<span
-id="moodTriggerText"
-class="taxonomy-trigger-text">
-MOOD(S): ALL
-</span>
-<span
-class="taxonomy-trigger-arrow">
-▼
-</span>
-</button>
-<div id="moodPanel" class="taxonomy-panel" >
-<!-- PEACEFUL -->
-<div class="taxonomy-parent" data-parent="Peaceful" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Peaceful">
-<label class="taxonomy-parent-label"> PEACEFUL </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Peaceful types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Peaceful"
-data-type="Calm">
-<label class="taxonomy-type-label"> CALM </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Peaceful"
-data-type="Serene">
-<label class="taxonomy-type-label"> SERENE </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Peaceful"
-data-type="Meditative">
-<label class="taxonomy-type-label"> MEDITATIVE </label>
-</div>
-</div>
-</div>
-<!-- DARK -->
-<div class="taxonomy-parent" data-parent="Dark" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Dark">
-<label class="taxonomy-parent-label"> DARK </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Dark types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Dark"
-data-type="Ominous">
-<label class="taxonomy-type-label"> OMINOUS </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Dark"
-data-type="Mysterious">
-<label class="taxonomy-type-label"> MYSTERIOUS </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Dark"
-data-type="Haunting">
-<label class="taxonomy-type-label"> HAUNTING </label>
-</div>
-</div>
-</div>
-<!-- JOYFUL -->
-<div class="taxonomy-parent" data-parent="Joyful" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Joyful">
-<label class="taxonomy-parent-label"> JOYFUL </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Joyful types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Joyful"
-data-type="Happy">
-<label class="taxonomy-type-label"> HAPPY </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Joyful"
-data-type="Playful">
-<label class="taxonomy-type-label"> PLAYFUL </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Joyful"
-data-type="Celebratory">
-<label class="taxonomy-type-label"> CELEBRATORY </label>
-</div>
-</div>
-</div>
-<!-- MELANCHOLIC -->
-<div class="taxonomy-parent" data-parent="Melancholic" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Melancholic">
-<label class="taxonomy-parent-label"> MELANCHOLIC </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Melancholic types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Melancholic"
-data-type="Sad">
-<label class="taxonomy-type-label"> SAD </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Melancholic"
-data-type="Lonely">
-<label class="taxonomy-type-label"> LONELY </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Melancholic"
-data-type="Nostalgic">
-<label class="taxonomy-type-label"> NOSTALGIC </label>
-</div>
-</div>
-</div>
-<!-- ENERGETIC -->
-<div class="taxonomy-parent" data-parent="Energetic" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Energetic">
-<label class="taxonomy-parent-label"> ENERGETIC </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Energetic types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Energetic"
-data-type="Exciting">
-<label class="taxonomy-type-label"> EXCITING </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Energetic"
-data-type="Aggressive">
-<label class="taxonomy-type-label"> AGGRESSIVE </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Energetic"
-data-type="Driving">
-<label class="taxonomy-type-label"> DRIVING </label>
-</div>
-</div>
-</div>
-<!-- ROMANTIC -->
-<div class="taxonomy-parent" data-parent="Romantic" >
-<div class="taxonomy-parent-row">
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Romantic">
-<label class="taxonomy-parent-label"> ROMANTIC </label>
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Romantic types">
-▼
-</button>
-</div>
-<div class="taxonomy-types">
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Romantic"
-data-type="Tender">
-<label class="taxonomy-type-label"> TENDER </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Romantic"
-data-type="Passionate">
-<label class="taxonomy-type-label"> PASSIONATE </label>
-</div>
-<div class="taxonomy-type-row">
-<input
-class="taxonomy-type-check"
-type="checkbox"
-data-parent="Romantic"
-data-type="Intimate">
-<label class="taxonomy-type-label"> INTIMATE </label>
-</div>
-</div>
-</div>
-</div>
-<div id="moodSummary" class="taxonomy-summary" ></div>
-</div>
-</div>
-<div id="filterStatus" class="filter-status" ></div>
-<div class="now-playing" id="nowPlaying"> </div>
-<!-- ========================= SPONSOR ========================= -->
-<div class="sponsor" id="sponsor"> </div>
-<div class="header-line"></div>
-</div>
-<!-- ========================= AUTOMATIC TRACK LIST ========================= -->
-<div class="track-list" id="trackList"> </div>
-<!-- ========================= FIXED FOOTER ========================= -->
-<div class="player">
-<audio id="audioPlayer" controls preload="none">
-</audio>
-</div>
-</div>
-<script> /* ============================================================ GR8SKUL AUTOMATIC MUSIC CATALOG ============================================================ catalog.json supplies the actual MP3 files. track-order.json supplies the permanent playlist order. track-metadata.json supplies: title artists genres genreTypes moods moodTypes The player uses the metadata taxonomy for filtering. */ /* ============================================================ SESSION ID ============================================================ */ let sessionId = localStorage.getItem( "gr8skul-session-id" ); if (!sessionId) { sessionId = crypto.randomUUID(); localStorage.setItem( "gr8skul-session-id", sessionId ); } /* ============================================================ GR8SKUL QUALIFIED USER ============================================================ */ async function qualifyUserByPlay() { const today = new Date().toLocaleDateString( "en-CA", { timeZone: "America/Chicago" } ); const lastQualifiedDate = localStorage.getItem( "gr8skul-qualified-play-date" ); if ( lastQualifiedDate === today ) { return; } try { const response = await fetch( "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_user", { method: "POST", headers: { "apikey": "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Authorization": "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Content-Type": "application/json" }, body: JSON.stringify({ p_visitor_id: sessionId, p_activity_type: "play" }) } ); if (!response.ok) { throw new Error( "User qualification failed: " + response.status ); } localStorage.setItem( "gr8skul-qualified-play-date", today ); console.log( "GR8SKUL: visitor qualified by play." ); } catch (error) { console.error( "GR8SKUL user qualification failed.", error ); } } /* ============================================================ QUALIFY USER BY MEANINGFUL SCROLL ============================================================ */ async function qualifyUserByScroll() { const today = new Date().toLocaleDateString( "en-CA", { timeZone: "America/Chicago" } ); const lastQualifiedDate = localStorage.getItem( "gr8skul-qualified-scroll-date" ); if ( lastQualifiedDate === today ) { return; } try { const response = await fetch( "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_user", { method: "POST", headers: { "apikey": "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Authorization": "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Content-Type": "application/json" }, body: JSON.stringify({ p_visitor_id: sessionId, p_activity_type: "scroll" }) } ); if (!response.ok) { throw new Error( "Scroll qualification failed: " + response.status ); } localStorage.setItem( "gr8skul-qualified-scroll-date", today ); console.log( "GR8SKUL: visitor qualified by scroll." ); } catch (error) { console.error( "GR8SKUL scroll qualification failed.", error ); } } /* ============================================================ GR8SKUL LISTENER ============================================================ */ const LISTENER_THRESHOLD_SECONDS = 30; let playbackStartedAt = null; function getTodayChicagoDate() { return new Date().toLocaleDateString( "en-CA", { timeZone: "America/Chicago" } ); } function getStoredListenSeconds() { const today = getTodayChicagoDate(); const savedDate = localStorage.getItem( "gr8skul-listen-date" ); if ( savedDate !== today ) { localStorage.setItem( "gr8skul-listen-date", today ); localStorage.setItem( "gr8skul-listen-seconds", "0" ); localStorage.removeItem( "gr8skul-listener-qualified-date" ); return 0; } return parseFloat( localStorage.getItem( "gr8skul-listen-seconds" ) || "0" ); } function storeListenSeconds(seconds) { localStorage.setItem( "gr8skul-listen-date", getTodayChicagoDate() ); localStorage.setItem( "gr8skul-listen-seconds", String(seconds) ); } async function qualifyListener() { const today = getTodayChicagoDate(); const alreadyQualified = localStorage.getItem( "gr8skul-listener-qualified-date" ); if ( alreadyQualified === today ) { return; } try { const response = await fetch( "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/qualify_gr8skul_listener", { method: "POST", headers: { "apikey": "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Authorization": "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Content-Type": "application/json" }, body: JSON.stringify({ p_visitor_id: sessionId }) } ); if (!response.ok) { throw new Error( "Listener qualification failed: " + response.status ); } const result = await response.json(); if (result === false) { console.warn( "GR8SKUL: listener threshold reached, but visitor was not yet a qualified user." ); return; } localStorage.setItem( "gr8skul-listener-qualified-date", today ); console.log( "GR8SKUL: visitor qualified as a listener." ); } catch (error) { console.error( "GR8SKUL listener qualification failed.", error ); } } function recordPlaybackTime() { if ( playbackStartedAt === null ) { return; } const elapsedSeconds = (Date.now() - playbackStartedAt) / 1000; playbackStartedAt = Date.now(); if ( elapsedSeconds <= 0 ) { return; } let totalSeconds = getStoredListenSeconds(); totalSeconds += elapsedSeconds; storeListenSeconds( totalSeconds ); if ( totalSeconds >= LISTENER_THRESHOLD_SECONDS ) { qualifyListener(); } } function startPlaybackClock() { if ( playbackStartedAt === null ) { playbackStartedAt = Date.now(); } } function stopPlaybackClock() { recordPlaybackTime(); playbackStartedAt = null; } /* ============================================================ DOM REFERENCES ============================================================ */ const tracksContainer = document.getElementById("trackList"); const playButton = document.getElementById("playButton"); const backButton = document.getElementById("backButton"); const nextButton = document.getElementById("nextButton"); const shuffleButton = document.getElementById("shuffleButton"); const audioPlayer = document.getElementById("audioPlayer"); const nowPlaying = document.getElementById("nowPlaying"); const sponsor = document.getElementById("sponsor"); const genreTree = document.getElementById("genreTree"); const moodTree = document.getElementById("moodTree"); const genreTrigger = document.getElementById("genreTrigger"); const moodTrigger = document.getElementById("moodTrigger"); const genreTriggerText = document.getElementById("genreTriggerText"); const moodTriggerText = document.getElementById("moodTriggerText"); const genreSummary = document.getElementById("genreSummary"); const moodSummary = document.getElementById("moodSummary"); const filterStatus = document.getElementById("filterStatus"); /* ============================================================ MEANINGFUL TRACK-LIST SCROLL ============================================================ */ tracksContainer.addEventListener( "scroll", function() { if ( tracksContainer.scrollTop >= 50 ) { qualifyUserByScroll(); } } ); /* ============================================================ SPONSOR ASSIGNMENT ============================================================ */ let sponsorRotationTimer = null; function startSponsorRotation() { if (sponsorRotationTimer !== null) { clearInterval( sponsorRotationTimer ); } sponsorRotationTimer = setInterval( function() { loadSponsors(); }, 60000 ); } async function loadSponsors() { try { const response = await fetch( "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/assign_sponsor", { method: "POST", headers: { "apikey": "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Authorization": "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Content-Type": "application/json" }, body: JSON.stringify({ p_session_id: sessionId }) } ); if (!response.ok) { throw new Error( "Supabase sponsor assignment failed: " + response.status ); } const assignment = await response.json(); if ( !Array.isArray(assignment) || assignment.length === 0 ) { sponsor.innerHTML = ""; console.warn( "GR8SKUL: No sponsor assignment returned." ); return; } const ad = assignment[0]; sponsor.innerHTML = ""; const prefix = document.createTextNode( "Brought to you by: " ); const link = document.createElement( "a" ); link.textContent = ad.sponsor_name; link.href = ad.sponsor_url; link.target = "_blank"; link.rel = "noopener noreferrer"; link.addEventListener( "click", function() { fetch( "https://rijzolipyabfggrrhgab.supabase.co/rest/v1/rpc/record_sponsor_click", { method: "POST", headers: { "apikey": "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Authorization": "Bearer sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm", "Content-Type": "application/json" }, body: JSON.stringify({ p_session_id: sessionId }), keepalive: true } ) .catch( function(error) { console.error( "GR8SKUL sponsor click tracking failed.", error ); } ); } ); const tagline = document.createElement( "span" ); tagline.textContent = ad.sponsor_tagline; tagline.className = "sponsor-tagline"; sponsor.appendChild( prefix ); sponsor.appendChild( link ); if ( ad.sponsor_tagline ) { sponsor.appendChild( tagline ); } } catch (error) { console.error( "GR8SKUL sponsor system could not connect to Supabase.", error ); sponsor.innerHTML = ""; } } /* ============================================================ USER MUTE STORAGE ============================================================ */ const MUTE_STORAGE_KEY = "gr8skul-muted-tracks"; let mutedTracks = {}; try { const savedMuteSettings = localStorage.getItem( MUTE_STORAGE_KEY ); if (savedMuteSettings) { mutedTracks = JSON.parse( savedMuteSettings ) || {}; } } catch (error) { console.error( "GR8SKUL mute settings could not be loaded.", error ); mutedTracks = {}; } function saveMuteSettings() { try { localStorage.setItem( MUTE_STORAGE_KEY, JSON.stringify(mutedTracks) ); } catch (error) { console.error( "GR8SKUL mute settings could not be saved.", error ); } } /* ============================================================ TRACK DATA ============================================================ */ let tracks = []; let allTrackData = []; let currentTrack = -1; let currentTrackFile = ""; let shuffle = false; let shuffleQueue = []; let playHistory = []; /* ============================================================ TAXONOMY NORMALIZATION ============================================================ */ function normalizeArray(value) { if ( Array.isArray(value) ) { return value .map( function(item) { return String( item ).trim(); } ) .filter(Boolean); } if ( typeof value === "string" ) { return value .split(",") .map( function(item) { return item.trim(); } ) .filter(Boolean); } return []; } function normalizeGenreTypes(value) { if ( !value ) { return []; } if ( typeof value === "string" ) { value = value .split(",") .map( function(item) { return item.trim(); } ) .filter(Boolean); } if ( !Array.isArray(value) ) { return []; } return value .map( function(item) { if ( item && typeof item === "object" ) { const genre = String( item.genre || item.parent || "" ).trim(); const type = String( item.type || item.genreType || item.name || "" ).trim(); if (!type) { return null; } return { genre: genre, type: type }; } const text = String( item ).trim(); if (!text) { return null; } if ( text.includes("::") ) { const parts = text.split("::"); return { genre: parts[0].trim(), type: parts .slice(1) .join("::") .trim() }; } return { genre: "", type: text }; } ) .filter( function(item) { return item && item.type; } ); } function normalizeMoodTypes(value) { if ( !value ) { return []; } if ( typeof value === "string" ) { value = value .split(",") .map( function(item) { return item.trim(); } ) .filter(Boolean); } if ( !Array.isArray(value) ) { return []; } return value .map( function(item) { if ( item && typeof item === "object" ) { const mood = String( item.mood || item.parent || "" ).trim(); const type = String( item.type || item.moodType || item.name || "" ).trim(); if (!type) { return null; } return { mood: mood, type: type }; } const text = String( item ).trim(); if (!text) { return null; } if ( text.includes("::") ) { const parts = text.split("::"); return { mood: parts[0].trim(), type: parts .slice(1) .join("::") .trim() }; } return { mood: "", type: text }; } ) .filter( function(item) { return item && item.type; } ); } function itemTypeEquals( first, second ) { return String( first || "" ).trim() === String( second || "" ).trim(); } /* ============================================================ CLEAN TRACK TITLE ============================================================ */ function cleanTitle(filename) { return filename .replace(/\.[^/.]+$/, "") .replace(/[\_]+/g, " ") .trim(); } /* ============================================================ TAXONOMY TREE HELPERS ============================================================ */ function getTreeParents(tree) { return Array.from( tree.querySelectorAll( ".taxonomy-parent" ) ); } function getTreeSelectedParents(tree) { return getTreeParents( tree ) .filter( function(parent) { const checkbox = parent.querySelector( ".taxonomy-check" ); return checkbox && checkbox.checked; } ) .map( function(parent) { return parent.dataset.parent; } ); } function getTreeSelectedTypes(tree) { return Array.from( tree.querySelectorAll( ".taxonomy-type-check:checked" ) ) .map( function(input) { return { parent: input.dataset.parent, type: input.dataset.type }; } ); } /* ============================================================ TAXONOMY TREE SUMMARY ============================================================ */ function updateTreeSummary(tree) { const isGenre = tree === genreTree; const summary = isGenre ? genreSummary : moodSummary; const triggerText = isGenre ? genreTriggerText : moodTriggerText; const parentLabel = isGenre ? "GENRE" : "MOOD"; const parents = getTreeSelectedParents( tree ); const types = getTreeSelectedTypes( tree ); if ( !parents.length && !types.length ) { triggerText.textContent = isGenre ? "GENRE(S): ALL" : "MOOD(S): ALL"; summary.textContent = ""; return; } if ( parents.length ) { triggerText.textContent = parentLabel + "(S): " + parents.join( ", " ); } else { const firstType = types[0]; triggerText.textContent = parentLabel + " TYPES"; if ( firstType ) { summary.textContent = types.length + " SPECIFIC TYPE" + ( types.length === 1 ? "" : "S" ) + " SELECTED"; return; } } if ( types.length ) { summary.textContent = types.length + " SPECIFIC TYPE" + ( types.length === 1 ? "" : "S" ) + " SELECTED"; } else { summary.textContent = parents.length + " " + parentLabel + ( parents.length === 1 ? "" : "S" ) + " SELECTED"; } } /* ============================================================ TAXONOMY TREE OPEN / CLOSE ============================================================ */ function closeOtherTaxonomyTree(tree) { if ( tree !== genreTree ) { genreTree.classList.remove( "open" ); genreTrigger.setAttribute( "aria-expanded", "false" ); } if ( tree !== moodTree ) { moodTree.classList.remove( "open" ); moodTrigger.setAttribute( "aria-expanded", "false" ); } } /* ============================================================ TAXONOMY TREE SETUP ============================================================ */ function setupTaxonomyTree( tree, trigger ) { const parents = getTreeParents( tree ); trigger.addEventListener( "click", function(event) { event.preventDefault(); const currentlyOpen = tree.classList.contains( "open" ); closeOtherTaxonomyTree( tree ); tree.classList.toggle( "open", !currentlyOpen ); trigger.setAttribute( "aria-expanded", String( !currentlyOpen ) ); } ); parents.forEach( function(parent) { const parentCheckbox = parent.querySelector( ".taxonomy-check" ); const parentLabel = parent.querySelector( ".taxonomy-parent-label" ); const expandButton = parent.querySelector( ".taxonomy-expand" ); parentCheckbox.addEventListener( "click", function(event) { event.stopPropagation(); } ); parentCheckbox.addEventListener( "change", function() { if ( parentCheckbox.checked ) { parent.classList.add( "expanded" ); } else { parent.classList.remove( "expanded" ); } updateTreeSummary( tree ); applyFilters(); } ); parentLabel.addEventListener( "click", function(event) { event.preventDefault(); parentCheckbox.checked = !parentCheckbox.checked; parentCheckbox.dispatchEvent( new Event( "change" ) ); } ); expandButton.addEventListener( "click", function(event) { event.preventDefault(); event.stopPropagation(); parent.classList.toggle( "expanded" ); } ); parent .querySelectorAll( ".taxonomy-type-check" ) .forEach( function(typeInput) { typeInput.addEventListener( "click", function(event) { event.stopPropagation(); } ); typeInput.addEventListener( "change", function() { /* * IMPORTANT: * * A player type selection * does NOT automatically select * its broad parent. * * The broad parent means: * * EVERYTHING IN THIS GENRE * * The child means: * * THIS SPECIFIC TYPE * * This is what allows the player * to make granular selections. */ if ( typeInput.checked ) { parent.classList.add( "expanded" ); } updateTreeSummary( tree ); applyFilters(); } ); } ); } ); } /* ============================================================ CLOSE DROPDOWNS WHEN CLICKING OUTSIDE ============================================================ */ document.addEventListener( "click", function(event) { if ( !genreTree.contains( event.target ) ) { genreTree.classList.remove( "open" ); genreTrigger.setAttribute( "aria-expanded", "false" ); } if ( !moodTree.contains( event.target ) ) { moodTree.classList.remove( "open" ); moodTrigger.setAttribute( "aria-expanded", "false" ); } } ); /* ============================================================ MATCH A TRACK AGAINST ONE TAXONOMY ============================================================ */ function trackMatchesTaxonomy( trackData, tree, parentsKey, typesKey ) { const selectedParents = getTreeSelectedParents( tree ); const selectedTypes = getTreeSelectedTypes( tree ); /* * No filters means: * * everything matches. */ if ( !selectedParents.length && !selectedTypes.length ) { return true; } const trackParents = normalizeArray( trackData[ parentsKey ] ); const trackTypes = typesKey === "genreTypes" ? normalizeGenreTypes( trackData[ typesKey ] ) : normalizeMoodTypes( trackData[ typesKey ] ); /* * Broad parent selection. * * Example: * * ROCK * * matches any work whose genres * contain ROCK. */ const parentMatch = selectedParents.some( function(parent) { return trackParents.some( function(trackParent) { return itemTypeEquals( trackParent, parent ); } ); } ); if ( parentMatch ) { return true; } /* * Specific type selection. * * Example: * * ROCK → PROGRESSIVE * * matches only a work containing: * * { * genre: "Rock", * type: "Progressive" * } */ const typeMatch = selectedTypes.some( function(selectedType) { const selectedParent = selectedType.parent; const selectedTypeName = selectedType.type; return trackTypes.some( function(trackType) { const trackParent = typesKey === "genreTypes" ? trackType.genre : trackType.mood; const parentMatches = !trackParent || itemTypeEquals( trackParent, selectedParent ); return ( parentMatches && itemTypeEquals( trackType.type, selectedTypeName ) ); } ); } ); return typeMatch; } /* ============================================================ TRACK MATCHES CURRENT FILTERS ============================================================ */ function trackMatchesCurrentFilters( trackData ) { const matchesGenre = trackMatchesTaxonomy( trackData, genreTree, "genres", "genreTypes" ); const matchesMood = trackMatchesTaxonomy( trackData, moodTree, "moods", "moodTypes" ); /* * Genre + Mood are AND conditions. * * Example: * * Classical * AND * Peaceful → Meditative * * means the work must satisfy both. */ return ( matchesGenre && matchesMood ); } /* ============================================================ CURRENT FILTER DESCRIPTION ============================================================ */ function updateFilterStatus( visibleCount ) { const genreParents = getTreeSelectedParents( genreTree ); const genreTypes = getTreeSelectedTypes( genreTree ); const moodParents = getTreeSelectedParents( moodTree ); const moodTypes = getTreeSelectedTypes( moodTree ); const filtering = genreParents.length || genreTypes.length || moodParents.length || moodTypes.length; if ( !filtering ) { filterStatus.textContent = ""; return; } filterStatus.textContent = visibleCount + " WORK" + ( visibleCount === 1 ? "" : "S" ) + " MATCHING FILTERS"; } /* ============================================================ CREATE TRACK HTML ============================================================ */ function createTrackElement( trackData ) { const track = document.createElement( "div" ); track.className = "track"; const displayTitle = trackData.title || cleanTitle( trackData.name ); const displayArtist = trackData.artist || ""; track.dataset.title = displayTitle; track.dataset.artist = displayArtist; track.dataset.file = trackData.path; const trackInfo = document.createElement( "div" ); trackInfo.className = "track-info"; const title = document.createElement( "div" ); title.className = "track-title"; title.textContent = displayTitle; trackInfo.appendChild( title ); if ( displayArtist ) { const artist = document.createElement( "div" ); artist.className = "track-artist"; artist.textContent = displayArtist; trackInfo.appendChild( artist ); } const trackActions = document.createElement( "div" ); trackActions.className = "track-actions"; const muteButton = document.createElement( "a" ); muteButton.className = "mute-toggle"; muteButton.href = "#"; muteButton.textContent = "MUTE"; trackActions.appendChild( muteButton ); trackInfo.appendChild( trackActions ); track.appendChild( trackInfo ); return track; } /* ============================================================ IS TRACK MUTED ============================================================ */ function isTrackMuted(index) { if ( index < 0 || index >= tracks.length ) { return false; } const file = tracks[index].dataset.file; return mutedTracks[file] === true; } /* ============================================================ SET TRACK MUTED ============================================================ */ function setTrackMuted( index, muted ) { if ( index < 0 || index >= tracks.length ) { return; } const file = tracks[index].dataset.file; if ( muted ) { mutedTracks[file] = true; } else { delete mutedTracks[file]; } saveMuteSettings(); updateTrackMuteButton( index ); updateNowPlayingMuteButton(); if ( muted ) { shuffleQueue = shuffleQueue.filter( function(queueIndex) { return !isTrackMuted( queueIndex ); } ); } } /* ============================================================ UPDATE TRACK MUTE BUTTON ============================================================ */ function updateTrackMuteButton( index ) { if ( index < 0 || index >= tracks.length ) { return; } const track = tracks[index]; const muteButton = track.querySelector( ".mute-toggle" ); if ( !muteButton ) { return; } if ( isTrackMuted(index) ) { muteButton.textContent = "UNMUTE"; } else { muteButton.textContent = "MUTE"; } } /* ============================================================ UPDATE ALL TRACK MUTE BUTTONS ============================================================ */ function updateAllTrackMuteButtons() { tracks.forEach( function( track, index ) { updateTrackMuteButton( index ); } ); } /* ============================================================ RENDER FILTERED TRACK LIST ============================================================ */ function renderFilteredTracks() { const previousFile = currentTrackFile; const wasPlaying = !audioPlayer.paused; const filteredData = allTrackData.filter( function(trackData) { return trackMatchesCurrentFilters( trackData ); } ); tracksContainer.innerHTML = ""; if ( filteredData.length === 0 ) { const emptyMessage = document.createElement( "div" ); emptyMessage.className = "empty-filter-message"; emptyMessage.textContent = "NO WORKS MATCH THE CURRENT FILTERS."; tracksContainer.appendChild( emptyMessage ); } else { filteredData.forEach( function(trackData) { const track = createTrackElement( trackData ); tracksContainer.appendChild( track ); } ); } tracks = Array.from( tracksContainer.querySelectorAll( ".track" ) ); /* * Reconnect the existing track * listeners to the newly rendered * filtered list. */ updateAllTrackMuteButtons(); attachTrackListeners(); /* * Determine whether the previously * active work remains visible. */ let preservedIndex = -1; if ( previousFile ) { preservedIndex = tracks.findIndex( function(track) { return ( track.dataset.file === previousFile ); } ); } if ( preservedIndex !== -1 ) { currentTrack = preservedIndex; tracks.forEach( function(track) { track.classList.remove( "selected" ); } ); tracks[ currentTrack ].classList.add( "selected" ); updateNowPlayingMuteButton(); /* * If the audio was still playing, * keep it playing. */ if ( wasPlaying && audioPlayer.src ) { audioPlayer.play() .catch( function() { playButton.textContent = "▶ PLAY"; } ); } } else { /* * The active work was filtered out. * * Stop it cleanly. */ if ( wasPlaying ) { audioPlayer.pause(); } audioPlayer.removeAttribute( "src" ); audioPlayer.load(); currentTrack = -1; currentTrackFile = ""; playHistory = []; shuffleQueue = []; nowPlaying.innerHTML = ""; } updateFilterStatus( filteredData.length ); } /* ============================================================ APPLY FILTERS ============================================================ */ function applyFilters() { renderFilteredTracks(); } /* ============================================================ LOAD CATALOG + ORDER + METADATA ============================================================ */ async function loadCatalog() { try { /* ======================================================== LOAD ALL THREE DATA FILES ======================================================== */ const [ catalogResponse, metadataResponse, orderResponse ] = await Promise.all([ fetch( "catalog.json?cache=" + Date.now() ), fetch( "track-metadata.json?cache=" + Date.now() ), fetch( "track-order.json?cache=" + Date.now() ) ]); /* ======================================================== VERIFY CATALOG ======================================================== */ if ( !catalogResponse.ok ) { throw new Error( "Catalog could not be loaded." ); } /* ======================================================== VERIFY METADATA ======================================================== */ if ( !metadataResponse.ok ) { throw new Error( "Track metadata could not be loaded." ); } const catalog = await catalogResponse.json(); const metadata = await metadataResponse.json(); /* ======================================================== LOAD PERMANENT TRACK ORDER ======================================================== */ let trackOrder = []; if ( orderResponse.ok ) { const orderData = await orderResponse.json(); if ( Array.isArray( orderData ) ) { trackOrder = orderData; } } /* ======================================================== ARRANGE CATALOG USING track-order.json ======================================================== */ const catalogByPath = new Map(); catalog.forEach( function(trackData) { if ( trackData && trackData.path ) { catalogByPath.set( trackData.path, trackData ); } } ); const orderedCatalog = []; trackOrder.forEach( function(path) { if ( catalogByPath.has( path ) ) { orderedCatalog.push( catalogByPath.get( path ) ); catalogByPath.delete( path ); } } ); /* Add newly discovered tracks that are not yet in the permanent order file. */ catalog.forEach( function(trackData) { if ( trackData && trackData.path && catalogByPath.has( trackData.path ) ) { orderedCatalog.push( trackData ); catalogByPath.delete( trackData.path ); } } ); /* ======================================================== MATCH METADATA TO EACH TRACK ======================================================== */ const tracksWithMetadata = orderedCatalog.map( function(trackData) { const meta = metadata[ trackData.path ]; if ( !meta ) { console.warn( "GR8SKUL: No metadata found for:", trackData.path ); } else { console.log( "GR8SKUL: Metadata matched:", trackData.path, meta ); } let artist = ""; if ( meta && Array.isArray( meta.artists ) ) { artist = meta.artists.join( ", " ); } return { ...trackData, title: meta && meta.title ? meta.title : cleanTitle( trackData.name ), artist: artist, genres: meta && Array.isArray( meta.genres ) ? meta.genres : [], genreTypes: meta && Array.isArray( meta.genreTypes ) ? meta.genreTypes : [], moods: meta && Array.isArray( meta.moods ) ? meta.moods : [], moodTypes: meta && Array.isArray( meta.moodTypes ) ? meta.moodTypes : [] }; } ); /* Store the complete catalog. Filtering happens afterward. */ allTrackData = tracksWithMetadata; /* Initial render. */ renderFilteredTracks(); console.log( "GR8SKUL: metadata loaded:", Object.keys( metadata ).length ); console.log( "GR8SKUL: tracks loaded:", tracksWithMetadata ); } catch (error) { console.error( "GR8SKUL catalog loading failed:", error ); tracksContainer.innerHTML = "<div style='padding:20px 0; color:#777;'>" + "Music catalog loading..." + "</div>"; } } /* ============================================================ FIND NEXT ELIGIBLE TRACK ============================================================ */ function findNextUnmutedTrack( startIndex ) { if ( tracks.length === 0 ) { return -1; } let index = startIndex; for ( let count = 0; count < tracks.length; count++ ) { if ( index >= tracks.length ) { index = 0; } if ( index < 0 ) { index = tracks.length - 1; } if ( !isTrackMuted(index) ) { return index; } index++; } return -1; } /* ============================================================ FIND PREVIOUS ELIGIBLE TRACK ============================================================ */ function findPreviousUnmutedTrack( startIndex ) { if ( tracks.length === 0 ) { return -1; } let index = startIndex; for ( let count = 0; count < tracks.length; count++ ) { if ( index < 0 ) { index = tracks.length - 1; } if ( index >= tracks.length ) { index = 0; } if ( !isTrackMuted(index) ) { return index; } index--; } return -1; } /* ============================================================ SHUFFLE ============================================================ */ function createShuffleQueue() { shuffleQueue = tracks .map( function( track, index ) { return index; } ) .filter( function(index) { return !isTrackMuted( index ); } ); for ( let i = shuffleQueue.length - 1; i > 0; i-- ) { const randomIndex = Math.floor( Math.random() * (i + 1) ); const temporary = shuffleQueue[i]; shuffleQueue[i] = shuffleQueue[ randomIndex ]; shuffleQueue[ randomIndex ] = temporary; } } function getNextShuffleTrack() { shuffleQueue = shuffleQueue.filter( function(index) { return !isTrackMuted( index ); } ); if ( shuffleQueue.length === 0 ) { createShuffleQueue(); } if ( shuffleQueue.length === 0 ) { return -1; } return shuffleQueue.shift(); } /* ============================================================ NOW PLAYING MUTE BUTTON ============================================================ */ function updateNowPlayingMuteButton() { const muteButton = nowPlaying.querySelector( ".now-playing-mute" ); if ( !muteButton ) { return; } if ( isTrackMuted( currentTrack ) ) { muteButton.textContent = "UNMUTE"; } else { muteButton.textContent = "MUTE"; } } /* ============================================================ MUTE CURRENT TRACK ============================================================ */ function muteCurrentTrack() { if ( currentTrack < 0 || currentTrack >= tracks.length ) { return; } setTrackMuted( currentTrack, true ); playNext(); } /* ============================================================ TOGGLE TRACK MUTE ============================================================ */ function toggleTrackMute( index ) { if ( index < 0 || index >= tracks.length ) { return; } const currentlyMuted = isTrackMuted( index ); if ( currentlyMuted ) { setTrackMuted( index, false ); return; } setTrackMuted( index, true ); if ( index === currentTrack ) { playNext(); } } /* ============================================================ LOAD TRACK ============================================================ */ function selectTrack( index, startPlaying = true, addToHistory = true ) { if ( index < 0 || index >= tracks.length ) { return; } if ( addToHistory && index !== currentTrack && currentTrack !== -1 ) { playHistory.push( currentTrack ); } currentTrack = index; const track = tracks[index]; currentTrackFile = track.dataset.file; tracks.forEach( function(track) { track.classList.remove( "selected" ); } ); track.classList.add( "selected" ); const title = track.dataset.title; const artist = track.dataset.artist; const file = track.dataset.file; audioPlayer.src = file; /* ======================================================== NOW PLAYING ======================================================== */ nowPlaying.innerHTML = ""; const nowPlayingText = document.createElement( "div" ); nowPlayingText.textContent = "Now playing: " + title + ( artist ? " — " + artist : "" ); const nowPlayingActions = document.createElement( "div" ); nowPlayingActions.className = "now-playing-actions"; const muteButton = document.createElement( "a" ); muteButton.className = "now-playing-mute"; muteButton.href = "#"; muteButton.textContent = isTrackMuted(index) ? "UNMUTE" : "MUTE"; muteButton.addEventListener( "click", function(event) { event.preventDefault(); event.stopPropagation(); if ( isTrackMuted( currentTrack ) ) { setTrackMuted( currentTrack, false ); } else { muteCurrentTrack(); } } ); nowPlayingActions.appendChild( muteButton ); nowPlaying.appendChild( nowPlayingText ); nowPlaying.appendChild( nowPlayingActions ); track.scrollIntoView({ behavior: "smooth", block: "nearest" }); if ( startPlaying ) { audioPlayer.play() .then( function() { playButton.textContent = "❚❚ PAUSE"; } ) .catch( function() { playButton.textContent = "▶ PLAY"; } ); } } /* ============================================================ FIRST PLAY ============================================================ */ function chooseTrackToPlay() { if ( tracks.length === 0 ) { return; } let chosenTrack; if ( shuffle ) { createShuffleQueue(); chosenTrack = getNextShuffleTrack(); } else { chosenTrack = findNextUnmutedTrack( 0 ); } if ( chosenTrack === -1 ) { return; } selectTrack( chosenTrack, true, true ); } /* ============================================================ NEXT ============================================================ */ function playNext() { if ( tracks.length === 0 ) { return; } let nextTrack; if ( shuffle ) { nextTrack = getNextShuffleTrack(); } else { nextTrack = findNextUnmutedTrack( currentTrack + 1 ); } if ( nextTrack === -1 ) { audioPlayer.pause(); playButton.textContent = "▶ PLAY"; return; } selectTrack( nextTrack, true, true ); } /* ============================================================ PREVIOUS ============================================================ */ function playPrevious() { if ( tracks.length === 0 ) { return; } if ( shuffle ) { while ( playHistory.length > 0 ) { const previousTrack = playHistory.pop(); if ( !isTrackMuted( previousTrack ) ) { selectTrack( previousTrack, true, false ); return; } } return; } const previousTrack = findPreviousUnmutedTrack( currentTrack - 1 ); if ( previousTrack === -1 ) { return; } selectTrack( previousTrack, true, true ); } /* ============================================================ PLAY / PAUSE ============================================================ */ playButton.addEventListener( "click", function() { if ( currentTrack === -1 ) { chooseTrackToPlay(); return; } if ( audioPlayer.paused ) { audioPlayer.play() .then( function() { playButton.textContent = "❚❚ PAUSE"; } ); } else { audioPlayer.pause(); playButton.textContent = "▶ PLAY"; } } ); /* ============================================================ BACK ============================================================ */ backButton.addEventListener( "click", function() { if ( currentTrack === -1 ) { chooseTrackToPlay(); } else { playPrevious(); } } ); /* ============================================================ NEXT ============================================================ */ nextButton.addEventListener( "click", function() { if ( currentTrack === -1 ) { chooseTrackToPlay(); } else { playNext(); } } ); /* ============================================================ SHUFFLE ============================================================ */ shuffleButton.addEventListener( "click", function() { shuffle = !shuffle; if ( shuffle ) { shuffleButton.textContent = "SHUFFLE ON"; shuffleButton.classList.add( "active" ); createShuffleQueue(); if ( currentTrack !== -1 ) { shuffleQueue = shuffleQueue.filter( function(index) { return ( index !== currentTrack ); } ); } } else { shuffleButton.textContent = "SHUFFLE OFF"; shuffleButton.classList.remove( "active" ); shuffleQueue = []; } } ); /* ============================================================ TRACK CLICKS ============================================================ */ function attachTrackListeners() { tracks.forEach( function( track, index ) { const muteButton = track.querySelector( ".mute-toggle" ); muteButton.addEventListener( "click", function(event) { event.preventDefault(); event.stopPropagation(); toggleTrackMute( index ); } ); track.addEventListener( "click", function(event) { if ( event.target.closest( ".mute-toggle" ) ) { return; } /* Manual track selection always works, even if the track is muted. */ selectTrack( index, true, true ); } ); } ); } /* ============================================================ AUDIO PLAYING ============================================================ */ audioPlayer.addEventListener( "play", function() { playButton.textContent = "❚❚ PAUSE"; qualifyUserByPlay(); startPlaybackClock(); } ); /* ============================================================ AUDIO PAUSED ============================================================ */ audioPlayer.addEventListener( "pause", function() { playButton.textContent = "▶ PLAY"; stopPlaybackClock(); } ); /* ============================================================ AUDIO FINISHED ============================================================ */ audioPlayer.addEventListener( "ended", function() { stopPlaybackClock(); playNext(); } ); /* ============================================================ PAGE HIDDEN / CLOSED ============================================================ */ document.addEventListener( "visibilitychange", function() { if ( document.visibilityState === "hidden" ) { recordPlaybackTime(); playbackStartedAt = Date.now(); } else if ( !audioPlayer.paused && playbackStartedAt === null ) { playbackStartedAt = Date.now(); } } ); /* ============================================================ INITIALIZE TAXONOMY TREES ============================================================ */ setupTaxonomyTree( genreTree, genreTrigger ); setupTaxonomyTree( moodTree, moodTrigger ); /* ============================================================ START THE APP ============================================================ */ loadCatalog(); loadSponsors(); startSponsorRotation(); </script>
-</body> </html>
+button {
+    border: 1px solid #111111;
+    background: #ffffff;
+    color: #111111;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 12px 18px;
+    min-height: 46px;
+}
 
+button:hover {
+    background: #eeeeee;
+}
+
+#playButton {
+    min-width: 120px;
+    font-weight: bold;
+}
+
+#backButton,
+#nextButton {
+    width: 50px;
+    padding: 12px 5px;
+    font-size: 24px;
+    line-height: 1;
+}
+
+#shuffleButton.active {
+    background: #111111;
+    color: #ffffff;
+}
+
+/* =========================================================
+   PLAYER FILTERS
+   ========================================================= */
+
+.taxonomy-filters {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.taxonomy-filter {
+    position: relative;
+    width: 100%;
+}
+
+.taxonomy-trigger {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 12px;
+    border: 1px solid #cccccc;
+    background: #ffffff;
+    color: #111111;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.taxonomy-trigger:hover,
+.taxonomy-filter.open .taxonomy-trigger {
+    border-color: #111111;
+}
+
+.taxonomy-trigger-text {
+    min-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.taxonomy-trigger-arrow {
+    flex-shrink: 0;
+    margin-left: 10px;
+    font-size: 10px;
+    color: #777777;
+    transition: transform 0.15s ease;
+}
+
+.taxonomy-filter.open .taxonomy-trigger-arrow {
+    transform: rotate(180deg);
+}
+
+.taxonomy-panel {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 55vh;
+    overflow-y: auto;
+    margin-top: 4px;
+    border: 1px solid #cccccc;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.taxonomy-filter.open .taxonomy-panel {
+    display: block;
+}
+
+.taxonomy-parent {
+    border-bottom: 1px solid #eeeeee;
+}
+
+.taxonomy-parent:last-child {
+    border-bottom: none;
+}
+
+.taxonomy-parent-row {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    padding: 0 10px;
+}
+
+.taxonomy-parent-row:hover {
+    background: #fafafa;
+}
+
+.taxonomy-check {
+    width: 15px;
+    height: 15px;
+    margin: 0 9px 0 0;
+    accent-color: #111111;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.taxonomy-parent-label {
+    flex: 1;
+    min-width: 0;
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    cursor: pointer;
+}
+
+.taxonomy-expand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    min-height: 28px;
+    border: 0;
+    background: transparent;
+    color: #777777;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.taxonomy-expand:hover {
+    color: #111111;
+    background: transparent;
+}
+
+.taxonomy-parent.expanded .taxonomy-expand {
+    transform: rotate(180deg);
+}
+
+.taxonomy-types {
+    display: none;
+    padding: 3px 10px 10px 34px;
+    border-top: 1px solid #f0f0f0;
+    background: #fafafa;
+}
+
+.taxonomy-parent.expanded .taxonomy-types {
+    display: block;
+}
+
+.taxonomy-type-row {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 4px;
+}
+
+.taxonomy-type-row:hover {
+    background: #f3f3f3;
+}
+
+.taxonomy-type-check {
+    width: 14px;
+    height: 14px;
+    margin: 0 8px 0 0;
+    accent-color: #111111;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.taxonomy-type-label {
+    font-size: 10px;
+    letter-spacing: 0.6px;
+    color: #555555;
+    cursor: pointer;
+}
+
+.taxonomy-empty {
+    padding: 10px 12px;
+    font-size: 9px;
+    color: #999999;
+    letter-spacing: 0.5px;
+}
+
+.taxonomy-summary {
+    margin-top: 0;
+    padding: 0;
+    min-height: 0;
+    font-size: 9px;
+    line-height: 1.4;
+    color: #777777;
+}
+
+.filter-status {
+    min-height: 0;
+    margin-bottom: 0;
+    text-align: center;
+    font-size: 9px;
+    letter-spacing: 0.7px;
+    color: #888888;
+}
+
+/* =========================
+   NOW PLAYING
+   ========================= */
+
+.now-playing {
+    text-align: center;
+    margin-bottom: 10px;
+    min-height: 24px;
+    font-size: 14px;
+    color: #555555;
+}
+
+.now-playing-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.now-playing-mute {
+    font-size: 11px;
+    color: #888888;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
+.now-playing-mute:hover {
+    color: #111111;
+    text-decoration: underline;
+}
+
+/* =========================
+   SPONSOR
+   ========================= */
+
+.sponsor {
+    text-align: center;
+    min-height: 24px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    color: #888888;
+}
+
+.sponsor a {
+    color: #555555;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.sponsor a:hover {
+    color: #111111;
+    text-decoration: underline;
+}
+
+.header-line {
+    border-bottom: 1px solid #cccccc;
+}
+
+.sponsor-tagline {
+    display: block;
+    margin-top: 2px;
+    font-size: 11px;
+    color: #888888;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+/* =========================
+   SCROLLING TRACK AREA
+   ========================= */
+
+.track-list {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.track {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 75px;
+    padding: 12px 0;
+    border-bottom: 1px solid #cccccc;
+    cursor: pointer;
+    user-select: none;
+}
+
+.track:hover {
+    background: #f5f5f5;
+}
+
+.track.selected {
+    background: #eeeeee;
+}
+
+.track-info {
+    min-width: 0;
+    text-align: left;
+    flex: 1;
+}
+
+.track-title {
+    font-size: 17px;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+
+.track-artist {
+    font-size: 12px;
+    color: #777777;
+    margin-bottom: 6px;
+}
+
+.track-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.mute-toggle {
+    font-size: 11px;
+    color: #888888;
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+
+.mute-toggle:hover {
+    color: #111111;
+    text-decoration: underline;
+}
+
+.empty-filter-message {
+    padding: 30px 10px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #888888;
+}
+
+/* =========================
+   FIXED FOOTER
+   ========================= */
+
+.player {
+    flex-shrink: 0;
+    background: #ffffff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+audio {
+    width: 100%;
+}
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 500px) {
+
+    .app {
+        padding: 0 15px;
+    }
+
+    .header {
+        padding-top: 25px;
+    }
+
+    h1 img {
+        height: 34px;
+    }
+
+    .controls {
+        gap: 7px;
+        margin-bottom: 12px;
+    }
+
+    #backButton,
+    #nextButton {
+        width: 46px;
+    }
+
+    #playButton {
+        min-width: 105px;
+    }
+
+    #shuffleButton {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .taxonomy-filters {
+        grid-template-columns: 1fr;
+        gap: 7px;
+        margin-bottom: 8px;
+    }
+
+    .taxonomy-panel {
+        max-height: 48vh;
+    }
+
+    .tra
