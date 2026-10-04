@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 
 <html lang="en">
@@ -292,6 +293,7 @@ h1 {
     text-decoration: none;
     font-size: 10px;
     letter-spacing: 1.5px;
+    text-decoration: none;
 }
 
 .back:hover {
@@ -414,8 +416,7 @@ h1 {
     color: #111111;
 }
 
-.taxonomy-parent.expanded
-.taxonomy-expand {
+.taxonomy-parent.expanded .taxonomy-expand {
     transform: rotate(180deg);
 }
 
@@ -426,8 +427,7 @@ h1 {
     background: #fafafa;
 }
 
-.taxonomy-parent.expanded
-.taxonomy-types {
+.taxonomy-parent.expanded .taxonomy-types {
     display: block;
 }
 
@@ -659,6 +659,7 @@ alt="GR8SKUL"
 
 </div>
 
+
 <!-- =========================================================
      AUTHENTICATION SCREEN
      ========================================================= -->
@@ -678,13 +679,8 @@ alt="GR8SKUL"
 <label
 class="auth-label"
 for="authEmail"
-
 >
-
-```
-EMAIL
-```
-
+    EMAIL
 </label>
 
 <input
@@ -692,7 +688,6 @@ id="authEmail"
 class="auth-input"
 type="email"
 autocomplete="email"
-
 >
 
 </div>
@@ -702,13 +697,8 @@ autocomplete="email"
 <label
 class="auth-label"
 for="authPassword"
-
 >
-
-```
-PASSWORD
-```
-
+    PASSWORD
 </label>
 
 <input
@@ -716,7 +706,6 @@ id="authPassword"
 class="auth-input"
 type="password"
 autocomplete="current-password"
-
 >
 
 </div>
@@ -725,13 +714,8 @@ autocomplete="current-password"
 id="signInButton"
 class="auth-button"
 type="button"
-
 >
-
-```
-SIGN IN
-```
-
+    SIGN IN
 </button>
 
 <div
@@ -742,18 +726,14 @@ SIGN IN
 <a
 class="auth-back"
 href="/"
-
 >
-
-```
-BACK TO GR8SKUL
-```
-
+    BACK TO GR8SKUL
 </a>
 
 </div>
 
 </div>
+
 
 <!-- =========================================================
      PROTECTED WORKS CONTENT
@@ -763,6 +743,7 @@ BACK TO GR8SKUL
     id="protectedContent"
 >
 
+
 <!-- =========================================================
      ADD BUTTON
      ========================================================= -->
@@ -771,13 +752,10 @@ BACK TO GR8SKUL
 id="addButton"
 class="add-button"
 type="button"
-
 >
-
-
-ADD
-
+    ADD
 </button>
+
 
 <!-- =========================================================
      ADD / EDIT FORM
@@ -795,18 +773,14 @@ ADD
     ADD WORK
 </div>
 
+
 <div class="form-row">
 
 <label
 class="form-label"
 for="artistInput"
-
 >
-
-```
-ARTIST(S)
-```
-
+    ARTIST(S)
 </label>
 
 <input
@@ -815,7 +789,6 @@ class="form-input"
 type="text"
 autocomplete="off"
 placeholder="Artist name"
-
 >
 
 <div class="form-help">
@@ -824,18 +797,14 @@ placeholder="Artist name"
 
 </div>
 
+
 <div class="form-row">
 
 <label
 class="form-label"
 for="titleInput"
-
 >
-
-```
-TITLE
-```
-
+    TITLE
 </label>
 
 <input
@@ -844,23 +813,18 @@ class="form-input"
 type="text"
 autocomplete="off"
 placeholder="Work title"
-
 >
 
 </div>
+
 
 <div class="form-row">
 
 <label
 class="form-label"
 for="mp3Input"
-
 >
-
-```
-MP3
-```
-
+    MP3
 </label>
 
 <input
@@ -868,7 +832,6 @@ id="mp3Input"
 class="form-input"
 type="file"
 accept=".mp3,audio/mpeg"
-
 >
 
 <div
@@ -880,6 +843,7 @@ accept=".mp3,audio/mpeg"
 
 </div>
 
+
 <!-- =========================================================
      GENRE TREE
      ========================================================= -->
@@ -889,13 +853,8 @@ accept=".mp3,audio/mpeg"
 <label
 class="form-label"
 for="genreTrigger"
-
 >
-
-```
-GENRE(S)
-```
-
+    GENRE(S)
 </label>
 
 <div
@@ -908,14 +867,9 @@ id="genreTrigger"
 class="taxonomy-trigger"
 type="button"
 aria-expanded="false"
-
 >
 
-```
 <span
-```
-
-```
     id="genreTriggerText"
     class="taxonomy-trigger-text"
 >
@@ -927,785 +881,13 @@ aria-expanded="false"
 >
     ▼
 </span>
-```
 
 </button>
 
 <div
     id="genrePanel"
     class="taxonomy-panel"
->
-
-<!--
-    GENRE DEFINITIONS
-
-    To add or change genre types later,
-    edit these HTML sections.
--->
-
-<div
-    class="taxonomy-parent"
-    data-parent="Acoustic"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Acoustic"
-
->
-
-<label class="taxonomy-parent-label">
-    ACOUSTIC
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Acoustic types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Acoustic"
-    data-type="Traditional"
->
-<label class="taxonomy-type-label">TRADITIONAL</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Acoustic"
-    data-type="Contemporary"
->
-<label class="taxonomy-type-label">CONTEMPORARY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Alternative"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Alternative"
-
->
-
-<label class="taxonomy-parent-label">
-    ALTERNATIVE
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Alternative types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Alternative"
-    data-type="Alternative Rock"
->
-<label class="taxonomy-type-label">ALTERNATIVE ROCK</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Alternative"
-    data-type="Alternative Pop"
->
-<label class="taxonomy-type-label">ALTERNATIVE POP</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Alternative"
-    data-type="Indie"
->
-<label class="taxonomy-type-label">INDIE</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Blues"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Blues"
-
->
-
-<label class="taxonomy-parent-label">
-    BLUES
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Blues types"
-
->
-
-
-▼
-
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Blues"
-    data-type="Traditional"
->
-<label class="taxonomy-type-label">TRADITIONAL</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Blues"
-    data-type="Contemporary"
->
-<label class="taxonomy-type-label">CONTEMPORARY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Classical"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Classical"
-
->
-
-<label class="taxonomy-parent-label">
-    CLASSICAL
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Classical types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Classical"
-    data-type="Renaissance"
->
-<label class="taxonomy-type-label">RENAISSANCE</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Classical"
-    data-type="Baroque"
->
-<label class="taxonomy-type-label">BAROQUE</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Classical"
-    data-type="Classical"
->
-<label class="taxonomy-type-label">CLASSICAL</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Classical"
-    data-type="Romantic"
->
-<label class="taxonomy-type-label">ROMANTIC</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Classical"
-    data-type="Modern"
->
-<label class="taxonomy-type-label">MODERN</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Classical"
-    data-type="Contemporary"
->
-<label class="taxonomy-type-label">CONTEMPORARY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Country"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Country"
-
->
-
-<label class="taxonomy-parent-label">
-    COUNTRY
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Country types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Country"
-    data-type="Traditional"
->
-<label class="taxonomy-type-label">TRADITIONAL</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Country"
-    data-type="Contemporary"
->
-<label class="taxonomy-type-label">CONTEMPORARY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Electronic"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Electronic"
-
->
-
-<label class="taxonomy-parent-label">
-    ELECTRONIC
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Electronic types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Electronic"
-    data-type="Ambient"
->
-<label class="taxonomy-type-label">AMBIENT</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Electronic"
-    data-type="House"
->
-<label class="taxonomy-type-label">HOUSE</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Electronic"
-    data-type="Techno"
->
-<label class="taxonomy-type-label">TECHNO</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Folk"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Folk"
-
->
-
-<label class="taxonomy-parent-label">
-    FOLK
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Folk types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Folk"
-    data-type="Traditional"
->
-<label class="taxonomy-type-label">TRADITIONAL</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Folk"
-    data-type="Contemporary"
->
-<label class="taxonomy-type-label">CONTEMPORARY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Hip-Hop"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Hip-Hop"
-
->
-
-<label class="taxonomy-parent-label">
-    HIP-HOP
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Hip-Hop types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Hip-Hop"
-    data-type="Old School"
->
-<label class="taxonomy-type-label">OLD SCHOOL</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Hip-Hop"
-    data-type="Contemporary"
->
-<label class="taxonomy-type-label">CONTEMPORARY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Jazz"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Jazz"
-
->
-
-<label class="taxonomy-parent-label">
-    JAZZ
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Jazz types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Jazz"
-    data-type="Traditional"
->
-<label class="taxonomy-type-label">TRADITIONAL</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Jazz"
-    data-type="Contemporary"
->
-<label class="taxonomy-type-label">CONTEMPORARY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Pop"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Pop"
-
->
-
-<label class="taxonomy-parent-label">
-    POP
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Pop types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Pop"
-    data-type="Contemporary"
->
-<label class="taxonomy-type-label">CONTEMPORARY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Rock"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Rock"
-
->
-
-<label class="taxonomy-parent-label">
-    ROCK
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Rock types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Rock"
-    data-type="Classic Rock"
->
-<label class="taxonomy-type-label">CLASSIC ROCK</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Rock"
-    data-type="Alternative"
->
-<label class="taxonomy-type-label">ALTERNATIVE</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Rock"
-    data-type="Progressive"
->
-<label class="taxonomy-type-label">PROGRESSIVE</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Rock"
-    data-type="Hard Rock"
->
-<label class="taxonomy-type-label">HARD ROCK</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Other"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Other"
-
->
-
-<label class="taxonomy-parent-label">
-    OTHER
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Other types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-empty">
-    No subcategories currently defined.
-</div>
-
-</div>
-
-</div>
-
-</div>
+></div>
 
 </div>
 
@@ -1716,6 +898,7 @@ aria-label="Show Other types"
 
 </div>
 
+
 <!-- =========================================================
      MOOD TREE
      ========================================================= -->
@@ -1725,13 +908,8 @@ aria-label="Show Other types"
 <label
 class="form-label"
 for="moodTrigger"
-
 >
-
-```
-MOOD(S)
-```
-
+    MOOD(S)
 </label>
 
 <div
@@ -1744,14 +922,9 @@ id="moodTrigger"
 class="taxonomy-trigger"
 type="button"
 aria-expanded="false"
-
 >
 
-```
 <span
-```
-
-```
     id="moodTriggerText"
     class="taxonomy-trigger-text"
 >
@@ -1763,430 +936,13 @@ aria-expanded="false"
 >
     ▼
 </span>
-```
 
 </button>
 
 <div
     id="moodPanel"
     class="taxonomy-panel"
->
-
-<div
-    class="taxonomy-parent"
-    data-parent="Peaceful"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Peaceful"
-
->
-
-<label class="taxonomy-parent-label">
-    PEACEFUL
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Peaceful types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Peaceful"
-    data-type="Calm"
->
-<label class="taxonomy-type-label">CALM</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Peaceful"
-    data-type="Serene"
->
-<label class="taxonomy-type-label">SERENE</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Peaceful"
-    data-type="Meditative"
->
-<label class="taxonomy-type-label">MEDITATIVE</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Dark"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Dark"
-
->
-
-<label class="taxonomy-parent-label">
-    DARK
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Dark types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Dark"
-    data-type="Ominous"
->
-<label class="taxonomy-type-label">OMINOUS</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Dark"
-    data-type="Mysterious"
->
-<label class="taxonomy-type-label">MYSTERIOUS</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Dark"
-    data-type="Haunting"
->
-<label class="taxonomy-type-label">HAUNTING</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Joyful"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Joyful"
-
->
-
-<label class="taxonomy-parent-label">
-    JOYFUL
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Joyful types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Joyful"
-    data-type="Happy"
->
-<label class="taxonomy-type-label">HAPPY</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Joyful"
-    data-type="Playful"
->
-<label class="taxonomy-type-label">PLAYFUL</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Joyful"
-    data-type="Celebratory"
->
-<label class="taxonomy-type-label">CELEBRATORY</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Melancholic"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Melancholic"
-
->
-
-<label class="taxonomy-parent-label">
-    MELANCHOLIC
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Melancholic types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Melancholic"
-    data-type="Sad"
->
-<label class="taxonomy-type-label">SAD</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Melancholic"
-    data-type="Lonely"
->
-<label class="taxonomy-type-label">LONELY</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Melancholic"
-    data-type="Nostalgic"
->
-<label class="taxonomy-type-label">NOSTALGIC</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Energetic"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Energetic"
-
->
-
-<label class="taxonomy-parent-label">
-    ENERGETIC
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Energetic types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Energetic"
-    data-type="Exciting"
->
-<label class="taxonomy-type-label">EXCITING</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Energetic"
-    data-type="Aggressive"
->
-<label class="taxonomy-type-label">AGGRESSIVE</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Energetic"
-    data-type="Driving"
->
-<label class="taxonomy-type-label">DRIVING</label>
-</div>
-
-</div>
-
-</div>
-
-<div
-    class="taxonomy-parent"
-    data-parent="Romantic"
->
-
-<div class="taxonomy-parent-row">
-
-<input
-class="taxonomy-check"
-type="checkbox"
-data-parent="Romantic"
-
->
-
-<label class="taxonomy-parent-label">
-    ROMANTIC
-</label>
-
-<button
-class="taxonomy-expand"
-type="button"
-aria-label="Show Romantic types"
-
->
-
-```
-▼
-```
-
-</button>
-
-</div>
-
-<div class="taxonomy-types">
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Romantic"
-    data-type="Tender"
->
-<label class="taxonomy-type-label">TENDER</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Romantic"
-    data-type="Passionate"
->
-<label class="taxonomy-type-label">PASSIONATE</label>
-</div>
-
-<div class="taxonomy-type-row">
-<input
-    class="taxonomy-type-check"
-    type="checkbox"
-    data-parent="Romantic"
-    data-type="Intimate"
->
-<label class="taxonomy-type-label">INTIMATE</label>
-</div>
-
-</div>
-
-</div>
-
-</div>
+></div>
 
 </div>
 
@@ -2196,6 +952,7 @@ aria-label="Show Romantic types"
 ></div>
 
 </div>
+
 
 <!-- =========================================================
      ACTIONS
@@ -2207,26 +964,16 @@ aria-label="Show Romantic types"
 id="cancelButton"
 class="form-button"
 type="button"
-
 >
-
-```
-CANCEL
-```
-
+    CANCEL
 </button>
 
 <button
 id="uploadButton"
 class="form-button"
 type="button"
-
 >
-
-```
-UPLOAD
-```
-
+    UPLOAD
 </button>
 
 </div>
@@ -2237,6 +984,7 @@ UPLOAD
 ></div>
 
 </div>
+
 
 <!-- =========================================================
      ACCOUNT BAR
@@ -2253,16 +1001,12 @@ UPLOAD
 id="signOutButton"
 class="sign-out-button"
 type="button"
-
 >
-
-```
-SIGN OUT
-```
-
+    SIGN OUT
 </button>
 
 </div>
+
 
 <div class="section">
 
@@ -2282,28 +1026,25 @@ SIGN OUT
 
 </div>
 
+
 <a
 class="back"
 href="/"
-
 >
-
-```
-BACK TO GR8SKUL
-```
-
+    BACK TO GR8SKUL
 </a>
 
 </div>
 
 </div>
 
+
 <script>
 
 /* =========================================================
    GR8SKUL
    WORKS
-   AUTHENTICATION + WORKS
+   AUTHENTICATION + WORKS + CENTRAL TAXONOMY
    ========================================================= */
 
 
@@ -2333,6 +1074,14 @@ const CATALOG_URL =
 
 const METADATA_URL =
     "/track-metadata.json";
+
+
+/* =========================================================
+   CENTRAL TAXONOMY
+   ========================================================= */
+
+const TAXONOMY_ID =
+    "main";
 
 
 /* =========================================================
@@ -2429,6 +1178,8 @@ async function showAuthenticatedPage(
     accountEmail.textContent =
         session.user.email ||
         "";
+
+    await loadTaxonomy();
 
     await loadWorks();
 
@@ -2642,6 +1393,14 @@ let draggedRow = null;
 
 let editingIndex = null;
 
+let taxonomy = {
+
+    genres: [],
+
+    moods: []
+
+};
+
 
 /* =========================================================
    ELEMENTS
@@ -2847,6 +1606,1408 @@ function normalizeArray(
 
 
 /* =========================================================
+   CENTRAL TAXONOMY NORMALIZATION
+   ========================================================= */
+
+function normalizeTaxonomyParents(
+    value,
+    childKeys
+) {
+
+    if (
+        !Array.isArray(value)
+    ) {
+
+        return [];
+
+    }
+
+    return value
+        .map(
+            function(item) {
+
+                if (
+                    typeof item ===
+                    "string"
+                ) {
+
+                    return {
+
+                        name:
+                            item.trim(),
+
+                        types:
+                            []
+
+                    };
+
+                }
+
+                if (
+                    !item ||
+                    typeof item !==
+                    "object"
+                ) {
+
+                    return null;
+
+                }
+
+                const name =
+                    String(
+                        item.name ||
+                        item.genre ||
+                        item.mood ||
+                        item.parent ||
+                        item.title ||
+                        ""
+                    ).trim();
+
+                if (!name) {
+
+                    return null;
+
+                }
+
+                let types =
+                    [];
+
+                for (
+                    const key of childKeys
+                ) {
+
+                    if (
+                        Array.isArray(
+                            item[key]
+                        )
+                    ) {
+
+                        types =
+                            item[key];
+
+                        break;
+
+                    }
+
+                }
+
+                if (
+                    !types.length &&
+                    Array.isArray(
+                        item.children
+                    )
+                ) {
+
+                    types =
+                        item.children;
+
+                }
+
+                types =
+                    types
+                        .map(
+                            function(type) {
+
+                                if (
+                                    typeof type ===
+                                    "string"
+                                ) {
+
+                                    return type.trim();
+
+                                }
+
+                                if (
+                                    type &&
+                                    typeof type ===
+                                    "object"
+                                ) {
+
+                                    return String(
+                                        type.name ||
+                                        type.type ||
+                                        type.genreType ||
+                                        type.moodType ||
+                                        ""
+                                    ).trim();
+
+                                }
+
+                                return "";
+
+                            }
+                        )
+                        .filter(Boolean);
+
+                return {
+
+                    name:
+                        name,
+
+                    types:
+                        types
+
+                };
+
+            }
+        )
+        .filter(Boolean);
+
+}
+
+
+function normalizeCentralTaxonomy(
+    value
+) {
+
+    if (
+        !value ||
+        typeof value !==
+        "object"
+    ) {
+
+        return {
+
+            genres: [],
+
+            moods: []
+
+        };
+
+    }
+
+    const rawGenres =
+        value.genres ||
+        value.genre ||
+        [];
+
+    const rawMoods =
+        value.moods ||
+        value.mood ||
+        [];
+
+    return {
+
+        genres:
+            normalizeTaxonomyParents(
+                rawGenres,
+                [
+                    "types",
+                    "genreTypes",
+                    "genre_types",
+                    "subgenres",
+                    "subGenres"
+                ]
+            ),
+
+        moods:
+            normalizeTaxonomyParents(
+                rawMoods,
+                [
+                    "types",
+                    "moodTypes",
+                    "mood_types",
+                    "submoods",
+                    "subMoods"
+                ]
+            )
+
+    };
+
+}
+
+
+/* =========================================================
+   LOAD CENTRAL TAXONOMY
+   ========================================================= */
+
+async function loadTaxonomy() {
+
+    try {
+
+        const result =
+            await supabaseClient
+                .from(
+                    "gr8skul_taxonomy"
+                )
+                .select(
+                    "taxonomy"
+                )
+                .eq(
+                    "id",
+                    TAXONOMY_ID
+                )
+                .maybeSingle();
+
+        if (
+            result.error
+        ) {
+
+            throw result.error;
+
+        }
+
+        if (
+            !result.data ||
+            !result.data.taxonomy
+        ) {
+
+            throw new Error(
+                "TAXONOMY COULD NOT BE LOADED"
+            );
+
+        }
+
+        taxonomy =
+            normalizeCentralTaxonomy(
+                result.data.taxonomy
+            );
+
+        renderTaxonomyTrees();
+
+    } catch (error) {
+
+        console.error(
+            "Could not load GR8SKUL taxonomy:",
+            error
+        );
+
+        taxonomy = {
+
+            genres: [],
+
+            moods: []
+
+        };
+
+        renderTaxonomyTrees();
+
+        setFormStatus(
+            "COULD NOT LOAD TAXONOMY"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RENDER CENTRAL TAXONOMY
+   ========================================================= */
+
+function renderTaxonomyTrees() {
+
+    genrePanel.innerHTML =
+        "";
+
+    moodPanel.innerHTML =
+        "";
+
+    renderTaxonomyPanel(
+        genrePanel,
+        taxonomy.genres,
+        "genre"
+    );
+
+    renderTaxonomyPanel(
+        moodPanel,
+        taxonomy.moods,
+        "mood"
+    );
+
+}
+
+
+function renderTaxonomyPanel(
+    panel,
+    parents,
+    taxonomyType
+) {
+
+    if (
+        !parents.length
+    ) {
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+        empty.className =
+            "taxonomy-empty";
+
+        empty.textContent =
+            taxonomyType === "genre"
+                ? "NO GENRES CURRENTLY DEFINED."
+                : "NO MOODS CURRENTLY DEFINED.";
+
+        panel.appendChild(
+            empty
+        );
+
+        return;
+
+    }
+
+    parents.forEach(
+        function(parentData) {
+
+            const parent =
+                document.createElement(
+                    "div"
+                );
+
+            parent.className =
+                "taxonomy-parent";
+
+            parent.dataset.parent =
+                parentData.name;
+
+
+            const parentRow =
+                document.createElement(
+                    "div"
+                );
+
+            parentRow.className =
+                "taxonomy-parent-row";
+
+
+            const checkbox =
+                document.createElement(
+                    "input"
+                );
+
+            checkbox.className =
+                "taxonomy-check";
+
+            checkbox.type =
+                "checkbox";
+
+            checkbox.dataset.parent =
+                parentData.name;
+
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+            label.className =
+                "taxonomy-parent-label";
+
+            label.textContent =
+                parentData.name.toUpperCase();
+
+
+            const expandButton =
+                document.createElement(
+                    "button"
+                );
+
+            expandButton.className =
+                "taxonomy-expand";
+
+            expandButton.type =
+                "button";
+
+            expandButton.setAttribute(
+                "aria-label",
+                "Show " +
+                parentData.name +
+                " types"
+            );
+
+            expandButton.textContent =
+                "▼";
+
+
+            parentRow.appendChild(
+                checkbox
+            );
+
+            parentRow.appendChild(
+                label
+            );
+
+            parentRow.appendChild(
+                expandButton
+            );
+
+            parent.appendChild(
+                parentRow
+            );
+
+
+            const typesContainer =
+                document.createElement(
+                    "div"
+                );
+
+            typesContainer.className =
+                "taxonomy-types";
+
+
+            if (
+                parentData.types &&
+                parentData.types.length
+            ) {
+
+                parentData.types.forEach(
+                    function(typeName) {
+
+                        const typeRow =
+                            document.createElement(
+                                "div"
+                            );
+
+                        typeRow.className =
+                            "taxonomy-type-row";
+
+
+                        const typeInput =
+                            document.createElement(
+                                "input"
+                            );
+
+                        typeInput.className =
+                            "taxonomy-type-check";
+
+                        typeInput.type =
+                            "checkbox";
+
+                        typeInput.dataset.parent =
+                            parentData.name;
+
+                        typeInput.dataset.type =
+                            typeName;
+
+
+                        const typeLabel =
+                            document.createElement(
+                                "label"
+                            );
+
+                        typeLabel.className =
+                            "taxonomy-type-label";
+
+                        typeLabel.textContent =
+                            typeName.toUpperCase();
+
+
+                        typeRow.appendChild(
+                            typeInput
+                        );
+
+                        typeRow.appendChild(
+                            typeLabel
+                        );
+
+                        typesContainer.appendChild(
+                            typeRow
+                        );
+
+                    }
+                );
+
+            } else {
+
+                const empty =
+                    document.createElement(
+                        "div"
+                    );
+
+                empty.className =
+                    "taxonomy-empty";
+
+                empty.textContent =
+                    "No subcategories currently defined.";
+
+                typesContainer.appendChild(
+                    empty
+                );
+
+            }
+
+
+            parent.appendChild(
+                typesContainer
+            );
+
+            panel.appendChild(
+                parent
+            );
+
+        }
+    );
+
+    setupTaxonomyTreeParents(
+        panel.parentElement
+    );
+
+}
+
+
+/* =========================================================
+   TAXONOMY TREE HELPERS
+   ========================================================= */
+
+function getTreeParents(
+    tree
+) {
+
+    return Array.from(
+        tree.querySelectorAll(
+            ".taxonomy-parent"
+        )
+    );
+
+}
+
+
+function getTreeSelectedParents(
+    tree
+) {
+
+    return getTreeParents(
+        tree
+    )
+        .filter(
+            function(parent) {
+
+                const checkbox =
+                    parent.querySelector(
+                        ".taxonomy-check"
+                    );
+
+                return checkbox &&
+                    checkbox.checked;
+
+            }
+        )
+        .map(
+            function(parent) {
+
+                return parent.dataset.parent;
+
+            }
+        );
+
+}
+
+
+function getTreeSelectedTypes(
+    tree
+) {
+
+    return Array.from(
+        tree.querySelectorAll(
+            ".taxonomy-type-check:checked"
+        )
+    )
+        .map(
+            function(input) {
+
+                return {
+
+                    parent:
+                        input.dataset.parent,
+
+                    type:
+                        input.dataset.type
+
+                };
+
+            }
+        );
+
+}
+
+
+function setTreeSelectedParents(
+    tree,
+    values
+) {
+
+    const selected =
+        new Set(
+            normalizeArray(
+                values
+            )
+        );
+
+    getTreeParents(
+        tree
+    ).forEach(
+        function(parent) {
+
+            const parentName =
+                parent.dataset.parent;
+
+            const checkbox =
+                parent.querySelector(
+                    ".taxonomy-check"
+                );
+
+            const shouldSelect =
+                selected.has(
+                    parentName
+                );
+
+            checkbox.checked =
+                shouldSelect;
+
+            if (shouldSelect) {
+
+                parent.classList.add(
+                    "expanded"
+                );
+
+            } else {
+
+                parent.classList.remove(
+                    "expanded"
+                );
+
+                parent
+                    .querySelectorAll(
+                        ".taxonomy-type-check"
+                    )
+                    .forEach(
+                        function(typeInput) {
+
+                            typeInput.checked =
+                                false;
+
+                        }
+                    );
+
+            }
+
+        }
+    );
+
+    updateTreeSummary(
+        tree
+    );
+
+}
+
+
+function setTreeSelectedTypes(
+    tree,
+    typeValues
+) {
+
+    const normalized =
+        tree === genreTree
+            ? normalizeGenreTypes(
+                typeValues
+            )
+            : normalizeMoodTypes(
+                typeValues
+            );
+
+    const selectedParents =
+        new Set(
+            getTreeSelectedParents(
+                tree
+            )
+        );
+
+    tree
+        .querySelectorAll(
+            ".taxonomy-type-check"
+        )
+        .forEach(
+            function(input) {
+
+                const inputParent =
+                    input.dataset.parent;
+
+                const inputType =
+                    input.dataset.type;
+
+                let matches =
+                    normalized.some(
+                        function(item) {
+
+                            const itemParent =
+                                tree === genreTree
+                                    ? item.genre
+                                    : item.mood;
+
+                            return (
+                                itemTypeEquals(
+                                    item.type,
+                                    inputType
+                                ) &&
+                                (
+                                    itemParent ===
+                                    inputParent
+                                )
+                            );
+
+                        }
+                    );
+
+
+                /*
+                 * Backward compatibility:
+                 *
+                 * Older metadata may have stored
+                 * only the type without its parent.
+                 *
+                 * In that case, if that type exists
+                 * beneath a selected parent, restore it.
+                 */
+
+                if (
+                    !matches &&
+                    selectedParents.has(
+                        inputParent
+                    )
+                ) {
+
+                    matches =
+                        normalized.some(
+                            function(item) {
+
+                                const itemParent =
+                                    tree === genreTree
+                                        ? item.genre
+                                        : item.mood;
+
+                                return (
+                                    !itemParent &&
+                                    itemTypeEquals(
+                                        item.type,
+                                        inputType
+                                    )
+                                );
+
+                            }
+                        );
+
+                }
+
+                input.checked =
+                    matches;
+
+            }
+        );
+
+    updateTreeSummary(
+        tree
+    );
+
+}
+
+
+function itemTypeEquals(
+    first,
+    second
+) {
+
+    return String(
+        first || ""
+    ).trim() ===
+    String(
+        second || ""
+    ).trim();
+
+}
+
+
+function updateTreeSummary(
+    tree
+) {
+
+    const isGenre =
+        tree === genreTree;
+
+    const summary =
+        isGenre
+            ? genreSummary
+            : moodSummary;
+
+    const triggerText =
+        isGenre
+            ? genreTriggerText
+            : moodTriggerText;
+
+    const parents =
+        getTreeSelectedParents(
+            tree
+        );
+
+    const types =
+        getTreeSelectedTypes(
+            tree
+        );
+
+    if (!parents.length) {
+
+        triggerText.textContent =
+            isGenre
+                ? "SELECT GENRE(S)"
+                : "SELECT MOOD(S)";
+
+        summary.textContent =
+            "";
+
+        return;
+
+    }
+
+    triggerText.textContent =
+        parents.join(
+            ", "
+        );
+
+    if (types.length) {
+
+        summary.textContent =
+            types.length +
+            " SUBCATEGORY" +
+            (
+                types.length === 1
+                    ? ""
+                    : "IES"
+            ) +
+            " SELECTED";
+
+    } else {
+
+        summary.textContent =
+            parents.length +
+            " " +
+            (
+                isGenre
+                    ? "GENRE"
+                    : "MOOD"
+            ) +
+            (
+                parents.length === 1
+                    ? ""
+                    : "S"
+            ) +
+            " SELECTED";
+
+    }
+
+}
+
+
+function clearTree(
+    tree
+) {
+
+    getTreeParents(
+        tree
+    ).forEach(
+        function(parent) {
+
+            const checkbox =
+                parent.querySelector(
+                    ".taxonomy-check"
+                );
+
+            checkbox.checked =
+                false;
+
+            parent.classList.remove(
+                "expanded"
+            );
+
+            parent
+                .querySelectorAll(
+                    ".taxonomy-type-check"
+                )
+                .forEach(
+                    function(typeInput) {
+
+                        typeInput.checked =
+                            false;
+
+                    }
+                );
+
+        }
+    );
+
+    updateTreeSummary(
+        tree
+    );
+
+}
+
+
+function includeParentValues(
+    parents,
+    types,
+    tree
+) {
+
+    const result =
+        normalizeArray(
+            parents
+        );
+
+    const existing =
+        new Set(
+            result
+        );
+
+    types.forEach(
+        function(item) {
+
+            const parent =
+                tree === genreTree
+                    ? item.genre
+                    : item.mood;
+
+            if (
+                parent &&
+                !existing.has(
+                    parent
+                )
+            ) {
+
+                result.push(
+                    parent
+                );
+
+                existing.add(
+                    parent
+                );
+
+            }
+
+        }
+    );
+
+    return result;
+
+}
+
+
+function getGenreMetadata() {
+
+    const selectedParents =
+        getTreeSelectedParents(
+            genreTree
+        );
+
+    const selectedTypes =
+        getTreeSelectedTypes(
+            genreTree
+        );
+
+    const genres =
+        includeParentValues(
+            selectedParents,
+            selectedTypes,
+            genreTree
+        );
+
+    const genreTypes =
+        selectedTypes.map(
+            function(item) {
+
+                return {
+
+                    genre:
+                        item.parent,
+
+                    type:
+                        item.type
+
+                };
+
+            }
+        );
+
+    return {
+
+        genres:
+            genres,
+
+        genreTypes:
+            genreTypes
+
+    };
+
+}
+
+
+function getMoodMetadata() {
+
+    const selectedParents =
+        getTreeSelectedParents(
+            moodTree
+        );
+
+    const selectedTypes =
+        getTreeSelectedTypes(
+            moodTree
+        );
+
+    const moods =
+        includeParentValues(
+            selectedParents,
+            selectedTypes,
+            moodTree
+        );
+
+    const moodTypes =
+        selectedTypes.map(
+            function(item) {
+
+                return {
+
+                    mood:
+                        item.parent,
+
+                    type:
+                        item.type
+
+                };
+
+            }
+        );
+
+    return {
+
+        moods:
+            moods,
+
+        moodTypes:
+            moodTypes
+
+    };
+
+}
+
+
+/* =========================================================
+   TAXONOMY TREE EVENTS
+   ========================================================= */
+
+function setupTaxonomyTree(
+    tree,
+    trigger,
+    summary
+) {
+
+    trigger.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            const currentlyOpen =
+                tree.classList.contains(
+                    "open"
+                );
+
+            /*
+             * Close the other taxonomy tree
+             * when this one opens.
+             */
+
+            if (
+                tree === genreTree
+            ) {
+
+                moodTree.classList.remove(
+                    "open"
+                );
+
+                moodTrigger.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            } else {
+
+                genreTree.classList.remove(
+                    "open"
+                );
+
+                genreTrigger.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+            tree.classList.toggle(
+                "open",
+                !currentlyOpen
+            );
+
+            trigger.setAttribute(
+                "aria-expanded",
+                String(
+                    !currentlyOpen
+                )
+            );
+
+        }
+    );
+
+}
+
+
+function setupTaxonomyTreeParents(
+    tree
+) {
+
+    const parents =
+        getTreeParents(
+            tree
+        );
+
+    parents.forEach(
+        function(parent) {
+
+            const parentCheckbox =
+                parent.querySelector(
+                    ".taxonomy-check"
+                );
+
+            const parentLabel =
+                parent.querySelector(
+                    ".taxonomy-parent-label"
+                );
+
+            const expandButton =
+                parent.querySelector(
+                    ".taxonomy-expand"
+                );
+
+
+            parentCheckbox.addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+                }
+            );
+
+
+            parentCheckbox.addEventListener(
+                "change",
+                function() {
+
+                    if (
+                        parentCheckbox.checked
+                    ) {
+
+                        parent.classList.add(
+                            "expanded"
+                        );
+
+                    } else {
+
+                        parent.classList.remove(
+                            "expanded"
+                        );
+
+                        parent
+                            .querySelectorAll(
+                                ".taxonomy-type-check"
+                            )
+                            .forEach(
+                                function(typeInput) {
+
+                                    typeInput.checked =
+                                        false;
+
+                                }
+                            );
+
+                    }
+
+                    updateTreeSummary(
+                        tree
+                    );
+
+                }
+            );
+
+
+            parentLabel.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    parentCheckbox.checked =
+                        !parentCheckbox.checked;
+
+                    parentCheckbox.dispatchEvent(
+                        new Event(
+                            "change"
+                        )
+                    );
+
+                }
+            );
+
+
+            expandButton.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    event.stopPropagation();
+
+                    if (
+                        !parentCheckbox.checked
+                    ) {
+
+                        parentCheckbox.checked =
+                            true;
+
+                        parentCheckbox.dispatchEvent(
+                            new Event(
+                                "change"
+                            )
+                        );
+
+                    }
+
+                    parent.classList.toggle(
+                        "expanded"
+                    );
+
+                }
+            );
+
+
+            parent
+                .querySelectorAll(
+                    ".taxonomy-type-check"
+                )
+                .forEach(
+                    function(typeInput) {
+
+                        typeInput.addEventListener(
+                            "click",
+                            function(event) {
+
+                                event.stopPropagation();
+
+                            }
+                        );
+
+                        typeInput.addEventListener(
+                            "change",
+                            function() {
+
+                                /*
+                                 * A child can never exist
+                                 * without its parent.
+                                 */
+
+                                if (
+                                    typeInput.checked &&
+                                    !parentCheckbox.checked
+                                ) {
+
+                                    parentCheckbox.checked =
+                                        true;
+
+                                    parent.classList.add(
+                                        "expanded"
+                                    );
+
+                                }
+
+                                updateTreeSummary(
+                                    tree
+                                );
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CLOSE TAXONOMY DROPDOWNS WHEN CLICKING OUTSIDE
+   ========================================================= */
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            !genreTree.contains(
+                event.target
+            )
+        ) {
+
+            genreTree.classList.remove(
+                "open"
+            );
+
+            genreTrigger.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+        if (
+            !moodTree.contains(
+                event.target
+            )
+        ) {
+
+            moodTree.classList.remove(
+                "open"
+            );
+
+            moodTrigger.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   INITIALIZE TAXONOMY TRIGGERS
+   ========================================================= */
+
+setupTaxonomyTree(
+    genreTree,
+    genreTrigger,
+    genreSummary
+);
+
+setupTaxonomyTree(
+    moodTree,
+    moodTrigger,
+    moodSummary
+);
+
+
+/* =========================================================
    NORMALIZE GENRE TYPES
    ========================================================= */
 
@@ -2920,11 +3081,13 @@ function normalizeGenreTypes(
                     }
 
                     return {
+
                         genre:
                             genre,
 
                         type:
                             type
+
                     };
 
                 }
@@ -2948,6 +3111,7 @@ function normalizeGenreTypes(
                         text.split("::");
 
                     return {
+
                         genre:
                             parts[0].trim(),
 
@@ -2956,16 +3120,19 @@ function normalizeGenreTypes(
                                 .slice(1)
                                 .join("::")
                                 .trim()
+
                     };
 
                 }
 
                 return {
+
                     genre:
                         "",
 
                     type:
                         text
+
                 };
 
             }
@@ -3056,11 +3223,13 @@ function normalizeMoodTypes(
                     }
 
                     return {
+
                         mood:
                             mood,
 
                         type:
                             type
+
                     };
 
                 }
@@ -3084,6 +3253,7 @@ function normalizeMoodTypes(
                         text.split("::");
 
                     return {
+
                         mood:
                             parts[0].trim(),
 
@@ -3092,16 +3262,19 @@ function normalizeMoodTypes(
                                 .slice(1)
                                 .join("::")
                                 .trim()
+
                     };
 
                 }
 
                 return {
+
                     mood:
                         "",
 
                     type:
                         text
+
                 };
 
             }
@@ -3114,6 +3287,214 @@ function normalizeMoodTypes(
 
             }
         );
+
+}
+
+
+/* =========================================================
+   EDIT WORK
+   ========================================================= */
+
+function editWork(
+    work,
+    index,
+    row
+) {
+
+    editingIndex =
+        index;
+
+    formHeading.textContent =
+        "EDIT WORK";
+
+    artistInput.value =
+        work.artists.join(
+            ", "
+        );
+
+    titleInput.value =
+        work.title ||
+        getFilenameTitle(
+            work.file
+        );
+
+
+    /*
+     * Restore genre parents first.
+     *
+     * If existing metadata contains a
+     * genre type whose parent was not
+     * included in genres, include that
+     * parent automatically.
+     */
+
+    const normalizedGenreTypes =
+        normalizeGenreTypes(
+            work.genreTypes
+        );
+
+    const editGenres =
+        includeParentValues(
+            work.genres,
+            normalizedGenreTypes,
+            genreTree
+        );
+
+    setTreeSelectedParents(
+        genreTree,
+        editGenres
+    );
+
+    setTreeSelectedTypes(
+        genreTree,
+        normalizedGenreTypes
+    );
+
+
+    /*
+     * Restore mood parents and children.
+     */
+
+    const normalizedMoodTypes =
+        normalizeMoodTypes(
+            work.moodTypes
+        );
+
+    const editMoods =
+        includeParentValues(
+            work.moods,
+            normalizedMoodTypes,
+            moodTree
+        );
+
+    setTreeSelectedParents(
+        moodTree,
+        editMoods
+    );
+
+    setTreeSelectedTypes(
+        moodTree,
+        normalizedMoodTypes
+    );
+
+
+    genreTree.classList.remove(
+        "open"
+    );
+
+    moodTree.classList.remove(
+        "open"
+    );
+
+    genreTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    moodTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    mp3Input.value =
+        "";
+
+    mp3Help.textContent =
+        "Leave empty to keep the existing MP3, or select a new MP3 to replace it.";
+
+    uploadButton.textContent =
+        "SAVE";
+
+    formStatus.textContent =
+        "";
+
+
+    /*
+     * Move the form directly underneath
+     * the track currently being edited.
+     */
+
+    row.insertAdjacentElement(
+        "afterend",
+        addForm
+    );
+
+    addForm.classList.add(
+        "visible"
+    );
+
+    window.scrollTo(
+        {
+            top:
+                addForm.getBoundingClientRect().top +
+                window.scrollY -
+                20,
+
+            behavior:
+                "smooth"
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   ARTIST VALUES
+   ========================================================= */
+
+function getArtistValues() {
+
+    return artistInput.value
+        .split(",")
+        .map(
+            function(value) {
+
+                return value.trim();
+
+            }
+        )
+        .filter(Boolean);
+
+}
+
+
+/* =========================================================
+   WORK KEY
+   ========================================================= */
+
+function getWorkKey(
+    work
+) {
+
+    if (
+        typeof work ===
+        "string"
+    ) {
+
+        return work;
+
+    }
+
+    if (
+        !work ||
+        typeof work !==
+        "object"
+    ) {
+
+        return "";
+
+    }
+
+    return (
+        work.file ||
+        work.filename ||
+        work.path ||
+        work.url ||
+        work.src ||
+        work.audio ||
+        ""
+    );
 
 }
 
@@ -3262,46 +3643,6 @@ function normalizeWork(
             []
 
     };
-
-}
-
-
-/* =========================================================
-   WORK KEY
-   ========================================================= */
-
-function getWorkKey(
-    work
-) {
-
-    if (
-        typeof work ===
-        "string"
-    ) {
-
-        return work;
-
-    }
-
-    if (
-        !work ||
-        typeof work !==
-        "object"
-    ) {
-
-        return "";
-
-    }
-
-    return (
-        work.file ||
-        work.filename ||
-        work.path ||
-        work.url ||
-        work.src ||
-        work.audio ||
-        ""
-    );
 
 }
 
@@ -3679,6 +4020,7 @@ function renderWorks() {
             row.dataset.index =
                 index;
 
+
             const number =
                 document.createElement(
                     "div"
@@ -3695,6 +4037,7 @@ function renderWorks() {
                     "0"
                 );
 
+
             const info =
                 document.createElement(
                     "div"
@@ -3702,6 +4045,7 @@ function renderWorks() {
 
             info.className =
                 "work-info";
+
 
             const artist =
                 document.createElement(
@@ -3715,6 +4059,7 @@ function renderWorks() {
                 work.artists.join(
                     ", "
                 );
+
 
             const title =
                 document.createElement(
@@ -3730,6 +4075,7 @@ function renderWorks() {
                     work.file
                 );
 
+
             info.appendChild(
                 artist
             );
@@ -3737,6 +4083,7 @@ function renderWorks() {
             info.appendChild(
                 title
             );
+
 
             const edit =
                 document.createElement(
@@ -3752,6 +4099,7 @@ function renderWorks() {
             edit.textContent =
                 "EDIT";
 
+
             edit.addEventListener(
                 "pointerdown",
                 function(event) {
@@ -3760,6 +4108,7 @@ function renderWorks() {
 
                 }
             );
+
 
             edit.addEventListener(
                 "click",
@@ -3776,6 +4125,7 @@ function renderWorks() {
                 }
             );
 
+
             row.appendChild(
                 number
             );
@@ -3788,9 +4138,11 @@ function renderWorks() {
                 edit
             );
 
+
             addPointerDragHandlers(
                 row
             );
+
 
             worksList.appendChild(
                 row
@@ -3827,1000 +4179,6 @@ function getFilenameTitle(
             ""
         )
         : "";
-
-}
-
-
-/* =========================================================
-   TAXONOMY TREE HELPERS
-   ========================================================= */
-
-function getTreeParents(
-    tree
-) {
-
-    return Array.from(
-        tree.querySelectorAll(
-            ".taxonomy-parent"
-        )
-    );
-
-}
-
-
-function getTreeSelectedParents(
-    tree
-) {
-
-    return getTreeParents(
-        tree
-    )
-        .filter(
-            function(parent) {
-
-                const checkbox =
-                    parent.querySelector(
-                        ".taxonomy-check"
-                    );
-
-                return checkbox &&
-                    checkbox.checked;
-
-            }
-        )
-        .map(
-            function(parent) {
-
-                return parent.dataset.parent;
-
-            }
-        );
-
-}
-
-
-function getTreeSelectedTypes(
-    tree
-) {
-
-    return Array.from(
-        tree.querySelectorAll(
-            ".taxonomy-type-check:checked"
-        )
-    )
-        .map(
-            function(input) {
-
-                return {
-                    parent:
-                        input.dataset.parent,
-
-                    type:
-                        input.dataset.type
-                };
-
-            }
-        );
-
-}
-
-
-function setTreeSelectedParents(
-    tree,
-    values
-) {
-
-    const selected =
-        new Set(
-            normalizeArray(
-                values
-            )
-        );
-
-    getTreeParents(
-        tree
-    ).forEach(
-        function(parent) {
-
-            const parentName =
-                parent.dataset.parent;
-
-            const checkbox =
-                parent.querySelector(
-                    ".taxonomy-check"
-                );
-
-            const shouldSelect =
-                selected.has(
-                    parentName
-                );
-
-            checkbox.checked =
-                shouldSelect;
-
-            if (shouldSelect) {
-
-                parent.classList.add(
-                    "expanded"
-                );
-
-            } else {
-
-                parent.classList.remove(
-                    "expanded"
-                );
-
-                parent
-                    .querySelectorAll(
-                        ".taxonomy-type-check"
-                    )
-                    .forEach(
-                        function(typeInput) {
-
-                            typeInput.checked =
-                                false;
-
-                        }
-                    );
-
-            }
-
-        }
-    );
-
-    updateTreeSummary(
-        tree
-    );
-
-}
-
-
-function setTreeSelectedTypes(
-    tree,
-    typeValues
-) {
-
-    const normalized =
-        tree === genreTree
-            ? normalizeGenreTypes(
-                typeValues
-            )
-            : normalizeMoodTypes(
-                typeValues
-            );
-
-    const selectedParents =
-        new Set(
-            getTreeSelectedParents(
-                tree
-            )
-        );
-
-    tree
-        .querySelectorAll(
-            ".taxonomy-type-check"
-        )
-        .forEach(
-            function(input) {
-
-                const inputParent =
-                    input.dataset.parent;
-
-                const inputType =
-                    input.dataset.type;
-
-                let matches =
-                    normalized.some(
-                        function(item) {
-
-                            const itemParent =
-                                tree === genreTree
-                                    ? item.genre
-                                    : item.mood;
-
-                            return (
-                                itemTypeEquals(
-                                    item.type,
-                                    inputType
-                                ) &&
-                                (
-                                    itemParent ===
-                                    inputParent
-                                )
-                            );
-
-                        }
-                    );
-
-                /*
-                 * Backward compatibility:
-                 *
-                 * Older metadata may have stored
-                 * only the type without its parent.
-                 *
-                 * In that case, if that type exists
-                 * beneath a selected parent, restore it.
-                 */
-                if (
-                    !matches &&
-                    selectedParents.has(
-                        inputParent
-                    )
-                ) {
-
-                    matches =
-                        normalized.some(
-                            function(item) {
-
-                                const itemParent =
-                                    tree === genreTree
-                                        ? item.genre
-                                        : item.mood;
-
-                                return (
-                                    !itemParent &&
-                                    itemTypeEquals(
-                                        item.type,
-                                        inputType
-                                    )
-                                );
-
-                            }
-                        );
-
-                }
-
-                input.checked =
-                    matches;
-
-            }
-        );
-
-    updateTreeSummary(
-        tree
-    );
-
-}
-
-
-function itemTypeEquals(
-    first,
-    second
-) {
-
-    return String(
-        first || ""
-    ).trim() ===
-    String(
-        second || ""
-    ).trim();
-
-}
-
-
-function updateTreeSummary(
-    tree
-) {
-
-    const isGenre =
-        tree === genreTree;
-
-    const summary =
-        isGenre
-            ? genreSummary
-            : moodSummary;
-
-    const triggerText =
-        isGenre
-            ? genreTriggerText
-            : moodTriggerText;
-
-    const parents =
-        getTreeSelectedParents(
-            tree
-        );
-
-    const types =
-        getTreeSelectedTypes(
-            tree
-        );
-
-    if (!parents.length) {
-
-        triggerText.textContent =
-            isGenre
-                ? "SELECT GENRE(S)"
-                : "SELECT MOOD(S)";
-
-        summary.textContent =
-            "";
-
-        return;
-
-    }
-
-    triggerText.textContent =
-        parents.join(
-            ", "
-        );
-
-    if (types.length) {
-
-        summary.textContent =
-            types.length +
-            " SUBCATEGORY" +
-            (
-                types.length === 1
-                    ? ""
-                    : "IES"
-            ) +
-            " SELECTED";
-
-    } else {
-
-        summary.textContent =
-            parents.length +
-            " " +
-            (
-                isGenre
-                    ? "GENRE"
-                    : "MOOD"
-            ) +
-            (
-                parents.length === 1
-                    ? ""
-                    : "S"
-            ) +
-            " SELECTED";
-
-    }
-
-}
-
-
-function clearTree(
-    tree
-) {
-
-    getTreeParents(
-        tree
-    ).forEach(
-        function(parent) {
-
-            const checkbox =
-                parent.querySelector(
-                    ".taxonomy-check"
-                );
-
-            checkbox.checked =
-                false;
-
-            parent.classList.remove(
-                "expanded"
-            );
-
-            parent
-                .querySelectorAll(
-                    ".taxonomy-type-check"
-                )
-                .forEach(
-                    function(typeInput) {
-
-                        typeInput.checked =
-                            false;
-
-                    }
-                );
-
-        }
-    );
-
-    updateTreeSummary(
-        tree
-    );
-
-}
-
-
-function includeParentValues(
-    parents,
-    types,
-    tree
-) {
-
-    const result =
-        normalizeArray(
-            parents
-        );
-
-    const existing =
-        new Set(
-            result
-        );
-
-    types.forEach(
-        function(item) {
-
-            const parent =
-                tree === genreTree
-                    ? item.genre
-                    : item.mood;
-
-            if (
-                parent &&
-                !existing.has(
-                    parent
-                )
-            ) {
-
-                result.push(
-                    parent
-                );
-
-                existing.add(
-                    parent
-                );
-
-            }
-
-        }
-    );
-
-    return result;
-
-}
-
-
-function getGenreMetadata() {
-
-    const selectedParents =
-        getTreeSelectedParents(
-            genreTree
-        );
-
-    const selectedTypes =
-        getTreeSelectedTypes(
-            genreTree
-        );
-
-    const genres =
-        includeParentValues(
-            selectedParents,
-            selectedTypes,
-            genreTree
-        );
-
-    const genreTypes =
-        selectedTypes.map(
-            function(item) {
-
-                return {
-                    genre:
-                        item.parent,
-
-                    type:
-                        item.type
-                };
-
-            }
-        );
-
-    return {
-        genres:
-            genres,
-
-        genreTypes:
-            genreTypes
-    };
-
-}
-
-
-function getMoodMetadata() {
-
-    const selectedParents =
-        getTreeSelectedParents(
-            moodTree
-        );
-
-    const selectedTypes =
-        getTreeSelectedTypes(
-            moodTree
-        );
-
-    const moods =
-        includeParentValues(
-            selectedParents,
-            selectedTypes,
-            moodTree
-        );
-
-    const moodTypes =
-        selectedTypes.map(
-            function(item) {
-
-                return {
-                    mood:
-                        item.parent,
-
-                    type:
-                        item.type
-                };
-
-            }
-        );
-
-    return {
-        moods:
-            moods,
-
-        moodTypes:
-            moodTypes
-    };
-
-}
-
-
-/* =========================================================
-   TAXONOMY TREE EVENTS
-   ========================================================= */
-
-function setupTaxonomyTree(
-    tree,
-    trigger,
-    summary
-) {
-
-    const parents =
-        getTreeParents(
-            tree
-        );
-
-    trigger.addEventListener(
-        "click",
-        function(event) {
-
-            event.preventDefault();
-
-            const currentlyOpen =
-                tree.classList.contains(
-                    "open"
-                );
-
-            /*
-             * Close the other taxonomy tree
-             * when this one opens.
-             */
-            if (
-                tree === genreTree
-            ) {
-
-                moodTree.classList.remove(
-                    "open"
-                );
-
-                moodTrigger.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-            } else {
-
-                genreTree.classList.remove(
-                    "open"
-                );
-
-                genreTrigger.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-            }
-
-            tree.classList.toggle(
-                "open",
-                !currentlyOpen
-            );
-
-            trigger.setAttribute(
-                "aria-expanded",
-                String(
-                    !currentlyOpen
-                )
-            );
-
-        }
-    );
-
-    parents.forEach(
-        function(parent) {
-
-            const parentCheckbox =
-                parent.querySelector(
-                    ".taxonomy-check"
-                );
-
-            const parentLabel =
-                parent.querySelector(
-                    ".taxonomy-parent-label"
-                );
-
-            const expandButton =
-                parent.querySelector(
-                    ".taxonomy-expand"
-                );
-
-            parentCheckbox.addEventListener(
-                "click",
-                function(event) {
-
-                    event.stopPropagation();
-
-                }
-            );
-
-            parentCheckbox.addEventListener(
-                "change",
-                function() {
-
-                    if (
-                        parentCheckbox.checked
-                    ) {
-
-                        parent.classList.add(
-                            "expanded"
-                        );
-
-                    } else {
-
-                        parent.classList.remove(
-                            "expanded"
-                        );
-
-                        parent
-                            .querySelectorAll(
-                                ".taxonomy-type-check"
-                            )
-                            .forEach(
-                                function(typeInput) {
-
-                                    typeInput.checked =
-                                        false;
-
-                                }
-                            );
-
-                    }
-
-                    updateTreeSummary(
-                        tree
-                    );
-
-                }
-            );
-
-            parentLabel.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    parentCheckbox.checked =
-                        !parentCheckbox.checked;
-
-                    parentCheckbox.dispatchEvent(
-                        new Event(
-                            "change"
-                        )
-                    );
-
-                }
-            );
-
-            expandButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-                    if (
-                        !parentCheckbox.checked
-                    ) {
-
-                        parentCheckbox.checked =
-                            true;
-
-                        parentCheckbox.dispatchEvent(
-                            new Event(
-                                "change"
-                            )
-                        );
-
-                    }
-
-                    parent.classList.toggle(
-                        "expanded"
-                    );
-
-                }
-            );
-
-            parent
-                .querySelectorAll(
-                    ".taxonomy-type-check"
-                )
-                .forEach(
-                    function(typeInput) {
-
-                        typeInput.addEventListener(
-                            "click",
-                            function(event) {
-
-                                event.stopPropagation();
-
-                            }
-                        );
-
-                        typeInput.addEventListener(
-                            "change",
-                            function() {
-
-                                /*
-                                 * A child can never exist
-                                 * without its parent.
-                                 */
-                                if (
-                                    typeInput.checked &&
-                                    !parentCheckbox.checked
-                                ) {
-
-                                    parentCheckbox.checked =
-                                        true;
-
-                                    parent.classList.add(
-                                        "expanded"
-                                    );
-
-                                }
-
-                                updateTreeSummary(
-                                    tree
-                                );
-
-                            }
-                        );
-
-                    }
-                );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   CLOSE TAXONOMY DROPDOWNS WHEN CLICKING OUTSIDE
-   ========================================================= */
-
-document.addEventListener(
-    "click",
-    function(event) {
-
-        if (
-            !genreTree.contains(
-                event.target
-            )
-        ) {
-
-            genreTree.classList.remove(
-                "open"
-            );
-
-            genreTrigger.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-
-        if (
-            !moodTree.contains(
-                event.target
-            )
-        ) {
-
-            moodTree.classList.remove(
-                "open"
-            );
-
-            moodTrigger.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   INITIALIZE TAXONOMY TREES
-   ========================================================= */
-
-setupTaxonomyTree(
-    genreTree,
-    genreTrigger,
-    genreSummary
-);
-
-setupTaxonomyTree(
-    moodTree,
-    moodTrigger,
-    moodSummary
-);
-
-
-/* =========================================================
-   EDIT WORK
-   ========================================================= */
-
-function editWork(
-    work,
-    index,
-    row
-) {
-
-    editingIndex =
-        index;
-
-    formHeading.textContent =
-        "EDIT WORK";
-
-    artistInput.value =
-        work.artists.join(
-            ", "
-        );
-
-    titleInput.value =
-        work.title ||
-        getFilenameTitle(
-            work.file
-        );
-
-    /*
-     * Restore genre parents first.
-     *
-     * If existing metadata contains a
-     * genre type whose parent was not
-     * included in genres, include that
-     * parent automatically.
-     */
-    const normalizedGenreTypes =
-        normalizeGenreTypes(
-            work.genreTypes
-        );
-
-    const editGenres =
-        includeParentValues(
-            work.genres,
-            normalizedGenreTypes,
-            genreTree
-        );
-
-    setTreeSelectedParents(
-        genreTree,
-        editGenres
-    );
-
-    setTreeSelectedTypes(
-        genreTree,
-        normalizedGenreTypes
-    );
-
-
-    /*
-     * Restore mood parents and children.
-     */
-    const normalizedMoodTypes =
-        normalizeMoodTypes(
-            work.moodTypes
-        );
-
-    const editMoods =
-        includeParentValues(
-            work.moods,
-            normalizedMoodTypes,
-            moodTree
-        );
-
-    setTreeSelectedParents(
-        moodTree,
-        editMoods
-    );
-
-    setTreeSelectedTypes(
-        moodTree,
-        normalizedMoodTypes
-    );
-
-    genreTree.classList.remove(
-        "open"
-    );
-
-    moodTree.classList.remove(
-        "open"
-    );
-
-    genreTrigger.setAttribute(
-        "aria-expanded",
-        "false"
-    );
-
-    moodTrigger.setAttribute(
-        "aria-expanded",
-        "false"
-    );
-
-    mp3Input.value =
-        "";
-
-    mp3Help.textContent =
-        "Leave empty to keep the existing MP3, or select a new MP3 to replace it.";
-
-    uploadButton.textContent =
-        "SAVE";
-
-    formStatus.textContent =
-        "";
-
-    /*
-     * Move the form directly underneath
-     * the track currently being edited.
-     */
-    row.insertAdjacentElement(
-        "afterend",
-        addForm
-    );
-
-    addForm.classList.add(
-        "visible"
-    );
-
-    window.scrollTo(
-        {
-            top:
-                addForm.getBoundingClientRect().top +
-                window.scrollY -
-                20,
-
-            behavior:
-                "smooth"
-        }
-    );
-
-}
-
-
-/* =========================================================
-   ARTIST VALUES
-   ========================================================= */
-
-function getArtistValues() {
-
-    return artistInput.value
-        .split(",")
-        .map(
-            function(value) {
-
-                return value.trim();
-
-            }
-        )
-        .filter(Boolean);
 
 }
 
@@ -5001,6 +4359,7 @@ async function saveCurrentDomOrder() {
 
     renderWorks();
 
+
     try {
 
         localStorage.setItem(
@@ -5019,6 +4378,7 @@ async function saveCurrentDomOrder() {
 
     }
 
+
     const tracks =
         works
             .map(
@@ -5027,6 +4387,7 @@ async function saveCurrentDomOrder() {
             .filter(
                 Boolean
             );
+
 
     if (
         tracks.length !==
@@ -5050,9 +4411,11 @@ async function saveCurrentDomOrder() {
 
     }
 
+
     setOrderStatus(
         "SAVING ORDER..."
     );
+
 
     try {
 
@@ -5287,6 +4650,7 @@ function openAddForm() {
      * Always return the form to its position
      * directly beneath the ADD button.
      */
+
     addButton.insertAdjacentElement(
         "afterend",
         addForm
@@ -5333,6 +4697,7 @@ cancelButton.addEventListener(
          * Return the form to the ADD position
          * after it has been used for editing.
          */
+
         addButton.insertAdjacentElement(
             "afterend",
             addForm
@@ -5354,15 +4719,18 @@ uploadButton.addEventListener(
             ""
         );
 
+
         const artists =
             getArtistValues();
 
         const title =
             titleInput.value.trim();
 
+
         /*
          * Read the hierarchical trees.
          */
+
         const genreData =
             getGenreMetadata();
 
@@ -5385,6 +4753,7 @@ uploadButton.addEventListener(
             mp3Input.files[0] ||
             null;
 
+
         if (
             editingIndex === null &&
             !file
@@ -5398,6 +4767,7 @@ uploadButton.addEventListener(
 
         }
 
+
         if (!title) {
 
             setFormStatus(
@@ -5407,6 +4777,7 @@ uploadButton.addEventListener(
             return;
 
         }
+
 
         if (!artists.length) {
 
@@ -5418,6 +4789,7 @@ uploadButton.addEventListener(
 
         }
 
+
         if (!genres.length) {
 
             setFormStatus(
@@ -5428,6 +4800,7 @@ uploadButton.addEventListener(
 
         }
 
+
         if (!moods.length) {
 
             setFormStatus(
@@ -5437,6 +4810,7 @@ uploadButton.addEventListener(
             return;
 
         }
+
 
         if (
             file &&
@@ -5454,6 +4828,7 @@ uploadButton.addEventListener(
 
         }
 
+
         /*
          * IMPORTANT:
          *
@@ -5464,6 +4839,7 @@ uploadButton.addEventListener(
          * The child selections are stored
          * separately as parent/type objects.
          */
+
         const metadata = {
 
             title:
@@ -5486,8 +4862,10 @@ uploadButton.addEventListener(
 
         };
 
+
         let existingFile =
             "";
+
 
         if (
             editingIndex !== null
@@ -5515,8 +4893,10 @@ uploadButton.addEventListener(
 
         }
 
+
         const formData =
             new FormData();
+
 
         formData.append(
             "metadata",
@@ -5525,12 +4905,14 @@ uploadButton.addEventListener(
             )
         );
 
+
         formData.append(
             "mode",
             editingIndex !== null
                 ? "edit"
                 : "add"
         );
+
 
         if (
             editingIndex !== null
@@ -5543,6 +4925,7 @@ uploadButton.addEventListener(
 
         }
 
+
         if (file) {
 
             formData.append(
@@ -5551,6 +4934,7 @@ uploadButton.addEventListener(
             );
 
         }
+
 
         uploadButton.disabled =
             true;
@@ -5565,6 +4949,7 @@ uploadButton.addEventListener(
                 ? "SAVING..."
                 : "UPLOADING..."
         );
+
 
         try {
 
@@ -5596,8 +4981,10 @@ uploadButton.addEventListener(
                     }
                 );
 
+
             const result =
                 await response.json();
+
 
             if (
                 !response.ok
@@ -5614,6 +5001,7 @@ uploadButton.addEventListener(
 
             }
 
+
             if (
                 result.success !==
                 true
@@ -5626,6 +5014,7 @@ uploadButton.addEventListener(
 
             }
 
+
             setFormStatus(
                 editingIndex !== null
                     ? (
@@ -5636,7 +5025,9 @@ uploadButton.addEventListener(
                     : "WORK UPLOADED"
             );
 
+
             await loadWorks();
+
 
             setTimeout(
                 function() {
@@ -5655,6 +5046,7 @@ uploadButton.addEventListener(
                 },
                 1000
             );
+
 
         } catch (error) {
 
@@ -5695,3 +5087,4 @@ checkAuthentication();
 </body>
 
 </html>
+```
