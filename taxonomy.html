@@ -101,6 +101,11 @@
         background: #f4f4f4;
     }
 
+    button:disabled {
+        opacity: 0.5;
+        cursor: default;
+    }
+
     #signInButton {
         width: 100%;
         height: 38px;
@@ -170,7 +175,7 @@
     }
 
     .intro-text {
-        max-width: 580px;
+        max-width: 600px;
         margin: 0 auto;
         font-size: 10px;
         line-height: 1.6;
@@ -376,6 +381,152 @@
     }
 
     /* =========================================================
+       ERA
+       ========================================================= */
+
+    .era-parent {
+        border-bottom: 1px solid #eeeeee;
+        background: #ffffff;
+    }
+
+    .era-parent:last-child {
+        border-bottom: none;
+    }
+
+    .era-row {
+        display: flex;
+        align-items: center;
+        min-height: 42px;
+        padding: 4px 8px;
+        gap: 8px;
+    }
+
+    .era-name {
+        flex: 1;
+        font-size: 12px;
+        letter-spacing: 0.8px;
+    }
+
+    .era-year-list {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 3px;
+        max-height: 118px;
+        overflow-y: auto;
+        margin: 0 8px 8px 38px;
+        padding: 7px;
+        border-left: 1px solid #dddddd;
+        background: #fafafa;
+    }
+
+    .era-year {
+        min-width: 0;
+        height: 24px;
+        border: 1px solid #e2e2e2;
+        background: #ffffff;
+        text-align: center;
+        font-size: 8px;
+        color: #777777;
+        line-height: 22px;
+    }
+
+    .era-year:hover {
+        background: #eeeeee;
+        color: #111111;
+    }
+
+    .era-year-description {
+        margin: 0 8px 8px 38px;
+        font-size: 8px;
+        color: #aaaaaa;
+    }
+
+    /* =========================================================
+       REGION
+       ========================================================= */
+
+    .region-node {
+        border-bottom: 1px solid #eeeeee;
+        background: #ffffff;
+    }
+
+    .region-node:last-child {
+        border-bottom: none;
+    }
+
+    .region-row {
+        display: flex;
+        align-items: center;
+        min-height: 40px;
+        padding: 4px 8px;
+        gap: 8px;
+    }
+
+    .region-name {
+        flex: 1;
+        font-size: 11px;
+        letter-spacing: 0.3px;
+    }
+
+    .region-add-child {
+        flex-shrink: 0;
+        height: 24px;
+        padding: 0 8px;
+        border: 1px solid #dddddd;
+        font-size: 8px;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+    }
+
+    .region-children {
+        margin: 0 8px 7px 28px;
+        padding-left: 10px;
+        border-left: 1px solid #dddddd;
+    }
+
+    .region-children .region-node {
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .region-add-area {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin: 4px 8px 8px 38px;
+    }
+
+    .region-add-input {
+        flex: 1;
+        height: 28px;
+        padding: 0 8px;
+        border: 1px solid #dddddd;
+        background: #ffffff;
+        color: #111111;
+        font-family: inherit;
+        font-size: 9px;
+        outline: none;
+    }
+
+    .region-add-input:focus {
+        border-color: #999999;
+    }
+
+    .region-add-button {
+        height: 28px;
+        padding: 0 9px;
+        font-size: 8px;
+        letter-spacing: 0.7px;
+        text-transform: uppercase;
+    }
+
+    .region-empty {
+        margin: 0 8px 8px 38px;
+        font-size: 8px;
+        color: #aaaaaa;
+        font-style: italic;
+    }
+
+    /* =========================================================
        SAVE AREA
        ========================================================= */
 
@@ -436,6 +587,15 @@
 
         .add-type-area {
             margin-left: 28px;
+        }
+
+        .era-year-list {
+            grid-template-columns: repeat(10, minmax(24px, 1fr));
+            overflow-x: auto;
+        }
+
+        .region-children {
+            margin-left: 20px;
         }
     }
 </style>
@@ -509,8 +669,10 @@
 
         <div class="intro-text">
             Manage the classifications used throughout GR8SKUL.
-            Drag genres and moods to change their order.
-            Drag individual types to change their order within their parent.
+            Drag genres, moods, eras, and regions to change their order.
+            Genres and moods contain optional types.
+            Eras contain automatically generated 00–99 year choices.
+            Regions can contain children at any depth.
         </div>
 
     </div>
@@ -585,6 +747,76 @@
 
 
     <!-- =====================================================
+         ERAS
+         ===================================================== -->
+
+    <section class="taxonomy-section">
+
+        <div class="section-heading">
+            ERAS
+        </div>
+
+        <div class="section-description">
+            Add and arrange eras. Each era automatically contains
+            the years 00–99.
+        </div>
+
+        <div
+            id="eraTree"
+            class="tree"
+            data-taxonomy="eras"
+        ></div>
+
+        <div class="add-parent-area">
+
+            <button
+                class="add-parent-button"
+                id="addEraButton"
+            >
+                + ADD ERA
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         REGIONS
+         ===================================================== -->
+
+    <section class="taxonomy-section">
+
+        <div class="section-heading">
+            REGIONS
+        </div>
+
+        <div class="section-description">
+            Build geographic branches to any depth:
+            continent, country, state, city, or beyond.
+        </div>
+
+        <div
+            id="regionTree"
+            class="tree"
+            data-taxonomy="regions"
+        ></div>
+
+        <div class="add-parent-area">
+
+            <button
+                class="add-parent-button"
+                id="addRegionButton"
+            >
+                + ADD REGION
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
          SAVE
          ===================================================== -->
 
@@ -635,9 +867,6 @@ const DELETE_TAXONOMY_URL =
 
 /* ============================================================
    DEFAULT TAXONOMY
-   ------------------------------------------------------------
-   This is the current GR8SKUL taxonomy.
-   It is used only to seed the database if no taxonomy exists.
    ============================================================ */
 
 const DEFAULT_TAXONOMY = {
@@ -803,7 +1032,11 @@ const DEFAULT_TAXONOMY = {
             ]
         }
 
-    ]
+    ],
+
+    eras: [],
+
+    regions: []
 
 };
 
@@ -814,7 +1047,9 @@ const DEFAULT_TAXONOMY = {
 
 let taxonomy = {
     genres: [],
-    moods: []
+    moods: [],
+    eras: [],
+    regions: []
 };
 
 let currentUser = null;
@@ -854,6 +1089,12 @@ const genreTree =
 const moodTree =
     document.getElementById("moodTree");
 
+const eraTree =
+    document.getElementById("eraTree");
+
+const regionTree =
+    document.getElementById("regionTree");
+
 const saveButton =
     document.getElementById("saveButton");
 
@@ -866,14 +1107,20 @@ const saveStatus =
    ============================================================ */
 
 function deepCopy(value) {
-    return JSON.parse(JSON.stringify(value));
+
+    return JSON.parse(
+        JSON.stringify(value)
+    );
+
 }
 
 
 function cleanName(value) {
-    return value
+
+    return String(value)
         .replace(/\s+/g, " ")
         .trim();
+
 }
 
 
@@ -908,6 +1155,18 @@ function typeNameExists(parent, name) {
 
     return parent.types.some(type =>
         type.toLowerCase() === lower
+    );
+
+}
+
+
+function regionNameExists(list, name) {
+
+    const lower =
+        name.toLowerCase();
+
+    return list.some(item =>
+        item.name.toLowerCase() === lower
     );
 
 }
@@ -1027,11 +1286,6 @@ async function deleteTaxonomyDesignation(
         );
 
 
-        /*
-         * The Edge Function has now changed the authoritative
-         * taxonomy and metadata. Reload the taxonomy from
-         * Supabase so the browser is synchronized with it.
-         */
         await loadTaxonomy();
 
 
@@ -1085,8 +1339,11 @@ async function checkExistingSession() {
     } = await supabaseClient.auth.getSession();
 
     if (error || !data.session) {
+
         showSignedOut();
+
         return;
+
     }
 
     await handleSignedIn(
@@ -1141,12 +1398,16 @@ async function signIn() {
             "Enter your email and password.";
 
         return;
+
     }
 
-    signInButton.disabled = true;
+
+    signInButton.disabled =
+        true;
 
     authMessage.textContent =
         "SIGNING IN...";
+
 
     const {
         data,
@@ -1156,7 +1417,10 @@ async function signIn() {
         password
     });
 
-    signInButton.disabled = false;
+
+    signInButton.disabled =
+        false;
+
 
     if (error) {
 
@@ -1164,9 +1428,12 @@ async function signIn() {
             error.message;
 
         return;
+
     }
 
-    authMessage.textContent = "";
+
+    authMessage.textContent =
+        "";
 
     await handleSignedIn(
         data.user
@@ -1194,6 +1461,7 @@ async function loadTaxonomy() {
         "LOADING TAXONOMY..."
     );
 
+
     const {
         data,
         error
@@ -1213,6 +1481,7 @@ async function loadTaxonomy() {
         console.error(error);
 
         return;
+
     }
 
 
@@ -1228,6 +1497,7 @@ async function loadTaxonomy() {
         );
 
         return;
+
     }
 
 
@@ -1247,6 +1517,7 @@ async function loadTaxonomy() {
         );
 
         return;
+
     }
 
 
@@ -1261,8 +1532,11 @@ async function loadTaxonomy() {
         "TAXONOMY LOADED"
     );
 
+
     setTimeout(() => {
+
         setSaveStatus("");
+
     }, 1800);
 
 }
@@ -1275,6 +1549,10 @@ async function loadTaxonomy() {
 function normalizeTaxonomy(source) {
 
     function normalizeParents(list) {
+
+        if (!Array.isArray(list)) {
+            return [];
+        }
 
         return list
             .filter(item =>
@@ -1309,6 +1587,51 @@ function normalizeTaxonomy(source) {
 
     }
 
+
+    function normalizeEras(list) {
+
+        if (!Array.isArray(list)) {
+            return [];
+        }
+
+        return list
+            .filter(item =>
+                item &&
+                typeof item.name === "string"
+            )
+            .map(item => ({
+                name: cleanName(item.name)
+            }))
+            .filter(item =>
+                /^\d{4}$/.test(item.name)
+            );
+
+    }
+
+
+    function normalizeRegions(list) {
+
+        if (!Array.isArray(list)) {
+            return [];
+        }
+
+        return list
+            .filter(item =>
+                item &&
+                typeof item.name === "string"
+            )
+            .map(item => ({
+                name: cleanName(item.name),
+                children:
+                    normalizeRegions(
+                        item.children
+                    )
+            }))
+            .filter(item => item.name);
+
+    }
+
+
     return {
 
         genres:
@@ -1319,6 +1642,16 @@ function normalizeTaxonomy(source) {
         moods:
             normalizeParents(
                 source.moods
+            ),
+
+        eras:
+            normalizeEras(
+                source.eras
+            ),
+
+        regions:
+            normalizeRegions(
+                source.regions
             )
 
     };
@@ -1327,7 +1660,7 @@ function normalizeTaxonomy(source) {
 
 
 /* ============================================================
-   RENDER
+   RENDER ALL
    ============================================================ */
 
 function renderAll() {
@@ -1338,14 +1671,25 @@ function renderAll() {
         "genre"
     );
 
+
     renderParents(
         moodTree,
         taxonomy.moods,
         "mood"
     );
 
+
+    renderEras();
+
+
+    renderRegions();
+
 }
 
+
+/* ============================================================
+   GENRE / MOOD RENDER
+   ============================================================ */
 
 function renderParents(
     container,
@@ -1354,6 +1698,7 @@ function renderParents(
 ) {
 
     container.innerHTML = "";
+
 
     parents.forEach(
         (parent, parentIndex) => {
@@ -1406,6 +1751,7 @@ function renderParents(
                     ".remove-button"
                 );
 
+
             removeParentButton.addEventListener(
                 "click",
                 async () => {
@@ -1414,6 +1760,7 @@ function renderParents(
                         confirm(
                             `Remove "${parent.name}" and all of its types? This will also remove those designations from all affected track metadata.`
                         );
+
 
                     if (!confirmed) {
                         return;
@@ -1513,6 +1860,7 @@ function renderParents(
                                             `Remove "${type}" from ${parent.name}? This will also remove this designation from all affected track metadata.`
                                         );
 
+
                                     if (!confirmed) {
                                         return;
                                     }
@@ -1572,6 +1920,7 @@ function renderParents(
             addTypeArea.className =
                 "add-type-area";
 
+
             addTypeArea.innerHTML = `
 
                 <input
@@ -1596,6 +1945,7 @@ function renderParents(
                     ".add-type-input"
                 );
 
+
             const addTypeButton =
                 addTypeArea.querySelector(
                     ".add-type-button"
@@ -1609,9 +1959,11 @@ function renderParents(
                         typeInput.value
                     );
 
+
                 if (!name) {
                     return;
                 }
+
 
                 if (
                     typeNameExists(
@@ -1625,11 +1977,14 @@ function renderParents(
                     );
 
                     return;
+
                 }
+
 
                 parent.types.push(
                     name
                 );
+
 
                 typeInput.value = "";
 
@@ -1747,6 +2102,7 @@ function setupParentDrag(
             event.dataTransfer.dropEffect =
                 "move";
 
+
             if (
                 event.target.closest(
                     ".taxonomy-type"
@@ -1754,6 +2110,7 @@ function setupParentDrag(
             ) {
                 return;
             }
+
 
             element.classList.add(
                 "drag-over"
@@ -1809,6 +2166,7 @@ function setupParentDrag(
                         "text/plain"
                     )
                 );
+
 
             const toIndex =
                 Number(
@@ -1958,6 +2316,7 @@ function setupTypeDrag(
                     )
                 );
 
+
             const toIndex =
                 Number(
                     element.dataset.typeIndex
@@ -1998,7 +2357,7 @@ function setupTypeDrag(
 
 
 /* ============================================================
-   ADD PARENT
+   ADD GENRE / MOOD
    ============================================================ */
 
 document
@@ -2014,10 +2373,12 @@ document
                 const kind =
                     button.dataset.addParent;
 
+
                 const list =
                     kind === "genre"
                         ? taxonomy.genres
                         : taxonomy.moods;
+
 
                 const label =
                     kind === "genre"
@@ -2077,6 +2438,950 @@ document
 
 
 /* ============================================================
+   ERA
+   ============================================================ */
+
+function isValidEra(value) {
+
+    return /^\d{4}$/.test(value);
+
+}
+
+
+function eraNameExists(name) {
+
+    return taxonomy.eras.some(
+        era =>
+            era.name === name
+    );
+
+}
+
+
+function renderEras() {
+
+    eraTree.innerHTML = "";
+
+
+    taxonomy.eras.forEach(
+        (era, eraIndex) => {
+
+            const eraElement =
+                document.createElement("div");
+
+            eraElement.className =
+                "era-parent";
+
+            eraElement.draggable =
+                true;
+
+            eraElement.dataset.index =
+                eraIndex;
+
+
+            const row =
+                document.createElement("div");
+
+            row.className =
+                "era-row";
+
+
+            row.innerHTML = `
+
+                <div
+                    class="drag-handle"
+                    title="Drag to reorder"
+                >☰</div>
+
+                <div class="era-name">
+                    ${escapeHTML(era.name)}
+                </div>
+
+                <button
+                    class="remove-button"
+                    type="button"
+                    title="Remove ${escapeHTML(era.name)}"
+                >−</button>
+
+            `;
+
+
+            row
+                .querySelector(".remove-button")
+                .addEventListener(
+                    "click",
+                    () => {
+
+                        const confirmed =
+                            confirm(
+                                `Remove the ${era.name} era?`
+                            );
+
+
+                        if (!confirmed) {
+                            return;
+                        }
+
+
+                        taxonomy.eras.splice(
+                            eraIndex,
+                            1
+                        );
+
+
+                        renderAll();
+
+                        markUnsaved();
+
+                    }
+                );
+
+
+            eraElement.appendChild(
+                row
+            );
+
+
+            const yearDescription =
+                document.createElement("div");
+
+            yearDescription.className =
+                "era-year-description";
+
+            yearDescription.textContent =
+                "Year choices within this era:";
+
+
+            eraElement.appendChild(
+                yearDescription
+            );
+
+
+            const yearList =
+                document.createElement("div");
+
+            yearList.className =
+                "era-year-list";
+
+
+            for (
+                let year = 0;
+                year <= 99;
+                year++
+            ) {
+
+                const yearButton =
+                    document.createElement("div");
+
+                yearButton.className =
+                    "era-year";
+
+                yearButton.textContent =
+                    String(year)
+                        .padStart(2, "0");
+
+                yearButton.title =
+                    `${era.name}${String(year).padStart(2, "0")}`;
+
+                yearList.appendChild(
+                    yearButton
+                );
+
+            }
+
+
+            eraElement.appendChild(
+                yearList
+            );
+
+
+            setupEraDrag(
+                eraElement,
+                taxonomy.eras
+            );
+
+
+            eraTree.appendChild(
+                eraElement
+            );
+
+        }
+    );
+
+}
+
+
+function setupEraDrag(
+    element,
+    eras
+) {
+
+    element.addEventListener(
+        "dragstart",
+        event => {
+
+            element.classList.add(
+                "dragging"
+            );
+
+            event.dataTransfer.effectAllowed =
+                "move";
+
+            event.dataTransfer.setData(
+                "text/plain",
+                element.dataset.index
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragend",
+        () => {
+
+            element.classList.remove(
+                "dragging"
+            );
+
+            document
+                .querySelectorAll(
+                    ".drag-over"
+                )
+                .forEach(item =>
+                    item.classList.remove(
+                        "drag-over"
+                    )
+                );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragover",
+        event => {
+
+            event.preventDefault();
+
+            event.dataTransfer.dropEffect =
+                "move";
+
+            element.classList.add(
+                "drag-over"
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragleave",
+        event => {
+
+            if (
+                !element.contains(
+                    event.relatedTarget
+                )
+            ) {
+
+                element.classList.remove(
+                    "drag-over"
+                );
+
+            }
+
+        }
+    );
+
+
+    element.addEventListener(
+        "drop",
+        event => {
+
+            event.preventDefault();
+
+            element.classList.remove(
+                "drag-over"
+            );
+
+
+            const fromIndex =
+                Number(
+                    event.dataTransfer.getData(
+                        "text/plain"
+                    )
+                );
+
+
+            const toIndex =
+                Number(
+                    element.dataset.index
+                );
+
+
+            if (
+                Number.isNaN(fromIndex) ||
+                Number.isNaN(toIndex) ||
+                fromIndex === toIndex
+            ) {
+                return;
+            }
+
+
+            const moved =
+                eras.splice(
+                    fromIndex,
+                    1
+                )[0];
+
+
+            eras.splice(
+                toIndex,
+                0,
+                moved
+            );
+
+
+            renderAll();
+
+            markUnsaved();
+
+        }
+    );
+
+}
+
+
+document
+    .getElementById("addEraButton")
+    .addEventListener(
+        "click",
+        () => {
+
+            const value =
+                prompt(
+                    "Enter a four-digit era (example: 1200):"
+                );
+
+
+            if (value === null) {
+                return;
+            }
+
+
+            const clean =
+                cleanName(value);
+
+
+            if (!isValidEra(clean)) {
+
+                alert(
+                    "Era must be exactly four digits."
+                );
+
+                return;
+            }
+
+
+            if (
+                eraNameExists(clean)
+            ) {
+
+                alert(
+                    `"${clean}" already exists.`
+                );
+
+                return;
+            }
+
+
+            taxonomy.eras.push({
+                name: clean
+            });
+
+
+            renderAll();
+
+            markUnsaved();
+
+        }
+    );
+
+
+/* ============================================================
+   REGION
+   ============================================================ */
+
+function createRegionNode(name) {
+
+    return {
+        name,
+        children: []
+    };
+
+}
+
+
+function normalizeRegionPathNames(list) {
+
+    return list
+        .map(item =>
+            item.name.toLowerCase()
+        );
+
+}
+
+
+function renderRegions() {
+
+    regionTree.innerHTML = "";
+
+    renderRegionLevel(
+        regionTree,
+        taxonomy.regions
+    );
+
+}
+
+
+function renderRegionLevel(
+    container,
+    list
+) {
+
+    list.forEach(
+        (region, index) => {
+
+            const node =
+                document.createElement("div");
+
+            node.className =
+                "region-node";
+
+            node.draggable =
+                true;
+
+            node.dataset.index =
+                index;
+
+
+            const row =
+                document.createElement("div");
+
+            row.className =
+                "region-row";
+
+
+            row.innerHTML = `
+
+                <div
+                    class="drag-handle"
+                    title="Drag to reorder"
+                >☰</div>
+
+                <div class="region-name">
+                    ${escapeHTML(region.name)}
+                </div>
+
+                <button
+                    class="region-add-child"
+                    type="button"
+                >
+                    + CHILD
+                </button>
+
+                <button
+                    class="remove-button"
+                    type="button"
+                    title="Remove ${escapeHTML(region.name)}"
+                >−</button>
+
+            `;
+
+
+            const addChildButton =
+                row.querySelector(
+                    ".region-add-child"
+                );
+
+
+            addChildButton.addEventListener(
+                "click",
+                () => {
+
+                    const name =
+                        prompt(
+                            `Add a region under ${region.name}:`
+                        );
+
+
+                    if (name === null) {
+                        return;
+                    }
+
+
+                    const clean =
+                        cleanName(name);
+
+
+                    if (!clean) {
+                        return;
+                    }
+
+
+                    if (
+                        regionNameExists(
+                            region.children,
+                            clean
+                        )
+                    ) {
+
+                        alert(
+                            `"${clean}" already exists under ${region.name}.`
+                        );
+
+                        return;
+                    }
+
+
+                    region.children.push(
+                        createRegionNode(
+                            clean
+                        )
+                    );
+
+
+                    renderAll();
+
+                    markUnsaved();
+
+                }
+            );
+
+
+            const removeButton =
+                row.querySelector(
+                    ".remove-button"
+                );
+
+
+            removeButton.addEventListener(
+                "click",
+                () => {
+
+                    const hasChildren =
+                        region.children.length > 0;
+
+
+                    const confirmed =
+                        confirm(
+                            hasChildren
+                                ? `Remove "${region.name}" and all regions beneath it?`
+                                : `Remove "${region.name}"?`
+                        );
+
+
+                    if (!confirmed) {
+                        return;
+                    }
+
+
+                    list.splice(
+                        index,
+                        1
+                    );
+
+
+                    renderAll();
+
+                    markUnsaved();
+
+                }
+            );
+
+
+            node.appendChild(
+                row
+            );
+
+
+            if (
+                region.children.length
+            ) {
+
+                const children =
+                    document.createElement("div");
+
+                children.className =
+                    "region-children";
+
+
+                renderRegionLevel(
+                    children,
+                    region.children
+                );
+
+
+                node.appendChild(
+                    children
+                );
+
+            }
+
+
+            const addChildArea =
+                document.createElement("div");
+
+            addChildArea.className =
+                "region-add-area";
+
+
+            addChildArea.innerHTML = `
+
+                <input
+                    class="region-add-input"
+                    type="text"
+                    maxlength="80"
+                    placeholder="+ ADD CHILD TO ${escapeHTML(region.name)}"
+                >
+
+                <button
+                    class="region-add-button"
+                    type="button"
+                >
+                    ADD
+                </button>
+
+            `;
+
+
+            const input =
+                addChildArea.querySelector(
+                    ".region-add-input"
+                );
+
+
+            const button =
+                addChildArea.querySelector(
+                    ".region-add-button"
+                );
+
+
+            function addChild() {
+
+                const name =
+                    cleanName(
+                        input.value
+                    );
+
+
+                if (!name) {
+                    return;
+                }
+
+
+                if (
+                    regionNameExists(
+                        region.children,
+                        name
+                    )
+                ) {
+
+                    alert(
+                        `"${name}" already exists under ${region.name}.`
+                    );
+
+                    return;
+                }
+
+
+                region.children.push(
+                    createRegionNode(
+                        name
+                    )
+                );
+
+
+                renderAll();
+
+                markUnsaved();
+
+            }
+
+
+            button.addEventListener(
+                "click",
+                addChild
+            );
+
+
+            input.addEventListener(
+                "keydown",
+                event => {
+
+                    if (
+                        event.key === "Enter"
+                    ) {
+
+                        event.preventDefault();
+
+                        addChild();
+
+                    }
+
+                }
+            );
+
+
+            node.appendChild(
+                addChildArea
+            );
+
+
+            setupRegionDrag(
+                node,
+                list
+            );
+
+
+            container.appendChild(
+                node
+            );
+
+        }
+    );
+
+}
+
+
+function setupRegionDrag(
+    element,
+    list
+) {
+
+    element.addEventListener(
+        "dragstart",
+        event => {
+
+            element.classList.add(
+                "dragging"
+            );
+
+            event.dataTransfer.effectAllowed =
+                "move";
+
+            event.dataTransfer.setData(
+                "text/plain",
+                element.dataset.index
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragend",
+        () => {
+
+            element.classList.remove(
+                "dragging"
+            );
+
+            document
+                .querySelectorAll(
+                    ".drag-over"
+                )
+                .forEach(item =>
+                    item.classList.remove(
+                        "drag-over"
+                    )
+                );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragover",
+        event => {
+
+            event.preventDefault();
+
+            event.dataTransfer.dropEffect =
+                "move";
+
+
+            if (
+                event.target.closest(
+                    ".region-children"
+                ) &&
+                event.target.closest(
+                    ".region-node"
+                ) !== element
+            ) {
+                return;
+            }
+
+
+            element.classList.add(
+                "drag-over"
+            );
+
+        }
+    );
+
+
+    element.addEventListener(
+        "dragleave",
+        event => {
+
+            if (
+                !element.contains(
+                    event.relatedTarget
+                )
+            ) {
+
+                element.classList.remove(
+                    "drag-over"
+                );
+
+            }
+
+        }
+    );
+
+
+    element.addEventListener(
+        "drop",
+        event => {
+
+            event.preventDefault();
+
+            event.stopPropagation();
+
+            element.classList.remove(
+                "drag-over"
+            );
+
+
+            const targetNode =
+                event.target.closest(
+                    ".region-node"
+                );
+
+
+            if (
+                targetNode !== element
+            ) {
+                return;
+            }
+
+
+            const fromIndex =
+                Number(
+                    event.dataTransfer.getData(
+                        "text/plain"
+                    )
+                );
+
+
+            const toIndex =
+                Number(
+                    element.dataset.index
+                );
+
+
+            if (
+                Number.isNaN(fromIndex) ||
+                Number.isNaN(toIndex) ||
+                fromIndex === toIndex
+            ) {
+                return;
+            }
+
+
+            const moved =
+                list.splice(
+                    fromIndex,
+                    1
+                )[0];
+
+
+            list.splice(
+                toIndex,
+                0,
+                moved
+            );
+
+
+            renderAll();
+
+            markUnsaved();
+
+        }
+    );
+
+}
+
+
+document
+    .getElementById("addRegionButton")
+    .addEventListener(
+        "click",
+        () => {
+
+            const name =
+                prompt(
+                    "Enter new region:"
+                );
+
+
+            if (name === null) {
+                return;
+            }
+
+
+            const clean =
+                cleanName(name);
+
+
+            if (!clean) {
+                return;
+            }
+
+
+            if (
+                regionNameExists(
+                    taxonomy.regions,
+                    clean
+                )
+            ) {
+
+                alert(
+                    `"${clean}" already exists.`
+                );
+
+                return;
+            }
+
+
+            taxonomy.regions.push(
+                createRegionNode(
+                    clean
+                )
+            );
+
+
+            renderAll();
+
+            markUnsaved();
+
+        }
+    );
+
+
+/* ============================================================
    UNSAVED STATE
    ============================================================ */
 
@@ -2108,6 +3413,7 @@ async function saveTaxonomy() {
     saveButton.textContent =
         "SAVING...";
 
+
     setSaveStatus(
         "SAVING TAXONOMY..."
     );
@@ -2127,8 +3433,10 @@ async function saveTaxonomy() {
             {
                 id: "main",
                 taxonomy: cleanTaxonomy,
-                updated_at: new Date().toISOString(),
-                updated_by: currentUser.id
+                updated_at:
+                    new Date().toISOString(),
+                updated_by:
+                    currentUser.id
             },
             {
                 onConflict: "id"
@@ -2148,10 +3456,12 @@ async function saveTaxonomy() {
         console.error(error);
 
         setSaveStatus(
-            "SAVE FAILED — " + error.message
+            "SAVE FAILED — " +
+            error.message
         );
 
         return;
+
     }
 
 
@@ -2244,6 +3554,7 @@ supabaseClient.auth.onAuthStateChange(
 
         }
 
+
         if (
             event === "SIGNED_OUT"
         ) {
@@ -2266,39 +3577,3 @@ checkExistingSession();
 
 </body>
 </html>
-
-
-### One thing to watch when testing
-
-I would **not test this first with a real designation that is attached to important works**.
-
-Add something disposable, for example:
-
-text
-Mood: TEST MOOD
-Type: TEST TYPE
-
-
-Put `TEST TYPE` on one test work through the already-working upload page.
-
-Then delete `TEST TYPE` from Taxonomy Manager.
-
-We should see:
-
-text
-Taxonomy Manager
-       ↓
-DELETE TEST TYPE
-       ↓
-delete-taxonomy
-       ↓
-track-metadata.json
-       ↓
-TEST TYPE removed from the work
-       ↓
-catalog regenerated
-
-
-**Do not press SAVE TAXONOMY after deleting the test type.** The deletion function itself saves that deletion. The SAVE button remains for your normal add/reorder workflow.
-
-One caveat: your deployed Edge Function currently has CORS allowing `https://gr8skul.com`. If you access the manager at `www.gr8skul.com`, the browser may reject the request. If your manager is at `gr8skul.com`, we're good for this test.
