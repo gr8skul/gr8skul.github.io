@@ -67,35 +67,20 @@
       "gr8skul"
     ],
     "genres": [
-      "Blues",
       "Electronic",
       "Jazz",
       "Rock"
     ],
     "genreTypes": [
       {
-        "genre": "Blues",
-        "type": "Traditional"
-      },
-      {
         "genre": "Rock",
         "type": "Alternative"
       }
     ],
     "moods": [
-      "Melancholic",
       "Romantic"
     ],
-    "moodTypes": [
-      {
-        "mood": "Melancholic",
-        "type": "Nostalgic"
-      },
-      {
-        "mood": "Romantic",
-        "type": "Passionate"
-      }
-    ]
+    "moodTypes": []
   },
   "music/Eye Dragon (LIVE) 1.mp3": {
     "title": "Eye Dragon (LIVE)",
