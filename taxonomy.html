@@ -626,6 +626,14 @@ const supabaseClient =
 
 
 /* ============================================================
+   TAXONOMY DELETE FUNCTION
+   ============================================================ */
+
+const DELETE_TAXONOMY_URL =
+    `${SUPABASE_URL}/functions/v1/delete-taxonomy`;
+
+
+/* ============================================================
    DEFAULT TAXONOMY
    ------------------------------------------------------------
    This is the current GR8SKUL taxonomy.
@@ -901,6 +909,166 @@ function typeNameExists(parent, name) {
     return parent.types.some(type =>
         type.toLowerCase() === lower
     );
+
+}
+
+
+/* ============================================================
+   DELETE TAXONOMY DESIGNATION
+   ============================================================ */
+
+async function deleteTaxonomyDesignation(
+    kind,
+    name,
+    parent = ""
+) {
+
+    if (!currentUser) {
+
+        setSaveStatus(
+            "ADMIN SIGN IN REQUIRED."
+        );
+
+        return false;
+    }
+
+
+    setSaveStatus(
+        `REMOVING "${name}"...`
+    );
+
+
+    try {
+
+        const {
+            data: sessionData,
+            error: sessionError
+        } = await supabaseClient.auth.getSession();
+
+
+        if (
+            sessionError ||
+            !sessionData.session
+        ) {
+
+            throw new Error(
+                "Your session has expired. Please sign in again."
+            );
+
+        }
+
+
+        const accessToken =
+            sessionData.session.access_token;
+
+
+        const response =
+            await fetch(
+                DELETE_TAXONOMY_URL,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            `Bearer ${accessToken}`
+                    },
+
+                    body: JSON.stringify({
+                        kind,
+                        name,
+                        parent
+                    })
+                }
+            );
+
+
+        let result = null;
+
+        try {
+
+            result =
+                await response.json();
+
+        } catch {
+
+            result = null;
+
+        }
+
+
+        if (
+            !response.ok ||
+            !result ||
+            !result.success
+        ) {
+
+            throw new Error(
+                result?.error ||
+                `Delete failed (${response.status}).`
+            );
+
+        }
+
+
+        const changedTracks =
+            Number(
+                result.metadataChangedTracks || 0
+            );
+
+
+        setSaveStatus(
+            `REMOVED "${name}" — ${changedTracks} TRACK(S) CLEANED`
+        );
+
+
+        /*
+         * The Edge Function has now changed the authoritative
+         * taxonomy and metadata. Reload the taxonomy from
+         * Supabase so the browser is synchronized with it.
+         */
+        await loadTaxonomy();
+
+
+        setSaveStatus(
+            `REMOVED "${name}" — ${changedTracks} TRACK(S) CLEANED`
+        );
+
+
+        setTimeout(() => {
+
+            setSaveStatus("");
+
+        }, 2600);
+
+
+        return true;
+
+    } catch (error) {
+
+        console.error(
+            "Taxonomy deletion failed:",
+            error
+        );
+
+
+        setSaveStatus(
+            "DELETE FAILED — " +
+            (
+                error?.message ||
+                "Unknown error."
+            )
+        );
+
+
+        return false;
+
+    }
 
 }
 
@@ -1240,25 +1408,30 @@ function renderParents(
 
             removeParentButton.addEventListener(
                 "click",
-                () => {
+                async () => {
 
                     const confirmed =
                         confirm(
-                            `Remove "${parent.name}" and all of its types?`
+                            `Remove "${parent.name}" and all of its types? This will also remove those designations from all affected track metadata.`
                         );
 
                     if (!confirmed) {
                         return;
                     }
 
-                    parents.splice(
-                        parentIndex,
-                        1
+
+                    removeParentButton.disabled =
+                        true;
+
+
+                    await deleteTaxonomyDesignation(
+                        taxonomyType,
+                        parent.name
                     );
 
-                    renderAll();
 
-                    markUnsaved();
+                    removeParentButton.disabled =
+                        false;
 
                 }
             );
@@ -1333,16 +1506,39 @@ function renderParents(
                             .querySelector(".type-remove")
                             .addEventListener(
                                 "click",
-                                () => {
+                                async () => {
 
-                                    parent.types.splice(
-                                        typeIndex,
-                                        1
+                                    const confirmed =
+                                        confirm(
+                                            `Remove "${type}" from ${parent.name}? This will also remove this designation from all affected track metadata.`
+                                        );
+
+                                    if (!confirmed) {
+                                        return;
+                                    }
+
+
+                                    const removeButton =
+                                        typeElement.querySelector(
+                                            ".type-remove"
+                                        );
+
+
+                                    removeButton.disabled =
+                                        true;
+
+
+                                    await deleteTaxonomyDesignation(
+                                        taxonomyType === "genre"
+                                            ? "genre-type"
+                                            : "mood-type",
+                                        type,
+                                        parent.name
                                     );
 
-                                    renderAll();
 
-                                    markUnsaved();
+                                    removeButton.disabled =
+                                        false;
 
                                 }
                             );
@@ -2071,3 +2267,38 @@ checkExistingSession();
 </body>
 </html>
 
+
+### One thing to watch when testing
+
+I would **not test this first with a real designation that is attached to important works**.
+
+Add something disposable, for example:
+
+text
+Mood: TEST MOOD
+Type: TEST TYPE
+
+
+Put `TEST TYPE` on one test work through the already-working upload page.
+
+Then delete `TEST TYPE` from Taxonomy Manager.
+
+We should see:
+
+text
+Taxonomy Manager
+       ↓
+DELETE TEST TYPE
+       ↓
+delete-taxonomy
+       ↓
+track-metadata.json
+       ↓
+TEST TYPE removed from the work
+       ↓
+catalog regenerated
+
+
+**Do not press SAVE TAXONOMY after deleting the test type.** The deletion function itself saves that deletion. The SAVE button remains for your normal add/reorder workflow.
+
+One caveat: your deployed Edge Function currently has CORS allowing `https://gr8skul.com`. If you access the manager at `www.gr8skul.com`, the browser may reject the request. If your manager is at `gr8skul.com`, we're good for this test.
