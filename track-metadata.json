@@ -19,8 +19,20 @@
     "genres": [
       "Acoustic"
     ],
+    "genreTypes": [
+      {
+        "genre": "Acoustic",
+        "type": "Traditional"
+      }
+    ],
     "moods": [
-      "Happy"
+      "Peaceful"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Peaceful",
+        "type": "Serene"
+      }
     ]
   },
   "music/88' Summer 1.mp3": {
