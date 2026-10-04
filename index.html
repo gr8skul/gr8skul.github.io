@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
 
@@ -114,7 +115,9 @@
 
         gap: 10px;
 
-        margin-bottom: 25px;
+        margin-bottom: 14px;
+
+        flex-wrap: wrap;
     }
 
     button {
@@ -165,6 +168,346 @@
         color: #ffffff;
     }
 
+
+    /* =========================================================
+       PLAYER FILTERS
+       ========================================================= */
+
+    .taxonomy-filters {
+
+        display: grid;
+
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(0, 1fr);
+
+        gap: 10px;
+
+        margin-bottom: 10px;
+    }
+
+    .taxonomy-filter {
+
+        position: relative;
+
+        width: 100%;
+    }
+
+    .taxonomy-trigger {
+
+        position: relative;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+
+        width: 100%;
+
+        min-height: 42px;
+
+        padding: 9px 12px;
+
+        border: 1px solid #cccccc;
+
+        background: #ffffff;
+
+        color: #111111;
+
+        font-family:
+            Arial,
+            Helvetica,
+            sans-serif;
+
+        font-size: 12px;
+
+        text-align: left;
+
+        cursor: pointer;
+    }
+
+    .taxonomy-trigger:hover,
+    .taxonomy-filter.open .taxonomy-trigger {
+
+        border-color: #111111;
+    }
+
+    .taxonomy-trigger-text {
+
+        min-width: 0;
+
+        overflow: hidden;
+
+        white-space: nowrap;
+
+        text-overflow: ellipsis;
+    }
+
+    .taxonomy-trigger-arrow {
+
+        flex-shrink: 0;
+
+        margin-left: 10px;
+
+        font-size: 10px;
+
+        color: #777777;
+
+        transition:
+            transform 0.15s ease;
+    }
+
+    .taxonomy-filter.open
+    .taxonomy-trigger-arrow {
+
+        transform:
+            rotate(180deg);
+    }
+
+    .taxonomy-panel {
+
+        display: none;
+
+        position: absolute;
+
+        z-index: 100;
+
+        top: 100%;
+
+        left: 0;
+
+        width: 100%;
+
+        max-height: 55vh;
+
+        overflow-y: auto;
+
+        margin-top: 4px;
+
+        border: 1px solid #cccccc;
+
+        background: #ffffff;
+
+        box-shadow:
+            0 4px 12px
+            rgba(0, 0, 0, 0.06);
+    }
+
+    .taxonomy-filter.open
+    .taxonomy-panel {
+
+        display: block;
+    }
+
+    .taxonomy-parent {
+
+        border-bottom:
+            1px solid #eeeeee;
+    }
+
+    .taxonomy-parent:last-child {
+
+        border-bottom: none;
+    }
+
+    .taxonomy-parent-row {
+
+        display: flex;
+
+        align-items: center;
+
+        min-height: 42px;
+
+        padding: 0 10px;
+    }
+
+    .taxonomy-parent-row:hover {
+
+        background: #fafafa;
+    }
+
+    .taxonomy-check {
+
+        width: 15px;
+
+        height: 15px;
+
+        margin:
+            0 9px 0 0;
+
+        accent-color: #111111;
+
+        cursor: pointer;
+
+        flex-shrink: 0;
+    }
+
+    .taxonomy-parent-label {
+
+        flex: 1;
+
+        min-width: 0;
+
+        font-size: 11px;
+
+        letter-spacing: 0.8px;
+
+        cursor: pointer;
+    }
+
+    .taxonomy-expand {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+        width: 28px;
+
+        height: 28px;
+
+        padding: 0;
+
+        min-height: 28px;
+
+        border: 0;
+
+        background: transparent;
+
+        color: #777777;
+
+        font-size: 11px;
+
+        cursor: pointer;
+    }
+
+    .taxonomy-expand:hover {
+
+        color: #111111;
+
+        background: transparent;
+    }
+
+    .taxonomy-parent.expanded
+    .taxonomy-expand {
+
+        transform:
+            rotate(180deg);
+    }
+
+    .taxonomy-types {
+
+        display: none;
+
+        padding:
+            3px 10px 10px 34px;
+
+        border-top:
+            1px solid #f0f0f0;
+
+        background: #fafafa;
+    }
+
+    .taxonomy-parent.expanded
+    .taxonomy-types {
+
+        display: block;
+    }
+
+    .taxonomy-type-row {
+
+        display: flex;
+
+        align-items: center;
+
+        min-height: 32px;
+
+        padding: 0 4px;
+    }
+
+    .taxonomy-type-row:hover {
+
+        background: #f3f3f3;
+    }
+
+    .taxonomy-type-check {
+
+        width: 14px;
+
+        height: 14px;
+
+        margin:
+            0 8px 0 0;
+
+        accent-color: #111111;
+
+        cursor: pointer;
+
+        flex-shrink: 0;
+    }
+
+    .taxonomy-type-label {
+
+        font-size: 10px;
+
+        letter-spacing: 0.6px;
+
+        color: #555555;
+
+        cursor: pointer;
+    }
+
+    .taxonomy-empty {
+
+        padding:
+            10px 12px;
+
+        font-size: 9px;
+
+        color: #999999;
+
+        letter-spacing: 0.5px;
+    }
+
+    .taxonomy-summary {
+
+        margin-top: 5px;
+
+        padding:
+            0 2px 8px;
+
+        min-height: 14px;
+
+        font-size: 9px;
+
+        line-height: 1.4;
+
+        color: #777777;
+    }
+
+
+    .filter-status {
+
+        min-height: 16px;
+
+        margin-bottom: 5px;
+
+        text-align: center;
+
+        font-size: 9px;
+
+        letter-spacing: 0.7px;
+
+        color: #888888;
+    }
+
+
+    /* =========================
+       NOW PLAYING
+       ========================= */
+
     .now-playing {
 
         text-align: center;
@@ -211,6 +554,7 @@
         text-decoration: underline;
     }
 
+
     /* =========================
        SPONSOR
        ========================= */
@@ -246,7 +590,8 @@
 
     .header-line {
 
-        border-bottom: 1px solid #cccccc;
+        border-bottom:
+            1px solid #cccccc;
     }
 
     .sponsor-tagline {
@@ -263,6 +608,7 @@
 
         font-weight: normal;
     }
+
 
     /* =========================
        SCROLLING TRACK AREA
@@ -291,7 +637,8 @@
 
         padding: 12px 0;
 
-        border-bottom: 1px solid #cccccc;
+        border-bottom:
+            1px solid #cccccc;
 
         cursor: pointer;
 
@@ -364,6 +711,21 @@
         text-decoration: underline;
     }
 
+    .empty-filter-message {
+
+        padding:
+            30px 10px;
+
+        text-align: center;
+
+        font-size: 11px;
+
+        letter-spacing: 1px;
+
+        color: #888888;
+    }
+
+
     /* =========================
        FIXED FOOTER
        ========================= */
@@ -385,6 +747,7 @@
 
         width: 100%;
     }
+
 
     /* =========================
        MOBILE
@@ -409,7 +772,42 @@
 
         .controls {
 
-            flex-wrap: wrap;
+            gap: 7px;
+
+            margin-bottom: 12px;
+        }
+
+        #backButton,
+        #nextButton {
+
+            width: 46px;
+        }
+
+        #playButton {
+
+            min-width: 105px;
+        }
+
+        #shuffleButton {
+
+            padding-left: 12px;
+
+            padding-right: 12px;
+        }
+
+        .taxonomy-filters {
+
+            grid-template-columns:
+                1fr;
+
+            gap: 7px;
+
+            margin-bottom: 8px;
+        }
+
+        .taxonomy-panel {
+
+            max-height: 48vh;
         }
 
         .track {
@@ -421,6 +819,7 @@
 
             gap: 9px;
         }
+
     }
 
 </style>
@@ -439,49 +838,1672 @@
 
 <h1>
 
-    <img
-        src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-        alt="GR8SKUL">
+```
+<img
+    src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+    alt="GR8SKUL">
+```
 
 </h1>
 
 <div class="controls">
 
-    <button
-        id="backButton"
-        type="button"
-        aria-label="Previous track">
+```
+<button
+    id="backButton"
+    type="button"
+    aria-label="Previous track">
 
-        ←
+    ←
 
-    </button>
+</button>
 
-    <button
-        id="playButton"
-        type="button">
+<button
+    id="playButton"
+    type="button">
 
-        ▶ PLAY
+    ▶ PLAY
 
-    </button>
+</button>
 
-    <button
-        id="nextButton"
-        type="button"
-        aria-label="Next track">
+<button
+    id="nextButton"
+    type="button"
+    aria-label="Next track">
 
-        →
+    →
 
-    </button>
+</button>
 
-    <button
-        id="shuffleButton"
-        type="button">
+<button
+    id="shuffleButton"
+    type="button">
 
-        SHUFFLE OFF
+    SHUFFLE OFF
 
-    </button>
+</button>
+```
 
 </div>
+
+<!-- =========================================================
+     GENRE + MOOD FILTERS
+     ========================================================= -->
+
+<div class="taxonomy-filters">
+
+<!-- =========================================================
+     GENRE
+     ========================================================= -->
+
+<div
+    id="genreTree"
+    class="taxonomy-filter"
+>
+
+<button
+id="genreTrigger"
+class="taxonomy-trigger"
+type="button"
+aria-expanded="false"
+
+>
+
+<span
+id="genreTriggerText"
+class="taxonomy-trigger-text"
+
+>
+
+```
+GENRE(S): ALL
+```
+
+</span>
+
+<span
+class="taxonomy-trigger-arrow"
+
+>
+
+```
+▼
+```
+
+</span>
+
+</button>
+
+<div
+    id="genrePanel"
+    class="taxonomy-panel"
+>
+
+<!-- ACOUSTIC -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Acoustic"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Acoustic"
+
+>
+
+<label class="taxonomy-parent-label">
+    ACOUSTIC
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Acoustic types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Acoustic"
+data-type="Traditional"
+
+>
+
+<label class="taxonomy-type-label">
+    TRADITIONAL
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Acoustic"
+data-type="Contemporary"
+
+>
+
+<label class="taxonomy-type-label">
+    CONTEMPORARY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ALTERNATIVE -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Alternative"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Alternative"
+
+>
+
+<label class="taxonomy-parent-label">
+    ALTERNATIVE
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Alternative types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Alternative"
+data-type="Alternative Rock"
+
+>
+
+<label class="taxonomy-type-label">
+    ALTERNATIVE ROCK
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Alternative"
+data-type="Alternative Pop"
+
+>
+
+<label class="taxonomy-type-label">
+    ALTERNATIVE POP
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Alternative"
+data-type="Indie"
+
+>
+
+<label class="taxonomy-type-label">
+    INDIE
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- BLUES -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Blues"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Blues"
+
+>
+
+<label class="taxonomy-parent-label">
+    BLUES
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Blues types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Blues"
+data-type="Traditional"
+
+>
+
+<label class="taxonomy-type-label">
+    TRADITIONAL
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Blues"
+data-type="Contemporary"
+
+>
+
+<label class="taxonomy-type-label">
+    CONTEMPORARY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- CLASSICAL -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Classical"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Classical"
+
+>
+
+<label class="taxonomy-parent-label">
+    CLASSICAL
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Classical types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Classical"
+data-type="Renaissance"
+
+>
+
+<label class="taxonomy-type-label">
+    RENAISSANCE
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Classical"
+data-type="Baroque"
+
+>
+
+<label class="taxonomy-type-label">
+    BAROQUE
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Classical"
+data-type="Classical"
+
+>
+
+<label class="taxonomy-type-label">
+    CLASSICAL
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Classical"
+data-type="Romantic"
+
+>
+
+<label class="taxonomy-type-label">
+    ROMANTIC
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Classical"
+data-type="Modern"
+
+>
+
+<label class="taxonomy-type-label">
+    MODERN
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Classical"
+data-type="Contemporary"
+
+>
+
+<label class="taxonomy-type-label">
+    CONTEMPORARY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- COUNTRY -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Country"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Country"
+
+>
+
+<label class="taxonomy-parent-label">
+    COUNTRY
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Country types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Country"
+data-type="Traditional"
+
+>
+
+<label class="taxonomy-type-label">
+    TRADITIONAL
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Country"
+data-type="Contemporary"
+
+>
+
+<label class="taxonomy-type-label">
+    CONTEMPORARY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ELECTRONIC -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Electronic"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Electronic"
+
+>
+
+<label class="taxonomy-parent-label">
+    ELECTRONIC
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Electronic types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Electronic"
+data-type="Ambient"
+
+>
+
+<label class="taxonomy-type-label">
+    AMBIENT
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Electronic"
+data-type="House"
+
+>
+
+<label class="taxonomy-type-label">
+    HOUSE
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Electronic"
+data-type="Techno"
+
+>
+
+<label class="taxonomy-type-label">
+    TECHNO
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FOLK -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Folk"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Folk"
+
+>
+
+<label class="taxonomy-parent-label">
+    FOLK
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Folk types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Folk"
+data-type="Traditional"
+
+>
+
+<label class="taxonomy-type-label">
+    TRADITIONAL
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Folk"
+data-type="Contemporary"
+
+>
+
+<label class="taxonomy-type-label">
+    CONTEMPORARY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- HIP-HOP -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Hip-Hop"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Hip-Hop"
+
+>
+
+<label class="taxonomy-parent-label">
+    HIP-HOP
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Hip-Hop types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Hip-Hop"
+data-type="Old School"
+
+>
+
+<label class="taxonomy-type-label">
+    OLD SCHOOL
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Hip-Hop"
+data-type="Contemporary"
+
+>
+
+<label class="taxonomy-type-label">
+    CONTEMPORARY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- JAZZ -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Jazz"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Jazz"
+
+>
+
+<label class="taxonomy-parent-label">
+    JAZZ
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Jazz types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Jazz"
+data-type="Traditional"
+
+>
+
+<label class="taxonomy-type-label">
+    TRADITIONAL
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Jazz"
+data-type="Contemporary"
+
+>
+
+<label class="taxonomy-type-label">
+    CONTEMPORARY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- POP -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Pop"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Pop"
+
+>
+
+<label class="taxonomy-parent-label">
+    POP
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Pop types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Pop"
+data-type="Contemporary"
+
+>
+
+<label class="taxonomy-type-label">
+    CONTEMPORARY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ROCK -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Rock"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Rock"
+
+>
+
+<label class="taxonomy-parent-label">
+    ROCK
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Rock types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Rock"
+data-type="Classic Rock"
+
+>
+
+<label class="taxonomy-type-label">
+    CLASSIC ROCK
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Rock"
+data-type="Alternative"
+
+>
+
+<label class="taxonomy-type-label">
+    ALTERNATIVE
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Rock"
+data-type="Progressive"
+
+>
+
+<label class="taxonomy-type-label">
+    PROGRESSIVE
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Rock"
+data-type="Hard Rock"
+
+>
+
+<label class="taxonomy-type-label">
+    HARD ROCK
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- OTHER -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Other"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Other"
+
+>
+
+<label class="taxonomy-parent-label">
+    OTHER
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Other types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-empty">
+    No subcategories currently defined.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div
+    id="genreSummary"
+    class="taxonomy-summary"
+></div>
+
+</div>
+
+<!-- =========================================================
+     MOOD
+     ========================================================= -->
+
+<div
+    id="moodTree"
+    class="taxonomy-filter"
+>
+
+<button
+id="moodTrigger"
+class="taxonomy-trigger"
+type="button"
+aria-expanded="false"
+
+>
+
+<span
+id="moodTriggerText"
+class="taxonomy-trigger-text"
+
+>
+
+```
+MOOD(S): ALL
+```
+
+</span>
+
+<span
+class="taxonomy-trigger-arrow"
+
+>
+
+```
+▼
+```
+
+</span>
+
+</button>
+
+<div
+    id="moodPanel"
+    class="taxonomy-panel"
+>
+
+<!-- PEACEFUL -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Peaceful"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Peaceful"
+
+>
+
+<label class="taxonomy-parent-label">
+    PEACEFUL
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Peaceful types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Peaceful"
+data-type="Calm"
+
+>
+
+<label class="taxonomy-type-label">
+    CALM
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Peaceful"
+data-type="Serene"
+
+>
+
+<label class="taxonomy-type-label">
+    SERENE
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Peaceful"
+data-type="Meditative"
+
+>
+
+<label class="taxonomy-type-label">
+    MEDITATIVE
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- DARK -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Dark"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Dark"
+
+>
+
+<label class="taxonomy-parent-label">
+    DARK
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Dark types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Dark"
+data-type="Ominous"
+
+>
+
+<label class="taxonomy-type-label">
+    OMINOUS
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Dark"
+data-type="Mysterious"
+
+>
+
+<label class="taxonomy-type-label">
+    MYSTERIOUS
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Dark"
+data-type="Haunting"
+
+>
+
+<label class="taxonomy-type-label">
+    HAUNTING
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- JOYFUL -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Joyful"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Joyful"
+
+>
+
+<label class="taxonomy-parent-label">
+    JOYFUL
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Joyful types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Joyful"
+data-type="Happy"
+
+>
+
+<label class="taxonomy-type-label">
+    HAPPY
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Joyful"
+data-type="Playful"
+
+>
+
+<label class="taxonomy-type-label">
+    PLAYFUL
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Joyful"
+data-type="Celebratory"
+
+>
+
+<label class="taxonomy-type-label">
+    CELEBRATORY
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- MELANCHOLIC -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Melancholic"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Melancholic"
+
+>
+
+<label class="taxonomy-parent-label">
+    MELANCHOLIC
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Melancholic types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Melancholic"
+data-type="Sad"
+
+>
+
+<label class="taxonomy-type-label">
+    SAD
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Melancholic"
+data-type="Lonely"
+
+>
+
+<label class="taxonomy-type-label">
+    LONELY
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Melancholic"
+data-type="Nostalgic"
+
+>
+
+<label class="taxonomy-type-label">
+    NOSTALGIC
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ENERGETIC -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Energetic"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Energetic"
+
+>
+
+<label class="taxonomy-parent-label">
+    ENERGETIC
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Energetic types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Energetic"
+data-type="Exciting"
+
+>
+
+<label class="taxonomy-type-label">
+    EXCITING
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Energetic"
+data-type="Aggressive"
+
+>
+
+<label class="taxonomy-type-label">
+    AGGRESSIVE
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Energetic"
+data-type="Driving"
+
+>
+
+<label class="taxonomy-type-label">
+    DRIVING
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- ROMANTIC -->
+
+<div
+    class="taxonomy-parent"
+    data-parent="Romantic"
+>
+
+<div class="taxonomy-parent-row">
+
+<input
+class="taxonomy-check"
+type="checkbox"
+data-parent="Romantic"
+
+>
+
+<label class="taxonomy-parent-label">
+    ROMANTIC
+</label>
+
+<button
+class="taxonomy-expand"
+type="button"
+aria-label="Show Romantic types"
+
+>
+
+```
+▼
+```
+
+</button>
+
+</div>
+
+<div class="taxonomy-types">
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Romantic"
+data-type="Tender"
+
+>
+
+<label class="taxonomy-type-label">
+    TENDER
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Romantic"
+data-type="Passionate"
+
+>
+
+<label class="taxonomy-type-label">
+    PASSIONATE
+</label>
+
+</div>
+
+<div class="taxonomy-type-row">
+
+<input
+class="taxonomy-type-check"
+type="checkbox"
+data-parent="Romantic"
+data-type="Intimate"
+
+>
+
+<label class="taxonomy-type-label">
+    INTIMATE
+</label>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div
+    id="moodSummary"
+    class="taxonomy-summary"
+></div>
+
+</div>
+
+</div>
+
+<div
+    id="filterStatus"
+    class="filter-status"
+></div>
 
 <div
     class="now-playing"
@@ -517,10 +2539,9 @@
 <div class="player">
 
 <audio
-    id="audioPlayer"
-    controls
-    preload="none">
-</audio>
+ id="audioPlayer"
+ controls
+ preload="none"> </audio>
 
 </div>
 
@@ -533,13 +2554,20 @@
     GR8SKUL AUTOMATIC MUSIC CATALOG
     ============================================================
 
-    The GitHub Action creates catalog.json.
+    catalog.json supplies the actual MP3 files.
 
-    This page reads catalog.json and creates
-    the track list automatically.
+    track-order.json supplies the permanent playlist order.
 
-    track-metadata.json supplies the public title
-    and artist information for each work.
+    track-metadata.json supplies:
+
+        title
+        artists
+        genres
+        genreTypes
+        moods
+        moodTypes
+
+    The player uses the metadata taxonomy for filtering.
 */
 
 
@@ -990,6 +3018,12 @@ function stopPlaybackClock() {
 }
 
 
+/*
+    ============================================================
+    DOM REFERENCES
+    ============================================================
+*/
+
 const tracksContainer =
     document.getElementById("trackList");
 
@@ -1013,6 +3047,33 @@ const nowPlaying =
 
 const sponsor =
     document.getElementById("sponsor");
+
+const genreTree =
+    document.getElementById("genreTree");
+
+const moodTree =
+    document.getElementById("moodTree");
+
+const genreTrigger =
+    document.getElementById("genreTrigger");
+
+const moodTrigger =
+    document.getElementById("moodTrigger");
+
+const genreTriggerText =
+    document.getElementById("genreTriggerText");
+
+const moodTriggerText =
+    document.getElementById("moodTriggerText");
+
+const genreSummary =
+    document.getElementById("genreSummary");
+
+const moodSummary =
+    document.getElementById("moodSummary");
+
+const filterStatus =
+    document.getElementById("filterStatus");
 
 
 /*
@@ -1302,74 +3363,6 @@ function saveMuteSettings() {
 
 }
 
-function isTrackMuted(index) {
-
-    if (
-        index < 0 ||
-        index >= tracks.length
-    ) {
-
-        return false;
-
-    }
-
-    const file =
-        tracks[index].dataset.file;
-
-    return mutedTracks[file] === true;
-
-}
-
-function setTrackMuted(
-    index,
-    muted
-) {
-
-    if (
-        index < 0 ||
-        index >= tracks.length
-    ) {
-
-        return;
-
-    }
-
-    const file =
-        tracks[index].dataset.file;
-
-    if (muted) {
-
-        mutedTracks[file] = true;
-
-    } else {
-
-        delete mutedTracks[file];
-
-    }
-
-    saveMuteSettings();
-
-    updateTrackMuteButton(index);
-
-    updateNowPlayingMuteButton();
-
-    if (muted) {
-
-        shuffleQueue =
-            shuffleQueue.filter(
-                function(queueIndex) {
-
-                    return !isTrackMuted(
-                        queueIndex
-                    );
-
-                }
-            );
-
-    }
-
-}
-
 
 /*
     ============================================================
@@ -1379,13 +3372,355 @@ function setTrackMuted(
 
 let tracks = [];
 
+let allTrackData = [];
+
 let currentTrack = -1;
+
+let currentTrackFile = "";
 
 let shuffle = false;
 
 let shuffleQueue = [];
 
 let playHistory = [];
+
+
+/*
+    ============================================================
+    TAXONOMY NORMALIZATION
+    ============================================================
+*/
+
+function normalizeArray(value) {
+
+    if (
+        Array.isArray(value)
+    ) {
+
+        return value
+            .map(
+                function(item) {
+
+                    return String(
+                        item
+                    ).trim();
+
+                }
+            )
+            .filter(Boolean);
+
+    }
+
+    if (
+        typeof value ===
+        "string"
+    ) {
+
+        return value
+            .split(",")
+            .map(
+                function(item) {
+
+                    return item.trim();
+
+                }
+            )
+            .filter(Boolean);
+
+    }
+
+    return [];
+
+}
+
+
+function normalizeGenreTypes(value) {
+
+    if (
+        !value
+    ) {
+
+        return [];
+
+    }
+
+    if (
+        typeof value ===
+        "string"
+    ) {
+
+        value =
+            value
+                .split(",")
+                .map(
+                    function(item) {
+
+                        return item.trim();
+
+                    }
+                )
+                .filter(Boolean);
+
+    }
+
+    if (
+        !Array.isArray(value)
+    ) {
+
+        return [];
+
+    }
+
+    return value
+        .map(
+            function(item) {
+
+                if (
+                    item &&
+                    typeof item ===
+                    "object"
+                ) {
+
+                    const genre =
+                        String(
+                            item.genre ||
+                            item.parent ||
+                            ""
+                        ).trim();
+
+                    const type =
+                        String(
+                            item.type ||
+                            item.genreType ||
+                            item.name ||
+                            ""
+                        ).trim();
+
+                    if (!type) {
+
+                        return null;
+
+                    }
+
+                    return {
+
+                        genre:
+                            genre,
+
+                        type:
+                            type
+
+                    };
+
+                }
+
+                const text =
+                    String(
+                        item
+                    ).trim();
+
+                if (!text) {
+
+                    return null;
+
+                }
+
+                if (
+                    text.includes("::")
+                ) {
+
+                    const parts =
+                        text.split("::");
+
+                    return {
+
+                        genre:
+                            parts[0].trim(),
+
+                        type:
+                            parts
+                                .slice(1)
+                                .join("::")
+                                .trim()
+
+                    };
+
+                }
+
+                return {
+
+                    genre:
+                        "",
+
+                    type:
+                        text
+
+                };
+
+            }
+        )
+        .filter(
+            function(item) {
+
+                return item &&
+                    item.type;
+
+            }
+        );
+
+}
+
+
+function normalizeMoodTypes(value) {
+
+    if (
+        !value
+    ) {
+
+        return [];
+
+    }
+
+    if (
+        typeof value ===
+        "string"
+    ) {
+
+        value =
+            value
+                .split(",")
+                .map(
+                    function(item) {
+
+                        return item.trim();
+
+                    }
+                )
+                .filter(Boolean);
+
+    }
+
+    if (
+        !Array.isArray(value)
+    ) {
+
+        return [];
+
+    }
+
+    return value
+        .map(
+            function(item) {
+
+                if (
+                    item &&
+                    typeof item ===
+                    "object"
+                ) {
+
+                    const mood =
+                        String(
+                            item.mood ||
+                            item.parent ||
+                            ""
+                        ).trim();
+
+                    const type =
+                        String(
+                            item.type ||
+                            item.moodType ||
+                            item.name ||
+                            ""
+                        ).trim();
+
+                    if (!type) {
+
+                        return null;
+
+                    }
+
+                    return {
+
+                        mood:
+                            mood,
+
+                        type:
+                            type
+
+                    };
+
+                }
+
+                const text =
+                    String(
+                        item
+                    ).trim();
+
+                if (!text) {
+
+                    return null;
+
+                }
+
+                if (
+                    text.includes("::")
+                ) {
+
+                    const parts =
+                        text.split("::");
+
+                    return {
+
+                        mood:
+                            parts[0].trim(),
+
+                        type:
+                            parts
+                                .slice(1)
+                                .join("::")
+                                .trim()
+
+                    };
+
+                }
+
+                return {
+
+                    mood:
+                        "",
+
+                    type:
+                        text
+
+                };
+
+            }
+        )
+        .filter(
+            function(item) {
+
+                return item &&
+                    item.type;
+
+            }
+        );
+
+}
+
+
+function itemTypeEquals(
+    first,
+    second
+) {
+
+    return String(
+        first || ""
+    ).trim() ===
+    String(
+        second || ""
+    ).trim();
+
+}
 
 
 /*
@@ -1406,33 +3741,806 @@ function cleanTitle(filename) {
 
 /*
     ============================================================
-    CREATE TRACK HTML
+    TAXONOMY TREE HELPERS
     ============================================================
-
-    Metadata has already been matched by loadCatalog().
-
-    trackData.title is the public title.
-
-    trackData.artist is the public artist string.
-
-    trackData.path remains the actual MP3 path.
 */
 
-function createTrackElement(trackData) {
+function getTreeParents(tree) {
+
+    return Array.from(
+        tree.querySelectorAll(
+            ".taxonomy-parent"
+        )
+    );
+
+}
+
+
+function getTreeSelectedParents(tree) {
+
+    return getTreeParents(
+        tree
+    )
+        .filter(
+            function(parent) {
+
+                const checkbox =
+                    parent.querySelector(
+                        ".taxonomy-check"
+                    );
+
+                return checkbox &&
+                    checkbox.checked;
+
+            }
+        )
+        .map(
+            function(parent) {
+
+                return parent.dataset.parent;
+
+            }
+        );
+
+}
+
+
+function getTreeSelectedTypes(tree) {
+
+    return Array.from(
+        tree.querySelectorAll(
+            ".taxonomy-type-check:checked"
+        )
+    )
+        .map(
+            function(input) {
+
+                return {
+
+                    parent:
+                        input.dataset.parent,
+
+                    type:
+                        input.dataset.type
+
+                };
+
+            }
+        );
+
+}
+
+
+/*
+    ============================================================
+    TAXONOMY TREE SUMMARY
+    ============================================================
+*/
+
+function updateTreeSummary(tree) {
+
+    const isGenre =
+        tree === genreTree;
+
+    const summary =
+        isGenre
+            ? genreSummary
+            : moodSummary;
+
+    const triggerText =
+        isGenre
+            ? genreTriggerText
+            : moodTriggerText;
+
+    const parentLabel =
+        isGenre
+            ? "GENRE"
+            : "MOOD";
+
+    const parents =
+        getTreeSelectedParents(
+            tree
+        );
+
+    const types =
+        getTreeSelectedTypes(
+            tree
+        );
+
+    if (
+        !parents.length &&
+        !types.length
+    ) {
+
+        triggerText.textContent =
+            isGenre
+                ? "GENRE(S): ALL"
+                : "MOOD(S): ALL";
+
+        summary.textContent =
+            "";
+
+        return;
+
+    }
+
+    if (
+        parents.length
+    ) {
+
+        triggerText.textContent =
+            parentLabel +
+            "(S): " +
+            parents.join(
+                ", "
+            );
+
+    } else {
+
+        const firstType =
+            types[0];
+
+        triggerText.textContent =
+            parentLabel +
+            " TYPES";
+
+        if (
+            firstType
+        ) {
+
+            summary.textContent =
+                types.length +
+                " SPECIFIC TYPE" +
+                (
+                    types.length === 1
+                        ? ""
+                        : "S"
+                ) +
+                " SELECTED";
+
+            return;
+
+        }
+
+    }
+
+    if (
+        types.length
+    ) {
+
+        summary.textContent =
+            types.length +
+            " SPECIFIC TYPE" +
+            (
+                types.length === 1
+                    ? ""
+                    : "S"
+            ) +
+            " SELECTED";
+
+    } else {
+
+        summary.textContent =
+            parents.length +
+            " " +
+            parentLabel +
+            (
+                parents.length === 1
+                    ? ""
+                    : "S"
+            ) +
+            " SELECTED";
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    TAXONOMY TREE OPEN / CLOSE
+    ============================================================
+*/
+
+function closeOtherTaxonomyTree(tree) {
+
+    if (
+        tree !== genreTree
+    ) {
+
+        genreTree.classList.remove(
+            "open"
+        );
+
+        genreTrigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    }
+
+    if (
+        tree !== moodTree
+    ) {
+
+        moodTree.classList.remove(
+            "open"
+        );
+
+        moodTrigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    TAXONOMY TREE SETUP
+    ============================================================
+*/
+
+function setupTaxonomyTree(
+    tree,
+    trigger
+) {
+
+    const parents =
+        getTreeParents(
+            tree
+        );
+
+    trigger.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            const currentlyOpen =
+                tree.classList.contains(
+                    "open"
+                );
+
+            closeOtherTaxonomyTree(
+                tree
+            );
+
+            tree.classList.toggle(
+                "open",
+                !currentlyOpen
+            );
+
+            trigger.setAttribute(
+                "aria-expanded",
+                String(
+                    !currentlyOpen
+                )
+            );
+
+        }
+    );
+
+
+    parents.forEach(
+        function(parent) {
+
+            const parentCheckbox =
+                parent.querySelector(
+                    ".taxonomy-check"
+                );
+
+            const parentLabel =
+                parent.querySelector(
+                    ".taxonomy-parent-label"
+                );
+
+            const expandButton =
+                parent.querySelector(
+                    ".taxonomy-expand"
+                );
+
+
+            parentCheckbox.addEventListener(
+                "click",
+                function(event) {
+
+                    event.stopPropagation();
+
+                }
+            );
+
+
+            parentCheckbox.addEventListener(
+                "change",
+                function() {
+
+                    if (
+                        parentCheckbox.checked
+                    ) {
+
+                        parent.classList.add(
+                            "expanded"
+                        );
+
+                    } else {
+
+                        parent.classList.remove(
+                            "expanded"
+                        );
+
+                    }
+
+                    updateTreeSummary(
+                        tree
+                    );
+
+                    applyFilters();
+
+                }
+            );
+
+
+            parentLabel.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    parentCheckbox.checked =
+                        !parentCheckbox.checked;
+
+                    parentCheckbox.dispatchEvent(
+                        new Event(
+                            "change"
+                        )
+                    );
+
+                }
+            );
+
+
+            expandButton.addEventListener(
+                "click",
+                function(event) {
+
+                    event.preventDefault();
+
+                    event.stopPropagation();
+
+                    parent.classList.toggle(
+                        "expanded"
+                    );
+
+                }
+            );
+
+
+            parent
+                .querySelectorAll(
+                    ".taxonomy-type-check"
+                )
+                .forEach(
+                    function(typeInput) {
+
+                        typeInput.addEventListener(
+                            "click",
+                            function(event) {
+
+                                event.stopPropagation();
+
+                            }
+                        );
+
+
+                        typeInput.addEventListener(
+                            "change",
+                            function() {
+
+                                /*
+                                 * IMPORTANT:
+                                 *
+                                 * A player type selection
+                                 * does NOT automatically select
+                                 * its broad parent.
+                                 *
+                                 * The broad parent means:
+                                 *
+                                 *     EVERYTHING IN THIS GENRE
+                                 *
+                                 * The child means:
+                                 *
+                                 *     THIS SPECIFIC TYPE
+                                 *
+                                 * This is what allows the player
+                                 * to make granular selections.
+                                 */
+
+                                if (
+                                    typeInput.checked
+                                ) {
+
+                                    parent.classList.add(
+                                        "expanded"
+                                    );
+
+                                }
+
+                                updateTreeSummary(
+                                    tree
+                                );
+
+                                applyFilters();
+
+                            }
+                        );
+
+                    }
+                );
+
+        }
+    );
+
+}
+
+
+/*
+    ============================================================
+    CLOSE DROPDOWNS WHEN CLICKING OUTSIDE
+    ============================================================
+*/
+
+document.addEventListener(
+    "click",
+    function(event) {
+
+        if (
+            !genreTree.contains(
+                event.target
+            )
+        ) {
+
+            genreTree.classList.remove(
+                "open"
+            );
+
+            genreTrigger.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+        if (
+            !moodTree.contains(
+                event.target
+            )
+        ) {
+
+            moodTree.classList.remove(
+                "open"
+            );
+
+            moodTrigger.setAttribute(
+                "aria-expanded",
+                "false"
+            );
+
+        }
+
+    }
+);
+
+
+/*
+    ============================================================
+    MATCH A TRACK AGAINST ONE TAXONOMY
+    ============================================================
+*/
+
+function trackMatchesTaxonomy(
+    trackData,
+    tree,
+    parentsKey,
+    typesKey
+) {
+
+    const selectedParents =
+        getTreeSelectedParents(
+            tree
+        );
+
+    const selectedTypes =
+        getTreeSelectedTypes(
+            tree
+        );
+
+
+    /*
+     * No filters means:
+     *
+     * everything matches.
+     */
+
+    if (
+        !selectedParents.length &&
+        !selectedTypes.length
+    ) {
+
+        return true;
+
+    }
+
+
+    const trackParents =
+        normalizeArray(
+            trackData[
+                parentsKey
+            ]
+        );
+
+
+    const trackTypes =
+        typesKey ===
+        "genreTypes"
+
+            ? normalizeGenreTypes(
+                trackData[
+                    typesKey
+                ]
+            )
+
+            : normalizeMoodTypes(
+                trackData[
+                    typesKey
+                ]
+            );
+
+
+    /*
+     * Broad parent selection.
+     *
+     * Example:
+     *
+     * ROCK
+     *
+     * matches any work whose genres
+     * contain ROCK.
+     */
+
+    const parentMatch =
+        selectedParents.some(
+            function(parent) {
+
+                return trackParents.some(
+                    function(trackParent) {
+
+                        return itemTypeEquals(
+                            trackParent,
+                            parent
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    if (
+        parentMatch
+    ) {
+
+        return true;
+
+    }
+
+
+    /*
+     * Specific type selection.
+     *
+     * Example:
+     *
+     * ROCK → PROGRESSIVE
+     *
+     * matches only a work containing:
+     *
+     * {
+     *     genre: "Rock",
+     *     type: "Progressive"
+     * }
+     */
+
+    const typeMatch =
+        selectedTypes.some(
+            function(selectedType) {
+
+                const selectedParent =
+                    selectedType.parent;
+
+                const selectedTypeName =
+                    selectedType.type;
+
+
+                return trackTypes.some(
+                    function(trackType) {
+
+                        const trackParent =
+                            typesKey ===
+                            "genreTypes"
+
+                                ? trackType.genre
+                                : trackType.mood;
+
+                        const parentMatches =
+                            !trackParent ||
+                            itemTypeEquals(
+                                trackParent,
+                                selectedParent
+                            );
+
+                        return (
+                            parentMatches &&
+                            itemTypeEquals(
+                                trackType.type,
+                                selectedTypeName
+                            )
+                        );
+
+                    }
+                );
+
+            }
+        );
+
+
+    return typeMatch;
+
+}
+
+
+/*
+    ============================================================
+    TRACK MATCHES CURRENT FILTERS
+    ============================================================
+*/
+
+function trackMatchesCurrentFilters(
+    trackData
+) {
+
+    const matchesGenre =
+        trackMatchesTaxonomy(
+            trackData,
+            genreTree,
+            "genres",
+            "genreTypes"
+        );
+
+
+    const matchesMood =
+        trackMatchesTaxonomy(
+            trackData,
+            moodTree,
+            "moods",
+            "moodTypes"
+        );
+
+
+    /*
+     * Genre + Mood are AND conditions.
+     *
+     * Example:
+     *
+     * Classical
+     * AND
+     * Peaceful → Meditative
+     *
+     * means the work must satisfy both.
+     */
+
+    return (
+        matchesGenre &&
+        matchesMood
+    );
+
+}
+
+
+/*
+    ============================================================
+    CURRENT FILTER DESCRIPTION
+    ============================================================
+*/
+
+function updateFilterStatus(
+    visibleCount
+) {
+
+    const genreParents =
+        getTreeSelectedParents(
+            genreTree
+        );
+
+    const genreTypes =
+        getTreeSelectedTypes(
+            genreTree
+        );
+
+    const moodParents =
+        getTreeSelectedParents(
+            moodTree
+        );
+
+    const moodTypes =
+        getTreeSelectedTypes(
+            moodTree
+        );
+
+    const filtering =
+        genreParents.length ||
+        genreTypes.length ||
+        moodParents.length ||
+        moodTypes.length;
+
+
+    if (
+        !filtering
+    ) {
+
+        filterStatus.textContent =
+            "";
+
+        return;
+
+    }
+
+
+    filterStatus.textContent =
+        visibleCount +
+        " WORK" +
+        (
+            visibleCount === 1
+                ? ""
+                : "S"
+        ) +
+        " MATCHING FILTERS";
+
+}
+
+
+/*
+    ============================================================
+    CREATE TRACK HTML
+    ============================================================
+*/
+
+function createTrackElement(
+    trackData
+) {
 
     const track =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     track.className =
         "track";
 
+
     const displayTitle =
         trackData.title ||
-        cleanTitle(trackData.name);
+        cleanTitle(
+            trackData.name
+        );
+
 
     const displayArtist =
         trackData.artist ||
         "";
+
 
     track.dataset.title =
         displayTitle;
@@ -1443,14 +4551,20 @@ function createTrackElement(trackData) {
     track.dataset.file =
         trackData.path;
 
+
     const trackInfo =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     trackInfo.className =
         "track-info";
 
+
     const title =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     title.className =
         "track-title";
@@ -1458,14 +4572,20 @@ function createTrackElement(trackData) {
     title.textContent =
         displayTitle;
 
+
     trackInfo.appendChild(
         title
     );
 
-    if (displayArtist) {
+
+    if (
+        displayArtist
+    ) {
 
         const artist =
-            document.createElement("div");
+            document.createElement(
+                "div"
+            );
 
         artist.className =
             "track-artist";
@@ -1473,20 +4593,27 @@ function createTrackElement(trackData) {
         artist.textContent =
             displayArtist;
 
+
         trackInfo.appendChild(
             artist
         );
 
     }
 
+
     const trackActions =
-        document.createElement("div");
+        document.createElement(
+            "div"
+        );
 
     trackActions.className =
         "track-actions";
 
+
     const muteButton =
-        document.createElement("a");
+        document.createElement(
+            "a"
+        );
 
     muteButton.className =
         "mute-toggle";
@@ -1497,6 +4624,7 @@ function createTrackElement(trackData) {
     muteButton.textContent =
         "MUTE";
 
+
     trackActions.appendChild(
         muteButton
     );
@@ -1505,9 +4633,11 @@ function createTrackElement(trackData) {
         trackActions
     );
 
+
     track.appendChild(
         trackInfo
     );
+
 
     return track;
 
@@ -1516,11 +4646,39 @@ function createTrackElement(trackData) {
 
 /*
     ============================================================
-    UPDATE TRACK MUTE BUTTON
+    IS TRACK MUTED
     ============================================================
 */
 
-function updateTrackMuteButton(index) {
+function isTrackMuted(index) {
+
+    if (
+        index < 0 ||
+        index >= tracks.length
+    ) {
+
+        return false;
+
+    }
+
+    const file =
+        tracks[index].dataset.file;
+
+    return mutedTracks[file] === true;
+
+}
+
+
+/*
+    ============================================================
+    SET TRACK MUTED
+    ============================================================
+*/
+
+function setTrackMuted(
+    index,
+    muted
+) {
 
     if (
         index < 0 ||
@@ -1531,19 +4689,91 @@ function updateTrackMuteButton(index) {
 
     }
 
+    const file =
+        tracks[index].dataset.file;
+
+
+    if (
+        muted
+    ) {
+
+        mutedTracks[file] =
+            true;
+
+    } else {
+
+        delete mutedTracks[file];
+
+    }
+
+
+    saveMuteSettings();
+
+    updateTrackMuteButton(
+        index
+    );
+
+    updateNowPlayingMuteButton();
+
+
+    if (
+        muted
+    ) {
+
+        shuffleQueue =
+            shuffleQueue.filter(
+                function(queueIndex) {
+
+                    return !isTrackMuted(
+                        queueIndex
+                    );
+
+                }
+            );
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    UPDATE TRACK MUTE BUTTON
+    ============================================================
+*/
+
+function updateTrackMuteButton(
+    index
+) {
+
+    if (
+        index < 0 ||
+        index >= tracks.length
+    ) {
+
+        return;
+
+    }
+
+
     const track =
         tracks[index];
+
 
     const muteButton =
         track.querySelector(
             ".mute-toggle"
         );
 
-    if (!muteButton) {
+
+    if (
+        !muteButton
+    ) {
 
         return;
 
     }
+
 
     if (
         isTrackMuted(index)
@@ -1571,7 +4801,10 @@ function updateTrackMuteButton(index) {
 function updateAllTrackMuteButtons() {
 
     tracks.forEach(
-        function(track, index) {
+        function(
+            track,
+            index
+        ) {
 
             updateTrackMuteButton(
                 index
@@ -1579,6 +4812,236 @@ function updateAllTrackMuteButtons() {
 
         }
     );
+
+}
+
+
+/*
+    ============================================================
+    RENDER FILTERED TRACK LIST
+    ============================================================
+*/
+
+function renderFilteredTracks() {
+
+    const previousFile =
+        currentTrackFile;
+
+
+    const wasPlaying =
+        !audioPlayer.paused;
+
+
+    const filteredData =
+        allTrackData.filter(
+            function(trackData) {
+
+                return trackMatchesCurrentFilters(
+                    trackData
+                );
+
+            }
+        );
+
+
+    tracksContainer.innerHTML =
+        "";
+
+
+    if (
+        filteredData.length === 0
+    ) {
+
+        const emptyMessage =
+            document.createElement(
+                "div"
+            );
+
+        emptyMessage.className =
+            "empty-filter-message";
+
+        emptyMessage.textContent =
+            "NO WORKS MATCH THE CURRENT FILTERS.";
+
+        tracksContainer.appendChild(
+            emptyMessage
+        );
+
+    } else {
+
+        filteredData.forEach(
+            function(trackData) {
+
+                const track =
+                    createTrackElement(
+                        trackData
+                    );
+
+                tracksContainer.appendChild(
+                    track
+                );
+
+            }
+        );
+
+    }
+
+
+    tracks =
+        Array.from(
+            tracksContainer.querySelectorAll(
+                ".track"
+            )
+        );
+
+
+    /*
+     * Reconnect the existing track
+     * listeners to the newly rendered
+     * filtered list.
+     */
+
+    updateAllTrackMuteButtons();
+
+    attachTrackListeners();
+
+
+    /*
+     * Determine whether the previously
+     * active work remains visible.
+     */
+
+    let preservedIndex = -1;
+
+
+    if (
+        previousFile
+    ) {
+
+        preservedIndex =
+            tracks.findIndex(
+                function(track) {
+
+                    return (
+                        track.dataset.file ===
+                        previousFile
+                    );
+
+                }
+            );
+
+    }
+
+
+    if (
+        preservedIndex !== -1
+    ) {
+
+        currentTrack =
+            preservedIndex;
+
+
+        tracks.forEach(
+            function(track) {
+
+                track.classList.remove(
+                    "selected"
+                );
+
+            }
+        );
+
+
+        tracks[
+            currentTrack
+        ].classList.add(
+            "selected"
+        );
+
+
+        updateNowPlayingMuteButton();
+
+
+        /*
+         * If the audio was still playing,
+         * keep it playing.
+         */
+
+        if (
+            wasPlaying &&
+            audioPlayer.src
+        ) {
+
+            audioPlayer.play()
+                .catch(
+                    function() {
+
+                        playButton.textContent =
+                            "▶ PLAY";
+
+                    }
+                );
+
+        }
+
+    } else {
+
+        /*
+         * The active work was filtered out.
+         *
+         * Stop it cleanly.
+         */
+
+        if (
+            wasPlaying
+        ) {
+
+            audioPlayer.pause();
+
+        }
+
+
+        audioPlayer.removeAttribute(
+            "src"
+        );
+
+        audioPlayer.load();
+
+
+        currentTrack =
+            -1;
+
+        currentTrackFile =
+            "";
+
+
+        playHistory = [];
+
+        shuffleQueue = [];
+
+
+        nowPlaying.innerHTML =
+            "";
+
+    }
+
+
+    updateFilterStatus(
+        filteredData.length
+    );
+
+}
+
+
+/*
+    ============================================================
+    APPLY FILTERS
+    ============================================================
+*/
+
+function applyFilters() {
+
+    renderFilteredTracks();
 
 }
 
@@ -1629,7 +5092,9 @@ async function loadCatalog() {
             ========================================================
         */
 
-        if (!catalogResponse.ok) {
+        if (
+            !catalogResponse.ok
+        ) {
 
             throw new Error(
                 "Catalog could not be loaded."
@@ -1644,7 +5109,9 @@ async function loadCatalog() {
             ========================================================
         */
 
-        if (!metadataResponse.ok) {
+        if (
+            !metadataResponse.ok
+        ) {
 
             throw new Error(
                 "Track metadata could not be loaded."
@@ -1668,12 +5135,20 @@ async function loadCatalog() {
 
         let trackOrder = [];
 
-        if (orderResponse.ok) {
+
+        if (
+            orderResponse.ok
+        ) {
 
             const orderData =
                 await orderResponse.json();
 
-            if (Array.isArray(orderData)) {
+
+            if (
+                Array.isArray(
+                    orderData
+                )
+            ) {
 
                 trackOrder =
                     orderData;
@@ -1691,6 +5166,7 @@ async function loadCatalog() {
 
         const catalogByPath =
             new Map();
+
 
         catalog.forEach(
             function(trackData) {
@@ -1718,14 +5194,20 @@ async function loadCatalog() {
             function(path) {
 
                 if (
-                    catalogByPath.has(path)
+                    catalogByPath.has(
+                        path
+                    )
                 ) {
 
                     orderedCatalog.push(
-                        catalogByPath.get(path)
+                        catalogByPath.get(
+                            path
+                        )
                     );
 
-                    catalogByPath.delete(path);
+                    catalogByPath.delete(
+                        path
+                    );
 
                 }
 
@@ -1734,8 +5216,9 @@ async function loadCatalog() {
 
 
         /*
-            Add any newly discovered tracks that
-            are not yet in track-order.json.
+            Add newly discovered tracks
+            that are not yet in the
+            permanent order file.
         */
 
         catalog.forEach(
@@ -1767,17 +5250,6 @@ async function loadCatalog() {
             ========================================================
             MATCH METADATA TO EACH TRACK
             ========================================================
-
-            IMPORTANT:
-
-            The metadata keys are exactly:
-
-            music/<filename>.mp3
-
-            catalog.json supplies the same value as
-            trackData.path.
-
-            Therefore this is an exact path match.
         */
 
         const tracksWithMetadata =
@@ -1790,7 +5262,9 @@ async function loadCatalog() {
                         ];
 
 
-                    if (!meta) {
+                    if (
+                        !meta
+                    ) {
 
                         console.warn(
                             "GR8SKUL: No metadata found for:",
@@ -1808,7 +5282,8 @@ async function loadCatalog() {
                     }
 
 
-                    let artist = "";
+                    let artist =
+                        "";
 
 
                     if (
@@ -1830,6 +5305,7 @@ async function loadCatalog() {
 
                         ...trackData,
 
+
                         title:
                             meta &&
                             meta.title
@@ -1838,8 +5314,45 @@ async function loadCatalog() {
                                     trackData.name
                                 ),
 
+
                         artist:
-                            artist
+                            artist,
+
+
+                        genres:
+                            meta &&
+                            Array.isArray(
+                                meta.genres
+                            )
+                                ? meta.genres
+                                : [],
+
+
+                        genreTypes:
+                            meta &&
+                            Array.isArray(
+                                meta.genreTypes
+                            )
+                                ? meta.genreTypes
+                                : [],
+
+
+                        moods:
+                            meta &&
+                            Array.isArray(
+                                meta.moods
+                            )
+                                ? meta.moods
+                                : [],
+
+
+                        moodTypes:
+                            meta &&
+                            Array.isArray(
+                                meta.moodTypes
+                            )
+                                ? meta.moodTypes
+                                : []
 
                     };
 
@@ -1848,53 +5361,26 @@ async function loadCatalog() {
 
 
         /*
-            ========================================================
-            RENDER TRACK LIST
-            ========================================================
+            Store the complete catalog.
+            Filtering happens afterward.
         */
 
-        tracksContainer.innerHTML =
-            "";
-
-
-        tracksWithMetadata.forEach(
-            function(trackData) {
-
-                const track =
-                    createTrackElement(
-                        trackData
-                    );
-
-                tracksContainer.appendChild(
-                    track
-                );
-
-            }
-        );
+        allTrackData =
+            tracksWithMetadata;
 
 
         /*
-            ========================================================
-            CREATE DOM TRACK ARRAY
-            ========================================================
+            Initial render.
         */
 
-        tracks =
-            Array.from(
-                document.querySelectorAll(
-                    ".track"
-                )
-            );
-
-
-        updateAllTrackMuteButtons();
-
-        attachTrackListeners();
+        renderFilteredTracks();
 
 
         console.log(
             "GR8SKUL: metadata loaded:",
-            Object.keys(metadata).length
+            Object.keys(
+                metadata
+            ).length
         );
 
 
@@ -1943,6 +5429,7 @@ function findNextUnmutedTrack(
     let index =
         startIndex;
 
+
     for (
         let count = 0;
         count < tracks.length;
@@ -1966,6 +5453,7 @@ function findNextUnmutedTrack(
 
         }
 
+
         if (
             !isTrackMuted(index)
         ) {
@@ -1974,9 +5462,11 @@ function findNextUnmutedTrack(
 
         }
 
+
         index++;
 
     }
+
 
     return -1;
 
@@ -2004,6 +5494,7 @@ function findPreviousUnmutedTrack(
     let index =
         startIndex;
 
+
     for (
         let count = 0;
         count < tracks.length;
@@ -2027,6 +5518,7 @@ function findPreviousUnmutedTrack(
 
         }
 
+
         if (
             !isTrackMuted(index)
         ) {
@@ -2035,9 +5527,11 @@ function findPreviousUnmutedTrack(
 
         }
 
+
         index--;
 
     }
+
 
     return -1;
 
@@ -2055,7 +5549,10 @@ function createShuffleQueue() {
     shuffleQueue =
         tracks
             .map(
-                function(track, index) {
+                function(
+                    track,
+                    index
+                ) {
 
                     return index;
 
@@ -2073,7 +5570,8 @@ function createShuffleQueue() {
 
 
     for (
-        let i = shuffleQueue.length - 1;
+        let i =
+            shuffleQueue.length - 1;
         i > 0;
         i--
     ) {
@@ -2084,18 +5582,26 @@ function createShuffleQueue() {
                 (i + 1)
             );
 
+
         const temporary =
             shuffleQueue[i];
 
-        shuffleQueue[i] =
-            shuffleQueue[randomIndex];
 
-        shuffleQueue[randomIndex] =
+        shuffleQueue[i] =
+            shuffleQueue[
+                randomIndex
+            ];
+
+
+        shuffleQueue[
+            randomIndex
+        ] =
             temporary;
 
     }
 
 }
+
 
 function getNextShuffleTrack() {
 
@@ -2147,14 +5653,20 @@ function updateNowPlayingMuteButton() {
             ".now-playing-mute"
         );
 
-    if (!muteButton) {
+
+    if (
+        !muteButton
+    ) {
 
         return;
 
     }
 
+
     if (
-        isTrackMuted(currentTrack)
+        isTrackMuted(
+            currentTrack
+        )
     ) {
 
         muteButton.textContent =
@@ -2187,10 +5699,12 @@ function muteCurrentTrack() {
 
     }
 
+
     setTrackMuted(
         currentTrack,
         true
     );
+
 
     playNext();
 
@@ -2203,7 +5717,9 @@ function muteCurrentTrack() {
     ============================================================
 */
 
-function toggleTrackMute(index) {
+function toggleTrackMute(
+    index
+) {
 
     if (
         index < 0 ||
@@ -2214,11 +5730,16 @@ function toggleTrackMute(index) {
 
     }
 
+
     const currentlyMuted =
-        isTrackMuted(index);
+        isTrackMuted(
+            index
+        );
 
 
-    if (currentlyMuted) {
+    if (
+        currentlyMuted
+    ) {
 
         setTrackMuted(
             index,
@@ -2286,6 +5807,14 @@ function selectTrack(
         index;
 
 
+    const track =
+        tracks[index];
+
+
+    currentTrackFile =
+        track.dataset.file;
+
+
     tracks.forEach(
         function(track) {
 
@@ -2295,10 +5824,6 @@ function selectTrack(
 
         }
     );
-
-
-    const track =
-        tracks[index];
 
 
     track.classList.add(
@@ -2424,12 +5949,17 @@ function selectTrack(
 
 
     track.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest"
+        behavior:
+            "smooth",
+
+        block:
+            "nearest"
     });
 
 
-    if (startPlaying) {
+    if (
+        startPlaying
+    ) {
 
         audioPlayer.play()
 
@@ -2472,10 +6002,13 @@ function chooseTrackToPlay() {
 
     }
 
+
     let chosenTrack;
 
 
-    if (shuffle) {
+    if (
+        shuffle
+    ) {
 
         createShuffleQueue();
 
@@ -2485,7 +6018,9 @@ function chooseTrackToPlay() {
     } else {
 
         chosenTrack =
-            findNextUnmutedTrack(0);
+            findNextUnmutedTrack(
+                0
+            );
 
     }
 
@@ -2524,10 +6059,13 @@ function playNext() {
 
     }
 
+
     let nextTrack;
 
 
-    if (shuffle) {
+    if (
+        shuffle
+    ) {
 
         nextTrack =
             getNextShuffleTrack();
@@ -2582,7 +6120,9 @@ function playPrevious() {
     }
 
 
-    if (shuffle) {
+    if (
+        shuffle
+    ) {
 
         while (
             playHistory.length > 0
@@ -2754,7 +6294,9 @@ shuffleButton.addEventListener(
             !shuffle;
 
 
-        if (shuffle) {
+        if (
+            shuffle
+        ) {
 
             shuffleButton.textContent =
                 "SHUFFLE ON";
@@ -2815,7 +6357,10 @@ shuffleButton.addEventListener(
 function attachTrackListeners() {
 
     tracks.forEach(
-        function(track, index) {
+        function(
+            track,
+            index
+        ) {
 
             const muteButton =
                 track.querySelector(
@@ -2966,6 +6511,23 @@ document.addEventListener(
         }
 
     }
+);
+
+
+/*
+    ============================================================
+    INITIALIZE TAXONOMY TREES
+    ============================================================
+*/
+
+setupTaxonomyTree(
+    genreTree,
+    genreTrigger
+);
+
+setupTaxonomyTree(
+    moodTree,
+    moodTrigger
 );
 
 
