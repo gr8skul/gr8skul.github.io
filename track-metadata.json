@@ -78,9 +78,15 @@
       }
     ],
     "moods": [
+      "Dark",
       "Romantic"
     ],
-    "moodTypes": []
+    "moodTypes": [
+      {
+        "mood": "Dark",
+        "type": "Sad"
+      }
+    ]
   },
   "music/Eye Dragon (LIVE) 1.mp3": {
     "title": "Eye Dragon (LIVE)",
