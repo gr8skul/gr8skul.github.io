@@ -55,11 +55,16 @@
       "gr8skul"
     ],
     "genres": [
+      "Blues",
       "Electronic",
       "Jazz",
       "Rock"
     ],
     "genreTypes": [
+      {
+        "genre": "Blues",
+        "type": "Traditional"
+      },
       {
         "genre": "Rock",
         "type": "Alternative"
