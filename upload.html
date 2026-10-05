@@ -1436,7 +1436,59 @@ const accountEmail =
         "accountEmail"
     );
 
+async function loadCurrentArtist() {
 
+    const {
+        data: { user },
+        error: userError
+    } = await supabaseClient.auth.getUser();
+
+    if (userError) {
+        throw userError;
+    }
+
+    if (!user) {
+        throw new Error(
+            "ARTIST AUTHENTICATION COULD NOT BE VERIFIED."
+        );
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("gr8skul_artists")
+        .select(
+            "id,user_id,username,display_name,active"
+        )
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    if (error) {
+        throw error;
+    }
+
+    if (!data) {
+        throw new Error(
+            "ARTIST PROFILE COULD NOT BE FOUND."
+        );
+    }
+
+    if (!data.active) {
+        throw new Error(
+            "THIS ARTIST ACCOUNT IS NOT ACTIVE."
+        );
+    }
+
+    currentArtist = data;
+
+    console.log(
+        "GR8SKUL CURRENT ARTIST:",
+        currentArtist
+    );
+
+    return currentArtist;
+}
 /* =========================================================
    AUTHENTICATION
    ========================================================= */
