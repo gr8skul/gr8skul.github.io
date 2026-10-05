@@ -1041,18 +1041,17 @@ async function signUp() {
 
 
 /*
-    ============================================================
-    CREATE ARTIST RECORD
-    ============================================================
+============================================================
+CREATE ARTIST RECORD
+============================================================
 */
-
 
 async function createArtistRecord(
 username,
 displayName
 ) {
 
-
+```
 authMessage.textContent =
     "Creating Artist profile...";
 
@@ -1121,11 +1120,6 @@ try {
         "Artist account created.";
 
 
-    /*
-        Give the new Artist account a moment
-        to complete before entering Works.
-    */
-
     setTimeout(
         function() {
 
@@ -1148,41 +1142,14 @@ try {
         error.message;
 
 }
-
-
-}
-
-
-
-    authMessage.textContent =
-        "Artist account created. Connecting your Artist profile...";
-
-
-    /*
-        Temporary stop until the backend function
-        is created.
-    */
-
-
-    console.log(
-        "Artist profile requires backend creation:",
-        {
-            username,
-            displayName
-        }
-    );
-
-
-    authMessage.textContent =
-        "Artist account created. The Artist profile connection is the next GR8SKUL setup step.";
+```
 
 }
-
 
 /*
-    ============================================================
-    SIGN IN
-    ============================================================
+============================================================
+SIGN IN
+============================================================
 */
 
 
