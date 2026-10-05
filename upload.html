@@ -1316,9 +1316,9 @@ href="/"
 
 >
 
-```
+
 BACK TO GR8SKUL
-```
+
 
 </a>
 
@@ -1456,167 +1456,59 @@ async function showAuthenticatedPage(
 
     }
 
-    authScreen.style.display =
-        "none";
-
-    protectedContent.style.display =
-        "block";
-
-    accountEmail.textContent =
-        session.user.email ||
-        "";
-
-    await loadTaxonomy();
-
-    await loadWorks();
-
-}
-
-
-function showLogin() {
-
-    protectedContent.style.display =
-        "none";
-
-    authScreen.style.display =
-        "block";
-
-    accountEmail.textContent =
-        "";
-
-}
-
-
-async function checkAuthentication() {
-
-    const result =
-        await supabaseClient.auth.getSession();
-
-    const session =
-        result.data &&
-        result.data.session
-            ? result.data.session
-            : null;
-
-    if (session) {
-
-        await showAuthenticatedPage(
-            session
-        );
-
-    } else {
-
-        showLogin();
-
-    }
-
-}
-
-
-async function signIn() {
-
-    const email =
-        authEmail.value.trim();
-
-    const password =
-        authPassword.value;
-
-    if (
-        !email ||
-        !password
-    ) {
-
-        authMessage.textContent =
-            "ENTER AN EMAIL AND PASSWORD";
-
-        return;
-
-    }
-
-    signInButton.disabled =
-        true;
-
-    authMessage.textContent =
-        "SIGNING IN...";
 
     try {
 
-        const result =
-            await supabaseClient.auth.signInWithPassword(
-                {
-                    email:
-                        email,
+        /*
+         * The authenticated Supabase user determines
+         * the Artist account.
+         *
+         * The browser does NOT choose an artist_id.
+         */
 
-                    password:
-                        password
-                }
-            );
+        await loadCurrentArtist();
 
-        if (
-            result.error
-        ) {
 
-            throw result.error;
+        authScreen.style.display =
+            "none";
 
-        }
+        protectedContent.style.display =
+            "block";
 
-        authMessage.textContent =
-            "";
 
-        await showAuthenticatedPage(
-            result.data.session
-        );
+        /*
+         * Show the Artist username rather than
+         * the email as the account identity.
+         */
+
+        accountEmail.textContent =
+            currentArtist.username;
+
+
+        await loadWorks();
+
 
     } catch (error) {
 
         console.error(
-            "GR8SKUL Works sign in failed:",
+            "GR8SKUL Artist Works could not be opened:",
             error
         );
+
+
+        protectedContent.style.display =
+            "none";
+
+        authScreen.style.display =
+            "block";
 
         authMessage.textContent =
             error.message ||
-            "SIGN IN FAILED";
-
-    } finally {
-
-        signInButton.disabled =
-            false;
+            "ARTIST PROFILE COULD NOT BE LOADED.";
 
     }
 
 }
-
-
-async function signOut() {
-
-    try {
-
-        await supabaseClient.auth.signOut();
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL Works sign out failed:",
-            error
-        );
-
-    }
-
-    authEmail.value =
-        "";
-
-    authPassword.value =
-        "";
-
-    authMessage.textContent =
-        "";
-
-    showLogin();
-
-}
-
-
 /* =========================================================
    AUTH EVENTS
    ========================================================= */
