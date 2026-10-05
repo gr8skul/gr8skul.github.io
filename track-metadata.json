@@ -211,5 +211,19 @@
         "type": "Nostalgic"
       }
     ]
+  },
+  "music/0eac31ea-52d2-4d87-845e-0c8c4070b397.mp3": {
+    "title": "Test",
+    "artists": [
+      "Test"
+    ],
+    "genres": [
+      "Alternative"
+    ],
+    "genreTypes": [],
+    "moods": [
+      "Peaceful"
+    ],
+    "moodTypes": []
   }
 }
