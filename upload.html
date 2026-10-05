@@ -5725,13 +5725,81 @@ function normalizeWork(
 }
 
 
+
 /* =========================================================
-   LOAD WORKS
+   LOAD CURRENT ARTIST'S WORKS
    ========================================================= */
 
 async function loadWorks() {
 
     try {
+
+        if (
+            !currentArtist
+        ) {
+
+            await loadCurrentArtist();
+
+        }
+
+
+        /*
+         * ---------------------------------------------------------
+         * GET ONLY THIS ARTIST'S WORK RECORDS
+         * ---------------------------------------------------------
+         *
+         * RLS is enforcing ownership here.
+         *
+         * We do NOT send artist_id from the browser.
+         */
+
+        const worksResult =
+            await supabaseClient
+                .from("gr8skul_works")
+                .select(
+                    "id,artist_id,title,audio_path,active,created_at,updated_at"
+                )
+                .eq(
+                    "active",
+                    true
+                )
+                .order(
+                    "created_at",
+                    {
+                        ascending: true
+                    }
+                );
+
+
+        if (
+            worksResult.error
+        ) {
+
+            console.error(
+                "GR8SKUL artist works query failed:",
+                worksResult.error
+            );
+
+            throw new Error(
+                "Could not load your works."
+            );
+
+        }
+
+
+        const artistWorks =
+            worksResult.data || [];
+
+
+        /*
+         * ---------------------------------------------------------
+         * LOAD PUBLIC CATALOG + METADATA
+         * ---------------------------------------------------------
+         *
+         * These files provide the existing display information.
+         * We do NOT display anything until it matches an owned
+         * gr8skul_works record.
+         */
 
         const results =
             await Promise.all(
@@ -5752,31 +5820,35 @@ async function loadWorks() {
                 ]
             );
 
+
         const catalogResponse =
             results[0];
 
         const metadataResponse =
             results[1];
 
+
         if (
             !catalogResponse.ok
         ) {
 
             throw new Error(
-                "Could not load catalog"
+                "Could not load catalog."
             );
 
         }
+
 
         if (
             !metadataResponse.ok
         ) {
 
             throw new Error(
-                "Could not load track metadata"
+                "Could not load track metadata."
             );
 
         }
+
 
         const catalogData =
             await catalogResponse.json();
@@ -5784,7 +5856,15 @@ async function loadWorks() {
         const metadataData =
             await metadataResponse.json();
 
-        let loadedWorks;
+
+        /*
+         * ---------------------------------------------------------
+         * NORMALIZE CATALOG
+         * ---------------------------------------------------------
+         */
+
+        let loadedCatalog;
+
 
         if (
             Array.isArray(
@@ -5792,7 +5872,7 @@ async function loadWorks() {
             )
         ) {
 
-            loadedWorks =
+            loadedCatalog =
                 catalogData;
 
         } else if (
@@ -5802,19 +5882,27 @@ async function loadWorks() {
             )
         ) {
 
-            loadedWorks =
+            loadedCatalog =
                 catalogData.tracks;
 
         } else {
 
             throw new Error(
-                "Invalid catalog format"
+                "Invalid catalog format."
             );
 
         }
 
+
+        /*
+         * ---------------------------------------------------------
+         * NORMALIZE METADATA
+         * ---------------------------------------------------------
+         */
+
         let metadataMap =
             metadataData;
+
 
         if (
             metadataData &&
@@ -5830,113 +5918,208 @@ async function loadWorks() {
 
         }
 
-        works =
-            loadedWorks.map(
-                function(work) {
 
-                    const normalized =
-                        normalizeWork(
-                            work
-                        );
+        /*
+         * ---------------------------------------------------------
+         * INDEX CATALOG BY FILE PATH
+         * ---------------------------------------------------------
+         */
 
-                    const key =
-                        getWorkKey(
-                            normalized
-                        );
+        const catalogByPath =
+            new Map();
 
-                    const metadata =
-                        metadataMap &&
-                        key
-                            ? metadataMap[key]
-                            : null;
 
-                    if (
-                        metadata &&
-                        typeof metadata ===
-                        "object"
-                    ) {
+        loadedCatalog.forEach(
+            function(work) {
 
-                        normalized.title =
-                            metadata.title ||
-                            normalized.title ||
-                            "";
+                const normalized =
+                    normalizeWork(
+                        work
+                    );
 
-                        normalized.artists =
-                            normalizeArray(
-                                metadata.artists ||
-                                metadata.artist ||
-                                metadata.artist_name
-                            );
+                const key =
+                    getWorkKey(
+                        normalized
+                    );
 
-                        normalized.genres =
-                            normalizeArray(
-                                metadata.genres ||
-                                metadata.genre
-                            );
+                if (
+                    key
+                ) {
 
-                        normalized.genreTypes =
-                            normalizeGenreTypes(
-                                metadata.genreTypes ||
-                                metadata.genre_types ||
-                                metadata.genreType ||
-                                metadata.genre_type
-                            );
-
-                        normalized.moods =
-                            normalizeArray(
-                                metadata.moods ||
-                                metadata.mood
-                            );
-
-                        normalized.moodTypes =
-                            normalizeMoodTypes(
-                                metadata.moodTypes ||
-                                metadata.mood_types ||
-                                metadata.moodType ||
-                                metadata.mood_type
-                            );
-
-                        normalized.eras =
-                            normalizeArray(
-                                metadata.eras ||
-                                metadata.era
-                            );
-
-                        normalized.eraTypes =
-                            normalizeEraTypes(
-                                metadata.eraTypes ||
-                                metadata.era_types ||
-                                metadata.eraType ||
-                                metadata.era_type
-                            );
-
-                        normalized.regions =
-                            normalizeRegionsMetadata(
-                                metadata.regions ||
-                                metadata.region
-                            );
-
-                    }
-
-                    return normalized;
+                    catalogByPath.set(
+                        key,
+                        normalized
+                    );
 
                 }
-            );
+
+            }
+        );
+
+
+        /*
+         * ---------------------------------------------------------
+         * BUILD ONLY THIS ARTIST'S WORKS
+         * ---------------------------------------------------------
+         */
+
+        works =
+            artistWorks
+                .map(
+                    function(dbWork) {
+
+                        const catalogWork =
+                            catalogByPath.get(
+                                dbWork.audio_path
+                            );
+
+
+                        /*
+                         * The database is authoritative
+                         * for ownership.
+                         *
+                         * If the GitHub file is missing,
+                         * do not expose it as a playable work.
+                         */
+
+                        if (
+                            !catalogWork
+                        ) {
+
+                            console.warn(
+                                "GR8SKUL work exists in database but not catalog:",
+                                dbWork
+                            );
+
+                            return null;
+
+                        }
+
+
+                        const normalized =
+                            {
+                                ...catalogWork,
+
+                                workId:
+                                    dbWork.id,
+
+                                artistId:
+                                    dbWork.artist_id,
+
+                                audioPath:
+                                    dbWork.audio_path,
+
+                                active:
+                                    dbWork.active,
+
+                                title:
+                                    dbWork.title ||
+                                    catalogWork.title ||
+                                    ""
+                            };
+
+
+                        const metadata =
+                            metadataMap &&
+                            dbWork.audio_path
+                                ? metadataMap[
+                                    dbWork.audio_path
+                                ]
+                                : null;
+
+
+                        if (
+                            metadata &&
+                            typeof metadata ===
+                            "object"
+                        ) {
+
+                            normalized.title =
+                                metadata.title ||
+                                normalized.title ||
+                                "";
+
+                            normalized.artists =
+                                normalizeArray(
+                                    metadata.artists ||
+                                    metadata.artist ||
+                                    metadata.artist_name
+                                );
+
+                            normalized.genres =
+                                normalizeArray(
+                                    metadata.genres ||
+                                    metadata.genre
+                                );
+
+                            normalized.genreTypes =
+                                normalizeGenreTypes(
+                                    metadata.genreTypes ||
+                                    metadata.genre_types ||
+                                    metadata.genreType ||
+                                    metadata.genre_type
+                                );
+
+                            normalized.moods =
+                                normalizeArray(
+                                    metadata.moods ||
+                                    metadata.mood
+                                );
+
+                            normalized.moodTypes =
+                                normalizeMoodTypes(
+                                    metadata.moodTypes ||
+                                    metadata.mood_types ||
+                                    metadata.moodType ||
+                                    metadata.mood_type
+                                );
+
+                        }
+
+
+                        return normalized;
+
+                    }
+                )
+                .filter(
+                    Boolean
+                );
+
+
+        /*
+         * Apply the existing local order system
+         * only to this artist's works.
+         */
 
         applyLocalOrder();
 
+
         renderWorks();
+
+
+        console.log(
+            "GR8SKUL ARTIST WORKS:",
+            works
+        );
+
 
     } catch (error) {
 
         console.error(
-            "Could not load works:",
+            "Could not load artist works:",
             error
         );
 
+
+        works = [];
+
+
         worksList.innerHTML =
             '<div style="padding:20px;text-align:center;color:#888;font-size:12px;">' +
-            "COULD NOT LOAD WORKS" +
+            (
+                error.message ||
+                "COULD NOT LOAD WORKS"
+            ) +
             "</div>";
 
     }
