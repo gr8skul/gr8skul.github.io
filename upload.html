@@ -1508,19 +1508,60 @@ async function showAuthenticatedPage(
 
     }
 
-    authScreen.style.display =
-        "none";
 
-    protectedContent.style.display =
-        "block";
+    try {
 
-    accountEmail.textContent =
-        session.user.email ||
-        "";
+        /*
+         * The authenticated Supabase user
+         * determines the Artist account.
+         *
+         * The browser does NOT choose
+         * an artist_id.
+         */
 
-    await loadTaxonomy();
+        await loadCurrentArtist();
 
-    await loadWorks();
+
+        authScreen.style.display =
+            "none";
+
+        protectedContent.style.display =
+            "block";
+
+
+        /*
+         * Display the Artist username
+         * instead of the email address.
+         */
+
+        accountEmail.textContent =
+            currentArtist.username;
+
+
+        await loadTaxonomy();
+
+        await loadWorks();
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL Artist Works could not be opened:",
+            error
+        );
+
+
+        protectedContent.style.display =
+            "none";
+
+        authScreen.style.display =
+            "block";
+
+        authMessage.textContent =
+            error.message ||
+            "ARTIST PROFILE COULD NOT BE LOADED.";
+
+    }
 
 }
 
