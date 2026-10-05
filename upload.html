@@ -5995,7 +5995,21 @@ const artistWorkPaths =
             }
         )
     );
+loadedWorks =
+    loadedWorks.filter(
+        function(work) {
 
+            const normalized =
+                normalizeWork(
+                    work
+                );
+
+            return artistWorkPaths.has(
+                normalized.file
+            );
+
+        }
+    );
 
 loadedWorks =
     loadedWorks.filter(
