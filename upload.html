@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -472,8 +471,77 @@ h1 {
     color: #777777;
 }
 
-.taxonomy-native-select {
+
+/* =========================================================
+   REGION TREE
+   ========================================================= */
+
+.region-node {
+    border-bottom: 1px solid #eeeeee;
+}
+
+.region-node:last-child {
+    border-bottom: none;
+}
+
+.region-node-row {
+    display: flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 10px;
+}
+
+.region-node-row:hover {
+    background: #fafafa;
+}
+
+.region-check {
+    width: 15px;
+    height: 15px;
+    margin: 0 9px 0 0;
+    accent-color: #111111;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.region-label {
+    flex: 1;
+    min-width: 0;
+    font-size: 11px;
+    letter-spacing: 0.7px;
+    cursor: pointer;
+}
+
+.region-expand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: 0;
+    background: transparent;
+    color: #777777;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.region-expand:hover {
+    color: #111111;
+}
+
+.region-node.expanded > .region-node-row .region-expand {
+    transform: rotate(180deg);
+}
+
+.region-children {
     display: none;
+    padding-left: 20px;
+    background: #fafafa;
+    border-top: 1px solid #f0f0f0;
+}
+
+.region-node.expanded > .region-children {
+    display: block;
 }
 
 
@@ -659,7 +727,6 @@ alt="GR8SKUL"
 
 </div>
 
-
 <!-- =========================================================
      AUTHENTICATION SCREEN
      ========================================================= -->
@@ -679,8 +746,13 @@ alt="GR8SKUL"
 <label
 class="auth-label"
 for="authEmail"
+
 >
-    EMAIL
+
+```
+EMAIL
+```
+
 </label>
 
 <input
@@ -688,6 +760,7 @@ id="authEmail"
 class="auth-input"
 type="email"
 autocomplete="email"
+
 >
 
 </div>
@@ -697,8 +770,13 @@ autocomplete="email"
 <label
 class="auth-label"
 for="authPassword"
+
 >
-    PASSWORD
+
+```
+PASSWORD
+```
+
 </label>
 
 <input
@@ -706,6 +784,7 @@ id="authPassword"
 class="auth-input"
 type="password"
 autocomplete="current-password"
+
 >
 
 </div>
@@ -714,8 +793,13 @@ autocomplete="current-password"
 id="signInButton"
 class="auth-button"
 type="button"
+
 >
-    SIGN IN
+
+```
+SIGN IN
+```
+
 </button>
 
 <div
@@ -726,14 +810,18 @@ type="button"
 <a
 class="auth-back"
 href="/"
+
 >
-    BACK TO GR8SKUL
+
+```
+BACK TO GR8SKUL
+```
+
 </a>
 
 </div>
 
 </div>
-
 
 <!-- =========================================================
      PROTECTED WORKS CONTENT
@@ -743,19 +831,18 @@ href="/"
     id="protectedContent"
 >
 
-
-<!-- =========================================================
-     ADD BUTTON
-     ========================================================= -->
-
 <button
 id="addButton"
 class="add-button"
 type="button"
->
-    ADD
-</button>
 
+>
+
+```
+ADD
+```
+
+</button>
 
 <!-- =========================================================
      ADD / EDIT FORM
@@ -773,14 +860,18 @@ type="button"
     ADD WORK
 </div>
 
-
 <div class="form-row">
 
 <label
 class="form-label"
 for="artistInput"
+
 >
-    ARTIST(S)
+
+```
+ARTIST(S)
+```
+
 </label>
 
 <input
@@ -789,6 +880,7 @@ class="form-input"
 type="text"
 autocomplete="off"
 placeholder="Artist name"
+
 >
 
 <div class="form-help">
@@ -797,14 +889,18 @@ placeholder="Artist name"
 
 </div>
 
-
 <div class="form-row">
 
 <label
 class="form-label"
 for="titleInput"
+
 >
-    TITLE
+
+```
+TITLE
+```
+
 </label>
 
 <input
@@ -813,18 +909,23 @@ class="form-input"
 type="text"
 autocomplete="off"
 placeholder="Work title"
+
 >
 
 </div>
-
 
 <div class="form-row">
 
 <label
 class="form-label"
 for="mp3Input"
+
 >
-    MP3
+
+```
+MP3
+```
+
 </label>
 
 <input
@@ -832,6 +933,7 @@ id="mp3Input"
 class="form-input"
 type="file"
 accept=".mp3,audio/mpeg"
+
 >
 
 <div
@@ -843,7 +945,6 @@ accept=".mp3,audio/mpeg"
 
 </div>
 
-
 <!-- =========================================================
      GENRE TREE
      ========================================================= -->
@@ -853,8 +954,13 @@ accept=".mp3,audio/mpeg"
 <label
 class="form-label"
 for="genreTrigger"
+
 >
-    GENRE(S)
+
+```
+GENRE(S)
+```
+
 </label>
 
 <div
@@ -867,19 +973,30 @@ id="genreTrigger"
 class="taxonomy-trigger"
 type="button"
 aria-expanded="false"
+
 >
 
 <span
-    id="genreTriggerText"
-    class="taxonomy-trigger-text"
+id="genreTriggerText"
+class="taxonomy-trigger-text"
+
 >
-    SELECT GENRE(S)
+
+```
+SELECT GENRE(S)
+```
+
 </span>
 
 <span
-    class="taxonomy-trigger-arrow"
+class="taxonomy-trigger-arrow"
+
 >
-    ▼
+
+```
+▼
+```
+
 </span>
 
 </button>
@@ -898,7 +1015,6 @@ aria-expanded="false"
 
 </div>
 
-
 <!-- =========================================================
      MOOD TREE
      ========================================================= -->
@@ -908,8 +1024,13 @@ aria-expanded="false"
 <label
 class="form-label"
 for="moodTrigger"
+
 >
-    MOOD(S)
+
+```
+MOOD(S)
+```
+
 </label>
 
 <div
@@ -922,19 +1043,30 @@ id="moodTrigger"
 class="taxonomy-trigger"
 type="button"
 aria-expanded="false"
+
 >
 
 <span
-    id="moodTriggerText"
-    class="taxonomy-trigger-text"
+id="moodTriggerText"
+class="taxonomy-trigger-text"
+
 >
-    SELECT MOOD(S)
+
+```
+SELECT MOOD(S)
+```
+
 </span>
 
 <span
-    class="taxonomy-trigger-arrow"
+class="taxonomy-trigger-arrow"
+
 >
-    ▼
+
+```
+▼
+```
+
 </span>
 
 </button>
@@ -953,6 +1085,145 @@ aria-expanded="false"
 
 </div>
 
+<!-- =========================================================
+     ERA TREE
+     ========================================================= -->
+
+<div class="form-row">
+
+<label
+class="form-label"
+for="eraTrigger"
+
+>
+
+```
+ERA(S)
+```
+
+</label>
+
+<div
+    id="eraTree"
+    class="taxonomy-tree"
+>
+
+<button
+id="eraTrigger"
+class="taxonomy-trigger"
+type="button"
+aria-expanded="false"
+
+>
+
+<span
+id="eraTriggerText"
+class="taxonomy-trigger-text"
+
+>
+
+```
+SELECT ERA(S)
+```
+
+</span>
+
+<span
+class="taxonomy-trigger-arrow"
+
+>
+
+```
+▼
+```
+
+</span>
+
+</button>
+
+<div
+    id="eraPanel"
+    class="taxonomy-panel"
+></div>
+
+</div>
+
+<div
+    id="eraSummary"
+    class="taxonomy-summary"
+></div>
+
+</div>
+
+<!-- =========================================================
+     REGION TREE
+     ========================================================= -->
+
+<div class="form-row">
+
+<label
+class="form-label"
+for="regionTrigger"
+
+>
+
+```
+REGION(S)
+```
+
+</label>
+
+<div
+    id="regionTree"
+    class="taxonomy-tree"
+>
+
+<button
+id="regionTrigger"
+class="taxonomy-trigger"
+type="button"
+aria-expanded="false"
+
+>
+
+<span
+id="regionTriggerText"
+class="taxonomy-trigger-text"
+
+>
+
+```
+SELECT REGION(S)
+```
+
+</span>
+
+<span
+class="taxonomy-trigger-arrow"
+
+>
+
+```
+▼
+```
+
+</span>
+
+</button>
+
+<div
+    id="regionPanel"
+    class="taxonomy-panel"
+></div>
+
+</div>
+
+<div
+    id="regionSummary"
+    class="taxonomy-summary"
+></div>
+
+</div>
 
 <!-- =========================================================
      ACTIONS
@@ -964,16 +1235,26 @@ aria-expanded="false"
 id="cancelButton"
 class="form-button"
 type="button"
+
 >
-    CANCEL
+
+```
+CANCEL
+```
+
 </button>
 
 <button
 id="uploadButton"
 class="form-button"
 type="button"
+
 >
-    UPLOAD
+
+```
+UPLOAD
+```
+
 </button>
 
 </div>
@@ -984,7 +1265,6 @@ type="button"
 ></div>
 
 </div>
-
 
 <!-- =========================================================
      ACCOUNT BAR
@@ -1001,12 +1281,16 @@ type="button"
 id="signOutButton"
 class="sign-out-button"
 type="button"
+
 >
-    SIGN OUT
+
+```
+SIGN OUT
+```
+
 </button>
 
 </div>
-
 
 <div class="section">
 
@@ -1026,18 +1310,21 @@ type="button"
 
 </div>
 
-
 <a
 class="back"
 href="/"
+
 >
-    BACK TO GR8SKUL
+
+```
+BACK TO GR8SKUL
+```
+
 </a>
 
 </div>
 
 </div>
-
 
 <script>
 
@@ -1397,7 +1684,11 @@ let taxonomy = {
 
     genres: [],
 
-    moods: []
+    moods: [],
+
+    eras: [],
+
+    regions: []
 
 };
 
@@ -1451,6 +1742,11 @@ const mp3Help =
         "mp3Help"
     );
 
+
+/* =========================================================
+   GENRE ELEMENTS
+   ========================================================= */
+
 const genreTree =
     document.getElementById(
         "genreTree"
@@ -1476,6 +1772,11 @@ const genreSummary =
         "genreSummary"
     );
 
+
+/* =========================================================
+   MOOD ELEMENTS
+   ========================================================= */
+
 const moodTree =
     document.getElementById(
         "moodTree"
@@ -1500,6 +1801,71 @@ const moodSummary =
     document.getElementById(
         "moodSummary"
     );
+
+
+/* =========================================================
+   ERA ELEMENTS
+   ========================================================= */
+
+const eraTree =
+    document.getElementById(
+        "eraTree"
+    );
+
+const eraTrigger =
+    document.getElementById(
+        "eraTrigger"
+    );
+
+const eraTriggerText =
+    document.getElementById(
+        "eraTriggerText"
+    );
+
+const eraPanel =
+    document.getElementById(
+        "eraPanel"
+    );
+
+const eraSummary =
+    document.getElementById(
+        "eraSummary"
+    );
+
+
+/* =========================================================
+   REGION ELEMENTS
+   ========================================================= */
+
+const regionTree =
+    document.getElementById(
+        "regionTree"
+    );
+
+const regionTrigger =
+    document.getElementById(
+        "regionTrigger"
+    );
+
+const regionTriggerText =
+    document.getElementById(
+        "regionTriggerText"
+    );
+
+const regionPanel =
+    document.getElementById(
+        "regionPanel"
+    );
+
+const regionSummary =
+    document.getElementById(
+        "regionSummary"
+    );
+
+
+/* =========================================================
+   FORM ELEMENTS
+   ========================================================= */
 
 const cancelButton =
     document.getElementById(
@@ -1756,6 +2122,247 @@ function normalizeTaxonomyParents(
 }
 
 
+/* =========================================================
+   NORMALIZE ERA TAXONOMY
+   ========================================================= */
+
+function normalizeEras(
+    value
+) {
+
+    if (
+        !Array.isArray(value)
+    ) {
+
+        return [];
+
+    }
+
+    return value
+        .map(
+            function(item) {
+
+                if (
+                    typeof item ===
+                    "string"
+                ) {
+
+                    return {
+
+                        name:
+                            item.trim(),
+
+                        types:
+                            []
+
+                    };
+
+                }
+
+                if (
+                    !item ||
+                    typeof item !==
+                    "object"
+                ) {
+
+                    return null;
+
+                }
+
+                const name =
+                    String(
+                        item.name ||
+                        item.era ||
+                        item.parent ||
+                        ""
+                    ).trim();
+
+                if (!name) {
+
+                    return null;
+
+                }
+
+                let types =
+                    [];
+
+                if (
+                    Array.isArray(
+                        item.types
+                    )
+                ) {
+
+                    types =
+                        item.types;
+
+                } else if (
+                    Array.isArray(
+                        item.eraTypes
+                    )
+                ) {
+
+                    types =
+                        item.eraTypes;
+
+                } else if (
+                    Array.isArray(
+                        item.children
+                    )
+                ) {
+
+                    types =
+                        item.children;
+
+                }
+
+                types =
+                    types
+                        .map(
+                            function(type) {
+
+                                if (
+                                    typeof type ===
+                                    "string"
+                                ) {
+
+                                    return type.trim();
+
+                                }
+
+                                if (
+                                    type &&
+                                    typeof type ===
+                                    "object"
+                                ) {
+
+                                    return String(
+                                        type.name ||
+                                        type.type ||
+                                        ""
+                                    ).trim();
+
+                                }
+
+                                return "";
+
+                            }
+                        )
+                        .filter(Boolean);
+
+                return {
+
+                    name:
+                        name,
+
+                    types:
+                        types
+
+                };
+
+            }
+        )
+        .filter(Boolean);
+
+}
+
+
+/* =========================================================
+   NORMALIZE REGION TAXONOMY
+   ========================================================= */
+
+function normalizeRegions(
+    value
+) {
+
+    if (
+        !Array.isArray(value)
+    ) {
+
+        return [];
+
+    }
+
+    function normalizeNode(
+        node
+    ) {
+
+        if (
+            typeof node ===
+            "string"
+        ) {
+
+            return {
+
+                name:
+                    node.trim(),
+
+                children:
+                    []
+
+            };
+
+        }
+
+        if (
+            !node ||
+            typeof node !==
+            "object"
+        ) {
+
+            return null;
+
+        }
+
+        const name =
+            String(
+                node.name ||
+                node.region ||
+                node.title ||
+                ""
+            ).trim();
+
+        if (!name) {
+
+            return null;
+
+        }
+
+        const rawChildren =
+            Array.isArray(
+                node.children
+            )
+                ? node.children
+                : [];
+
+        return {
+
+            name:
+                name,
+
+            children:
+                rawChildren
+                    .map(
+                        normalizeNode
+                    )
+                    .filter(Boolean)
+
+        };
+
+    }
+
+    return value
+        .map(
+            normalizeNode
+        )
+        .filter(Boolean);
+
+}
+
+
+/* =========================================================
+   NORMALIZE CENTRAL TAXONOMY
+   ========================================================= */
+
 function normalizeCentralTaxonomy(
     value
 ) {
@@ -1770,7 +2377,11 @@ function normalizeCentralTaxonomy(
 
             genres: [],
 
-            moods: []
+            moods: [],
+
+            eras: [],
+
+            regions: []
 
         };
 
@@ -1784,6 +2395,16 @@ function normalizeCentralTaxonomy(
     const rawMoods =
         value.moods ||
         value.mood ||
+        [];
+
+    const rawEras =
+        value.eras ||
+        value.era ||
+        [];
+
+    const rawRegions =
+        value.regions ||
+        value.region ||
         [];
 
     return {
@@ -1810,6 +2431,16 @@ function normalizeCentralTaxonomy(
                     "submoods",
                     "subMoods"
                 ]
+            ),
+
+        eras:
+            normalizeEras(
+                rawEras
+            ),
+
+        regions:
+            normalizeRegions(
+                rawRegions
             )
 
     };
@@ -1876,7 +2507,11 @@ async function loadTaxonomy() {
 
             genres: [],
 
-            moods: []
+            moods: [],
+
+            eras: [],
+
+            regions: []
 
         };
 
@@ -1903,6 +2538,12 @@ function renderTaxonomyTrees() {
     moodPanel.innerHTML =
         "";
 
+    eraPanel.innerHTML =
+        "";
+
+    regionPanel.innerHTML =
+        "";
+
     renderTaxonomyPanel(
         genrePanel,
         taxonomy.genres,
@@ -1915,8 +2556,16 @@ function renderTaxonomyTrees() {
         "mood"
     );
 
+    renderEraPanel();
+
+    renderRegionPanel();
+
 }
 
+
+/* =========================================================
+   RENDER GENRE / MOOD PANEL
+   ========================================================= */
 
 function renderTaxonomyPanel(
     panel,
@@ -2149,7 +2798,576 @@ function renderTaxonomyPanel(
 
 
 /* =========================================================
-   TAXONOMY TREE HELPERS
+   RENDER ERA PANEL
+   ========================================================= */
+
+function renderEraPanel() {
+
+    if (
+        !taxonomy.eras.length
+    ) {
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+        empty.className =
+            "taxonomy-empty";
+
+        empty.textContent =
+            "NO ERAS CURRENTLY DEFINED.";
+
+        eraPanel.appendChild(
+            empty
+        );
+
+        return;
+
+    }
+
+    taxonomy.eras.forEach(
+        function(eraData) {
+
+            const parent =
+                document.createElement(
+                    "div"
+                );
+
+            parent.className =
+                "taxonomy-parent";
+
+            parent.dataset.parent =
+                eraData.name;
+
+
+            const parentRow =
+                document.createElement(
+                    "div"
+                );
+
+            parentRow.className =
+                "taxonomy-parent-row";
+
+
+            const checkbox =
+                document.createElement(
+                    "input"
+                );
+
+            checkbox.className =
+                "taxonomy-check";
+
+            checkbox.type =
+                "checkbox";
+
+            checkbox.dataset.parent =
+                eraData.name;
+
+
+            const label =
+                document.createElement(
+                    "label"
+                );
+
+            label.className =
+                "taxonomy-parent-label";
+
+            label.textContent =
+                eraData.name.toUpperCase();
+
+
+            const expandButton =
+                document.createElement(
+                    "button"
+                );
+
+            expandButton.className =
+                "taxonomy-expand";
+
+            expandButton.type =
+                "button";
+
+            expandButton.setAttribute(
+                "aria-label",
+                "Show " +
+                eraData.name +
+                " era types"
+            );
+
+            expandButton.textContent =
+                "▼";
+
+
+            parentRow.appendChild(
+                checkbox
+            );
+
+            parentRow.appendChild(
+                label
+            );
+
+            parentRow.appendChild(
+                expandButton
+            );
+
+            parent.appendChild(
+                parentRow
+            );
+
+
+            const typesContainer =
+                document.createElement(
+                    "div"
+                );
+
+            typesContainer.className =
+                "taxonomy-types";
+
+
+            eraData.types.forEach(
+                function(typeName) {
+
+                    const typeRow =
+                        document.createElement(
+                            "div"
+                        );
+
+                    typeRow.className =
+                        "taxonomy-type-row";
+
+
+                    const typeInput =
+                        document.createElement(
+                            "input"
+                        );
+
+                    typeInput.className =
+                        "taxonomy-type-check";
+
+                    typeInput.type =
+                        "checkbox";
+
+                    typeInput.dataset.parent =
+                        eraData.name;
+
+                    typeInput.dataset.type =
+                        typeName;
+
+
+                    const typeLabel =
+                        document.createElement(
+                            "label"
+                        );
+
+                    typeLabel.className =
+                        "taxonomy-type-label";
+
+                    typeLabel.textContent =
+                        typeName.toUpperCase();
+
+
+                    typeRow.appendChild(
+                        typeInput
+                    );
+
+                    typeRow.appendChild(
+                        typeLabel
+                    );
+
+                    typesContainer.appendChild(
+                        typeRow
+                    );
+
+                }
+            );
+
+
+            if (
+                !eraData.types.length
+            ) {
+
+                const empty =
+                    document.createElement(
+                        "div"
+                    );
+
+                empty.className =
+                    "taxonomy-empty";
+
+                empty.textContent =
+                    "No era types currently defined.";
+
+                typesContainer.appendChild(
+                    empty
+                );
+
+            }
+
+
+            parent.appendChild(
+                typesContainer
+            );
+
+            eraPanel.appendChild(
+                parent
+            );
+
+        }
+    );
+
+    setupTaxonomyTreeParents(
+        eraTree
+    );
+
+}
+
+
+/* =========================================================
+   REGION PATH HELPERS
+   ========================================================= */
+
+function getRegionNodePath(
+    node
+) {
+
+    const path = [];
+
+    let current =
+        node;
+
+    while (
+        current &&
+        current.classList &&
+        current.classList.contains(
+            "region-node"
+        )
+    ) {
+
+        path.unshift(
+            current.dataset.name
+        );
+
+        current =
+            current.parentElement &&
+            current.parentElement.closest(
+                ".region-node"
+            );
+
+    }
+
+    return path;
+
+}
+
+
+/* =========================================================
+   RENDER REGION PANEL
+   ========================================================= */
+
+function renderRegionPanel() {
+
+    if (
+        !taxonomy.regions.length
+    ) {
+
+        const empty =
+            document.createElement(
+                "div"
+            );
+
+        empty.className =
+            "taxonomy-empty";
+
+        empty.textContent =
+            "NO REGIONS CURRENTLY DEFINED.";
+
+        regionPanel.appendChild(
+            empty
+        );
+
+        return;
+
+    }
+
+    taxonomy.regions.forEach(
+        function(regionData) {
+
+            const node =
+                createRegionNode(
+                    regionData
+                );
+
+            if (node) {
+
+                regionPanel.appendChild(
+                    node
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CREATE REGION NODE
+   ========================================================= */
+
+function createRegionNode(
+    regionData
+) {
+
+    if (
+        !regionData ||
+        !regionData.name
+    ) {
+
+        return null;
+
+    }
+
+    const node =
+        document.createElement(
+            "div"
+        );
+
+    node.className =
+        "region-node";
+
+    node.dataset.name =
+        regionData.name;
+
+
+    const row =
+        document.createElement(
+            "div"
+        );
+
+    row.className =
+        "region-node-row";
+
+
+    const checkbox =
+        document.createElement(
+            "input"
+        );
+
+    checkbox.className =
+        "region-check";
+
+    checkbox.type =
+        "checkbox";
+
+
+    const label =
+        document.createElement(
+            "label"
+        );
+
+    label.className =
+        "region-label";
+
+    label.textContent =
+        regionData.name.toUpperCase();
+
+
+    row.appendChild(
+        checkbox
+    );
+
+    row.appendChild(
+        label
+    );
+
+
+    const children =
+        Array.isArray(
+            regionData.children
+        )
+            ? regionData.children
+            : [];
+
+
+    if (
+        children.length
+    ) {
+
+        const expand =
+            document.createElement(
+                "button"
+            );
+
+        expand.className =
+            "region-expand";
+
+        expand.type =
+            "button";
+
+        expand.textContent =
+            "▼";
+
+        expand.setAttribute(
+            "aria-label",
+            "Show " +
+            regionData.name +
+            " children"
+        );
+
+        row.appendChild(
+            expand
+        );
+
+
+        const childrenContainer =
+            document.createElement(
+                "div"
+            );
+
+        childrenContainer.className =
+            "region-children";
+
+
+        children.forEach(
+            function(child) {
+
+                const childNode =
+                    createRegionNode(
+                        child
+                    );
+
+                if (childNode) {
+
+                    childrenContainer.appendChild(
+                        childNode
+                    );
+
+                }
+
+            }
+        );
+
+        node.appendChild(
+            row
+        );
+
+        node.appendChild(
+            childrenContainer
+        );
+
+
+        expand.addEventListener(
+            "click",
+            function(event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+                if (
+                    !checkbox.checked
+                ) {
+
+                    checkbox.checked =
+                        true;
+
+                }
+
+                node.classList.toggle(
+                    "expanded"
+                );
+
+                updateRegionSummary();
+
+            }
+        );
+
+    } else {
+
+        node.appendChild(
+            row
+        );
+
+    }
+
+
+    checkbox.addEventListener(
+        "click",
+        function(event) {
+
+            event.stopPropagation();
+
+        }
+    );
+
+
+    checkbox.addEventListener(
+        "change",
+        function() {
+
+            if (
+                checkbox.checked
+            ) {
+
+                node.classList.add(
+                    "expanded"
+                );
+
+            } else {
+
+                node.classList.remove(
+                    "expanded"
+                );
+
+                node
+                    .querySelectorAll(
+                        ".region-check"
+                    )
+                    .forEach(
+                        function(childCheckbox) {
+
+                            childCheckbox.checked =
+                                false;
+
+                        }
+                    );
+
+            }
+
+            updateRegionSummary();
+
+        }
+    );
+
+
+    label.addEventListener(
+        "click",
+        function(event) {
+
+            event.preventDefault();
+
+            checkbox.checked =
+                !checkbox.checked;
+
+            checkbox.dispatchEvent(
+                new Event(
+                    "change"
+                )
+            );
+
+        }
+    );
+
+
+    return node;
+
+}
+
+
+/* =========================================================
+   GET TREE PARENTS
    ========================================================= */
 
 function getTreeParents(
@@ -2164,6 +3382,10 @@ function getTreeParents(
 
 }
 
+
+/* =========================================================
+   GET TREE SELECTED PARENTS
+   ========================================================= */
 
 function getTreeSelectedParents(
     tree
@@ -2196,6 +3418,10 @@ function getTreeSelectedParents(
 }
 
 
+/* =========================================================
+   GET TREE SELECTED TYPES
+   ========================================================= */
+
 function getTreeSelectedTypes(
     tree
 ) {
@@ -2223,6 +3449,10 @@ function getTreeSelectedTypes(
 
 }
 
+
+/* =========================================================
+   SET TREE SELECTED PARENTS
+   ========================================================= */
 
 function setTreeSelectedParents(
     tree,
@@ -2294,6 +3524,10 @@ function setTreeSelectedParents(
 }
 
 
+/* =========================================================
+   SET TREE SELECTED TYPES
+   ========================================================= */
+
 function setTreeSelectedTypes(
     tree,
     typeValues
@@ -2304,9 +3538,13 @@ function setTreeSelectedTypes(
             ? normalizeGenreTypes(
                 typeValues
             )
-            : normalizeMoodTypes(
-                typeValues
-            );
+            : tree === moodTree
+                ? normalizeMoodTypes(
+                    typeValues
+                )
+                : normalizeEraTypes(
+                    typeValues
+                );
 
     const selectedParents =
         new Set(
@@ -2314,6 +3552,7 @@ function setTreeSelectedTypes(
                 tree
             )
         );
+
 
     tree
         .querySelectorAll(
@@ -2335,17 +3574,17 @@ function setTreeSelectedTypes(
                             const itemParent =
                                 tree === genreTree
                                     ? item.genre
-                                    : item.mood;
+                                    : tree === moodTree
+                                        ? item.mood
+                                        : item.era;
 
                             return (
                                 itemTypeEquals(
                                     item.type,
                                     inputType
                                 ) &&
-                                (
-                                    itemParent ===
-                                    inputParent
-                                )
+                                itemParent ===
+                                inputParent
                             );
 
                         }
@@ -2354,12 +3593,8 @@ function setTreeSelectedTypes(
 
                 /*
                  * Backward compatibility:
-                 *
-                 * Older metadata may have stored
-                 * only the type without its parent.
-                 *
-                 * In that case, if that type exists
-                 * beneath a selected parent, restore it.
+                 * restore child values whose
+                 * parent was not previously stored.
                  */
 
                 if (
@@ -2376,7 +3611,9 @@ function setTreeSelectedTypes(
                                 const itemParent =
                                     tree === genreTree
                                         ? item.genre
-                                        : item.mood;
+                                        : tree === moodTree
+                                            ? item.mood
+                                            : item.era;
 
                                 return (
                                     !itemParent &&
@@ -2404,6 +3641,32 @@ function setTreeSelectedTypes(
 }
 
 
+/* =========================================================
+   SET ERA SELECTION
+   ========================================================= */
+
+function setEraSelections(
+    eraValues,
+    eraTypes
+) {
+
+    setTreeSelectedParents(
+        eraTree,
+        eraValues
+    );
+
+    setTreeSelectedTypes(
+        eraTree,
+        eraTypes
+    );
+
+}
+
+
+/* =========================================================
+   ITEM TYPE EQUALITY
+   ========================================================= */
+
 function itemTypeEquals(
     first,
     second
@@ -2419,6 +3682,10 @@ function itemTypeEquals(
 }
 
 
+/* =========================================================
+   UPDATE TREE SUMMARY
+   ========================================================= */
+
 function updateTreeSummary(
     tree
 ) {
@@ -2426,15 +3693,25 @@ function updateTreeSummary(
     const isGenre =
         tree === genreTree;
 
+    const isMood =
+        tree === moodTree;
+
+    const isEra =
+        tree === eraTree;
+
     const summary =
         isGenre
             ? genreSummary
-            : moodSummary;
+            : isMood
+                ? moodSummary
+                : eraSummary;
 
     const triggerText =
         isGenre
             ? genreTriggerText
-            : moodTriggerText;
+            : isMood
+                ? moodTriggerText
+                : eraTriggerText;
 
     const parents =
         getTreeSelectedParents(
@@ -2446,12 +3723,15 @@ function updateTreeSummary(
             tree
         );
 
+
     if (!parents.length) {
 
         triggerText.textContent =
             isGenre
                 ? "SELECT GENRE(S)"
-                : "SELECT MOOD(S)";
+                : isMood
+                    ? "SELECT MOOD(S)"
+                    : "SELECT ERA(S)";
 
         summary.textContent =
             "";
@@ -2460,20 +3740,27 @@ function updateTreeSummary(
 
     }
 
+
     triggerText.textContent =
         parents.join(
             ", "
         );
 
+
     if (types.length) {
 
         summary.textContent =
             types.length +
-            " SUBCATEGORY" +
+            " " +
+            (
+                isEra
+                    ? "ERA TYPE"
+                    : "SUBCATEGORY"
+            ) +
             (
                 types.length === 1
                     ? ""
-                    : "IES"
+                    : "S"
             ) +
             " SELECTED";
 
@@ -2485,7 +3772,9 @@ function updateTreeSummary(
             (
                 isGenre
                     ? "GENRE"
-                    : "MOOD"
+                    : isMood
+                        ? "MOOD"
+                        : "ERA"
             ) +
             (
                 parents.length === 1
@@ -2498,6 +3787,63 @@ function updateTreeSummary(
 
 }
 
+
+/* =========================================================
+   UPDATE REGION SUMMARY
+   ========================================================= */
+
+function updateRegionSummary() {
+
+    const selected =
+        getSelectedRegionPaths();
+
+    if (!selected.length) {
+
+        regionTriggerText.textContent =
+            "SELECT REGION(S)";
+
+        regionSummary.textContent =
+            "";
+
+        return;
+
+    }
+
+
+    const names =
+        selected.map(
+            function(item) {
+
+                return item.path[
+                    item.path.length - 1
+                ];
+
+            }
+        );
+
+
+    regionTriggerText.textContent =
+        names.join(
+            ", "
+        );
+
+
+    regionSummary.textContent =
+        selected.length +
+        " REGION" +
+        (
+            selected.length === 1
+                ? ""
+                : "S"
+        ) +
+        " SELECTED";
+
+}
+
+
+/* =========================================================
+   CLEAR TREE
+   ========================================================= */
 
 function clearTree(
     tree
@@ -2543,6 +3889,48 @@ function clearTree(
 }
 
 
+/* =========================================================
+   CLEAR REGION TREE
+   ========================================================= */
+
+function clearRegionTree() {
+
+    regionTree
+        .querySelectorAll(
+            ".region-check"
+        )
+        .forEach(
+            function(input) {
+
+                input.checked =
+                    false;
+
+            }
+        );
+
+    regionTree
+        .querySelectorAll(
+            ".region-node"
+        )
+        .forEach(
+            function(node) {
+
+                node.classList.remove(
+                    "expanded"
+                );
+
+            }
+        );
+
+    updateRegionSummary();
+
+}
+
+
+/* =========================================================
+   INCLUDE PARENT VALUES
+   ========================================================= */
+
 function includeParentValues(
     parents,
     types,
@@ -2565,7 +3953,9 @@ function includeParentValues(
             const parent =
                 tree === genreTree
                     ? item.genre
-                    : item.mood;
+                    : tree === moodTree
+                        ? item.mood
+                        : item.era;
 
             if (
                 parent &&
@@ -2591,6 +3981,10 @@ function includeParentValues(
 
 }
 
+
+/* =========================================================
+   GENRE METADATA
+   ========================================================= */
 
 function getGenreMetadata() {
 
@@ -2640,6 +4034,10 @@ function getGenreMetadata() {
 
 }
 
+
+/* =========================================================
+   MOOD METADATA
+   ========================================================= */
 
 function getMoodMetadata() {
 
@@ -2691,6 +4089,249 @@ function getMoodMetadata() {
 
 
 /* =========================================================
+   ERA METADATA
+   ========================================================= */
+
+function normalizeEraTypes(
+    value
+) {
+
+    if (
+        !value
+    ) {
+
+        return [];
+
+    }
+
+    if (
+        typeof value ===
+        "string"
+    ) {
+
+        value =
+            value
+                .split(",")
+                .map(
+                    function(item) {
+
+                        return item.trim();
+
+                    }
+                )
+                .filter(Boolean);
+
+    }
+
+    if (
+        !Array.isArray(value)
+    ) {
+
+        return [];
+
+    }
+
+    return value
+        .map(
+            function(item) {
+
+                if (
+                    item &&
+                    typeof item ===
+                    "object"
+                ) {
+
+                    const era =
+                        String(
+                            item.era ||
+                            item.parent ||
+                            ""
+                        ).trim();
+
+                    const type =
+                        String(
+                            item.type ||
+                            item.eraType ||
+                            item.name ||
+                            ""
+                        ).trim();
+
+                    if (!type) {
+
+                        return null;
+
+                    }
+
+                    return {
+
+                        era:
+                            era,
+
+                        type:
+                            type
+
+                    };
+
+                }
+
+                const text =
+                    String(
+                        item
+                    ).trim();
+
+                if (!text) {
+
+                    return null;
+
+                }
+
+                if (
+                    text.includes("::")
+                ) {
+
+                    const parts =
+                        text.split("::");
+
+                    return {
+
+                        era:
+                            parts[0].trim(),
+
+                        type:
+                            parts
+                                .slice(1)
+                                .join("::")
+                                .trim()
+
+                    };
+
+                }
+
+                return {
+
+                    era:
+                        "",
+
+                    type:
+                        text
+
+                };
+
+            }
+        )
+        .filter(
+            function(item) {
+
+                return item &&
+                    item.type;
+
+            }
+        );
+
+}
+
+
+function getEraMetadata() {
+
+    const selectedParents =
+        getTreeSelectedParents(
+            eraTree
+        );
+
+    const selectedTypes =
+        getTreeSelectedTypes(
+            eraTree
+        );
+
+    const eras =
+        includeParentValues(
+            selectedParents,
+            selectedTypes,
+            eraTree
+        );
+
+    const eraTypes =
+        selectedTypes.map(
+            function(item) {
+
+                return {
+
+                    era:
+                        item.parent,
+
+                    type:
+                        item.type
+
+                };
+
+            }
+        );
+
+    return {
+
+        eras:
+            eras,
+
+        eraTypes:
+            eraTypes
+
+    };
+
+}
+
+
+/* =========================================================
+   REGION METADATA
+   ========================================================= */
+
+function getSelectedRegionPaths() {
+
+    return Array.from(
+        regionTree.querySelectorAll(
+            ".region-check:checked"
+        )
+    )
+        .map(
+            function(input) {
+
+                const node =
+                    input.closest(
+                        ".region-node"
+                    );
+
+                return {
+
+                    path:
+                        getRegionNodePath(
+                            node
+                        )
+
+                };
+
+            }
+        )
+        .filter(
+            function(item) {
+
+                return (
+                    item.path &&
+                    item.path.length
+                );
+
+            }
+        );
+
+}
+
+
+function getRegionMetadata() {
+
+    return getSelectedRegionPaths();
+
+}
+
+
+/* =========================================================
    TAXONOMY TREE EVENTS
    ========================================================= */
 
@@ -2711,36 +4352,63 @@ function setupTaxonomyTree(
                     "open"
                 );
 
+
             /*
-             * Close the other taxonomy tree
-             * when this one opens.
+             * Close every other taxonomy tree.
              */
 
-            if (
-                tree === genreTree
-            ) {
+            const allTrees = [
+                genreTree,
+                moodTree,
+                eraTree,
+                regionTree
+            ];
 
-                moodTree.classList.remove(
+            allTrees.forEach(
+                function(otherTree) {
+
+                    if (
+                        otherTree !== tree
+                    ) {
+
+                        otherTree.classList.remove(
+                            "open"
+                        );
+
+                    }
+
+                }
+            );
+
+
+            genreTrigger.setAttribute(
+                "aria-expanded",
+                genreTree.classList.contains(
                     "open"
-                );
+                )
+            );
 
-                moodTrigger.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-
-            } else {
-
-                genreTree.classList.remove(
+            moodTrigger.setAttribute(
+                "aria-expanded",
+                moodTree.classList.contains(
                     "open"
-                );
+                )
+            );
 
-                genreTrigger.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
+            eraTrigger.setAttribute(
+                "aria-expanded",
+                eraTree.classList.contains(
+                    "open"
+                )
+            );
 
-            }
+            regionTrigger.setAttribute(
+                "aria-expanded",
+                regionTree.classList.contains(
+                    "open"
+                )
+            );
+
 
             tree.classList.toggle(
                 "open",
@@ -2759,6 +4427,10 @@ function setupTaxonomyTree(
 
 }
 
+
+/* =========================================================
+   TAXONOMY TREE PARENT EVENTS
+   ========================================================= */
 
 function setupTaxonomyTreeParents(
     tree
@@ -2786,6 +4458,15 @@ function setupTaxonomyTreeParents(
                 parent.querySelector(
                     ".taxonomy-expand"
                 );
+
+
+            if (
+                !parentCheckbox
+            ) {
+
+                return;
+
+            }
 
 
             parentCheckbox.addEventListener(
@@ -2839,39 +4520,18 @@ function setupTaxonomyTreeParents(
             );
 
 
-            parentLabel.addEventListener(
-                "click",
-                function(event) {
+            if (
+                parentLabel
+            ) {
 
-                    event.preventDefault();
+                parentLabel.addEventListener(
+                    "click",
+                    function(event) {
 
-                    parentCheckbox.checked =
-                        !parentCheckbox.checked;
-
-                    parentCheckbox.dispatchEvent(
-                        new Event(
-                            "change"
-                        )
-                    );
-
-                }
-            );
-
-
-            expandButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-                    if (
-                        !parentCheckbox.checked
-                    ) {
+                        event.preventDefault();
 
                         parentCheckbox.checked =
-                            true;
+                            !parentCheckbox.checked;
 
                         parentCheckbox.dispatchEvent(
                             new Event(
@@ -2880,13 +4540,46 @@ function setupTaxonomyTreeParents(
                         );
 
                     }
+                );
 
-                    parent.classList.toggle(
-                        "expanded"
-                    );
+            }
 
-                }
-            );
+
+            if (
+                expandButton
+            ) {
+
+                expandButton.addEventListener(
+                    "click",
+                    function(event) {
+
+                        event.preventDefault();
+
+                        event.stopPropagation();
+
+                        if (
+                            !parentCheckbox.checked
+                        ) {
+
+                            parentCheckbox.checked =
+                                true;
+
+                            parentCheckbox.dispatchEvent(
+                                new Event(
+                                    "change"
+                                )
+                            );
+
+                        }
+
+                        parent.classList.toggle(
+                            "expanded"
+                        );
+
+                    }
+                );
+
+            }
 
 
             parent
@@ -2908,11 +4601,6 @@ function setupTaxonomyTreeParents(
                         typeInput.addEventListener(
                             "change",
                             function() {
-
-                                /*
-                                 * A child can never exist
-                                 * without its parent.
-                                 */
 
                                 if (
                                     typeInput.checked &&
@@ -2952,39 +4640,67 @@ document.addEventListener(
     "click",
     function(event) {
 
-        if (
-            !genreTree.contains(
-                event.target
+        const trees = [
+            genreTree,
+            moodTree,
+            eraTree,
+            regionTree
+        ];
+
+        trees.forEach(
+            function(tree) {
+
+                if (
+                    !tree.contains(
+                        event.target
+                    )
+                ) {
+
+                    tree.classList.remove(
+                        "open"
+                    );
+
+                }
+
+            }
+        );
+
+
+        genreTrigger.setAttribute(
+            "aria-expanded",
+            String(
+                genreTree.classList.contains(
+                    "open"
+                )
             )
-        ) {
+        );
 
-            genreTree.classList.remove(
-                "open"
-            );
-
-            genreTrigger.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
-
-        if (
-            !moodTree.contains(
-                event.target
+        moodTrigger.setAttribute(
+            "aria-expanded",
+            String(
+                moodTree.classList.contains(
+                    "open"
+                )
             )
-        ) {
+        );
 
-            moodTree.classList.remove(
-                "open"
-            );
+        eraTrigger.setAttribute(
+            "aria-expanded",
+            String(
+                eraTree.classList.contains(
+                    "open"
+                )
+            )
+        );
 
-            moodTrigger.setAttribute(
-                "aria-expanded",
-                "false"
-            );
-
-        }
+        regionTrigger.setAttribute(
+            "aria-expanded",
+            String(
+                regionTree.classList.contains(
+                    "open"
+                )
+            )
+        );
 
     }
 );
@@ -3004,6 +4720,18 @@ setupTaxonomyTree(
     moodTree,
     moodTrigger,
     moodSummary
+);
+
+setupTaxonomyTree(
+    eraTree,
+    eraTrigger,
+    eraSummary
+);
+
+setupTaxonomyTree(
+    regionTree,
+    regionTrigger,
+    regionSummary
 );
 
 
@@ -3056,7 +4784,8 @@ function normalizeGenreTypes(
 
                 if (
                     item &&
-                    typeof item === "object"
+                    typeof item ===
+                    "object"
                 ) {
 
                     const genre =
@@ -3198,7 +4927,8 @@ function normalizeMoodTypes(
 
                 if (
                     item &&
-                    typeof item === "object"
+                    typeof item ===
+                    "object"
                 ) {
 
                     const mood =
@@ -3292,6 +5022,281 @@ function normalizeMoodTypes(
 
 
 /* =========================================================
+   NORMALIZE REGION METADATA
+   ========================================================= */
+
+function normalizeRegionsMetadata(
+    value
+) {
+
+    if (
+        !value
+    ) {
+
+        return [];
+
+    }
+
+    if (
+        typeof value ===
+        "string"
+    ) {
+
+        return value
+            .split(",")
+            .map(
+                function(item) {
+
+                    return {
+
+                        path:
+                            item
+                                .split("::")
+                                .map(
+                                    function(part) {
+
+                                        return part.trim();
+
+                                    }
+                                )
+                                .filter(Boolean)
+
+                    };
+
+                }
+            )
+            .filter(
+                function(item) {
+
+                    return item.path.length;
+
+                }
+            );
+
+    }
+
+    if (
+        !Array.isArray(value)
+    ) {
+
+        return [];
+
+    }
+
+    return value
+        .map(
+            function(item) {
+
+                if (
+                    item &&
+                    typeof item ===
+                    "object" &&
+                    Array.isArray(
+                        item.path
+                    )
+                ) {
+
+                    return {
+
+                        path:
+                            item.path
+                                .map(
+                                    function(part) {
+
+                                        return String(
+                                            part
+                                        ).trim();
+
+                                    }
+                                )
+                                .filter(Boolean)
+
+                    };
+
+                }
+
+                if (
+                    Array.isArray(
+                        item
+                    )
+                ) {
+
+                    return {
+
+                        path:
+                            item
+                                .map(
+                                    function(part) {
+
+                                        return String(
+                                            part
+                                        ).trim();
+
+                                    }
+                                )
+                                .filter(Boolean)
+
+                    };
+
+                }
+
+                if (
+                    typeof item ===
+                    "string"
+                ) {
+
+                    return {
+
+                        path:
+                            item
+                                .split("::")
+                                .map(
+                                    function(part) {
+
+                                        return part.trim();
+
+                                    }
+                                )
+                                .filter(Boolean)
+
+                    };
+
+                }
+
+                return null;
+
+            }
+        )
+        .filter(
+            function(item) {
+
+                return item &&
+                    item.path &&
+                    item.path.length;
+
+            }
+        );
+
+}
+
+
+/* =========================================================
+   RESTORE REGION SELECTIONS
+   ========================================================= */
+
+function setRegionSelections(
+    values
+) {
+
+    const normalized =
+        normalizeRegionsMetadata(
+            values
+        );
+
+
+    clearRegionTree();
+
+
+    normalized.forEach(
+        function(regionData) {
+
+            const path =
+                regionData.path;
+
+            if (
+                !path.length
+            ) {
+
+                return;
+
+            }
+
+
+            let currentContainer =
+                regionTree;
+
+            let currentNode =
+                null;
+
+
+            path.forEach(
+                function(
+                    pathName
+                ) {
+
+                    const nodes =
+                        Array.from(
+                            currentContainer.querySelectorAll(
+                                ":scope > .region-node"
+                            )
+                        );
+
+                    currentNode =
+                        nodes.find(
+                            function(node) {
+
+                                return (
+                                    node.dataset.name ===
+                                    pathName
+                                );
+
+                            }
+                        );
+
+
+                    if (!currentNode) {
+
+                        return;
+
+                    }
+
+
+                    const checkbox =
+                        currentNode.querySelector(
+                            ":scope > .region-node-row .region-check"
+                        );
+
+                    if (
+                        checkbox
+                    ) {
+
+                        checkbox.checked =
+                            true;
+
+                        currentNode.classList.add(
+                            "expanded"
+                        );
+
+                    }
+
+
+                    const children =
+                        currentNode.querySelector(
+                            ":scope > .region-children"
+                        );
+
+                    if (
+                        children
+                    ) {
+
+                        currentContainer =
+                            children;
+
+                    }
+
+                }
+            );
+
+        }
+    );
+
+
+    updateRegionSummary();
+
+}
+
+
+/* =========================================================
    EDIT WORK
    ========================================================= */
 
@@ -3321,11 +5326,6 @@ function editWork(
 
     /*
      * Restore genre parents first.
-     *
-     * If existing metadata contains a
-     * genre type whose parent was not
-     * included in genres, include that
-     * parent automatically.
      */
 
     const normalizedGenreTypes =
@@ -3378,6 +5378,47 @@ function editWork(
     );
 
 
+    /*
+     * Restore era parents and
+     * EARLY / MID / LATE selections.
+     */
+
+    const normalizedEraTypes =
+        normalizeEraTypes(
+            work.eraTypes
+        );
+
+    const editEras =
+        includeParentValues(
+            work.eras,
+            normalizedEraTypes,
+            eraTree
+        );
+
+    setTreeSelectedParents(
+        eraTree,
+        editEras
+    );
+
+    setTreeSelectedTypes(
+        eraTree,
+        normalizedEraTypes
+    );
+
+
+    /*
+     * Restore recursive region paths.
+     */
+
+    setRegionSelections(
+        work.regions
+    );
+
+
+    /*
+     * Close all taxonomy dropdowns.
+     */
+
     genreTree.classList.remove(
         "open"
     );
@@ -3385,6 +5426,15 @@ function editWork(
     moodTree.classList.remove(
         "open"
     );
+
+    eraTree.classList.remove(
+        "open"
+    );
+
+    regionTree.classList.remove(
+        "open"
+    );
+
 
     genreTrigger.setAttribute(
         "aria-expanded",
@@ -3395,6 +5445,17 @@ function editWork(
         "aria-expanded",
         "false"
     );
+
+    eraTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    regionTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
 
     mp3Input.value =
         "";
@@ -3549,6 +5610,15 @@ function normalizeWork(
                 [],
 
             moodTypes:
+                [],
+
+            eras:
+                [],
+
+            eraTypes:
+                [],
+
+            regions:
                 []
 
         };
@@ -3613,6 +5683,26 @@ function normalizeWork(
                     work.mood_types ||
                     work.moodType ||
                     work.mood_type
+                ),
+
+            eras:
+                normalizeArray(
+                    work.eras ||
+                    work.era
+                ),
+
+            eraTypes:
+                normalizeEraTypes(
+                    work.eraTypes ||
+                    work.era_types ||
+                    work.eraType ||
+                    work.era_type
+                ),
+
+            regions:
+                normalizeRegionsMetadata(
+                    work.regions ||
+                    work.region
                 )
 
         };
@@ -3640,6 +5730,15 @@ function normalizeWork(
             [],
 
         moodTypes:
+            [],
+
+        eras:
+            [],
+
+        eraTypes:
+            [],
+
+        regions:
             []
 
     };
@@ -3816,6 +5915,26 @@ async function loadWorks() {
                                 metadata.mood_types ||
                                 metadata.moodType ||
                                 metadata.mood_type
+                            );
+
+                        normalized.eras =
+                            normalizeArray(
+                                metadata.eras ||
+                                metadata.era
+                            );
+
+                        normalized.eraTypes =
+                            normalizeEraTypes(
+                                metadata.eraTypes ||
+                                metadata.era_types ||
+                                metadata.eraType ||
+                                metadata.era_type
+                            );
+
+                        normalized.regions =
+                            normalizeRegionsMetadata(
+                                metadata.regions ||
+                                metadata.region
                             );
 
                     }
@@ -4455,8 +6574,10 @@ async function saveCurrentDomOrder() {
                 }
             );
 
+
         const result =
             await response.json();
+
 
         if (
             !response.ok
@@ -4473,6 +6594,7 @@ async function saveCurrentDomOrder() {
 
         }
 
+
         if (
             result.success !==
             true
@@ -4485,9 +6607,11 @@ async function saveCurrentDomOrder() {
 
         }
 
+
         setOrderStatus(
             "ORDER SAVED"
         );
+
 
         setTimeout(
             function() {
@@ -4499,6 +6623,7 @@ async function saveCurrentDomOrder() {
             },
             2500
         );
+
 
     } catch (error) {
 
@@ -4594,6 +6719,13 @@ function resetForm() {
         moodTree
     );
 
+    clearTree(
+        eraTree
+    );
+
+    clearRegionTree();
+
+
     genreTree.classList.remove(
         "open"
     );
@@ -4601,6 +6733,15 @@ function resetForm() {
     moodTree.classList.remove(
         "open"
     );
+
+    eraTree.classList.remove(
+        "open"
+    );
+
+    regionTree.classList.remove(
+        "open"
+    );
+
 
     genreTrigger.setAttribute(
         "aria-expanded",
@@ -4611,6 +6752,17 @@ function resetForm() {
         "aria-expanded",
         "false"
     );
+
+    eraTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
+    regionTrigger.setAttribute(
+        "aria-expanded",
+        "false"
+    );
+
 
     uploadButton.textContent =
         "UPLOAD";
@@ -4645,6 +6797,7 @@ function openAddForm() {
     }
 
     resetForm();
+
 
     /*
      * Always return the form to its position
@@ -4693,6 +6846,7 @@ cancelButton.addEventListener(
 
         resetForm();
 
+
         /*
          * Return the form to the ADD position
          * after it has been used for editing.
@@ -4737,6 +6891,13 @@ uploadButton.addEventListener(
         const moodData =
             getMoodMetadata();
 
+        const eraData =
+            getEraMetadata();
+
+        const regionData =
+            getRegionMetadata();
+
+
         const genres =
             genreData.genres;
 
@@ -4748,6 +6909,16 @@ uploadButton.addEventListener(
 
         const moodTypes =
             moodData.moodTypes;
+
+        const eras =
+            eraData.eras;
+
+        const eraTypes =
+            eraData.eraTypes;
+
+        const regions =
+            regionData;
+
 
         const file =
             mp3Input.files[0] ||
@@ -4812,6 +6983,28 @@ uploadButton.addEventListener(
         }
 
 
+        if (!eras.length) {
+
+            setFormStatus(
+                "SELECT AT LEAST ONE ERA"
+            );
+
+            return;
+
+        }
+
+
+        if (!regions.length) {
+
+            setFormStatus(
+                "SELECT AT LEAST ONE REGION"
+            );
+
+            return;
+
+        }
+
+
         if (
             file &&
             file.type !== "audio/mpeg" &&
@@ -4830,14 +7023,12 @@ uploadButton.addEventListener(
 
 
         /*
-         * IMPORTANT:
-         *
          * The broad parent arrays remain
-         * exactly where the existing player
+         * exactly where the existing system
          * expects them.
          *
-         * The child selections are stored
-         * separately as parent/type objects.
+         * Child selections are stored
+         * separately.
          */
 
         const metadata = {
@@ -4858,7 +7049,16 @@ uploadButton.addEventListener(
                 moods,
 
             moodTypes:
-                moodTypes
+                moodTypes,
+
+            eras:
+                eras,
+
+            eraTypes:
+                eraTypes,
+
+            regions:
+                regions
 
         };
 
@@ -4955,6 +7155,7 @@ uploadButton.addEventListener(
 
             const accessToken =
                 await getAccessToken();
+
 
             const response =
                 await fetch(
@@ -5087,4 +7288,3 @@ checkAuthentication();
 </body>
 
 </html>
-
