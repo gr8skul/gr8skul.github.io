@@ -5947,18 +5947,6 @@ console.log(
 );
 
 
-const artistWorkPaths =
-    new Set(
-        artistWorks.map(
-            function(work) {
-
-                return work.audio_path;
-
-            }
-        )
-    );
-
-
 let loadedWorks;
 
         if (
@@ -5980,7 +5968,7 @@ let loadedWorks;
             loadedWorks =
                 catalogData.tracks;
 
-                } else {
+        } else {
 
             throw new Error(
                 "Invalid catalog format"
