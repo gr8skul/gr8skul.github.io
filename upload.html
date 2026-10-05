@@ -5889,6 +5889,10 @@ async function loadWorks() {
 
     try {
 
+        const artistWorks =
+            await loadArtistWorkPaths();
+
+
         const results =
             await Promise.all(
                 [
