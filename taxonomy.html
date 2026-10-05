@@ -410,7 +410,7 @@
     .era-type-list {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 4px;
+        gap: 5px;
         margin: 0 8px 8px 38px;
         padding: 7px;
         border-left: 1px solid #dddddd;
@@ -418,12 +418,11 @@
     }
 
     .era-type {
-        min-width: 0;
         height: 28px;
         border: 1px solid #e2e2e2;
         background: #ffffff;
         text-align: center;
-        font-size: 8px;
+        font-size: 9px;
         color: #777777;
         line-height: 26px;
         letter-spacing: 0.8px;
@@ -435,7 +434,7 @@
     }
 
     .era-type-description {
-        margin: 0 8px 8px 38px;
+        margin: 0 8px 6px 38px;
         font-size: 8px;
         color: #aaaaaa;
     }
@@ -670,9 +669,9 @@
 
     <div class="intro-text">
         Manage the classifications used throughout GR8SKUL.
-        Drag genres, moods, eras, and regions to change their order.
+        Drag genres, moods, and eras to change their order.
         Genres and moods contain optional types.
-        Eras contain the fixed EARLY, MID, and LATE divisions.
+        Each era contains the fixed subdivisions EARLY, MID, and LATE.
         Regions can contain children at any depth.
     </div>
 
@@ -758,8 +757,8 @@
     </div>
 
     <div class="section-description">
-        Add and arrange eras. Each era automatically contains
-        the fixed EARLY, MID, and LATE divisions.
+        Add and arrange eras. Each era contains the fixed
+        subdivisions EARLY, MID, and LATE.
     </div>
 
     <div
@@ -837,7 +836,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-
 /* ============================================================
    GR8SKUL SUPABASE
    ============================================================ */
@@ -848,11 +846,8 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
 
-const { createClient } =
-    window.supabase;
-
 const supabaseClient =
-    createClient(
+    window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_KEY
     );
@@ -864,17 +859,6 @@ const supabaseClient =
 
 const DELETE_TAXONOMY_URL =
     `${SUPABASE_URL}/functions/v1/delete-taxonomy`;
-
-
-/* ============================================================
-   ERA TYPES
-   ============================================================ */
-
-const ERA_TYPES = [
-    "EARLY",
-    "MID",
-    "LATE"
-];
 
 
 /* ============================================================
@@ -1049,10 +1033,20 @@ const DEFAULT_TAXONOMY = {
 
     eras: [],
 
-
     regions: []
 
 };
+
+
+/* ============================================================
+   FIXED ERA TYPES
+   ============================================================ */
+
+const ERA_TYPES = [
+    "EARLY",
+    "MID",
+    "LATE"
+];
 
 
 /* ============================================================
@@ -1205,11 +1199,9 @@ async function deleteTaxonomyDesignation(
         return false;
     }
 
-
     setSaveStatus(
         `REMOVING "${name}"...`
     );
-
 
     try {
 
@@ -1217,7 +1209,6 @@ async function deleteTaxonomyDesignation(
             data: sessionData,
             error: sessionError
         } = await supabaseClient.auth.getSession();
-
 
         if (
             sessionError ||
@@ -1230,10 +1221,8 @@ async function deleteTaxonomyDesignation(
 
         }
 
-
         const accessToken =
             sessionData.session.access_token;
-
 
         const response =
             await fetch(
@@ -1260,7 +1249,6 @@ async function deleteTaxonomyDesignation(
                 }
             );
 
-
         let result = null;
 
         try {
@@ -1273,7 +1261,6 @@ async function deleteTaxonomyDesignation(
             result = null;
 
         }
-
 
         if (
             !response.ok ||
@@ -1288,32 +1275,26 @@ async function deleteTaxonomyDesignation(
 
         }
 
-
         const changedTracks =
             Number(
                 result.metadataChangedTracks || 0
             );
 
-
         setSaveStatus(
             `REMOVED "${name}" — ${changedTracks} TRACK(S) CLEANED`
         );
-
 
         await loadTaxonomy();
 
-
         setSaveStatus(
             `REMOVED "${name}" — ${changedTracks} TRACK(S) CLEANED`
         );
-
 
         setTimeout(() => {
 
             setSaveStatus("");
 
         }, 2600);
-
 
         return true;
 
@@ -1324,7 +1305,6 @@ async function deleteTaxonomyDesignation(
             error
         );
 
-
         setSaveStatus(
             "DELETE FAILED — " +
             (
@@ -1333,9 +1313,7 @@ async function deleteTaxonomyDesignation(
             )
         );
 
-
         return false;
-
     }
 
 }
@@ -1347,27 +1325,52 @@ async function deleteTaxonomyDesignation(
 
 async function checkExistingSession() {
 
-    const {
-        data,
-        error
-    } = await supabaseClient.auth.getSession();
+    try {
 
-    if (error || !data.session) {
+        const {
+            data,
+            error
+        } = await supabaseClient.auth.getSession();
+
+        if (
+            error ||
+            !data.session
+        ) {
+
+            showSignedOut();
+
+            return;
+        }
+
+        await handleSignedIn(
+            data.session.user
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Session check failed:",
+            error
+        );
 
         showSignedOut();
 
-        return;
+        authMessage.textContent =
+            "Unable to check sign-in status.";
 
     }
-
-    await handleSignedIn(
-        data.session.user
-    );
 
 }
 
 
 async function handleSignedIn(user) {
+
+    if (!user) {
+
+        showSignedOut();
+
+        return;
+    }
 
     currentUser = user;
 
@@ -1412,9 +1415,7 @@ async function signIn() {
             "Enter your email and password.";
 
         return;
-
     }
-
 
     signInButton.disabled =
         true;
@@ -1422,43 +1423,80 @@ async function signIn() {
     authMessage.textContent =
         "SIGNING IN...";
 
+    try {
 
-    const {
-        data,
-        error
-    } = await supabaseClient.auth.signInWithPassword({
-        email,
-        password
-    });
+        const {
+            data,
+            error
+        } =
+            await supabaseClient.auth.signInWithPassword({
+                email,
+                password
+            });
 
+        if (error) {
 
-    signInButton.disabled =
-        false;
+            authMessage.textContent =
+                error.message;
 
+            signInButton.disabled =
+                false;
 
-    if (error) {
+            return;
+        }
 
         authMessage.textContent =
-            error.message;
+            "";
 
-        return;
+        /*
+         * Supabase's SIGNED_IN event will call
+         * handleSignedIn(). This avoids loading
+         * the taxonomy twice.
+         */
+
+        if (data?.user) {
+
+            await handleSignedIn(
+                data.user
+            );
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            "Sign in failed:",
+            error
+        );
+
+        authMessage.textContent =
+            error?.message ||
+            "Sign in failed.";
+
+    } finally {
+
+        signInButton.disabled =
+            false;
 
     }
-
-
-    authMessage.textContent =
-        "";
-
-    await handleSignedIn(
-        data.user
-    );
 
 }
 
 
 async function signOut() {
 
-    await supabaseClient.auth.signOut();
+    try {
+
+        await supabaseClient.auth.signOut();
+
+    } catch (error) {
+
+        console.error(
+            "Sign out failed:",
+            error
+        );
+
+    }
 
     showSignedOut();
 
@@ -1475,83 +1513,96 @@ async function loadTaxonomy() {
         "LOADING TAXONOMY..."
     );
 
+    try {
 
-    const {
-        data,
-        error
-    } = await supabaseClient
-        .from("gr8skul_taxonomy")
-        .select("taxonomy")
-        .eq("id", "main")
-        .maybeSingle();
+        const {
+            data,
+            error
+        } = await supabaseClient
+            .from("gr8skul_taxonomy")
+            .select("taxonomy")
+            .eq("id", "main")
+            .maybeSingle();
 
+        if (error) {
 
-    if (error) {
+            setSaveStatus(
+                "Unable to load taxonomy."
+            );
+
+            console.error(
+                "Taxonomy load failed:",
+                error
+            );
+
+            return;
+        }
+
+        if (!data) {
+
+            taxonomy =
+                deepCopy(
+                    DEFAULT_TAXONOMY
+                );
+
+            renderAll();
+
+            setSaveStatus(
+                "DEFAULT TAXONOMY — SAVE TO CREATE"
+            );
+
+            return;
+        }
+
+        if (
+            !data.taxonomy ||
+            !Array.isArray(data.taxonomy.genres) ||
+            !Array.isArray(data.taxonomy.moods)
+        ) {
+
+            taxonomy =
+                deepCopy(
+                    DEFAULT_TAXONOMY
+                );
+
+            renderAll();
+
+            setSaveStatus(
+                "INVALID SAVED TAXONOMY — DEFAULT LOADED"
+            );
+
+            return;
+        }
+
+        taxonomy =
+            normalizeTaxonomy(
+                data.taxonomy
+            );
+
+        renderAll();
+
+        setSaveStatus(
+            "TAXONOMY LOADED"
+        );
+
+        setTimeout(() => {
+
+            setSaveStatus("");
+
+        }, 1800);
+
+    } catch (error) {
+
+        console.error(
+            "Taxonomy load failed:",
+            error
+        );
 
         setSaveStatus(
             "Unable to load taxonomy."
         );
 
-        console.error(error);
-
-        return;
-
     }
-
-
-    if (!data) {
-
-        taxonomy =
-            deepCopy(DEFAULT_TAXONOMY);
-
-        renderAll();
-
-        setSaveStatus(
-            "DEFAULT TAXONOMY — SAVE TO CREATE"
-        );
-
-        return;
-
-    }
-
-
-    if (
-        !data.taxonomy ||
-        !Array.isArray(data.taxonomy.genres) ||
-        !Array.isArray(data.taxonomy.moods)
-    ) {
-
-        taxonomy =
-            deepCopy(DEFAULT_TAXONOMY);
-
-        renderAll();
-
-        setSaveStatus(
-            "INVALID SAVED TAXONOMY — DEFAULT LOADED"
-        );
-
-        return;
-
-    }
-
-
-    taxonomy =
-        normalizeTaxonomy(
-            data.taxonomy
-        );
-
-    renderAll();
-
-    setSaveStatus(
-        "TAXONOMY LOADED"
-    );
-
-
-    setTimeout(() => {
-
-        setSaveStatus("");
-
-    }, 1800);
 
 }
 
@@ -1597,7 +1648,9 @@ function normalizeTaxonomy(source) {
                 };
 
             })
-            .filter(item => item.name);
+            .filter(item =>
+                item.name
+            );
 
     }
 
@@ -1618,10 +1671,18 @@ function normalizeTaxonomy(source) {
                 const name =
                     cleanName(item.name);
 
+                /*
+                 * Existing eras from the old taxonomy
+                 * were stored simply as { name: "1200" }.
+                 *
+                 * Every valid four-digit era is now
+                 * automatically converted to the new
+                 * fixed EARLY / MID / LATE structure.
+                 */
+
                 return {
                     name,
-                    types:
-                        deepCopy(ERA_TYPES)
+                    types: [...ERA_TYPES]
                 };
 
             })
@@ -1644,13 +1705,19 @@ function normalizeTaxonomy(source) {
                 typeof item.name === "string"
             )
             .map(item => ({
-                name: cleanName(item.name),
+
+                name:
+                    cleanName(item.name),
+
                 children:
                     normalizeRegions(
                         item.children
                     )
+
             }))
-            .filter(item => item.name);
+            .filter(item =>
+                item.name
+            );
 
     }
 
@@ -1694,16 +1761,13 @@ function renderAll() {
         "genre"
     );
 
-
     renderParents(
         moodTree,
         taxonomy.moods,
         "mood"
     );
 
-
     renderEras();
-
 
     renderRegions();
 
@@ -1721,7 +1785,6 @@ function renderParents(
 ) {
 
     container.innerHTML = "";
-
 
     parents.forEach(
         (parent, parentIndex) => {
@@ -1747,7 +1810,6 @@ function renderParents(
 
             parentRow.className =
                 "taxonomy-parent-row";
-
 
             parentRow.innerHTML = `
 
@@ -1784,21 +1846,17 @@ function renderParents(
                             `Remove "${parent.name}" and all of its types? This will also remove those designations from all affected track metadata.`
                         );
 
-
                     if (!confirmed) {
                         return;
                     }
 
-
                     removeParentButton.disabled =
                         true;
-
 
                     await deleteTaxonomyDesignation(
                         taxonomyType,
                         parent.name
                     );
-
 
                     removeParentButton.disabled =
                         false;
@@ -1883,21 +1941,17 @@ function renderParents(
                                             `Remove "${type}" from ${parent.name}? This will also remove this designation from all affected track metadata.`
                                         );
 
-
                                     if (!confirmed) {
                                         return;
                                     }
-
 
                                     const removeButton =
                                         typeElement.querySelector(
                                             ".type-remove"
                                         );
 
-
                                     removeButton.disabled =
                                         true;
-
 
                                     await deleteTaxonomyDesignation(
                                         taxonomyType === "genre"
@@ -1906,7 +1960,6 @@ function renderParents(
                                         type,
                                         parent.name
                                     );
-
 
                                     removeButton.disabled =
                                         false;
@@ -1942,7 +1995,6 @@ function renderParents(
 
             addTypeArea.className =
                 "add-type-area";
-
 
             addTypeArea.innerHTML = `
 
@@ -1982,11 +2034,9 @@ function renderParents(
                         typeInput.value
                     );
 
-
                 if (!name) {
                     return;
                 }
-
 
                 if (
                     typeNameExists(
@@ -2000,14 +2050,11 @@ function renderParents(
                     );
 
                     return;
-
                 }
-
 
                 parent.types.push(
                     name
                 );
-
 
                 typeInput.value = "";
 
@@ -2125,7 +2172,6 @@ function setupParentDrag(
             event.dataTransfer.dropEffect =
                 "move";
 
-
             if (
                 event.target.closest(
                     ".taxonomy-type"
@@ -2133,7 +2179,6 @@ function setupParentDrag(
             ) {
                 return;
             }
-
 
             element.classList.add(
                 "drag-over"
@@ -2173,7 +2218,6 @@ function setupParentDrag(
                 "drag-over"
             );
 
-
             if (
                 event.target.closest(
                     ".taxonomy-type"
@@ -2182,7 +2226,6 @@ function setupParentDrag(
                 return;
             }
 
-
             const fromIndex =
                 Number(
                     event.dataTransfer.getData(
@@ -2190,12 +2233,10 @@ function setupParentDrag(
                     )
                 );
 
-
             const toIndex =
                 Number(
                     element.dataset.index
                 );
-
 
             if (
                 Number.isNaN(fromIndex) ||
@@ -2205,20 +2246,17 @@ function setupParentDrag(
                 return;
             }
 
-
             const moved =
                 parents.splice(
                     fromIndex,
                     1
                 )[0];
 
-
             parents.splice(
                 toIndex,
                 0,
                 moved
             );
-
 
             renderAll();
 
@@ -2279,7 +2317,8 @@ function setupTypeDrag(
                 .forEach(item =>
                     item.classList.remove(
                         "drag-over"
-                    );
+                    )
+                );
 
         }
     );
@@ -2330,7 +2369,6 @@ function setupTypeDrag(
                 "drag-over"
             );
 
-
             const fromIndex =
                 Number(
                     event.dataTransfer.getData(
@@ -2338,12 +2376,10 @@ function setupTypeDrag(
                     )
                 );
 
-
             const toIndex =
                 Number(
                     element.dataset.typeIndex
                 );
-
 
             if (
                 Number.isNaN(fromIndex) ||
@@ -2353,20 +2389,17 @@ function setupTypeDrag(
                 return;
             }
 
-
             const moved =
                 parent.types.splice(
                     fromIndex,
                     1
                 )[0];
 
-
             parent.types.splice(
                 toIndex,
                 0,
                 moved
             );
-
 
             renderAll();
 
@@ -2395,38 +2428,31 @@ document
                 const kind =
                     button.dataset.addParent;
 
-
                 const list =
                     kind === "genre"
                         ? taxonomy.genres
                         : taxonomy.moods;
-
 
                 const label =
                     kind === "genre"
                         ? "genre"
                         : "mood";
 
-
                 const name =
                     prompt(
                         `Enter new ${label}:`
                     );
 
-
                 if (name === null) {
                     return;
                 }
 
-
                 const clean =
                     cleanName(name);
-
 
                 if (!clean) {
                     return;
                 }
-
 
                 if (
                     taxonomyNameExists(
@@ -2442,12 +2468,10 @@ document
                     return;
                 }
 
-
                 list.push({
                     name: clean,
                     types: []
                 });
-
 
                 renderAll();
 
@@ -2474,7 +2498,8 @@ function eraNameExists(name) {
 
     return taxonomy.eras.some(
         era =>
-            era.name === name
+            era.name.toLowerCase() ===
+            name.toLowerCase()
     );
 
 }
@@ -2483,7 +2508,6 @@ function eraNameExists(name) {
 function renderEras() {
 
     eraTree.innerHTML = "";
-
 
     taxonomy.eras.forEach(
         (era, eraIndex) => {
@@ -2506,7 +2530,6 @@ function renderEras() {
 
             row.className =
                 "era-row";
-
 
             row.innerHTML = `
 
@@ -2532,37 +2555,25 @@ function renderEras() {
                 .querySelector(".remove-button")
                 .addEventListener(
                     "click",
-                    async () => {
+                    () => {
 
                         const confirmed =
                             confirm(
-                                `Remove the ${era.name} era? This will also remove this era designation from all affected track metadata.`
+                                `Remove the ${era.name} era?`
                             );
-
 
                         if (!confirmed) {
                             return;
                         }
 
-
-                        const removeButton =
-                            row.querySelector(
-                                ".remove-button"
-                            );
-
-
-                        removeButton.disabled =
-                            true;
-
-
-                        await deleteTaxonomyDesignation(
-                            "era",
-                            era.name
+                        taxonomy.eras.splice(
+                            eraIndex,
+                            1
                         );
 
+                        renderAll();
 
-                        removeButton.disabled =
-                            false;
+                        markUnsaved();
 
                     }
                 );
@@ -2580,8 +2591,7 @@ function renderEras() {
                 "era-type-description";
 
             typeDescription.textContent =
-                "Period divisions within this era:";
-
+                "Subdivisions within this era:";
 
             eraElement.appendChild(
                 typeDescription
@@ -2608,7 +2618,7 @@ function renderEras() {
                         type;
 
                     typeElement.title =
-                        `${era.name} ${type}`;
+                        `${era.name} — ${type}`;
 
                     typeList.appendChild(
                         typeElement
@@ -2733,7 +2743,6 @@ function setupEraDrag(
                 "drag-over"
             );
 
-
             const fromIndex =
                 Number(
                     event.dataTransfer.getData(
@@ -2741,12 +2750,10 @@ function setupEraDrag(
                     )
                 );
 
-
             const toIndex =
                 Number(
                     element.dataset.index
                 );
-
 
             if (
                 Number.isNaN(fromIndex) ||
@@ -2756,20 +2763,17 @@ function setupEraDrag(
                 return;
             }
 
-
             const moved =
                 eras.splice(
                     fromIndex,
                     1
                 )[0];
 
-
             eras.splice(
                 toIndex,
                 0,
                 moved
             );
-
 
             renderAll();
 
@@ -2792,15 +2796,12 @@ document
                     "Enter a four-digit era (example: 1200):"
                 );
 
-
             if (value === null) {
                 return;
             }
 
-
             const clean =
                 cleanName(value);
-
 
             if (!isValidEra(clean)) {
 
@@ -2810,7 +2811,6 @@ document
 
                 return;
             }
-
 
             if (
                 eraNameExists(clean)
@@ -2823,13 +2823,15 @@ document
                 return;
             }
 
-
             taxonomy.eras.push({
-                name: clean,
-                types:
-                    deepCopy(ERA_TYPES)
-            });
 
+                name: clean,
+
+                types: [
+                    ...ERA_TYPES
+                ]
+
+            });
 
             renderAll();
 
@@ -2902,7 +2904,6 @@ function renderRegionLevel(
             row.className =
                 "region-row";
 
-
             row.innerHTML = `
 
                 <div
@@ -2945,20 +2946,16 @@ function renderRegionLevel(
                             `Add a region under ${region.name}:`
                         );
 
-
                     if (name === null) {
                         return;
                     }
 
-
                     const clean =
                         cleanName(name);
-
 
                     if (!clean) {
                         return;
                     }
-
 
                     if (
                         regionNameExists(
@@ -2974,13 +2971,11 @@ function renderRegionLevel(
                         return;
                     }
 
-
                     region.children.push(
                         createRegionNode(
                             clean
                         )
                     );
-
 
                     renderAll();
 
@@ -3003,7 +2998,6 @@ function renderRegionLevel(
                     const hasChildren =
                         region.children.length > 0;
 
-
                     const confirmed =
                         confirm(
                             hasChildren
@@ -3011,17 +3005,14 @@ function renderRegionLevel(
                                 : `Remove "${region.name}"?`
                         );
 
-
                     if (!confirmed) {
                         return;
                     }
-
 
                     list.splice(
                         index,
                         1
                     );
-
 
                     renderAll();
 
@@ -3046,12 +3037,10 @@ function renderRegionLevel(
                 children.className =
                     "region-children";
 
-
                 renderRegionLevel(
                     children,
                     region.children
                 );
-
 
                 node.appendChild(
                     children
@@ -3065,7 +3054,6 @@ function renderRegionLevel(
 
             addChildArea.className =
                 "region-add-area";
-
 
             addChildArea.innerHTML = `
 
@@ -3105,11 +3093,9 @@ function renderRegionLevel(
                         input.value
                     );
 
-
                 if (!name) {
                     return;
                 }
-
 
                 if (
                     regionNameExists(
@@ -3125,13 +3111,11 @@ function renderRegionLevel(
                     return;
                 }
 
-
                 region.children.push(
                     createRegionNode(
                         name
                     )
                 );
-
 
                 renderAll();
 
@@ -3241,7 +3225,6 @@ function setupRegionDrag(
             event.dataTransfer.dropEffect =
                 "move";
 
-
             if (
                 event.target.closest(
                     ".region-children"
@@ -3250,9 +3233,10 @@ function setupRegionDrag(
                     ".region-node"
                 ) !== element
             ) {
-                return;
-            }
 
+                return;
+
+            }
 
             element.classList.add(
                 "drag-over"
@@ -3304,7 +3288,9 @@ function setupRegionDrag(
             if (
                 targetNode !== element
             ) {
+
                 return;
+
             }
 
 
@@ -3327,7 +3313,9 @@ function setupRegionDrag(
                 Number.isNaN(toIndex) ||
                 fromIndex === toIndex
             ) {
+
                 return;
+
             }
 
 
@@ -3366,20 +3354,16 @@ document
                     "Enter new region:"
                 );
 
-
             if (name === null) {
                 return;
             }
 
-
             const clean =
                 cleanName(name);
-
 
             if (!clean) {
                 return;
             }
-
 
             if (
                 regionNameExists(
@@ -3395,13 +3379,11 @@ document
                 return;
             }
 
-
             taxonomy.regions.push(
                 createRegionNode(
                     clean
                 )
             );
-
 
             renderAll();
 
@@ -3433,9 +3415,13 @@ function markUnsaved() {
 async function saveTaxonomy() {
 
     if (!currentUser) {
+
+        setSaveStatus(
+            "ADMIN SIGN IN REQUIRED."
+        );
+
         return;
     }
-
 
     saveButton.disabled =
         true;
@@ -3443,72 +3429,88 @@ async function saveTaxonomy() {
     saveButton.textContent =
         "SAVING...";
 
-
     setSaveStatus(
         "SAVING TAXONOMY..."
     );
 
+    try {
 
-    const cleanTaxonomy =
-        normalizeTaxonomy(
-            taxonomy
+        const cleanTaxonomy =
+            normalizeTaxonomy(
+                taxonomy
+            );
+
+        const {
+            error
+        } = await supabaseClient
+            .from("gr8skul_taxonomy")
+            .upsert(
+                {
+                    id: "main",
+                    taxonomy: cleanTaxonomy,
+                    updated_at:
+                        new Date().toISOString(),
+                    updated_by:
+                        currentUser.id
+                },
+                {
+                    onConflict: "id"
+                }
+            );
+
+        if (error) {
+
+            console.error(
+                error
+            );
+
+            setSaveStatus(
+                "SAVE FAILED — " +
+                error.message
+            );
+
+            return;
+        }
+
+        taxonomy =
+            cleanTaxonomy;
+
+        renderAll();
+
+        setSaveStatus(
+            "TAXONOMY SAVED"
         );
 
+        setTimeout(() => {
 
-    const {
-        error
-    } = await supabaseClient
-        .from("gr8skul_taxonomy")
-        .upsert(
-            {
-                id: "main",
-                taxonomy: cleanTaxonomy,
-                updated_at:
-                    new Date().toISOString(),
-                updated_by:
-                    currentUser.id
-            },
-            {
-                onConflict: "id"
-            }
+            setSaveStatus("");
+
+        }, 2200);
+
+    } catch (error) {
+
+        console.error(
+            "Taxonomy save failed:",
+            error
         );
-
-
-    saveButton.disabled =
-        false;
-
-    saveButton.textContent =
-        "SAVE TAXONOMY";
-
-
-    if (error) {
-
-        console.error(error);
 
         setSaveStatus(
             "SAVE FAILED — " +
-            error.message
+            (
+                error?.message ||
+                "Unknown error."
+            )
         );
 
-        return;
+    } finally {
+
+        saveButton.disabled =
+            false;
+
+        saveButton.textContent =
+            "SAVE TAXONOMY";
 
     }
-
-
-    taxonomy =
-        cleanTaxonomy;
-
-
-    setSaveStatus(
-        "TAXONOMY SAVED"
-    );
-
-
-    setTimeout(() => {
-
-        setSaveStatus("");
-
-    }, 2200);
 
 }
 
@@ -3571,19 +3573,31 @@ saveButton.addEventListener(
    ============================================================ */
 
 supabaseClient.auth.onAuthStateChange(
-    async (event, session) => {
+    (event, session) => {
 
         if (
             event === "SIGNED_IN" &&
             session
         ) {
 
-            await handleSignedIn(
-                session.user
-            );
+            /*
+             * signIn() already handles the current
+             * user immediately. This event is retained
+             * for sessions established elsewhere.
+             */
+
+            if (
+                !currentUser ||
+                currentUser.id !== session.user.id
+            ) {
+
+                handleSignedIn(
+                    session.user
+                );
+
+            }
 
         }
-
 
         if (
             event === "SIGNED_OUT"
