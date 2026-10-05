@@ -5938,16 +5938,28 @@ async function loadWorks() {
 
         }
 
-        const catalogData =
-            await catalogResponse.json();
-
         const metadataData =
-            await metadataResponse.json();
+    await metadataResponse.json();
+
 console.log(
     "GR8SKUL ARTIST WORK PATHS:",
     artistWorks
 );
-        let loadedWorks;
+
+
+const artistWorkPaths =
+    new Set(
+        artistWorks.map(
+            function(work) {
+
+                return work.audio_path;
+
+            }
+        )
+    );
+
+
+let loadedWorks;
 
         if (
             Array.isArray(
