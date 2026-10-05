@@ -2550,6 +2550,7 @@ function normalizeMasterBranches(
 }
 
 
+
 /* ============================================================
    NORMALIZE MASTER ERAS
    ============================================================ */
@@ -2580,20 +2581,11 @@ function normalizeMasterEras(
 
                     result.push({
                         name: name,
-                        years:
-                            Array.from(
-                                { length: 100 },
-                                function(_, index) {
-
-                                    return String(
-                                        index
-                                    ).padStart(
-                                        2,
-                                        "0"
-                                    );
-
-                                }
-                            )
+                        types: [
+                            "EARLY",
+                            "MID",
+                            "LATE"
+                        ]
                     });
 
                 }
@@ -2623,64 +2615,51 @@ function normalizeMasterEras(
                 return;
             }
 
-            /*
-             * Era years are normally generated
-             * by the taxonomy manager.
-             *
-             * The player therefore always has
-             * the full 00–99 rolling range.
-             */
-
-            let years =
-                Array.isArray(item.years)
-                    ? item.years
+            let types =
+                Array.isArray(item.types)
+                    ? item.types
                     : [];
 
-            years =
-                years
+            types =
+                types
                     .map(
-                        function(year) {
+                        function(type) {
+
                             return cleanTaxonomyName(
-                                typeof year === "object"
+                                typeof type === "object"
                                     ? (
-                                        year.year ||
-                                        year.name ||
-                                        year.offset ||
+                                        type.name ||
+                                        type.type ||
                                         ""
                                     )
-                                    : year
+                                    : type
                             );
+
                         }
                     )
                     .filter(Boolean);
 
+
             /*
-             * If the taxonomy contains no explicit
-             * year list, generate 00–99.
+             * The Taxonomy Manager defines
+             * EARLY, MID, and LATE as the
+             * fixed Era subdivisions.
              */
 
-            if (years.length === 0) {
+            if (types.length === 0) {
 
-                years =
-                    Array.from(
-                        { length: 100 },
-                        function(_, index) {
-
-                            return String(
-                                index
-                            ).padStart(
-                                2,
-                                "0"
-                            );
-
-                        }
-                    );
+                types = [
+                    "EARLY",
+                    "MID",
+                    "LATE"
+                ];
 
             }
 
+
             result.push({
                 name: name,
-                years: years
+                types: types
             });
 
         }
