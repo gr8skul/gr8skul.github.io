@@ -311,131 +311,6 @@ button:hover {
 }
 
 /* =========================
-   REGION TREE
-   ========================= */
-
-.region-children {
-    display: none;
-    padding: 2px 0 4px 20px;
-    border-top: 1px solid #f0f0f0;
-    background: #fafafa;
-}
-
-.region-node.expanded > .region-children {
-    display: block;
-}
-
-.region-node {
-    border-bottom: 1px solid #eeeeee;
-}
-
-.region-node:last-child {
-    border-bottom: none;
-}
-
-.region-node-row {
-    display: flex;
-    align-items: center;
-    min-height: 38px;
-    padding: 0 8px;
-}
-
-.region-node-row:hover {
-    background: #f7f7f7;
-}
-
-.region-expand {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 24px;
-    height: 26px;
-    padding: 0;
-    min-height: 26px;
-    border: 0;
-    background: transparent;
-    color: #777777;
-    font-size: 9px;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.region-expand:hover {
-    color: #111111;
-    background: transparent;
-}
-
-.region-node.expanded > .region-node-row .region-expand {
-    transform: rotate(180deg);
-}
-
-.region-node-label {
-    flex: 1;
-    min-width: 0;
-    font-size: 10px;
-    letter-spacing: 0.6px;
-    cursor: pointer;
-}
-
-.region-node.selected > .region-node-row {
-    background: #eeeeee;
-}
-
-.region-path-summary {
-    padding: 5px 10px 8px;
-    font-size: 9px;
-    line-height: 1.4;
-    color: #777777;
-    background: #ffffff;
-}
-
-/* =========================
-   ERA YEARS
-   ========================= */
-
-.era-years {
-    display: none;
-    padding: 7px 10px 10px 34px;
-    border-top: 1px solid #f0f0f0;
-    background: #fafafa;
-}
-
-.taxonomy-parent.expanded .era-years {
-    display: grid;
-    grid-template-columns: repeat(10, minmax(0, 1fr));
-    gap: 3px;
-}
-
-.era-year-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-}
-
-.era-year-check {
-    width: 13px;
-    height: 13px;
-    margin: 0 3px 0 0;
-    accent-color: #111111;
-    cursor: pointer;
-}
-
-.era-year-label {
-    font-size: 9px;
-    color: #555555;
-    cursor: pointer;
-}
-
-.era-years-note {
-    grid-column: 1 / -1;
-    padding: 2px 0 5px;
-    font-size: 8px;
-    color: #999999;
-    letter-spacing: 0.4px;
-}
-
-/* =========================
    NOW PLAYING
    ========================= */
 
@@ -642,10 +517,6 @@ audio {
         max-height: 48vh;
     }
 
-    .taxonomy-parent.expanded .era-years {
-        grid-template-columns: repeat(10, minmax(0, 1fr));
-    }
-
     .track {
         min-height: 65px;
     }
@@ -653,7 +524,6 @@ audio {
     .track-actions {
         gap: 9px;
     }
-
 }
 
 </style>
@@ -703,7 +573,7 @@ SHUFFLE OFF </button>
 </div>
 
 <!-- =========================================================
-     GENRE + MOOD + ERA + REGION FILTERS
+     GENRE + MOOD FILTERS
      ========================================================= -->
 
 <div class="taxonomy-filters">
@@ -766,64 +636,6 @@ MOOD(S): ALL </span>
 
 </div>
 
-<!-- =========================================================
-     ERA
-     ========================================================= -->
-
-<div id="eraTree" class="taxonomy-filter">
-
-<button
-id="eraTrigger"
-class="taxonomy-trigger"
-type="button"
-aria-expanded="false">
-
-<span
-id="eraTriggerText"
-class="taxonomy-trigger-text">
-ERA(S): ALL </span>
-
-<span class="taxonomy-trigger-arrow">
-    ▼
-</span>
-
-</button>
-
-<div id="eraPanel" class="taxonomy-panel"></div>
-
-<div id="eraSummary" class="taxonomy-summary"></div>
-
-</div>
-
-<!-- =========================================================
-     REGION
-     ========================================================= -->
-
-<div id="regionTree" class="taxonomy-filter">
-
-<button
-id="regionTrigger"
-class="taxonomy-trigger"
-type="button"
-aria-expanded="false">
-
-<span
-id="regionTriggerText"
-class="taxonomy-trigger-text">
-REGION(S): ALL </span>
-
-<span class="taxonomy-trigger-arrow">
-    ▼
-</span>
-
-</button>
-
-<div id="regionPanel" class="taxonomy-panel"></div>
-
-<div id="regionSummary" class="taxonomy-summary"></div>
-
-</div>
-
 </div>
 
 <div id="filterStatus" class="filter-status"></div>
@@ -866,20 +678,16 @@ REGION(S): ALL </span>
    catalog.json supplies the actual MP3 files.
    track-order.json supplies the permanent playlist order.
    track-metadata.json supplies:
-
    title
    artists
    genres
    genreTypes
    moods
    moodTypes
-   eras
-   eraYears
-   regions
 
    gr8skul_taxonomy supplies the MASTER TAXONOMY.
 
-   The master taxonomy controls the available classification
+   The master taxonomy controls the available Genre/Mood
    choices in the public player.
 
    Track metadata determines which works match those choices.
@@ -1338,11 +1146,6 @@ const sponsor =
         "sponsor"
     );
 
-
-/* ============================================================
-   TAXONOMY DOM REFERENCES
-   ============================================================ */
-
 const genreTree =
     document.getElementById(
         "genreTree"
@@ -1352,17 +1155,6 @@ const moodTree =
     document.getElementById(
         "moodTree"
     );
-
-const eraTree =
-    document.getElementById(
-        "eraTree"
-    );
-
-const regionTree =
-    document.getElementById(
-        "regionTree"
-    );
-
 
 const genreTrigger =
     document.getElementById(
@@ -1374,17 +1166,6 @@ const moodTrigger =
         "moodTrigger"
     );
 
-const eraTrigger =
-    document.getElementById(
-        "eraTrigger"
-    );
-
-const regionTrigger =
-    document.getElementById(
-        "regionTrigger"
-    );
-
-
 const genreTriggerText =
     document.getElementById(
         "genreTriggerText"
@@ -1395,17 +1176,6 @@ const moodTriggerText =
         "moodTriggerText"
     );
 
-const eraTriggerText =
-    document.getElementById(
-        "eraTriggerText"
-    );
-
-const regionTriggerText =
-    document.getElementById(
-        "regionTriggerText"
-    );
-
-
 const genreSummary =
     document.getElementById(
         "genreSummary"
@@ -1415,17 +1185,6 @@ const moodSummary =
     document.getElementById(
         "moodSummary"
     );
-
-const eraSummary =
-    document.getElementById(
-        "eraSummary"
-    );
-
-const regionSummary =
-    document.getElementById(
-        "regionSummary"
-    );
-
 
 const filterStatus =
     document.getElementById(
@@ -1964,378 +1723,6 @@ function normalizeMoodTypes(value) {
 }
 
 
-/* ============================================================
-   ERA METADATA NORMALIZATION
-   ============================================================ */
-
-function normalizeEraYears(value) {
-
-    if (!value) {
-        return [];
-    }
-
-    if (
-        typeof value === "string"
-    ) {
-
-        value =
-            value
-                .split(",")
-                .map(
-                    function(item) {
-                        return item.trim();
-                    }
-                )
-                .filter(Boolean);
-
-    }
-
-    if (!Array.isArray(value)) {
-        return [];
-    }
-
-    return value
-        .map(
-            function(item) {
-
-                /*
-                 * Preferred format:
-                 *
-                 * {
-                 *   era: "1200",
-                 *   year: "37"
-                 * }
-                 */
-
-                if (
-                    item &&
-                    typeof item === "object"
-                ) {
-
-                    const era =
-                        String(
-                            item.era ||
-                            item.parent ||
-                            ""
-                        ).trim();
-
-                    const year =
-                        String(
-                            item.year ||
-                            item.offset ||
-                            item.name ||
-                            item.type ||
-                            ""
-                        ).trim();
-
-                    if (!year) {
-                        return null;
-                    }
-
-                    return {
-                        era: era,
-                        year: year
-                    };
-
-                }
-
-                /*
-                 * Also tolerate:
-                 *
-                 * "1200::37"
-                 */
-
-                const text =
-                    String(item).trim();
-
-                if (!text) {
-                    return null;
-                }
-
-                if (text.includes("::")) {
-
-                    const parts =
-                        text.split("::");
-
-                    return {
-                        era:
-                            parts[0].trim(),
-
-                        year:
-                            parts
-                                .slice(1)
-                                .join("::")
-                                .trim()
-                    };
-
-                }
-
-                return {
-                    era: "",
-                    year: text
-                };
-
-            }
-        )
-        .filter(
-            function(item) {
-                return item && item.year;
-            }
-        );
-
-}
-
-
-/* ============================================================
-   REGION METADATA NORMALIZATION
-   ============================================================ */
-
-function normalizeRegionPath(
-    value
-) {
-
-    /*
-     * Canonical region metadata is expected
-     * to be an array of path arrays:
-     *
-     * [
-     *   [
-     *      "North America",
-     *      "United States",
-     *      "Missouri",
-     *      "Kirksville"
-     *   ]
-     * ]
-     *
-     * This function also tolerates several
-     * useful alternate forms so older or
-     * transitional metadata does not break
-     * the player.
-     */
-
-    if (
-        Array.isArray(value)
-    ) {
-
-        /*
-         * Array of paths.
-         */
-
-        if (
-            value.length > 0 &&
-            Array.isArray(value[0])
-        ) {
-
-            return value
-                .map(
-                    function(path) {
-
-                        return path
-                            .map(
-                                function(item) {
-                                    return cleanTaxonomyName(
-                                        item
-                                    );
-                                }
-                            )
-                            .filter(Boolean);
-
-                    }
-                )
-                .filter(
-                    function(path) {
-                        return path.length > 0;
-                    }
-                );
-
-        }
-
-        /*
-         * Single path represented as:
-         *
-         * ["North America","United States",...]
-         */
-
-        if (
-            value.every(
-                function(item) {
-                    return typeof item === "string";
-                }
-            )
-        ) {
-
-            const path =
-                value
-                    .map(
-                        function(item) {
-                            return cleanTaxonomyName(
-                                item
-                            );
-                        }
-                    )
-                    .filter(Boolean);
-
-            return path.length
-                ? [path]
-                : [];
-
-        }
-
-        /*
-         * Array of region objects.
-         */
-
-        return value
-            .map(
-                function(item) {
-
-                    if (
-                        !item ||
-                        typeof item !== "object"
-                    ) {
-
-                        return null;
-
-                    }
-
-                    if (
-                        Array.isArray(
-                            item.path
-                        )
-                    ) {
-
-                        return item.path
-                            .map(
-                                function(part) {
-                                    return cleanTaxonomyName(
-                                        part
-                                    );
-                                }
-                            )
-                            .filter(Boolean);
-
-                    }
-
-                    if (
-                        Array.isArray(
-                            item.regionPath
-                        )
-                    ) {
-
-                        return item.regionPath
-                            .map(
-                                function(part) {
-                                    return cleanTaxonomyName(
-                                        part
-                                    );
-                                }
-                            )
-                            .filter(Boolean);
-
-                    }
-
-                    /*
-                     * Also tolerate a named
-                     * hierarchy object.
-                     */
-
-                    const path = [];
-
-                    [
-                        "continent",
-                        "country",
-                        "state",
-                        "province",
-                        "city"
-                    ].forEach(
-                        function(key) {
-
-                            if (
-                                item[key] !==
-                                undefined
-                            ) {
-
-                                const part =
-                                    cleanTaxonomyName(
-                                        item[key]
-                                    );
-
-                                if (part) {
-                                    path.push(part);
-                                }
-
-                            }
-
-                        }
-                    );
-
-                    return path.length
-                        ? path
-                        : null;
-
-                }
-            )
-            .filter(Boolean);
-
-    }
-
-    if (
-        typeof value === "string"
-    ) {
-
-        const text =
-            value.trim();
-
-        if (!text) {
-            return [];
-        }
-
-        /*
-         * Preferred simple path separator:
-         *
-         * North America > United States > Missouri
-         */
-
-        const separator =
-            text.includes(">")
-                ? ">"
-                : text.includes("::")
-                    ? "::"
-                    : null;
-
-        if (separator) {
-
-            const path =
-                text
-                    .split(separator)
-                    .map(
-                        function(part) {
-                            return cleanTaxonomyName(
-                                part
-                            );
-                        }
-                    )
-                    .filter(Boolean);
-
-            return path.length
-                ? [path]
-                : [];
-
-        }
-
-        return [[text]];
-
-    }
-
-    return [];
-
-}
-
-
-/* ============================================================
-   TAXONOMY VALUE HELPERS
-   ============================================================ */
-
 function itemTypeEquals(
     first,
     second
@@ -2343,18 +1730,6 @@ function itemTypeEquals(
 
     return String(first || "").trim() ===
            String(second || "").trim();
-
-}
-
-
-function cleanTaxonomyName(value) {
-
-    return String(
-        value === undefined ||
-        value === null
-            ? ""
-            : value
-    ).trim();
 
 }
 
@@ -2377,17 +1752,37 @@ function cleanTitle(filename) {
    MASTER TAXONOMY
    ============================================================ */
 
+/*
+ * The public player reads the same master taxonomy used by
+ * the GR8SKUL taxonomy manager and Works/upload.html.
+ *
+ * The taxonomy manager's hierarchy is converted into the
+ * exact DOM structure the existing player expects.
+ *
+ * The filtering logic below does NOT change.
+ */
+
 let masterTaxonomy = {
     genres: [],
-    moods: [],
-    eras: [],
-    regions: []
+    moods: []
 };
 
 
 /* ============================================================
-   TAXONOMY BRANCH HELPERS
+   TAXONOMY VALUE HELPERS
    ============================================================ */
+
+function cleanTaxonomyName(value) {
+
+    return String(
+        value === undefined ||
+        value === null
+            ? ""
+            : value
+    ).trim();
+
+}
+
 
 function cleanTaxonomyTypeList(value) {
 
@@ -2433,11 +1828,26 @@ function cleanTaxonomyTypeList(value) {
 }
 
 
+/* ============================================================
+   NORMALIZE MASTER TAXONOMY BRANCHES
+   ============================================================ */
+
 function normalizeMasterBranches(
     value
 ) {
 
     const result = [];
+
+    /*
+     * Normal hierarchical format:
+     *
+     * [
+     *   {
+     *      name: "Classical",
+     *      types: ["Renaissance", "Baroque"]
+     *   }
+     * ]
+     */
 
     if (Array.isArray(value)) {
 
@@ -2515,6 +1925,15 @@ function normalizeMasterBranches(
     }
 
 
+    /*
+     * Object-map format:
+     *
+     * {
+     *   "Classical": ["Renaissance", "Baroque"],
+     *   "Rock": ["Classic Rock", "Progressive"]
+     * }
+     */
+
     if (
         value &&
         typeof value === "object"
@@ -2551,96 +1970,6 @@ function normalizeMasterBranches(
 
 
 /* ============================================================
-   NORMALIZE MASTER ERAS
-   ============================================================ */
-
-function normalizeMasterEras(value) {
-    return normalizeMasterBranches(value);
-}
-
-
-/* ============================================================
-   NORMALIZE MASTER REGIONS
-   ============================================================ */
-
-function normalizeRegionNodes(
-    value
-) {
-
-    const result = [];
-
-    if (!Array.isArray(value)) {
-        return result;
-    }
-
-    value.forEach(
-        function(item) {
-
-            if (
-                typeof item === "string"
-            ) {
-
-                const name =
-                    cleanTaxonomyName(
-                        item
-                    );
-
-                if (name) {
-
-                    result.push({
-                        name: name,
-                        children: []
-                    });
-
-                }
-
-                return;
-
-            }
-
-            if (
-                !item ||
-                typeof item !== "object"
-            ) {
-
-                return;
-
-            }
-
-            const name =
-                cleanTaxonomyName(
-                    item.name ||
-                    item.region ||
-                    item.title ||
-                    ""
-                );
-
-            if (!name) {
-                return;
-            }
-
-            const children =
-                normalizeRegionNodes(
-                    item.children ||
-                    item.regions ||
-                    item.branches ||
-                    []
-                );
-
-            result.push({
-                name: name,
-                children: children
-            });
-
-        }
-    );
-
-    return result;
-
-}
-
-
-/* ============================================================
    EXTRACT MASTER TAXONOMY
    ============================================================ */
 
@@ -2650,6 +1979,11 @@ function extractMasterTaxonomy(
 
     let source =
         rawTaxonomy;
+
+    /*
+     * Some responses may wrap the taxonomy in
+     * another object.
+     */
 
     if (
         source &&
@@ -2685,43 +2019,30 @@ function extractMasterTaxonomy(
 
     }
 
+    const genres =
+        normalizeMasterBranches(
+            source.genres ||
+            source.genre ||
+            []
+        );
+
+    const moods =
+        normalizeMasterBranches(
+            source.moods ||
+            source.mood ||
+            []
+        );
+
     return {
-
-        genres:
-            normalizeMasterBranches(
-                source.genres ||
-                source.genre ||
-                []
-            ),
-
-        moods:
-            normalizeMasterBranches(
-                source.moods ||
-                source.mood ||
-                []
-            ),
-
-        eras:
-            normalizeMasterEras(
-                source.eras ||
-                source.era ||
-                []
-            ),
-
-        regions:
-            normalizeRegionNodes(
-                source.regions ||
-                source.region ||
-                []
-            )
-
+        genres: genres,
+        moods: moods
     };
 
 }
 
 
 /* ============================================================
-   CREATE STANDARD TAXONOMY PARENT
+   BUILD TAXONOMY PARENT
    ============================================================ */
 
 function createTaxonomyParent(
@@ -2896,298 +2217,7 @@ function createTaxonomyParent(
 
 
 /* ============================================================
-   CREATE ERA PARENT
-   ============================================================ */
-
-function createEraParent(
-    era
-) {
-
-    const parent =
-        document.createElement("div");
-
-    parent.className =
-        "taxonomy-parent";
-
-    parent.dataset.era =
-        era.name;
-
-
-    const parentRow =
-        document.createElement("div");
-
-    parentRow.className =
-        "taxonomy-parent-row";
-
-
-    const parentCheckbox =
-        document.createElement("input");
-
-    parentCheckbox.className =
-        "taxonomy-check";
-
-    parentCheckbox.type =
-        "checkbox";
-
-    parentCheckbox.dataset.era =
-        era.name;
-
-
-    const parentLabel =
-        document.createElement("label");
-
-    parentLabel.className =
-        "taxonomy-parent-label";
-
-    parentLabel.textContent =
-        era.name;
-
-
-    const expandButton =
-        document.createElement("button");
-
-    expandButton.className =
-        "taxonomy-expand";
-
-    expandButton.type =
-        "button";
-
-    expandButton.setAttribute(
-        "aria-label",
-        "Show years for " +
-        era.name
-    );
-
-    expandButton.textContent =
-        "▼";
-
-
-    parentRow.appendChild(
-        parentCheckbox
-    );
-
-    parentRow.appendChild(
-        parentLabel
-    );
-
-    parentRow.appendChild(
-        expandButton
-    );
-
-    parent.appendChild(
-        parentRow
-    );
-
-
-    const yearsContainer =
-        document.createElement("div");
-
-    yearsContainer.className =
-        "era-years";
-
-
-    const note =
-        document.createElement("div");
-
-    note.className =
-        "era-years-note";
-
-    note.textContent =
-        "SPECIFIC YEARS";
-
-    yearsContainer.appendChild(
-        note
-    );
-
-
-    era.years.forEach(
-        function(year) {
-
-            const yearRow =
-                document.createElement("div");
-
-            yearRow.className =
-                "era-year-row";
-
-
-            const yearInput =
-                document.createElement("input");
-
-            yearInput.className =
-                "era-year-check";
-
-            yearInput.type =
-                "checkbox";
-
-            yearInput.dataset.era =
-                era.name;
-
-            yearInput.dataset.year =
-                year;
-
-
-            const yearLabel =
-                document.createElement("label");
-
-            yearLabel.className =
-                "era-year-label";
-
-            yearLabel.textContent =
-                year;
-
-
-            yearRow.appendChild(
-                yearInput
-            );
-
-            yearRow.appendChild(
-                yearLabel
-            );
-
-            yearsContainer.appendChild(
-                yearRow
-            );
-
-        }
-    );
-
-
-    parent.appendChild(
-        yearsContainer
-    );
-
-    return parent;
-
-}
-
-
-/* ============================================================
-   CREATE REGION NODE
-   ============================================================ */
-
-function createRegionNode(
-    node,
-    path
-) {
-
-    const regionNode =
-        document.createElement("div");
-
-    regionNode.className =
-        "region-node";
-
-    regionNode.dataset.path =
-        JSON.stringify(
-            path
-        );
-
-
-    const row =
-        document.createElement("div");
-
-    row.className =
-        "region-node-row";
-
-
-    const checkbox =
-        document.createElement("input");
-
-    checkbox.className =
-        "taxonomy-check";
-
-    checkbox.type =
-        "checkbox";
-
-    checkbox.dataset.regionPath =
-        JSON.stringify(
-            path
-        );
-
-
-    const label =
-        document.createElement("label");
-
-    label.className =
-        "region-node-label";
-
-    label.textContent =
-        node.name.toUpperCase();
-
-
-    const expandButton =
-        document.createElement("button");
-
-    expandButton.className =
-        "region-expand";
-
-    expandButton.type =
-        "button";
-
-    expandButton.textContent =
-        node.children &&
-        node.children.length
-            ? "▼"
-            : "";
-
-
-    row.appendChild(
-        checkbox
-    );
-
-    row.appendChild(
-        label
-    );
-
-    row.appendChild(
-        expandButton
-    );
-
-    regionNode.appendChild(
-        row
-    );
-
-
-    const childrenContainer =
-        document.createElement("div");
-
-    childrenContainer.className =
-        "region-children";
-
-
-    if (
-        node.children &&
-        node.children.length
-    ) {
-
-        node.children.forEach(
-            function(child) {
-
-                childrenContainer.appendChild(
-                    createRegionNode(
-                        child,
-                        path.concat(
-                            child.name
-                        )
-                    )
-                );
-
-            }
-        );
-
-        regionNode.appendChild(
-            childrenContainer
-        );
-
-    }
-
-
-    return regionNode;
-
-}
-
-
-/* ============================================================
-   RENDER STANDARD TAXONOMY TREE
+   RENDER MASTER TAXONOMY TREE
    ============================================================ */
 
 function renderTaxonomyTree(
@@ -3232,109 +2262,6 @@ function renderTaxonomyTree(
             panel.appendChild(
                 createTaxonomyParent(
                     branch
-                )
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
-   RENDER ERA TREE
-   ============================================================ */
-
-function renderEraTree() {
-
-    const panel =
-        eraTree.querySelector(
-            ".taxonomy-panel"
-        );
-
-    panel.innerHTML = "";
-
-
-    if (
-        !masterTaxonomy.eras.length
-    ) {
-
-        const empty =
-            document.createElement("div");
-
-        empty.className =
-            "taxonomy-empty";
-
-        empty.textContent =
-            "No eras currently defined.";
-
-        panel.appendChild(
-            empty
-        );
-
-        return;
-
-    }
-
-
-    masterTaxonomy.eras.forEach(
-        function(era) {
-
-            panel.appendChild(
-                createEraParent(
-                    era
-                )
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
-   RENDER REGION TREE
-   ============================================================ */
-
-function renderRegionTree() {
-
-    const panel =
-        regionTree.querySelector(
-            ".taxonomy-panel"
-        );
-
-    panel.innerHTML = "";
-
-
-    if (
-        !masterTaxonomy.regions.length
-    ) {
-
-        const empty =
-            document.createElement("div");
-
-        empty.className =
-            "taxonomy-empty";
-
-        empty.textContent =
-            "No regions currently defined.";
-
-        panel.appendChild(
-            empty
-        );
-
-        return;
-
-    }
-
-
-    masterTaxonomy.regions.forEach(
-        function(region) {
-
-            panel.appendChild(
-                createRegionNode(
-                    region,
-                    [region.name]
                 )
             );
 
@@ -3414,10 +2341,6 @@ async function loadMasterTaxonomy() {
         masterTaxonomy.moods
     );
 
-    renderEraTree();
-
-    renderRegionTree();
-
 
     console.log(
         "GR8SKUL: Master taxonomy loaded:",
@@ -3428,14 +2351,14 @@ async function loadMasterTaxonomy() {
 
 
 /* ============================================================
-   STANDARD TREE HELPERS
+   TAXONOMY TREE HELPERS
    ============================================================ */
 
 function getTreeParents(tree) {
 
     return Array.from(
         tree.querySelectorAll(
-            ":scope > .taxonomy-panel > .taxonomy-parent"
+            ".taxonomy-parent"
         )
     );
 
@@ -3450,7 +2373,7 @@ function getTreeSelectedParents(tree) {
 
                 const checkbox =
                     parent.querySelector(
-                        ":scope > .taxonomy-parent-row .taxonomy-check"
+                        ".taxonomy-check"
                     );
 
                 return checkbox &&
@@ -3492,225 +2415,34 @@ function getTreeSelectedTypes(tree) {
 
 
 /* ============================================================
-   ERA SELECTION HELPERS
-   ============================================================ */
-
-function getSelectedEras() {
-
-    return Array.from(
-        eraTree.querySelectorAll(
-            ":scope > .taxonomy-panel > .taxonomy-parent > .taxonomy-parent-row .taxonomy-check:checked"
-        )
-    )
-    .map(
-        function(input) {
-            return input.dataset.era;
-        }
-    );
-
-}
-
-
-function getSelectedEraYears() {
-
-    return Array.from(
-        eraTree.querySelectorAll(
-            ".era-year-check:checked"
-        )
-    )
-    .map(
-        function(input) {
-
-            return {
-                era:
-                    input.dataset.era,
-
-                year:
-                    input.dataset.year
-            };
-
-        }
-    );
-
-}
-
-
-/* ============================================================
-   REGION SELECTION HELPERS
-   ============================================================ */
-
-function getSelectedRegionPaths() {
-
-    return Array.from(
-        regionTree.querySelectorAll(
-            ".taxonomy-check:checked"
-        )
-    )
-    .map(
-        function(input) {
-
-            try {
-
-                return JSON.parse(
-                    input.dataset.regionPath
-                );
-
-            } catch (error) {
-
-                return [];
-
-            }
-
-        }
-    )
-    .filter(
-        function(path) {
-            return path.length > 0;
-        }
-    );
-
-}
-
-
-/* ============================================================
-   REGION PATH EQUALITY
-   ============================================================ */
-
-function regionPathsEqual(
-    first,
-    second
-) {
-
-    if (
-        !Array.isArray(first) ||
-        !Array.isArray(second) ||
-        first.length !== second.length
-    ) {
-
-        return false;
-
-    }
-
-    return first.every(
-        function(part, index) {
-
-            return itemTypeEquals(
-                part,
-                second[index]
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
-   REGION PATH MATCHING
-   ============================================================ */
-
-function regionPathMatches(
-    trackPath,
-    selectedPath
-) {
-
-    if (
-        !Array.isArray(trackPath) ||
-        !Array.isArray(selectedPath)
-    ) {
-
-        return false;
-
-    }
-
-    /*
-     * Selecting a region at any level means
-     * that region and everything beneath it.
-     *
-     * Example:
-     *
-     * Selecting:
-     *
-     * North America
-     *
-     * matches:
-     *
-     * North America
-     * North America > United States
-     * North America > United States > Missouri
-     * etc.
-     */
-
-    if (
-        selectedPath.length >
-        trackPath.length
-    ) {
-
-        return false;
-
-    }
-
-    return selectedPath.every(
-        function(part, index) {
-
-            return itemTypeEquals(
-                part,
-                trackPath[index]
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
    TAXONOMY TREE SUMMARY
    ============================================================ */
 
-function updateTreeSummary(
-    tree
-) {
+function updateTreeSummary(tree) {
 
-    let summary;
-    let triggerText;
-    let parentLabel;
+    const isGenre =
+        tree === genreTree;
 
-    if (tree === genreTree) {
+    const summary =
+        isGenre
+            ? genreSummary
+            : moodSummary;
 
-        summary =
-            genreSummary;
+    const triggerText =
+        isGenre
+            ? genreTriggerText
+            : moodTriggerText;
 
-        triggerText =
-            genreTriggerText;
-
-        parentLabel =
-            "GENRE";
-
-    } else {
-
-        summary =
-            moodSummary;
-
-        triggerText =
-            moodTriggerText;
-
-        parentLabel =
-            "MOOD";
-
-    }
-
+    const parentLabel =
+        isGenre
+            ? "GENRE"
+            : "MOOD";
 
     const parents =
-        getTreeSelectedParents(
-            tree
-        );
+        getTreeSelectedParents(tree);
 
     const types =
-        getTreeSelectedTypes(
-            tree
-        );
-
+        getTreeSelectedTypes(tree);
 
     if (
         !parents.length &&
@@ -3718,16 +2450,15 @@ function updateTreeSummary(
     ) {
 
         triggerText.textContent =
-            parentLabel +
-            "(S): ALL";
+            isGenre
+                ? "GENRE(S): ALL"
+                : "MOOD(S): ALL";
 
-        summary.textContent =
-            "";
+        summary.textContent = "";
 
         return;
 
     }
-
 
     if (parents.length) {
 
@@ -3738,12 +2469,30 @@ function updateTreeSummary(
 
     } else {
 
+        const firstType =
+            types[0];
+
         triggerText.textContent =
             parentLabel +
             " TYPES";
 
-    }
+        if (firstType) {
 
+            summary.textContent =
+                types.length +
+                " SPECIFIC TYPE" +
+                (
+                    types.length === 1
+                        ? ""
+                        : "S"
+                ) +
+                " SELECTED";
+
+            return;
+
+        }
+
+    }
 
     if (types.length) {
 
@@ -3776,180 +2525,42 @@ function updateTreeSummary(
 
 
 /* ============================================================
-   ERA SUMMARY
-   ============================================================ */
-
-function updateEraSummary() {
-
-    const eras =
-        getSelectedEras();
-
-    const years =
-        getSelectedEraYears();
-
-
-    if (
-        !eras.length &&
-        !years.length
-    ) {
-
-        eraTriggerText.textContent =
-            "ERA(S): ALL";
-
-        eraSummary.textContent =
-            "";
-
-        return;
-
-    }
-
-
-    if (eras.length) {
-
-        eraTriggerText.textContent =
-            "ERA(S): " +
-            eras.join(", ");
-
-    } else {
-
-        eraTriggerText.textContent =
-            "ERA YEARS";
-
-    }
-
-
-    if (years.length) {
-
-        eraSummary.textContent =
-            years.length +
-            " SPECIFIC YEAR" +
-            (
-                years.length === 1
-                    ? ""
-                    : "S"
-            ) +
-            " SELECTED";
-
-    } else {
-
-        eraSummary.textContent =
-            eras.length +
-            " ERA" +
-            (
-                eras.length === 1
-                    ? ""
-                    : "S"
-            ) +
-            " SELECTED";
-
-    }
-
-}
-
-
-/* ============================================================
-   REGION SUMMARY
-   ============================================================ */
-
-function updateRegionSummary() {
-
-    const paths =
-        getSelectedRegionPaths();
-
-
-    if (!paths.length) {
-
-        regionTriggerText.textContent =
-            "REGION(S): ALL";
-
-        regionSummary.textContent =
-            "";
-
-        return;
-
-    }
-
-
-    const labels =
-        paths.map(
-            function(path) {
-
-                return path[
-                    path.length - 1
-                ];
-
-            }
-        );
-
-
-    regionTriggerText.textContent =
-        "REGION(S): " +
-        labels.join(", ");
-
-
-    regionSummary.textContent =
-        paths.length +
-        " REGION" +
-        (
-            paths.length === 1
-                ? ""
-                : "S"
-        ) +
-        " SELECTED";
-
-}
-
-
-/* ============================================================
    TAXONOMY TREE OPEN / CLOSE
    ============================================================ */
 
-function closeOtherTaxonomyTree(
-    tree
-) {
+function closeOtherTaxonomyTree(tree) {
 
-    const trees = [
-        genreTree,
-        moodTree,
-        eraTree,
-        regionTree
-    ];
+    if (tree !== genreTree) {
 
-    trees.forEach(
-        function(otherTree) {
+        genreTree.classList.remove(
+            "open"
+        );
 
-            if (
-                otherTree !== tree
-            ) {
+        genreTrigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
 
-                otherTree.classList.remove(
-                    "open"
-                );
+    }
 
-                const trigger =
-                    otherTree.querySelector(
-                        ".taxonomy-trigger"
-                    );
+    if (tree !== moodTree) {
 
-                if (trigger) {
+        moodTree.classList.remove(
+            "open"
+        );
 
-                    trigger.setAttribute(
-                        "aria-expanded",
-                        "false"
-                    );
+        moodTrigger.setAttribute(
+            "aria-expanded",
+            "false"
+        );
 
-                }
-
-            }
-
-        }
-    );
+    }
 
 }
 
 
 /* ============================================================
-   STANDARD TAXONOMY TREE SETUP
+   TAXONOMY TREE SETUP
    ============================================================ */
 
 function setupTaxonomyTree(
@@ -3959,7 +2570,6 @@ function setupTaxonomyTree(
 
     const parents =
         getTreeParents(tree);
-
 
     trigger.addEventListener(
         "click",
@@ -3995,17 +2605,17 @@ function setupTaxonomyTree(
 
             const parentCheckbox =
                 parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-check"
+                    ".taxonomy-check"
                 );
 
             const parentLabel =
                 parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-parent-label"
+                    ".taxonomy-parent-label"
                 );
 
             const expandButton =
                 parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-expand"
+                    ".taxonomy-expand"
                 );
 
 
@@ -4020,6 +2630,15 @@ function setupTaxonomyTree(
             parentCheckbox.addEventListener(
                 "change",
                 function() {
+
+                    /*
+                     * A selected child type must
+                     * keep its branch visible.
+                     *
+                     * The broad parent checkbox
+                     * is independent from the
+                     * specific type selection.
+                     */
 
                     const selectedType =
                         parent.querySelector(
@@ -4083,6 +2702,11 @@ function setupTaxonomyTree(
                             ".taxonomy-type-check:checked"
                         );
 
+                    /*
+                     * A branch containing a selected
+                     * type cannot be collapsed.
+                     */
+
                     if (selectedType) {
 
                         parent.classList.add(
@@ -4119,6 +2743,20 @@ function setupTaxonomyTree(
                         typeInput.addEventListener(
                             "change",
                             function() {
+
+                                /*
+                                 * A player type selection
+                                 * does NOT automatically select
+                                 * its broad parent.
+                                 *
+                                 * The broad parent means:
+                                 *
+                                 * EVERYTHING IN THIS GENRE
+                                 *
+                                 * The child means:
+                                 *
+                                 * THIS SPECIFIC TYPE
+                                 */
 
                                 if (
                                     typeInput.checked
@@ -4167,367 +2805,6 @@ function setupTaxonomyTree(
 
 
 /* ============================================================
-   ERA TREE SETUP
-   ============================================================ */
-
-function setupEraTree() {
-
-    eraTrigger.addEventListener(
-        "click",
-        function(event) {
-
-            event.preventDefault();
-
-            const currentlyOpen =
-                eraTree.classList.contains(
-                    "open"
-                );
-
-            closeOtherTaxonomyTree(
-                eraTree
-            );
-
-            eraTree.classList.toggle(
-                "open",
-                !currentlyOpen
-            );
-
-            eraTrigger.setAttribute(
-                "aria-expanded",
-                String(!currentlyOpen)
-            );
-
-        }
-    );
-
-
-    const parents =
-        getTreeParents(
-            eraTree
-        );
-
-
-    parents.forEach(
-        function(parent) {
-
-            const parentCheckbox =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-check"
-                );
-
-            const parentLabel =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-parent-label"
-                );
-
-            const expandButton =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-expand"
-                );
-
-
-            parentCheckbox.addEventListener(
-                "click",
-                function(event) {
-                    event.stopPropagation();
-                }
-            );
-
-
-            parentCheckbox.addEventListener(
-                "change",
-                function() {
-
-                    const selectedYear =
-                        parent.querySelector(
-                            ".era-year-check:checked"
-                        );
-
-                    if (
-                        parentCheckbox.checked ||
-                        selectedYear
-                    ) {
-
-                        parent.classList.add(
-                            "expanded"
-                        );
-
-                    } else {
-
-                        parent.classList.remove(
-                            "expanded"
-                        );
-
-                    }
-
-                    updateEraSummary();
-
-                    applyFilters();
-
-                }
-            );
-
-
-            parentLabel.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    parentCheckbox.checked =
-                        !parentCheckbox.checked;
-
-                    parentCheckbox.dispatchEvent(
-                        new Event("change")
-                    );
-
-                }
-            );
-
-
-            expandButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-                    const selectedYear =
-                        parent.querySelector(
-                            ".era-year-check:checked"
-                        );
-
-                    if (selectedYear) {
-
-                        parent.classList.add(
-                            "expanded"
-                        );
-
-                        return;
-
-                    }
-
-                    parent.classList.toggle(
-                        "expanded"
-                    );
-
-                }
-            );
-
-
-            parent
-                .querySelectorAll(
-                    ".era-year-check"
-                )
-                .forEach(
-                    function(yearInput) {
-
-                        yearInput.addEventListener(
-                            "click",
-                            function(event) {
-                                event.stopPropagation();
-                            }
-                        );
-
-
-                        yearInput.addEventListener(
-                            "change",
-                            function() {
-
-                                if (
-                                    yearInput.checked
-                                ) {
-
-                                    parent.classList.add(
-                                        "expanded"
-                                    );
-
-                                } else {
-
-                                    const anotherSelectedYear =
-                                        parent.querySelector(
-                                            ".era-year-check:checked"
-                                        );
-
-                                    if (
-                                        !anotherSelectedYear &&
-                                        !parentCheckbox.checked
-                                    ) {
-
-                                        parent.classList.remove(
-                                            "expanded"
-                                        );
-
-                                    }
-
-                                }
-
-                                updateEraSummary();
-
-                                applyFilters();
-
-                            }
-                        );
-
-                    }
-                );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
-   REGION TREE SETUP
-   ============================================================ */
-
-function setupRegionTree() {
-
-    regionTrigger.addEventListener(
-        "click",
-        function(event) {
-
-            event.preventDefault();
-
-            const currentlyOpen =
-                regionTree.classList.contains(
-                    "open"
-                );
-
-            closeOtherTaxonomyTree(
-                regionTree
-            );
-
-            regionTree.classList.toggle(
-                "open",
-                !currentlyOpen
-            );
-
-            regionTrigger.setAttribute(
-                "aria-expanded",
-                String(!currentlyOpen)
-            );
-
-        }
-    );
-
-
-    const nodes =
-        regionTree.querySelectorAll(
-            ".region-node"
-        );
-
-
-    nodes.forEach(
-        function(node) {
-
-            const row =
-                node.querySelector(
-                    ":scope > .region-node-row"
-                );
-
-            const checkbox =
-                row.querySelector(
-                    ".taxonomy-check"
-                );
-
-            const label =
-                row.querySelector(
-                    ".region-node-label"
-                );
-
-            const expandButton =
-                row.querySelector(
-                    ".region-expand"
-                );
-
-            const children =
-                node.querySelector(
-                    ":scope > .region-children"
-                );
-
-
-            checkbox.addEventListener(
-                "click",
-                function(event) {
-                    event.stopPropagation();
-                }
-            );
-
-
-            checkbox.addEventListener(
-                "change",
-                function() {
-
-                    node.classList.toggle(
-                        "selected",
-                        checkbox.checked
-                    );
-
-                    if (
-                        checkbox.checked &&
-                        children
-                    ) {
-
-                        node.classList.add(
-                            "expanded"
-                        );
-
-                    }
-
-                    updateRegionSummary();
-
-                    applyFilters();
-
-                }
-            );
-
-
-            label.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    checkbox.checked =
-                        !checkbox.checked;
-
-                    checkbox.dispatchEvent(
-                        new Event("change")
-                    );
-
-                }
-            );
-
-
-            if (children) {
-
-                expandButton.addEventListener(
-                    "click",
-                    function(event) {
-
-                        event.preventDefault();
-
-                        event.stopPropagation();
-
-                        node.classList.toggle(
-                            "expanded"
-                        );
-
-                    }
-                );
-
-            }
-
-        }
-    );
-
-}
-
-
-/* ============================================================
    CLOSE DROPDOWNS WHEN CLICKING OUTSIDE
    ============================================================ */
 
@@ -4535,51 +2812,46 @@ document.addEventListener(
     "click",
     function(event) {
 
-        const trees = [
-            genreTree,
-            moodTree,
-            eraTree,
-            regionTree
-        ];
+        if (
+            !genreTree.contains(
+                event.target
+            )
+        ) {
 
-        trees.forEach(
-            function(tree) {
+            genreTree.classList.remove(
+                "open"
+            );
 
-                if (
-                    !tree.contains(
-                        event.target
-                    )
-                ) {
+            genreTrigger.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
-                    tree.classList.remove(
-                        "open"
-                    );
+        }
 
-                    const trigger =
-                        tree.querySelector(
-                            ".taxonomy-trigger"
-                        );
+        if (
+            !moodTree.contains(
+                event.target
+            )
+        ) {
 
-                    if (trigger) {
+            moodTree.classList.remove(
+                "open"
+            );
 
-                        trigger.setAttribute(
-                            "aria-expanded",
-                            "false"
-                        );
+            moodTrigger.setAttribute(
+                "aria-expanded",
+                "false"
+            );
 
-                    }
-
-                }
-
-            }
-        );
+        }
 
     }
 );
 
 
 /* ============================================================
-   MATCH A STANDARD TAXONOMY
+   MATCH A TRACK AGAINST ONE TAXONOMY
    ============================================================ */
 
 function trackMatchesTaxonomy(
@@ -4595,6 +2867,11 @@ function trackMatchesTaxonomy(
     const selectedTypes =
         getTreeSelectedTypes(tree);
 
+    /*
+     * No filters means:
+     *
+     * everything matches.
+     */
 
     if (
         !selectedParents.length &&
@@ -4604,7 +2881,6 @@ function trackMatchesTaxonomy(
         return true;
 
     }
-
 
     const trackParents =
         normalizeArray(
@@ -4620,6 +2896,10 @@ function trackMatchesTaxonomy(
                 trackData[typesKey]
             );
 
+
+    /*
+     * Broad parent selection.
+     */
 
     const parentMatch =
         selectedParents.some(
@@ -4643,6 +2923,10 @@ function trackMatchesTaxonomy(
         return true;
     }
 
+
+    /*
+     * Specific type selection.
+     */
 
     const typeMatch =
         selectedTypes.some(
@@ -4689,165 +2973,6 @@ function trackMatchesTaxonomy(
 
 
 /* ============================================================
-   MATCH ERA FILTER
-   ============================================================ */
-
-function trackMatchesEra(
-    trackData
-) {
-
-    const selectedEras =
-        getSelectedEras();
-
-    const selectedYears =
-        getSelectedEraYears();
-
-
-    if (
-        !selectedEras.length &&
-        !selectedYears.length
-    ) {
-
-        return true;
-
-    }
-
-
-    const trackEras =
-        normalizeArray(
-            trackData.eras ||
-            trackData.era ||
-            []
-        );
-
-
-    const trackYears =
-        normalizeEraYears(
-            trackData.eraYears ||
-            trackData.years ||
-            []
-        );
-
-
-    /*
-     * Broad Era selection:
-     *
-     * Selecting 1200 means all works
-     * associated with the 1200 era.
-     */
-
-    const eraMatch =
-        selectedEras.some(
-            function(selectedEra) {
-
-                return trackEras.some(
-                    function(trackEra) {
-
-                        return itemTypeEquals(
-                            trackEra,
-                            selectedEra
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    if (eraMatch) {
-        return true;
-    }
-
-
-    /*
-     * Specific year selection:
-     *
-     * Selecting 37 beneath 1200 means
-     * year 1237.
-     */
-
-    const yearMatch =
-        selectedYears.some(
-            function(selectedYear) {
-
-                return trackYears.some(
-                    function(trackYear) {
-
-                        const eraMatches =
-                            !trackYear.era ||
-                            itemTypeEquals(
-                                trackYear.era,
-                                selectedYear.era
-                            );
-
-                        return (
-                            eraMatches &&
-                            itemTypeEquals(
-                                trackYear.year,
-                                selectedYear.year
-                            )
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    return yearMatch;
-
-}
-
-
-/* ============================================================
-   MATCH REGION FILTER
-   ============================================================ */
-
-function trackMatchesRegion(
-    trackData
-) {
-
-    const selectedPaths =
-        getSelectedRegionPaths();
-
-
-    if (!selectedPaths.length) {
-        return true;
-    }
-
-
-    const trackPaths =
-        normalizeRegionPath(
-            trackData.regions ||
-            trackData.region ||
-            trackData.regionPaths ||
-            []
-        );
-
-
-    return selectedPaths.some(
-        function(selectedPath) {
-
-            return trackPaths.some(
-                function(trackPath) {
-
-                    return regionPathMatches(
-                        trackPath,
-                        selectedPath
-                    );
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-/* ============================================================
    TRACK MATCHES CURRENT FILTERS
    ============================================================ */
 
@@ -4863,7 +2988,6 @@ function trackMatchesCurrentFilters(
             "genreTypes"
         );
 
-
     const matchesMood =
         trackMatchesTaxonomy(
             trackData,
@@ -4872,32 +2996,13 @@ function trackMatchesCurrentFilters(
             "moodTypes"
         );
 
-
-    const matchesEra =
-        trackMatchesEra(
-            trackData
-        );
-
-
-    const matchesRegion =
-        trackMatchesRegion(
-            trackData
-        );
-
-
     /*
-     * All four classification systems
-     * are AND conditions.
-     *
-     * Multiple selections within each
-     * system remain OR.
+     * Genre + Mood are AND conditions.
      */
 
     return (
         matchesGenre &&
-        matchesMood &&
-        matchesEra &&
-        matchesRegion
+        matchesMood
     );
 
 }
@@ -4931,25 +3036,11 @@ function updateFilterStatus(
             moodTree
         );
 
-    const eras =
-        getSelectedEras();
-
-    const eraYears =
-        getSelectedEraYears();
-
-    const regions =
-        getSelectedRegionPaths();
-
-
     const filtering =
         genreParents.length ||
         genreTypes.length ||
         moodParents.length ||
-        moodTypes.length ||
-        eras.length ||
-        eraYears.length ||
-        regions.length;
-
+        moodTypes.length;
 
     if (!filtering) {
 
@@ -4958,7 +3049,6 @@ function updateFilterStatus(
         return;
 
     }
-
 
     filterStatus.textContent =
         visibleCount +
@@ -5236,7 +3326,6 @@ function renderFilteredTracks() {
     const wasPlaying =
         !audioPlayer.paused;
 
-
     const filteredData =
         allTrackData.filter(
             function(trackData) {
@@ -5303,7 +3392,6 @@ function renderFilteredTracks() {
 
 
     let preservedIndex = -1;
-
 
     if (previousFile) {
 
@@ -5414,6 +3502,10 @@ async function loadCatalog() {
 
     try {
 
+        /*
+         * LOAD ALL THREE DATA FILES
+         */
+
         const [
             catalogResponse,
             metadataResponse,
@@ -5438,6 +3530,10 @@ async function loadCatalog() {
         ]);
 
 
+        /*
+         * VERIFY CATALOG
+         */
+
         if (!catalogResponse.ok) {
 
             throw new Error(
@@ -5446,6 +3542,10 @@ async function loadCatalog() {
 
         }
 
+
+        /*
+         * VERIFY METADATA
+         */
 
         if (!metadataResponse.ok) {
 
@@ -5463,8 +3563,11 @@ async function loadCatalog() {
             await metadataResponse.json();
 
 
-        let trackOrder = [];
+        /*
+         * LOAD PERMANENT TRACK ORDER
+         */
 
+        let trackOrder = [];
 
         if (orderResponse.ok) {
 
@@ -5481,9 +3584,12 @@ async function loadCatalog() {
         }
 
 
+        /*
+         * ARRANGE CATALOG USING track-order.json
+         */
+
         const catalogByPath =
             new Map();
-
 
         catalog.forEach(
             function(trackData) {
@@ -5528,6 +3634,12 @@ async function loadCatalog() {
         );
 
 
+        /*
+         * Add newly discovered tracks
+         * that are not yet in the permanent
+         * order file.
+         */
+
         catalog.forEach(
             function(trackData) {
 
@@ -5553,6 +3665,10 @@ async function loadCatalog() {
         );
 
 
+        /*
+         * MATCH METADATA TO EACH TRACK
+         */
+
         const tracksWithMetadata =
             orderedCatalog.map(
                 function(trackData) {
@@ -5561,7 +3677,6 @@ async function loadCatalog() {
                         metadata[
                             trackData.path
                         ];
-
 
                     if (!meta) {
 
@@ -5644,34 +3759,6 @@ async function loadCatalog() {
                                 meta.moodTypes
                             )
                                 ? meta.moodTypes
-                                : [],
-
-                        eras:
-                            meta &&
-                            Array.isArray(
-                                meta.eras
-                            )
-                                ? meta.eras
-                                : [],
-
-                        eraYears:
-                            meta &&
-                            Array.isArray(
-                                meta.eraYears
-                            )
-                                ? meta.eraYears
-                                : [],
-
-                        regions:
-                            meta &&
-                            (
-                                Array.isArray(
-                                    meta.regions
-                                ) ||
-                                typeof meta.regions ===
-                                "string"
-                            )
-                                ? meta.regions
                                 : []
 
                     };
@@ -5680,9 +3767,17 @@ async function loadCatalog() {
             );
 
 
+        /*
+         * Store the complete catalog.
+         */
+
         allTrackData =
             tracksWithMetadata;
 
+
+        /*
+         * Initial render.
+         */
 
         renderFilteredTracks();
 
@@ -5728,7 +3823,6 @@ function findNextUnmutedTrack(
 
     let index =
         startIndex;
-
 
     for (
         let count = 0;
@@ -5782,7 +3876,6 @@ function findPreviousUnmutedTrack(
 
     let index =
         startIndex;
-
 
     for (
         let count = 0;
@@ -6091,6 +4184,10 @@ function selectTrack(
     audioPlayer.src =
         file;
 
+
+    /*
+     * NOW PLAYING
+     */
 
     nowPlaying.innerHTML = "";
 
@@ -6567,6 +4664,12 @@ function attachTrackListeners() {
                     }
 
 
+                    /*
+                     * Manual track selection
+                     * always works, even if
+                     * the track is muted.
+                     */
+
                     selectTrack(
                         index,
                         true,
@@ -6670,30 +4773,32 @@ document.addEventListener(
    START THE APP
    ============================================================ */
 
+/*
+ * IMPORTANT:
+ *
+ * The taxonomy must be loaded and rendered BEFORE the
+ * taxonomy tree event listeners are attached and BEFORE
+ * the catalog performs its first filtering pass.
+ *
+ * This guarantees that the filtering system sees the
+ * master-taxonomy-generated DOM.
+ */
+
 async function startApp() {
 
     try {
 
         await loadMasterTaxonomy();
 
-
         setupTaxonomyTree(
             genreTree,
             genreTrigger
         );
 
-
         setupTaxonomyTree(
             moodTree,
             moodTrigger
         );
-
-
-        setupEraTree();
-
-
-        setupRegionTree();
-
 
         await loadCatalog();
 
@@ -6704,43 +4809,25 @@ async function startApp() {
             error
         );
 
+        /*
+         * Keep the player usable enough to show the
+         * underlying catalog error rather than silently
+         * presenting an obsolete hard-coded taxonomy.
+         */
 
-        genreTree.querySelector(
-            ".taxonomy-panel"
-        ).innerHTML =
+        genrePanel.innerHTML =
             "<div class='taxonomy-empty'>" +
             "Taxonomy loading..." +
             "</div>";
 
-
-        moodTree.querySelector(
-            ".taxonomy-panel"
-        ).innerHTML =
+        moodPanel.innerHTML =
             "<div class='taxonomy-empty'>" +
             "Taxonomy loading..." +
             "</div>";
-
-
-        eraTree.querySelector(
-            ".taxonomy-panel"
-        ).innerHTML =
-            "<div class='taxonomy-empty'>" +
-            "Taxonomy loading..." +
-            "</div>";
-
-
-        regionTree.querySelector(
-            ".taxonomy-panel"
-        ).innerHTML =
-            "<div class='taxonomy-empty'>" +
-            "Taxonomy loading..." +
-            "</div>";
-
 
         await loadCatalog();
 
     }
-
 
     loadSponsors();
 
@@ -6755,3 +4842,4 @@ startApp();
 
 </body>
 </html>
+
