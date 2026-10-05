@@ -1316,9 +1316,9 @@ href="/"
 
 >
 
-
+```
 BACK TO GR8SKUL
-
+```
 
 </a>
 
@@ -1456,59 +1456,167 @@ async function showAuthenticatedPage(
 
     }
 
+    authScreen.style.display =
+        "none";
 
-    try {
+    protectedContent.style.display =
+        "block";
 
-        /*
-         * The authenticated Supabase user determines
-         * the Artist account.
-         *
-         * The browser does NOT choose an artist_id.
-         */
+    accountEmail.textContent =
+        session.user.email ||
+        "";
 
-        await loadCurrentArtist();
+    await loadTaxonomy();
 
+    await loadWorks();
 
-        authScreen.style.display =
-            "none";
-
-        protectedContent.style.display =
-            "block";
+}
 
 
-        /*
-         * Show the Artist username rather than
-         * the email as the account identity.
-         */
+function showLogin() {
 
-        accountEmail.textContent =
-            currentArtist.username;
+    protectedContent.style.display =
+        "none";
+
+    authScreen.style.display =
+        "block";
+
+    accountEmail.textContent =
+        "";
+
+}
 
 
-        await loadWorks();
+async function checkAuthentication() {
 
+    const result =
+        await supabaseClient.auth.getSession();
 
-    } catch (error) {
+    const session =
+        result.data &&
+        result.data.session
+            ? result.data.session
+            : null;
 
-        console.error(
-            "GR8SKUL Artist Works could not be opened:",
-            error
+    if (session) {
+
+        await showAuthenticatedPage(
+            session
         );
 
+    } else {
 
-        protectedContent.style.display =
-            "none";
-
-        authScreen.style.display =
-            "block";
-
-        authMessage.textContent =
-            error.message ||
-            "ARTIST PROFILE COULD NOT BE LOADED.";
+        showLogin();
 
     }
 
 }
+
+
+async function signIn() {
+
+    const email =
+        authEmail.value.trim();
+
+    const password =
+        authPassword.value;
+
+    if (
+        !email ||
+        !password
+    ) {
+
+        authMessage.textContent =
+            "ENTER AN EMAIL AND PASSWORD";
+
+        return;
+
+    }
+
+    signInButton.disabled =
+        true;
+
+    authMessage.textContent =
+        "SIGNING IN...";
+
+    try {
+
+        const result =
+            await supabaseClient.auth.signInWithPassword(
+                {
+                    email:
+                        email,
+
+                    password:
+                        password
+                }
+            );
+
+        if (
+            result.error
+        ) {
+
+            throw result.error;
+
+        }
+
+        authMessage.textContent =
+            "";
+
+        await showAuthenticatedPage(
+            result.data.session
+        );
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL Works sign in failed:",
+            error
+        );
+
+        authMessage.textContent =
+            error.message ||
+            "SIGN IN FAILED";
+
+    } finally {
+
+        signInButton.disabled =
+            false;
+
+    }
+
+}
+
+
+async function signOut() {
+
+    try {
+
+        await supabaseClient.auth.signOut();
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL Works sign out failed:",
+            error
+        );
+
+    }
+
+    authEmail.value =
+        "";
+
+    authPassword.value =
+        "";
+
+    authMessage.textContent =
+        "";
+
+    showLogin();
+
+}
+
+
 /* =========================================================
    AUTH EVENTS
    ========================================================= */
@@ -1572,104 +1680,17 @@ let draggedRow = null;
 
 let editingIndex = null;
 
+let taxonomy = {
 
-/* =========================================================
-   CURRENT ARTIST
-   ========================================================= */
+    genres: [],
 
-let currentArtist = null;
+    moods: [],
 
+    eras: [],
 
-/* =========================================================
-   LOAD CURRENT ARTIST
-   ========================================================= */
+    regions: []
 
-async function loadCurrentArtist() {
-
-    const userResult =
-        await supabaseClient.auth.getUser();
-
-    if (
-        userResult.error ||
-        !userResult.data ||
-        !userResult.data.user
-    ) {
-
-        throw new Error(
-            "Authenticated user could not be identified."
-        );
-
-    }
-
-    const user =
-        userResult.data.user;
-
-
-    const artistResult =
-        await supabaseClient
-            .from("gr8skul_artists")
-            .select(
-                "id,user_id,username,display_name,active"
-            )
-            .eq(
-                "user_id",
-                user.id
-            )
-            .maybeSingle();
-
-
-    if (
-        artistResult.error
-    ) {
-
-        console.error(
-            "GR8SKUL artist profile error:",
-            artistResult.error
-        );
-
-        throw new Error(
-            "Artist profile could not be loaded."
-        );
-
-    }
-
-
-    if (
-        !artistResult.data
-    ) {
-
-        throw new Error(
-            "No GR8SKUL Artist profile exists for this account."
-        );
-
-    }
-
-
-    if (
-        artistResult.data.active !== true
-    ) {
-
-        throw new Error(
-            "This Artist account is not active."
-        );
-
-    }
-
-
-    currentArtist =
-        artistResult.data;
-
-
-    console.log(
-        "GR8SKUL CURRENT ARTIST:",
-        currentArtist
-    );
-
-
-    return currentArtist;
-
-}
-
+};
 
 
 /* =========================================================
@@ -5725,81 +5746,13 @@ function normalizeWork(
 }
 
 
-
 /* =========================================================
-   LOAD CURRENT ARTIST'S WORKS
+   LOAD WORKS
    ========================================================= */
 
 async function loadWorks() {
 
     try {
-
-        if (
-            !currentArtist
-        ) {
-
-            await loadCurrentArtist();
-
-        }
-
-
-        /*
-         * ---------------------------------------------------------
-         * GET ONLY THIS ARTIST'S WORK RECORDS
-         * ---------------------------------------------------------
-         *
-         * RLS is enforcing ownership here.
-         *
-         * We do NOT send artist_id from the browser.
-         */
-
-        const worksResult =
-            await supabaseClient
-                .from("gr8skul_works")
-                .select(
-                    "id,artist_id,title,audio_path,active,created_at,updated_at"
-                )
-                .eq(
-                    "active",
-                    true
-                )
-                .order(
-                    "created_at",
-                    {
-                        ascending: true
-                    }
-                );
-
-
-        if (
-            worksResult.error
-        ) {
-
-            console.error(
-                "GR8SKUL artist works query failed:",
-                worksResult.error
-            );
-
-            throw new Error(
-                "Could not load your works."
-            );
-
-        }
-
-
-        const artistWorks =
-            worksResult.data || [];
-
-
-        /*
-         * ---------------------------------------------------------
-         * LOAD PUBLIC CATALOG + METADATA
-         * ---------------------------------------------------------
-         *
-         * These files provide the existing display information.
-         * We do NOT display anything until it matches an owned
-         * gr8skul_works record.
-         */
 
         const results =
             await Promise.all(
@@ -5820,35 +5773,31 @@ async function loadWorks() {
                 ]
             );
 
-
         const catalogResponse =
             results[0];
 
         const metadataResponse =
             results[1];
 
-
         if (
             !catalogResponse.ok
         ) {
 
             throw new Error(
-                "Could not load catalog."
+                "Could not load catalog"
             );
 
         }
-
 
         if (
             !metadataResponse.ok
         ) {
 
             throw new Error(
-                "Could not load track metadata."
+                "Could not load track metadata"
             );
 
         }
-
 
         const catalogData =
             await catalogResponse.json();
@@ -5856,15 +5805,7 @@ async function loadWorks() {
         const metadataData =
             await metadataResponse.json();
 
-
-        /*
-         * ---------------------------------------------------------
-         * NORMALIZE CATALOG
-         * ---------------------------------------------------------
-         */
-
-        let loadedCatalog;
-
+        let loadedWorks;
 
         if (
             Array.isArray(
@@ -5872,7 +5813,7 @@ async function loadWorks() {
             )
         ) {
 
-            loadedCatalog =
+            loadedWorks =
                 catalogData;
 
         } else if (
@@ -5882,27 +5823,19 @@ async function loadWorks() {
             )
         ) {
 
-            loadedCatalog =
+            loadedWorks =
                 catalogData.tracks;
 
         } else {
 
             throw new Error(
-                "Invalid catalog format."
+                "Invalid catalog format"
             );
 
         }
 
-
-        /*
-         * ---------------------------------------------------------
-         * NORMALIZE METADATA
-         * ---------------------------------------------------------
-         */
-
         let metadataMap =
             metadataData;
-
 
         if (
             metadataData &&
@@ -5918,208 +5851,113 @@ async function loadWorks() {
 
         }
 
-
-        /*
-         * ---------------------------------------------------------
-         * INDEX CATALOG BY FILE PATH
-         * ---------------------------------------------------------
-         */
-
-        const catalogByPath =
-            new Map();
-
-
-        loadedCatalog.forEach(
-            function(work) {
-
-                const normalized =
-                    normalizeWork(
-                        work
-                    );
-
-                const key =
-                    getWorkKey(
-                        normalized
-                    );
-
-                if (
-                    key
-                ) {
-
-                    catalogByPath.set(
-                        key,
-                        normalized
-                    );
-
-                }
-
-            }
-        );
-
-
-        /*
-         * ---------------------------------------------------------
-         * BUILD ONLY THIS ARTIST'S WORKS
-         * ---------------------------------------------------------
-         */
-
         works =
-            artistWorks
-                .map(
-                    function(dbWork) {
+            loadedWorks.map(
+                function(work) {
 
-                        const catalogWork =
-                            catalogByPath.get(
-                                dbWork.audio_path
+                    const normalized =
+                        normalizeWork(
+                            work
+                        );
+
+                    const key =
+                        getWorkKey(
+                            normalized
+                        );
+
+                    const metadata =
+                        metadataMap &&
+                        key
+                            ? metadataMap[key]
+                            : null;
+
+                    if (
+                        metadata &&
+                        typeof metadata ===
+                        "object"
+                    ) {
+
+                        normalized.title =
+                            metadata.title ||
+                            normalized.title ||
+                            "";
+
+                        normalized.artists =
+                            normalizeArray(
+                                metadata.artists ||
+                                metadata.artist ||
+                                metadata.artist_name
                             );
 
-
-                        /*
-                         * The database is authoritative
-                         * for ownership.
-                         *
-                         * If the GitHub file is missing,
-                         * do not expose it as a playable work.
-                         */
-
-                        if (
-                            !catalogWork
-                        ) {
-
-                            console.warn(
-                                "GR8SKUL work exists in database but not catalog:",
-                                dbWork
+                        normalized.genres =
+                            normalizeArray(
+                                metadata.genres ||
+                                metadata.genre
                             );
 
-                            return null;
+                        normalized.genreTypes =
+                            normalizeGenreTypes(
+                                metadata.genreTypes ||
+                                metadata.genre_types ||
+                                metadata.genreType ||
+                                metadata.genre_type
+                            );
 
-                        }
+                        normalized.moods =
+                            normalizeArray(
+                                metadata.moods ||
+                                metadata.mood
+                            );
 
+                        normalized.moodTypes =
+                            normalizeMoodTypes(
+                                metadata.moodTypes ||
+                                metadata.mood_types ||
+                                metadata.moodType ||
+                                metadata.mood_type
+                            );
 
-                        const normalized =
-                            {
-                                ...catalogWork,
+                        normalized.eras =
+                            normalizeArray(
+                                metadata.eras ||
+                                metadata.era
+                            );
 
-                                workId:
-                                    dbWork.id,
+                        normalized.eraTypes =
+                            normalizeEraTypes(
+                                metadata.eraTypes ||
+                                metadata.era_types ||
+                                metadata.eraType ||
+                                metadata.era_type
+                            );
 
-                                artistId:
-                                    dbWork.artist_id,
-
-                                audioPath:
-                                    dbWork.audio_path,
-
-                                active:
-                                    dbWork.active,
-
-                                title:
-                                    dbWork.title ||
-                                    catalogWork.title ||
-                                    ""
-                            };
-
-
-                        const metadata =
-                            metadataMap &&
-                            dbWork.audio_path
-                                ? metadataMap[
-                                    dbWork.audio_path
-                                ]
-                                : null;
-
-
-                        if (
-                            metadata &&
-                            typeof metadata ===
-                            "object"
-                        ) {
-
-                            normalized.title =
-                                metadata.title ||
-                                normalized.title ||
-                                "";
-
-                            normalized.artists =
-                                normalizeArray(
-                                    metadata.artists ||
-                                    metadata.artist ||
-                                    metadata.artist_name
-                                );
-
-                            normalized.genres =
-                                normalizeArray(
-                                    metadata.genres ||
-                                    metadata.genre
-                                );
-
-                            normalized.genreTypes =
-                                normalizeGenreTypes(
-                                    metadata.genreTypes ||
-                                    metadata.genre_types ||
-                                    metadata.genreType ||
-                                    metadata.genre_type
-                                );
-
-                            normalized.moods =
-                                normalizeArray(
-                                    metadata.moods ||
-                                    metadata.mood
-                                );
-
-                            normalized.moodTypes =
-                                normalizeMoodTypes(
-                                    metadata.moodTypes ||
-                                    metadata.mood_types ||
-                                    metadata.moodType ||
-                                    metadata.mood_type
-                                );
-
-                        }
-
-
-                        return normalized;
+                        normalized.regions =
+                            normalizeRegionsMetadata(
+                                metadata.regions ||
+                                metadata.region
+                            );
 
                     }
-                )
-                .filter(
-                    Boolean
-                );
 
+                    return normalized;
 
-        /*
-         * Apply the existing local order system
-         * only to this artist's works.
-         */
+                }
+            );
 
         applyLocalOrder();
 
-
         renderWorks();
-
-
-        console.log(
-            "GR8SKUL ARTIST WORKS:",
-            works
-        );
-
 
     } catch (error) {
 
         console.error(
-            "Could not load artist works:",
+            "Could not load works:",
             error
         );
 
-
-        works = [];
-
-
         worksList.innerHTML =
             '<div style="padding:20px;text-align:center;color:#888;font-size:12px;">' +
-            (
-                error.message ||
-                "COULD NOT LOAD WORKS"
-            ) +
+            "COULD NOT LOAD WORKS" +
             "</div>";
 
     }
