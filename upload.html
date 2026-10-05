@@ -5980,52 +5980,44 @@ let loadedWorks;
             loadedWorks =
                 catalogData.tracks;
 
-        } else {
+                } else {
 
             throw new Error(
                 "Invalid catalog format"
             );
 
         }
-const artistWorkPaths =
-    new Set(
-        artistWorks.map(
-            function(work) {
-                return work.audio_path;
-            }
-        )
-    );
-loadedWorks =
-    loadedWorks.filter(
-        function(work) {
 
-            const normalized =
-                normalizeWork(
-                    work
-                );
 
-            return artistWorkPaths.has(
-                normalized.file
+        const artistWorkPaths =
+            new Set(
+                artistWorks.map(
+                    function(work) {
+                        return work.audio_path;
+                    }
+                )
             );
 
-        }
-    );
 
-loadedWorks =
-    loadedWorks.filter(
-        function(work) {
+        loadedWorks =
+            loadedWorks.filter(
+                function(work) {
 
-            const normalized =
-                normalizeWork(
-                    work
-                );
+                    const normalized =
+                        normalizeWork(
+                            work
+                        );
 
-            return artistWorkPaths.has(
-                normalized.audio_path
+                    return artistWorkPaths.has(
+                        normalized.file
+                    );
+
+                }
             );
 
-        }
-    );
+
+        let metadataMap =
+            metadataData;
         let metadataMap =
             metadataData;
 
