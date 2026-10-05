@@ -1142,14 +1142,15 @@ try {
         error.message;
 
 }
-```
+
 
 }
 
+
 /*
-============================================================
-SIGN IN
-============================================================
+    ============================================================
+    SIGN IN
+    ============================================================
 */
 
 
@@ -1185,6 +1186,13 @@ async function signIn() {
 
 
     try {
+
+        /*
+            ----------------------------------------------------
+            AUTHENTICATE WITH SUPABASE
+            ----------------------------------------------------
+        */
+
 
         const response =
             await fetch(
@@ -1222,6 +1230,13 @@ async function signIn() {
             await response.json();
 
 
+        console.log(
+            "GR8SKUL ARTIST SIGN IN RESPONSE:",
+            response.status,
+            result
+        );
+
+
         if (!response.ok) {
 
             throw new Error(
@@ -1234,15 +1249,66 @@ async function signIn() {
         }
 
 
+        /*
+            ----------------------------------------------------
+            SAVE AUTH SESSION
+            ----------------------------------------------------
+        */
+
+
         saveSession(
             result
         );
 
 
         /*
-            Verify that this Auth user actually
-            has an Artist record before entering
-            the Artist Works area.
+            ----------------------------------------------------
+            GET THE AUTHENTICATED USER
+            ----------------------------------------------------
+        */
+
+
+        const userResponse =
+            await supabaseRequest(
+                "/auth/v1/user",
+                {
+                    method: "GET"
+                }
+            );
+
+
+        if (!userResponse.ok) {
+
+            throw new Error(
+                "Unable to verify Artist account."
+            );
+
+        }
+
+
+        const user =
+            await userResponse.json();
+
+
+        console.log(
+            "GR8SKUL AUTHENTICATED ARTIST USER:",
+            user
+        );
+
+
+        if (!user.id) {
+
+            throw new Error(
+                "Authenticated user ID was not returned."
+            );
+
+        }
+
+
+        /*
+            ----------------------------------------------------
+            CHECK FOR EXISTING ARTIST PROFILE
+            ----------------------------------------------------
         */
 
 
@@ -1250,21 +1316,71 @@ async function signIn() {
             await getCurrentArtist();
 
 
-        if (!artist) {
+        /*
+            ----------------------------------------------------
+            EXISTING ARTIST
+            ----------------------------------------------------
+        */
+
+
+        if (artist) {
 
             authMessage.textContent =
-                "This account does not have an Artist profile.";
+                "";
+
+            await showDashboard();
 
             return;
 
         }
 
 
-        authMessage.textContent =
-            "";
+        /*
+            ----------------------------------------------------
+            NO ARTIST PROFILE YET
+            ----------------------------------------------------
+
+            This is the important part.
+
+            The Auth account already exists, so we now
+            create the GR8SKUL Artist profile for that
+            authenticated Auth user.
+
+            The backend determines the actual user_id
+            from the authentication token.
+        */
 
 
-        await showDashboard();
+        const username =
+            user.user_metadata?.username;
+
+
+        const displayName =
+            user.user_metadata?.display_name;
+
+
+        if (!username) {
+
+            throw new Error(
+                "This Auth account does not contain an Artist username."
+            );
+
+        }
+
+
+        if (!displayName) {
+
+            throw new Error(
+                "This Auth account does not contain an Artist display name."
+            );
+
+        }
+
+
+        await createArtistRecord(
+            username,
+            displayName
+        );
 
 
     } catch (error) {
@@ -1281,6 +1397,7 @@ async function signIn() {
     }
 
 }
+```
 
 
 /*
