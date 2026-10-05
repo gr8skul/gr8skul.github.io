@@ -3010,6 +3010,7 @@ function createTaxonomyParent(
    CREATE ERA PARENT
    ============================================================ */
 
+
 function createEraParent(
     era
 ) {
@@ -3065,7 +3066,7 @@ function createEraParent(
 
     expandButton.setAttribute(
         "aria-label",
-        "Show years for " +
+        "Show subdivisions for " +
         era.name
     );
 
@@ -3090,10 +3091,10 @@ function createEraParent(
     );
 
 
-    const yearsContainer =
+    const typesContainer =
         document.createElement("div");
 
-    yearsContainer.className =
+    typesContainer.className =
         "era-years";
 
 
@@ -3104,59 +3105,59 @@ function createEraParent(
         "era-years-note";
 
     note.textContent =
-        "SPECIFIC YEARS";
+        "SUBDIVISIONS";
 
-    yearsContainer.appendChild(
+    typesContainer.appendChild(
         note
     );
 
 
-    era.years.forEach(
-        function(year) {
+    era.types.forEach(
+        function(type) {
 
-            const yearRow =
+            const typeRow =
                 document.createElement("div");
 
-            yearRow.className =
+            typeRow.className =
                 "era-year-row";
 
 
-            const yearInput =
+            const typeInput =
                 document.createElement("input");
 
-            yearInput.className =
+            typeInput.className =
                 "era-year-check";
 
-            yearInput.type =
+            typeInput.type =
                 "checkbox";
 
-            yearInput.dataset.era =
+            typeInput.dataset.era =
                 era.name;
 
-            yearInput.dataset.year =
-                year;
+            typeInput.dataset.type =
+                type;
 
 
-            const yearLabel =
+            const typeLabel =
                 document.createElement("label");
 
-            yearLabel.className =
+            typeLabel.className =
                 "era-year-label";
 
-            yearLabel.textContent =
-                year;
+            typeLabel.textContent =
+                type;
 
 
-            yearRow.appendChild(
-                yearInput
+            typeRow.appendChild(
+                typeInput
             );
 
-            yearRow.appendChild(
-                yearLabel
+            typeRow.appendChild(
+                typeLabel
             );
 
-            yearsContainer.appendChild(
-                yearRow
+            typesContainer.appendChild(
+                typeRow
             );
 
         }
@@ -3164,12 +3165,13 @@ function createEraParent(
 
 
     parent.appendChild(
-        yearsContainer
+        typesContainer
     );
 
     return parent;
 
 }
+
 
 
 /* ============================================================
