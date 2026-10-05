@@ -5844,7 +5844,47 @@ function normalizeWork(
 /* =========================================================
    LOAD WORKS
    ========================================================= */
+async function loadArtistWorkPaths() {
 
+    if (!currentArtist) {
+
+        throw new Error(
+            "ARTIST PROFILE IS NOT LOADED."
+        );
+
+    }
+
+    const {
+        data,
+        error
+    } = await supabaseClient
+        .from("gr8skul_works")
+        .select(
+            "id,title,audio_path,active"
+        )
+        .eq(
+            "artist_id",
+            currentArtist.id
+        )
+        .eq(
+            "active",
+            true
+        );
+
+    if (error) {
+
+        throw error;
+
+    }
+
+    console.log(
+        "GR8SKUL ARTIST WORKS:",
+        data
+    );
+
+    return data || [];
+
+}
 async function loadWorks() {
 
     try {
