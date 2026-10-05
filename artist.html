@@ -390,20 +390,19 @@ button:hover {
 
 <h1>
 
-```
 <img
     src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
     alt="GR8SKUL"
 >
-```
+
 
 </h1>
 
 <div class="page-title">
 
-```
+
 ARTISTS
-```
+
 
 </div>
 
@@ -427,9 +426,9 @@ ARTISTS
 
 <div class="section-title">
 
-```
+
 ARTIST SIGN IN
-```
+
 
 </div>
 
@@ -437,7 +436,7 @@ ARTIST SIGN IN
 
 <div class="field">
 
-```
+
 <label for="signInEmail">
 
     EMAIL
@@ -449,13 +448,13 @@ ARTIST SIGN IN
     type="email"
     autocomplete="email"
 >
-```
+
 
 </div>
 
 <div class="field">
 
-```
+
 <label for="signInPassword">
 
     PASSWORD
@@ -467,7 +466,7 @@ ARTIST SIGN IN
     type="password"
     autocomplete="current-password"
 >
-```
+
 
 </div>
 
@@ -478,15 +477,15 @@ type="button"
 
 >
 
-```
+
 SIGN IN
-```
+
 
 </button>
 
 <div class="password-recovery">
 
-```
+
 <a
     href="#"
     id="forgotPasswordLink"
@@ -495,7 +494,7 @@ SIGN IN
     Forgot your password?
 
 </a>
-```
+
 
 </div>
 
@@ -518,9 +517,9 @@ SIGN IN
 
 <div class="section-title">
 
-```
+
 ARTIST SIGN UP
-```
+
 
 </div>
 
@@ -528,7 +527,7 @@ ARTIST SIGN UP
 
 <div class="field">
 
-```
+
 <label for="username">
 
     USERNAME
@@ -543,13 +542,13 @@ ARTIST SIGN UP
     autocapitalize="none"
     spellcheck="false"
 >
-```
+
 
 </div>
 
 <div class="field">
 
-```
+
 <label for="displayName">
 
     DISPLAY NAME
@@ -562,13 +561,13 @@ ARTIST SIGN UP
     maxlength="90"
     autocomplete="name"
 >
-```
+
 
 </div>
 
 <div class="field">
 
-```
+
 <label for="signUpEmail">
 
     EMAIL
@@ -580,13 +579,13 @@ ARTIST SIGN UP
     type="email"
     autocomplete="email"
 >
-```
+
 
 </div>
 
 <div class="field">
 
-```
+
 <label for="signUpPassword">
 
     CREATE PASSWORD
@@ -598,7 +597,7 @@ ARTIST SIGN UP
 type="password"
     autocomplete="new-password"
 >
-```
+
 
 </div>
 
@@ -609,9 +608,9 @@ type="button"
 
 >
 
-```
+
 SIGN UP
-```
+
 
 </button>
 
@@ -629,7 +628,7 @@ SIGN UP
 
 <div class="footer">
 
-```
+
 GR8SKUL ARTISTS
 
 &nbsp;·&nbsp;
@@ -639,7 +638,7 @@ GR8SKUL ARTISTS
     BACK TO GR8SKUL
 
 </a>
-```
+
 
 </div>
 
@@ -1049,26 +1048,110 @@ async function signUp() {
 
 
 async function createArtistRecord(
-    username,
-    displayName
+username,
+displayName
 ) {
 
+
+authMessage.textContent =
+    "Creating Artist profile...";
+
+
+try {
+
+    const response =
+        await fetch(
+            SUPABASE_URL +
+            "/functions/v1/create-artist",
+            {
+                method: "POST",
+
+                headers: {
+
+                    "apikey":
+                        SUPABASE_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        accessToken,
+
+                    "Content-Type":
+                        "application/json"
+
+                },
+
+                body:
+                    JSON.stringify({
+
+                        username:
+                            username,
+
+                        displayName:
+                            displayName
+
+                    })
+
+            }
+        );
+
+
+    const result =
+        await response.json();
+
+
+    console.log(
+        "GR8SKUL ARTIST PROFILE RESPONSE:",
+        response.status,
+        result
+    );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            result.error ||
+            result.message ||
+            "Artist profile creation failed."
+        );
+
+    }
+
+
+    authMessage.textContent =
+        "Artist account created.";
+
+
     /*
-        IMPORTANT:
-
-        This endpoint does not exist yet.
-
-        We will build it as the next backend step.
-
-        It will use the authenticated user's JWT,
-        identify auth.users.id,
-        and safely create:
-
-            gr8skul_artists
-
-        without allowing the browser to choose
-        the artist_id or user_id.
+        Give the new Artist account a moment
+        to complete before entering Works.
     */
+
+    setTimeout(
+        function() {
+
+            showDashboard();
+
+        },
+        500
+    );
+
+
+} catch (error) {
+
+    console.error(
+        "GR8SKUL Artist profile creation failed.",
+        error
+    );
+
+
+    authMessage.textContent =
+        error.message;
+
+}
+
+
+}
+
 
 
     authMessage.textContent =
