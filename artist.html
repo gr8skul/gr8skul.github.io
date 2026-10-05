@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+
+>
+
+<title>GR8SKUL Artists</title>
+
+<link
+    rel="icon"
+    type="image/png"
+    href="/gr8skul-icon.PNG"
+>
+
+<link
+    rel="apple-touch-icon"
+    href="/gr8skul-icon.PNG"
+>
+
+<link
+    rel="manifest"
+    href="/manifest.json"
+>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+
+    margin: 0;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    min-height: 100%;
+}
+
+body {
+
+    overflow-x: hidden;
+}
+
+.app {
+
+    width: 100%;
+
+    max-width: 700px;
+
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    padding: 0 20px;
+
+    display: flex;
+
+    flex-direction: column;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+.header {
+
+    flex-shrink: 0;
+
+    background: #ffffff;
+
+    padding-top: 35px;
+}
+
+h1 {
+
+    margin: 0 0 35px;
+
+    text-align: center;
+
+    font-size: 42px;
+
+    letter-spacing: 6px;
+
+    font-weight: 700;
+}
+
+h1 img {
+
+    display: block;
+
+    width: auto;
+
+    height: 42px;
+
+    max-width: 100%;
+
+    margin: 0 auto;
+}
+
+.page-title {
+
+    text-align: center;
+
+    font-size: 14px;
+
+    letter-spacing: 2px;
+
+    font-weight: bold;
+
+    margin-bottom: 25px;
+}
+
+.header-line {
+
+    border-bottom: 1px solid #cccccc;
+
+    margin-bottom: 0;
+}
+
+
+/* =========================
+   MAIN
+   ========================= */
+
+.content {
+
+    flex: 1;
+
+    padding: 30px 0 40px;
+}
+
+.section-title {
+
+    text-align: center;
+
+    font-size: 13px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   AUTHENTICATION
+   ========================= */
+
+.auth-section {
+
+    width: 100%;
+
+    max-width: 420px;
+
+    margin: 0 auto;
+}
+
+.auth-divider {
+
+    border-top: 1px solid #cccccc;
+
+    margin: 40px 0;
+}
+
+.form {
+
+    width: 100%;
+
+    margin: 0 auto;
+}
+
+.field {
+
+    margin-bottom: 15px;
+}
+
+label {
+
+    display: block;
+
+    font-size: 11px;
+
+    color: #777777;
+
+    margin-bottom: 6px;
+
+    letter-spacing: 0.5px;
+}
+
+input {
+
+    width: 100%;
+
+    height: 46px;
+
+    border: 1px solid #111111;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    padding: 0 12px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+input:focus {
+
+    background: #f5f5f5;
+}
+
+button {
+
+    border: 1px solid #111111;
+
+    background: #ffffff;
+
+    color: #111111;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    padding: 12px 18px;
+
+    min-height: 46px;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+}
+
+button:hover {
+
+    background: #eeeeee;
+}
+
+.primary-button {
+
+    width: 100%;
+
+    font-weight: bold;
+
+    margin-top: 5px;
+}
+
+.form-message {
+
+    min-height: 24px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #777777;
+
+    line-height: 1.5;
+}
+
+.password-recovery {
+
+    text-align: center;
+
+    margin-top: 15px;
+
+    font-size: 11px;
+}
+
+.password-recovery a {
+
+    color: #777777;
+
+    text-decoration: none;
+
+    cursor: pointer;
+}
+
+.password-recovery a:hover {
+
+    color: #111111;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+.footer {
+
+    flex-shrink: 0;
+
+    padding: 20px 0 25px;
+
+    text-align: center;
+
+    border-top: 1px solid #cccccc;
+
+    font-size: 10px;
+
+    color: #999999;
+}
+
+.footer a {
+
+    color: #777777;
+
+    text-decoration: none;
+}
+
+.footer a:hover {
+
+    color: #111111;
+
+    text-decoration: underline;
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 500px) {
+
+    .app {
+
+        padding: 0 15px;
+    }
+
+    .header {
+
+        padding-top: 25px;
+    }
+
+    h1 img {
+
+        height: 34px;
+    }
+
+    .content {
+
+        padding-top: 25px;
+    }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- =========================
+     HEADER
+     ========================= -->
+
+<div class="header">
+
+<h1>
+
+```
+<img
+    src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
+    alt="GR8SKUL"
+>
+```
+
+</h1>
+
+<div class="page-title">
+
+```
+ARTISTS
+```
+
+</div>
+
+<div class="header-line"></div>
+
+</div>
+
+<!-- =========================
+     CONTENT
+     ========================= -->
+
+<div class="content">
+
+<div id="authArea">
+
+<div class="auth-section">
+
+<!-- =========================
+     ARTIST SIGN IN
+     ========================= -->
+
+<div class="section-title">
+
+```
+ARTIST SIGN IN
+```
+
+</div>
+
+<div class="form">
+
+<div class="field">
+
+```
+<label for="signInEmail">
+
+    EMAIL
+
+</label>
+
+<input
+    id="signInEmail"
+    type="email"
+    autocomplete="email"
+>
+```
+
+</div>
+
+<div class="field">
+
+```
+<label for="signInPassword">
+
+    PASSWORD
+
+</label>
+
+<input
+    id="signInPassword"
+    type="password"
+    autocomplete="current-password"
+>
+```
+
+</div>
+
+<button
+id="signInButton"
+class="primary-button"
+type="button"
+
+>
+
+```
+SIGN IN
+```
+
+</button>
+
+<div class="password-recovery">
+
+```
+<a
+    href="#"
+    id="forgotPasswordLink"
+>
+
+    Forgot your password?
+
+</a>
+```
+
+</div>
+
+<div
+    class="form-message"
+    id="authMessage"
+></div>
+
+</div>
+
+<!-- =========================
+     DIVIDER
+     ========================= -->
+
+<div class="auth-divider"></div>
+
+<!-- =========================
+     ARTIST SIGN UP
+     ========================= -->
+
+<div class="section-title">
+
+```
+ARTIST SIGN UP
+```
+
+</div>
+
+<div class="form">
+
+<div class="field">
+
+```
+<label for="username">
+
+    USERNAME
+
+</label>
+
+<input
+    id="username"
+    type="text"
+    maxlength="40"
+    autocomplete="username"
+    autocapitalize="none"
+    spellcheck="false"
+>
+```
+
+</div>
+
+<div class="field">
+
+```
+<label for="displayName">
+
+    DISPLAY NAME
+
+</label>
+
+<input
+    id="displayName"
+    type="text"
+    maxlength="90"
+    autocomplete="name"
+>
+```
+
+</div>
+
+<div class="field">
+
+```
+<label for="signUpEmail">
+
+    EMAIL
+
+</label>
+
+<input
+    id="signUpEmail"
+    type="email"
+    autocomplete="email"
+>
+```
+
+</div>
+
+<div class="field">
+
+```
+<label for="signUpPassword">
+
+    CREATE PASSWORD
+
+</label>
+
+<input
+    id="signUpPassword"
+type="password"
+    autocomplete="new-password"
+>
+```
+
+</div>
+
+<button
+id="signUpButton"
+class="primary-button"
+type="button"
+
+>
+
+```
+SIGN UP
+```
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================
+     FOOTER
+     ========================= -->
+
+<div class="footer">
+
+```
+GR8SKUL ARTISTS
+
+&nbsp;·&nbsp;
+
+<a href="/">
+
+    BACK TO GR8SKUL
+
+</a>
+```
+
+</div>
+
+</div>
+
+<script>
+
+/*
+    ============================================================
+    GR8SKUL ARTIST AUTHENTICATION
+    ============================================================
+*/
+
+
+const SUPABASE_URL =
+    "https://rijzolipyabfggrrhgab.supabase.co";
+
+
+const SUPABASE_KEY =
+    "sb_publishable_JpYDjyTMxqW4EgbXfcPzCQ_NFfKiVpm";
+
+
+const AUTH_STORAGE_KEY =
+    "gr8skul-artist-auth";
+
+
+/*
+    Artist Works destination.
+
+    We will use the existing Works page for the
+    authenticated artist once it has been converted
+    to the new artist/work architecture.
+*/
+
+
+const ARTIST_WORKS_PAGE =
+    "/upload.html";
+
+
+let accessToken = null;
+
+
+/*
+    ============================================================
+    DOM
+    ============================================================
+*/
+
+
+const authMessage =
+    document.getElementById(
+        "authMessage"
+    );
+
+
+/*
+    ============================================================
+    SUPABASE REQUEST
+    ============================================================
+*/
+
+
+async function supabaseRequest(
+    endpoint,
+    options = {}
+) {
+
+    const headers = {
+
+        "apikey":
+            SUPABASE_KEY,
+
+        "Content-Type":
+            "application/json"
+
+    };
+
+
+    if (accessToken) {
+
+        headers["Authorization"] =
+            "Bearer " +
+            accessToken;
+
+    } else {
+
+        headers["Authorization"] =
+            "Bearer " +
+            SUPABASE_KEY;
+
+    }
+
+
+    const response =
+        await fetch(
+            SUPABASE_URL +
+            endpoint,
+            {
+                ...options,
+
+                headers: {
+                    ...headers,
+                    ...(options.headers || {})
+                }
+            }
+        );
+
+
+    return response;
+
+}
+
+
+/*
+    ============================================================
+    SIGN UP
+    ============================================================
+*/
+
+
+async function signUp() {
+
+    const username =
+        document.getElementById(
+            "username"
+        ).value.trim();
+
+
+    const displayName =
+        document.getElementById(
+            "displayName"
+        ).value.trim();
+
+
+    const email =
+        document.getElementById(
+            "signUpEmail"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "signUpPassword"
+        ).value;
+
+
+    /*
+        ----------------------------
+        VALIDATION
+        ----------------------------
+    */
+
+
+    if (!username) {
+
+        authMessage.textContent =
+            "Enter a username.";
+
+        return;
+
+    }
+
+
+    if (
+        username.length < 3
+    ) {
+
+        authMessage.textContent =
+            "Your username must be at least 3 characters.";
+
+        return;
+
+    }
+
+
+    if (
+        username.length > 40
+    ) {
+
+        authMessage.textContent =
+            "Your username must be 40 characters or fewer.";
+
+        return;
+
+    }
+
+
+    /*
+        Keep usernames simple and stable.
+    */
+
+
+    if (
+        !/^[a-zA-Z0-9._-]+$/.test(
+            username
+        )
+    ) {
+
+        authMessage.textContent =
+            "Username may contain letters, numbers, periods, underscores, and hyphens only.";
+
+        return;
+
+    }
+
+
+    if (!displayName) {
+
+        authMessage.textContent =
+            "Enter your display name.";
+
+        return;
+
+    }
+
+
+    if (
+        displayName.length > 90
+    ) {
+
+        authMessage.textContent =
+            "Your display name must be 90 characters or fewer.";
+
+        return;
+
+    }
+
+
+    if (
+        !email ||
+        !password
+    ) {
+
+        authMessage.textContent =
+            "Enter an email and create a password.";
+
+        return;
+
+    }
+
+
+    if (
+        password.length < 6
+    ) {
+
+        authMessage.textContent =
+            "Your password must be at least 6 characters.";
+
+        return;
+
+    }
+
+
+    authMessage.textContent =
+        "Creating artist account...";
+
+
+    /*
+        ========================================================
+        CREATE SUPABASE AUTH USER
+        ========================================================
+    */
+
+
+    try {
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/auth/v1/signup",
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            email:
+                                email,
+
+                            password:
+                                password,
+
+                            data: {
+
+                                account_type:
+                                    "artist",
+
+                                username:
+                                    username,
+
+                                display_name:
+                                    displayName
+
+                            }
+
+                        })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "GR8SKUL ARTIST SIGNUP RESPONSE:",
+            response.status,
+            result
+        );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.msg ||
+                result.message ||
+                result.error_description ||
+                "Artist account creation failed."
+            );
+
+        }
+
+
+        /*
+            ----------------------------------------------------
+            If Supabase returns a session immediately,
+            we can establish the Artist record.
+            ----------------------------------------------------
+        */
+
+
+        if (
+            result.access_token
+        ) {
+
+            saveSession(
+                result
+            );
+
+
+            await createArtistRecord(
+                username,
+                displayName
+            );
+
+
+            return;
+
+        }
+
+
+        /*
+            ----------------------------------------------------
+            Email confirmation is enabled.
+            ----------------------------------------------------
+        */
+
+
+        authMessage.textContent =
+            "Account created. Check your email to confirm your account, then sign in.";
+
+
+        document.getElementById(
+            "signInEmail"
+        ).value =
+            email;
+
+
+        document.getElementById(
+            "signInPassword"
+        ).value =
+            "";
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL artist signup failed.",
+            error
+        );
+
+
+        authMessage.textContent =
+            error.message;
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    CREATE ARTIST RECORD
+    ============================================================
+*/
+
+
+async function createArtistRecord(
+    username,
+    displayName
+) {
+
+    /*
+        IMPORTANT:
+
+        This endpoint does not exist yet.
+
+        We will build it as the next backend step.
+
+        It will use the authenticated user's JWT,
+        identify auth.users.id,
+        and safely create:
+
+            gr8skul_artists
+
+        without allowing the browser to choose
+        the artist_id or user_id.
+    */
+
+
+    authMessage.textContent =
+        "Artist account created. Connecting your Artist profile...";
+
+
+    /*
+        Temporary stop until the backend function
+        is created.
+    */
+
+
+    console.log(
+        "Artist profile requires backend creation:",
+        {
+            username,
+            displayName
+        }
+    );
+
+
+    authMessage.textContent =
+        "Artist account created. The Artist profile connection is the next GR8SKUL setup step.";
+
+}
+
+
+/*
+    ============================================================
+    SIGN IN
+    ============================================================
+*/
+
+
+async function signIn() {
+
+    const email =
+        document.getElementById(
+            "signInEmail"
+        ).value.trim();
+
+
+    const password =
+        document.getElementById(
+            "signInPassword"
+        ).value;
+
+
+    if (
+        !email ||
+        !password
+    ) {
+
+        authMessage.textContent =
+            "Enter an email and password.";
+
+        return;
+
+    }
+
+
+    authMessage.textContent =
+        "Signing in...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/auth/v1/token?grant_type=password",
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Content-Type":
+                            "application/json"
+
+                    },
+
+                    body:
+                        JSON.stringify({
+
+                            email:
+                                email,
+
+                            password:
+                                password
+
+                        })
+
+                }
+            );
+
+
+        const result =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                result.error_description ||
+                result.msg ||
+                result.message ||
+                "Sign in failed."
+            );
+
+        }
+
+
+        saveSession(
+            result
+        );
+
+
+        /*
+            Verify that this Auth user actually
+            has an Artist record before entering
+            the Artist Works area.
+        */
+
+
+        const artist =
+            await getCurrentArtist();
+
+
+        if (!artist) {
+
+            authMessage.textContent =
+                "This account does not have an Artist profile.";
+
+            return;
+
+        }
+
+
+        authMessage.textContent =
+            "";
+
+
+        await showDashboard();
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL artist sign in failed.",
+            error
+        );
+
+
+        authMessage.textContent =
+            error.message;
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    SAVE SESSION
+    ============================================================
+*/
+
+
+function saveSession(
+    session
+) {
+
+    accessToken =
+        session.access_token;
+
+
+    try {
+
+        localStorage.setItem(
+            AUTH_STORAGE_KEY,
+            JSON.stringify(
+                session
+            )
+        );
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL artist session could not be saved.",
+            error
+        );
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    LOAD SAVED SESSION
+    ============================================================
+*/
+
+
+function loadSavedSession() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                AUTH_STORAGE_KEY
+            );
+
+
+        if (!saved) {
+
+            return false;
+
+        }
+
+
+        const session =
+            JSON.parse(
+                saved
+            );
+
+
+        if (
+            !session ||
+            !session.access_token
+        ) {
+
+            return false;
+
+        }
+
+
+        accessToken =
+            session.access_token;
+
+
+        return true;
+
+
+    } catch (error) {
+
+        console.error(
+            "GR8SKUL artist session could not be loaded.",
+            error
+        );
+
+
+        return false;
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    GET CURRENT ARTIST
+    ============================================================
+*/
+
+
+async function getCurrentArtist() {
+
+    if (!accessToken) {
+
+        return null;
+
+    }
+
+
+    try {
+
+        const response =
+            await supabaseRequest(
+                "/rest/v1/gr8skul_artists?select=id,user_id,username,display_name,active&user_id=eq." +
+                encodeURIComponent(
+                    await getCurrentUserId()
+                ),
+                {
+                    method: "GET",
+
+                    headers: {
+
+                        "Accept":
+                            "application/json"
+
+                    }
+                }
+            );
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Artist lookup failed:",
+                await response.text()
+            );
+
+            return null;
+
+        }
+
+
+        const artists =
+            await response.json();
+
+
+        if (
+            !Array.isArray(artists) ||
+            !artists.length
+        ) {
+
+            return null;
+
+        }
+
+
+        const artist =
+            artists[0];
+
+
+        if (
+            artist.active === false
+        ) {
+
+            authMessage.textContent =
+                "This Artist account is currently inactive.";
+
+            return null;
+
+        }
+
+
+        return artist;
+
+
+    } catch (error) {
+
+        console.error(
+            "Failed to load current Artist:",
+            error
+        );
+
+
+        return null;
+
+    }
+
+}
+
+
+/*
+    ============================================================
+    GET AUTH USER ID
+    ============================================================
+*/
+
+
+async function getCurrentUserId() {
+
+    const response =
+        await supabaseRequest(
+            "/auth/v1/user",
+            {
+                method: "GET"
+            }
+        );
+
+
+    if (!response.ok) {
+
+        throw new Error(
+            "Unable to verify Artist account."
+        );
+
+    }
+
+
+    const user =
+        await response.json();
+
+
+    if (!user.id) {
+
+        throw new Error(
+            "Authenticated user ID was not returned."
+        );
+
+    }
+
+
+    return user.id;
+
+}
+
+
+/*
+    ============================================================
+    ARTIST WORKS
+    ============================================================
+*/
+
+
+async function showDashboard() {
+
+    window.location.href =
+        ARTIST_WORKS_PAGE;
+
+}
+
+
+/*
+    ============================================================
+    PASSWORD RECOVERY
+    ============================================================
+*/
+
+
+document.getElementById(
+    "forgotPasswordLink"
+).addEventListener(
+    "click",
+    function(event) {
+
+        event.preventDefault();
+
+        authMessage.textContent =
+            "Password recovery will be available soon.";
+
+    }
+);
+
+
+/*
+    ============================================================
+    BUTTONS
+    ============================================================
+*/
+
+
+document.getElementById(
+    "signInButton"
+).addEventListener(
+    "click",
+    signIn
+);
+
+
+document.getElementById(
+    "signUpButton"
+).addEventListener(
+    "click",
+    signUp
+);
+
+
+/*
+    ============================================================
+    ENTER KEY — SIGN IN
+    ============================================================
+*/
+
+
+document.getElementById(
+    "signInPassword"
+).addEventListener(
+    "keydown",
+    function(event) {
+
+        if (
+            event.key === "Enter"
+        ) {
+
+            signIn();
+
+        }
+
+    }
+);
+
+
+/*
+    ============================================================
+    START
+    ============================================================
+*/
+
+
+if (
+    loadSavedSession()
+) {
+
+    /*
+        Don't automatically redirect here yet.
+
+        The Artist lookup/backend relationship is
+        still being established.
+    */
+
+}
+
+</script>
+
+</body>
+
+</html>
