@@ -5938,14 +5938,16 @@ async function loadWorks() {
 
         }
 
+              const catalogData =
+            await catalogResponse.json();
+
         const metadataData =
-    await metadataResponse.json();
+            await metadataResponse.json();
 
-console.log(
-    "GR8SKUL ARTIST WORK PATHS:",
-    artistWorks
-);
-
+        console.log(
+            "GR8SKUL ARTIST WORK PATHS:",
+            artistWorks
+        );
 
 let loadedWorks;
 
