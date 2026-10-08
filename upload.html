@@ -275,6 +275,9 @@ h1 {
     color: #111111;
 }
 
+.delete-button { display: none; border-color: #a52a2a; color: #a52a2a; }
+.delete-button:hover { background: #a52a2a; color: #fff; }
+
 .form-status {
     min-height: 18px;
     margin-top: 12px;
@@ -1231,6 +1234,8 @@ class="taxonomy-trigger-arrow"
 
 <div class="form-actions">
 
+<button id="deleteButton" class="form-button delete-button" type="button">DELETE</button>
+
 <button
 id="cancelButton"
 class="form-button"
@@ -1971,6 +1976,8 @@ const uploadButton =
     document.getElementById(
         "uploadButton"
     );
+
+const deleteButton = document.getElementById("deleteButton");
 
 const formStatus =
     document.getElementById(
@@ -5561,6 +5568,8 @@ function editWork(
     uploadButton.textContent =
         "SAVE";
 
+    deleteButton.style.display = "block";
+
     formStatus.textContent =
         "";
 
@@ -6939,6 +6948,10 @@ function resetForm() {
     uploadButton.textContent =
         "UPLOAD";
 
+    deleteButton.style.display = "none";
+    deleteButton.disabled = false;
+    deleteButton.textContent = "DELETE";
+
     setFormStatus(
         ""
     );
@@ -7031,6 +7044,73 @@ cancelButton.addEventListener(
 
     }
 );
+
+
+/* =========================================================
+   DELETE WORK — requires server-side mode=delete support
+   ========================================================= */
+
+deleteButton.addEventListener("click", async function() {
+    if (editingIndex === null || deleteButton.disabled) return;
+
+    const work = works[editingIndex];
+    if (!work) {
+        setFormStatus("WORK COULD NOT BE IDENTIFIED");
+        return;
+    }
+
+    const existingFile = getWorkKey(work);
+    if (!existingFile) {
+        setFormStatus("WORK AUDIO PATH IS MISSING");
+        return;
+    }
+
+    const title = work.title || getFilenameTitle(existingFile);
+    if (!window.confirm(
+        `Permanently delete "${title}"?\n\nThis removes its audio, metadata, and work record. This cannot be undone.`
+    )) return;
+
+    deleteButton.disabled = true;
+    uploadButton.disabled = true;
+    cancelButton.disabled = true;
+    deleteButton.textContent = "DELETING...";
+    setFormStatus("DELETING WORK...");
+
+    try {
+        const accessToken = await getAccessToken();
+        const formData = new FormData();
+        formData.append("mode", "delete");
+        formData.append("existingFile", existingFile);
+
+        const response = await fetch(UPLOAD_WORK_FUNCTION, {
+            method: "POST",
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization": "Bearer " + accessToken
+            },
+            body: formData
+        });
+
+        const result = await response.json();
+        if (!response.ok || result.success !== true) {
+            throw new Error(result.error || result.message || `DELETE FAILED (${response.status})`);
+        }
+
+        setFormStatus("WORK DELETED");
+        await loadWorks();
+        addForm.classList.remove("visible");
+        resetForm();
+        addButton.insertAdjacentElement("afterend", addForm);
+    } catch (error) {
+        console.error("Could not delete work:", error);
+        setFormStatus(error.message || "WORK COULD NOT BE DELETED");
+    } finally {
+        deleteButton.disabled = false;
+        uploadButton.disabled = false;
+        cancelButton.disabled = false;
+        deleteButton.textContent = "DELETE";
+    }
+});
 
 
 /* =========================================================
