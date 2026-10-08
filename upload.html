@@ -671,6 +671,15 @@ h1 {
     color: #888888;
 }
 
+/* Artist username editor */
+.username-toggle { border: 0; padding: 0; background: none; cursor: pointer; text-align: left; text-decoration: underline; text-underline-offset: 3px; }
+.username-editor { display: none; margin: 0 0 22px; padding: 16px; border: 1px solid #d8d8d8; }
+.username-editor.visible { display: block; }
+.username-editor-actions { display: flex; gap: 10px; margin-top: 10px; }
+.username-editor-actions button { flex: 1; min-height: 36px; border: 1px solid #111; background: white; cursor: pointer; font-size: 10px; letter-spacing: 1px; }
+.username-editor-actions button:disabled { opacity: .5; cursor: default; }
+.username-status { font-size: 11px; color: #666; margin-top: 10px; }
+
 .sign-out-button {
     flex-shrink: 0;
     border: 1px solid #111111;
@@ -1277,10 +1286,7 @@ UPLOAD
 
 <div class="account-bar">
 
-<div
-    id="accountEmail"
-    class="account-email"
-></div>
+<button id="accountEmail" class="account-email username-toggle" type="button" title="Change username"></button>
 
 <button
 id="signOutButton"
@@ -1295,6 +1301,17 @@ SIGN OUT
 
 </button>
 
+</div>
+
+<div id="usernameEditor" class="username-editor">
+    <label class="form-label" for="newUsername">USERNAME</label>
+    <input id="newUsername" class="form-input" type="text" maxlength="30" autocomplete="off" spellcheck="false" />
+    <div class="form-help">3–30 letters, numbers, or underscores. Your Artist ID and sign-in email do not change.</div>
+    <div class="username-editor-actions">
+        <button id="cancelUsername" type="button">CANCEL</button>
+        <button id="saveUsername" type="button">SAVE USERNAME</button>
+    </div>
+    <div id="usernameStatus" class="username-status" role="status"></div>
 </div>
 
 <div class="section">
@@ -1441,6 +1458,54 @@ const accountEmail =
         "accountEmail"
     );
 
+const usernameEditor = document.getElementById("usernameEditor");
+const newUsername = document.getElementById("newUsername");
+const saveUsernameButton = document.getElementById("saveUsername");
+const usernameStatus = document.getElementById("usernameStatus");
+
+accountEmail.addEventListener("click", () => {
+    if (!currentArtist) return;
+    newUsername.value = currentArtist.username;
+    usernameStatus.textContent = "";
+    usernameEditor.classList.toggle("visible");
+    if (usernameEditor.classList.contains("visible")) newUsername.focus();
+});
+
+document.getElementById("cancelUsername").addEventListener("click", () => {
+    usernameEditor.classList.remove("visible");
+    usernameStatus.textContent = "";
+});
+
+saveUsernameButton.addEventListener("click", async () => {
+    if (!currentArtist) return;
+    const proposed = newUsername.value.trim();
+    if (!/^[A-Za-z0-9_]{3,30}$/.test(proposed)) {
+        usernameStatus.textContent = "USE 3–30 LETTERS, NUMBERS, OR UNDERSCORES.";
+        return;
+    }
+    if (proposed === currentArtist.username) {
+        usernameEditor.classList.remove("visible");
+        return;
+    }
+    saveUsernameButton.disabled = true;
+    usernameStatus.textContent = "SAVING...";
+    try {
+        const { data, error } = await supabaseClient.rpc("gr8skul_change_my_username", {
+            new_username: proposed
+        });
+        if (error) throw error;
+        currentArtist.username = data;
+        accountEmail.textContent = data;
+        usernameStatus.textContent = "USERNAME SAVED.";
+        // Other pages should read gr8skul_artists.username by permanent Artist ID.
+    } catch (error) {
+        console.error("Username update failed:", error);
+        usernameStatus.textContent = error.message || "USERNAME COULD NOT BE SAVED.";
+    } finally {
+        saveUsernameButton.disabled = false;
+    }
+});
+
 async function loadCurrentArtist() {
 
     const {
@@ -1581,6 +1646,7 @@ function showLogin() {
 
     accountEmail.textContent =
         "";
+    usernameEditor.classList.remove("visible");
 
 }
 
