@@ -555,6 +555,9 @@ h1 {
 #authScreen {
     display: none;
 }
+.auth-link-button { border: 0; background: transparent; width: 100%; cursor: pointer; padding: 0; }
+.password-recovery-area[hidden] { display: none !important; }
+.password-recovery-area { border-top: 1px solid #ddd; margin-top: 22px; padding-top: 24px; }
 
 .auth-box {
     width: 100%;
@@ -749,7 +752,7 @@ alt="GR8SKUL"
 
 <div class="auth-box">
 
-<div class="auth-title">
+<div class="auth-title" id="signInTitle">
     WORKS SIGN IN
 </div>
 
@@ -761,10 +764,7 @@ for="authEmail"
 
 >
 
-```
 EMAIL
-```
-
 </label>
 
 <input
@@ -785,10 +785,7 @@ for="authPassword"
 
 >
 
-```
 PASSWORD
-```
-
 </label>
 
 <input
@@ -808,11 +805,24 @@ type="button"
 
 >
 
-```
 SIGN IN
-```
-
 </button>
+
+<button id="forgotPasswordButton" class="auth-back auth-link-button" type="button">FORGOT PASSWORD?</button>
+
+<div id="passwordRecoveryArea" class="password-recovery-area" hidden>
+    <div class="auth-title">SET NEW PASSWORD</div>
+    <div class="auth-field">
+        <label class="auth-label" for="newAccountPassword">NEW PASSWORD</label>
+        <input id="newAccountPassword" class="auth-input" type="password" autocomplete="new-password" minlength="8">
+    </div>
+    <div class="auth-field">
+        <label class="auth-label" for="confirmAccountPassword">CONFIRM NEW PASSWORD</label>
+        <input id="confirmAccountPassword" class="auth-input" type="password" autocomplete="new-password" minlength="8">
+    </div>
+    <button id="setPasswordButton" class="auth-button" type="button">SAVE NEW PASSWORD</button>
+    <div id="recoveryMessage" class="auth-message" role="status"></div>
+</div>
 
 <div
     id="authMessage"
@@ -825,10 +835,7 @@ href="/"
 
 >
 
-```
 BACK TO GR8SKUL
-```
-
 </a>
 
 </div>
@@ -850,10 +857,7 @@ type="button"
 
 >
 
-```
 ADD
-```
-
 </button>
 
 <!-- =========================================================
@@ -880,10 +884,7 @@ for="artistInput"
 
 >
 
-```
 ARTIST(S)
-```
-
 </label>
 
 <input
@@ -909,10 +910,7 @@ for="titleInput"
 
 >
 
-```
 TITLE
-```
-
 </label>
 
 <input
@@ -934,10 +932,7 @@ for="mp3Input"
 
 >
 
-```
 MP3
-```
-
 </label>
 
 <input
@@ -969,10 +964,7 @@ for="genreTrigger"
 
 >
 
-```
 GENRE(S)
-```
-
 </label>
 
 <div
@@ -994,10 +986,7 @@ class="taxonomy-trigger-text"
 
 >
 
-```
 SELECT GENRE(S)
-```
-
 </span>
 
 <span
@@ -1005,10 +994,7 @@ class="taxonomy-trigger-arrow"
 
 >
 
-```
 ▼
-```
-
 </span>
 
 </button>
@@ -1039,10 +1025,7 @@ for="moodTrigger"
 
 >
 
-```
 MOOD(S)
-```
-
 </label>
 
 <div
@@ -1064,10 +1047,7 @@ class="taxonomy-trigger-text"
 
 >
 
-```
 SELECT MOOD(S)
-```
-
 </span>
 
 <span
@@ -1075,10 +1055,7 @@ class="taxonomy-trigger-arrow"
 
 >
 
-```
 ▼
-```
-
 </span>
 
 </button>
@@ -1109,10 +1086,7 @@ for="eraTrigger"
 
 >
 
-```
 ERA(S)
-```
-
 </label>
 
 <div
@@ -1134,10 +1108,7 @@ class="taxonomy-trigger-text"
 
 >
 
-```
 SELECT ERA(S)
-```
-
 </span>
 
 <span
@@ -1145,10 +1116,7 @@ class="taxonomy-trigger-arrow"
 
 >
 
-```
 ▼
-```
-
 </span>
 
 </button>
@@ -1179,10 +1147,7 @@ for="regionTrigger"
 
 >
 
-```
 REGION(S)
-```
-
 </label>
 
 <div
@@ -1204,10 +1169,7 @@ class="taxonomy-trigger-text"
 
 >
 
-```
 SELECT REGION(S)
-```
-
 </span>
 
 <span
@@ -1215,10 +1177,7 @@ class="taxonomy-trigger-arrow"
 
 >
 
-```
 ▼
-```
-
 </span>
 
 </button>
@@ -1252,10 +1211,7 @@ type="button"
 
 >
 
-```
 CANCEL
-```
-
 </button>
 
 <button
@@ -1265,10 +1221,7 @@ type="button"
 
 >
 
-```
 UPLOAD
-```
-
 </button>
 
 </div>
@@ -1295,10 +1248,7 @@ type="button"
 
 >
 
-```
 SIGN OUT
-```
-
 </button>
 
 </div>
@@ -1338,10 +1288,7 @@ href="/"
 
 >
 
-```
 BACK TO GR8SKUL
-```
-
 </a>
 
 </div>
@@ -1653,6 +1600,7 @@ function showLogin() {
 
 async function checkAuthentication() {
 
+    if (passwordRecoveryMode) return;
     const result =
         await supabaseClient.auth.getSession();
 
@@ -1782,6 +1730,93 @@ async function signOut() {
 
 
 /* =========================================================
+   PASSWORD RECOVERY — EXISTING ACCOUNTS ONLY
+   ========================================================= */
+const forgotPasswordButton = document.getElementById("forgotPasswordButton");
+const passwordRecoveryArea = document.getElementById("passwordRecoveryArea");
+const newAccountPassword = document.getElementById("newAccountPassword");
+const confirmAccountPassword = document.getElementById("confirmAccountPassword");
+const setPasswordButton = document.getElementById("setPasswordButton");
+const recoveryMessage = document.getElementById("recoveryMessage");
+let passwordRecoveryMode = false;
+
+function showPasswordRecovery() {
+    passwordRecoveryMode = true;
+    protectedContent.style.display = "none";
+    authScreen.style.display = "block";
+    passwordRecoveryArea.hidden = false;
+    document.getElementById("signInTitle").style.display = "none";
+    authEmail.closest(".auth-field").style.display = "none";
+    authPassword.closest(".auth-field").style.display = "none";
+    signInButton.style.display = "none";
+    forgotPasswordButton.style.display = "none";
+    authMessage.textContent = "";
+}
+
+function exitPasswordRecovery() {
+    passwordRecoveryMode = false;
+    passwordRecoveryArea.hidden = true;
+    document.getElementById("signInTitle").style.display = "";
+    authEmail.closest(".auth-field").style.display = "";
+    authPassword.closest(".auth-field").style.display = "";
+    signInButton.style.display = "";
+    forgotPasswordButton.style.display = "";
+}
+
+forgotPasswordButton.addEventListener("click", async () => {
+    const email = authEmail.value.trim();
+    if (!email) {
+        authMessage.textContent = "ENTER YOUR EMAIL ABOVE, THEN SELECT FORGOT PASSWORD.";
+        authEmail.focus();
+        return;
+    }
+    forgotPasswordButton.disabled = true;
+    authMessage.textContent = "SENDING PASSWORD RESET LINK...";
+    try {
+        const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+            redirectTo: "https://gr8skul.com/upload.html"
+        });
+        if (error) throw error;
+        authMessage.textContent = "IF THIS EMAIL HAS AN ACCOUNT, A RESET LINK WILL ARRIVE SHORTLY. CHECK SPAM TOO.";
+    } catch (error) {
+        authMessage.textContent = error.message || "PASSWORD RESET REQUEST FAILED.";
+    } finally {
+        forgotPasswordButton.disabled = false;
+    }
+});
+
+setPasswordButton.addEventListener("click", async () => {
+    const password = newAccountPassword.value;
+    if (password.length < 8) {
+        recoveryMessage.textContent = "USE AT LEAST 8 CHARACTERS.";
+        return;
+    }
+    if (password !== confirmAccountPassword.value) {
+        recoveryMessage.textContent = "PASSWORDS DO NOT MATCH.";
+        return;
+    }
+    setPasswordButton.disabled = true;
+    recoveryMessage.textContent = "UPDATING PASSWORD...";
+    try {
+        const { error } = await supabaseClient.auth.updateUser({ password });
+        if (error) throw error;
+        recoveryMessage.textContent = "PASSWORD UPDATED. YOU CAN NOW SIGN IN.";
+        newAccountPassword.value = "";
+        confirmAccountPassword.value = "";
+        // End recovery session so the user can deliberately sign in.
+        await supabaseClient.auth.signOut();
+        exitPasswordRecovery();
+        showLogin();
+        authMessage.textContent = "PASSWORD UPDATED. SIGN IN WITH YOUR NEW PASSWORD.";
+        history.replaceState(null, "", location.pathname);
+    } catch (error) {
+        recoveryMessage.textContent = error.message || "PASSWORD COULD NOT BE UPDATED.";
+    } finally {
+        setPasswordButton.disabled = false;
+    }
+});
+
+/* =========================================================
    AUTH EVENTS
    ========================================================= */
 
@@ -1816,6 +1851,11 @@ supabaseClient.auth.onAuthStateChange(
         session
     ) {
 
+        if (event === "PASSWORD_RECOVERY") {
+            showPasswordRecovery();
+            return;
+        }
+        if (passwordRecoveryMode) return;
         if (
             session
         ) {
@@ -7599,6 +7639,13 @@ uploadButton.addEventListener(
    INITIAL AUTH CHECK
    ========================================================= */
 
+// A recovery URL may contain a token in its hash or a PKCE code.
+// Do not open the Works dashboard while Supabase processes the recovery link.
+const recoveryUrl = new URL(window.location.href);
+const recoveryHash = new URLSearchParams(window.location.hash.slice(1));
+if (recoveryHash.get("type") === "recovery" || recoveryUrl.searchParams.get("type") === "recovery" || recoveryUrl.searchParams.has("code")) {
+    showPasswordRecovery();
+}
 checkAuthentication();
 
 </script>
