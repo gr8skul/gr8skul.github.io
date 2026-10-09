@@ -876,6 +876,12 @@ ADD
     ADD WORK
 </div>
 
+<div id="ownerAccountRow" class="form-row" style="display:none">
+<label class="form-label" for="ownerAccountSelect">OWNER ACCOUNT</label>
+<select id="ownerAccountSelect" class="form-input"></select>
+<div class="form-help">Permanent artist account that owns this recording. Required for new uploads.</div>
+</div>
+
 <div class="form-row">
 
 <label
@@ -1510,78 +1516,58 @@ async function loadCurrentArtist() {
    AUTHENTICATION
    ========================================================= */
 
-async function showAuthenticatedPage(
-    session
-) {
-
-    if (
-        !session ||
-        !session.user
-    ) {
-
-        showLogin();
-
-        return;
-
-    }
-
-
-    try {
-
-        /*
-         * The authenticated Supabase user
-         * determines the Artist account.
-         *
-         * The browser does NOT choose
-         * an artist_id.
-         */
-
-        await loadCurrentArtist();
-
-
-        authScreen.style.display =
-            "none";
-
-        protectedContent.style.display =
-            "block";
-
-
-        /*
-         * Display the Artist username
-         * instead of the email address.
-         */
-
-        accountEmail.textContent =
-            currentArtist.username;
-
-
-        await loadTaxonomy();
-
-        await loadWorks();
-
-
-    } catch (error) {
-
-        console.error(
-            "GR8SKUL Artist Works could not be opened:",
-            error
-        );
-
-
-        protectedContent.style.display =
-            "none";
-
-        authScreen.style.display =
-            "block";
-
-        authMessage.textContent =
-            error.message ||
-            "ARTIST PROFILE COULD NOT BE LOADED.";
-
-    }
-
+async function checkAdministrator() {
+    const { data, error } = await supabaseClient.rpc("is_gr8skul_admin");
+    if (error) throw new Error("ADMINISTRATOR PERMISSION COULD NOT BE VERIFIED: " + error.message);
+    return data === true;
 }
 
+async function loadArtistAccounts() {
+    const { data, error } = await supabaseClient.from("gr8skul_artists")
+        .select("id,username,display_name,active").order("username");
+    if (error) throw new Error("ARTIST ACCOUNT LIST COULD NOT BE LOADED: " + error.message);
+    artistAccounts = data || [];
+    ownerAccountSelect.replaceChildren();
+    const placeholder = document.createElement("option");
+    placeholder.value = "";
+    placeholder.textContent = "SELECT ARTIST ACCOUNT";
+    ownerAccountSelect.appendChild(placeholder);
+    for (const artist of artistAccounts) {
+        if (!artist.active) continue;
+        const option = document.createElement("option");
+        option.value = artist.id;
+        option.textContent = artist.display_name || artist.username;
+        ownerAccountSelect.appendChild(option);
+    }
+}
+
+async function showAuthenticatedPage(session) {
+    if (!session || !session.user) { showLogin(); return; }
+    try {
+        isGr8skulAdmin = await checkAdministrator();
+        currentArtist = null;
+        if (isGr8skulAdmin) {
+            await loadArtistAccounts();
+            ownerAccountRow.style.display = "block";
+            accountEmail.textContent = "ADMINISTRATOR";
+            accountEmail.title = "Administrator account";
+        } else {
+            await loadCurrentArtist();
+            ownerAccountRow.style.display = "none";
+            accountEmail.textContent = currentArtist.username;
+            accountEmail.title = "Change username";
+        }
+        authScreen.style.display = "none";
+        protectedContent.style.display = "block";
+        await loadTaxonomy();
+        await loadWorks();
+    } catch (error) {
+        console.error("GR8SKUL Works access failed:", error);
+        protectedContent.style.display = "none";
+        authScreen.style.display = "block";
+        authMessage.textContent = error.message || "ACCOUNT ACCESS COULD NOT BE VERIFIED.";
+    }
+}
 
 function showLogin() {
 
@@ -1593,6 +1579,10 @@ function showLogin() {
 
     accountEmail.textContent =
         "";
+    isGr8skulAdmin = false;
+    currentArtist = null;
+    artistAccounts = [];
+    ownerAccountRow.style.display = "none";
     usernameEditor.classList.remove("visible");
 
 }
@@ -1885,6 +1875,10 @@ let draggedRow = null;
 let editingIndex = null;
 
 let currentArtist = null;
+let isGr8skulAdmin = false;
+let artistAccounts = [];
+const ownerAccountRow = document.getElementById("ownerAccountRow");
+const ownerAccountSelect = document.getElementById("ownerAccountSelect");
 
 let taxonomy = {
 
@@ -5519,6 +5513,7 @@ function editWork(
 
     formHeading.textContent =
         "EDIT WORK";
+    ownerAccountRow.style.display = "none";
 
     artistInput.value =
         work.artists.join(
@@ -5961,13 +5956,11 @@ function normalizeWork(
    ========================================================= */
 async function loadArtistWorkPaths() {
 
-    if (!currentArtist) {
-
-        throw new Error(
-            "ARTIST PROFILE IS NOT LOADED."
-        );
-
+    if (isGr8skulAdmin) {
+        // Public catalog supplies all visible tracks; database ownership is still checked server-side.
+        return [];
     }
+    if (!currentArtist) throw new Error("ARTIST PROFILE IS NOT LOADED.");
 
     const {
         data,
@@ -6104,7 +6097,7 @@ let loadedWorks;
             );
 
 
-        loadedWorks =
+        if (!isGr8skulAdmin) loadedWorks =
             loadedWorks.filter(
                 function(work) {
 
@@ -6719,6 +6712,11 @@ function addPointerDragHandlers(
    ========================================================= */
 
 async function saveCurrentDomOrder() {
+    if (!isGr8skulAdmin) {
+        setOrderStatus("GLOBAL TRACK ORDER IS ADMINISTRATOR-ONLY");
+        renderWorks();
+        return;
+    }
 
     const rows =
         Array.from(
@@ -6982,6 +6980,8 @@ function resetForm() {
 
     editingIndex =
         null;
+    ownerAccountSelect.value = "";
+    ownerAccountRow.style.display = isGr8skulAdmin ? "block" : "none";
 
     formHeading.textContent =
         "ADD WORK";
@@ -7470,6 +7470,14 @@ uploadButton.addEventListener(
                 ? "edit"
                 : "add"
         );
+
+        if (isGr8skulAdmin && editingIndex === null) {
+            if (!ownerAccountSelect.value) {
+                setFormStatus("SELECT AN OWNER ACCOUNT FOR THIS WORK");
+                return;
+            }
+            formData.append("targetArtistId", ownerAccountSelect.value);
+        }
 
 
         if (
