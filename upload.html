@@ -3497,23 +3497,11 @@ function createRegionNode(
     }
 
 
-    // Use a single native change event and visibly mark selected rows.
-    // Never toggle the checkbox from the label or the expansion control.
+    // Native label association: exactly one checkbox toggle per click.
+    // Avoid synthetic checkbox.click() handlers on labels, which can
+    // interact with the browser's label activation behavior.
     checkbox.id = "region-choice-" + (++regionChoiceSequence);
-    label.removeAttribute("for");
-    label.setAttribute("role", "button");
-    label.tabIndex = 0;
-    label.addEventListener("click", function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        checkbox.click();
-    });
-    label.addEventListener("keydown", function(event) {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            checkbox.click();
-        }
-    });
+    label.htmlFor = checkbox.id;
 
     checkbox.addEventListener("change", function() {
         if (checkbox.checked) {
@@ -4115,7 +4103,12 @@ function getGenreMetadata() {
             genreTree
         );
 
-    const genres = selectedParents;
+    // Child-only selections still belong to their parent category.
+    // Store that parent in metadata and allow saving the work.
+    const genres = Array.from(new Set([
+        ...selectedParents,
+        ...selectedTypes.map(item => item.parent)
+    ]));
 
     const genreTypes =
         selectedTypes.map(
@@ -4163,7 +4156,12 @@ function getMoodMetadata() {
             moodTree
         );
 
-    const moods = selectedParents;
+    // Child-only selections still belong to their parent category.
+    // Store that parent in metadata and allow saving the work.
+    const moods = Array.from(new Set([
+        ...selectedParents,
+        ...selectedTypes.map(item => item.parent)
+    ]));
 
     const moodTypes =
         selectedTypes.map(
@@ -4350,7 +4348,12 @@ function getEraMetadata() {
             eraTree
         );
 
-    const eras = selectedParents;
+    // Child-only selections still belong to their parent category.
+    // Store that parent in metadata and allow saving the work.
+    const eras = Array.from(new Set([
+        ...selectedParents,
+        ...selectedTypes.map(item => item.parent)
+    ]));
 
     const eraTypes =
         selectedTypes.map(
