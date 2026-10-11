@@ -21,6 +21,28 @@
         "mood": "Joyful",
         "type": "Playful"
       }
+    ],
+    "eras": [
+      "1900"
+    ],
+    "eraTypes": [
+      {
+        "era": "1900",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      },
+      {
+        "path": [
+          "Americas",
+          "United States"
+        ]
+      }
     ]
   }
 }
