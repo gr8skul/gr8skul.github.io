@@ -5,6 +5,7 @@
       "R.B.C."
     ],
     "genres": [
+      "Instrumental",
       "Acoustic"
     ],
     "genreTypes": [
@@ -34,7 +35,8 @@
     "regions": [
       {
         "path": [
-          "Americas"
+          "Americas",
+          "United States"
         ]
       }
     ]
