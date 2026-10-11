@@ -478,6 +478,10 @@ h1 {
 /* =========================================================
    REGION TREE
    ========================================================= */
+.region-node-row.region-selected { background: #e9e9e9; }
+.region-node-row.region-selected > .region-label { font-weight: bold; color: #111; }
+.region-node-row.region-selected > .region-check { outline: 2px solid #111; outline-offset: 2px; }
+
 
 .region-node {
     border-bottom: 1px solid #eeeeee;
@@ -3486,40 +3490,27 @@ function createRegionNode(
     }
 
 
-    checkbox.addEventListener(
-        "click",
-        function(event) {
-
-            event.stopPropagation();
-
-        }
-    );
-
-
-    checkbox.addEventListener(
-        "change",
-        function() {
-
-            // Selecting a region excludes its ancestors and descendants.
-            if (checkbox.checked) {
-                node.querySelectorAll('.region-children .region-check').forEach(child => child.checked = false);
-                let ancestor = node.parentElement.closest('.region-node');
-                while (ancestor) {
-                    const ancestorCheck = ancestor.querySelector(':scope > .region-node-row .region-check');
-                    if (ancestorCheck) ancestorCheck.checked = false;
-                    ancestor = ancestor.parentElement.closest('.region-node');
-                }
-            }
-            updateRegionSummary();
-
-        }
-    );
-
-
-    // Associate the label with its own checkbox. The browser handles
-    // the click exactly once, including for nested parent regions.
+    // Use a single native change event and visibly mark selected rows.
+    // Never toggle the checkbox from the label or the expansion control.
     checkbox.id = "region-choice-" + (++regionChoiceSequence);
     label.htmlFor = checkbox.id;
+
+    checkbox.addEventListener("change", function() {
+        if (checkbox.checked) {
+            node.querySelectorAll(".region-children .region-check").forEach(function(child) {
+                child.checked = false;
+            });
+            let ancestor = node.parentElement && node.parentElement.closest(".region-node");
+            while (ancestor) {
+                const ancestorRow = ancestor.querySelector(":scope > .region-node-row");
+                const ancestorCheck = ancestorRow && ancestorRow.querySelector(".region-check");
+                if (ancestorCheck) ancestorCheck.checked = false;
+                ancestor = ancestor.parentElement && ancestor.parentElement.closest(".region-node");
+            }
+        }
+        refreshRegionSelectionVisuals();
+        updateRegionSummary();
+    });
 
 
     return node;
@@ -3887,7 +3878,15 @@ function updateTreeSummary(
    UPDATE REGION SUMMARY
    ========================================================= */
 
+function refreshRegionSelectionVisuals() {
+    regionTree.querySelectorAll(".region-node-row").forEach(function(row) {
+        const input = row.querySelector(":scope > .region-check");
+        row.classList.toggle("region-selected", Boolean(input && input.checked));
+    });
+}
+
 function updateRegionSummary() {
+    refreshRegionSelectionVisuals();
 
     const selected =
         getSelectedRegionPaths();
