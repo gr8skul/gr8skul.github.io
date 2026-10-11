@@ -3316,6 +3316,8 @@ function renderRegionPanel() {
    CREATE REGION NODE
    ========================================================= */
 
+let regionChoiceSequence = 0;
+
 function createRegionNode(
     regionData
 ) {
@@ -3514,23 +3516,10 @@ function createRegionNode(
     );
 
 
-    label.addEventListener(
-        "click",
-        function(event) {
-
-            event.preventDefault();
-
-            checkbox.checked =
-                !checkbox.checked;
-
-            checkbox.dispatchEvent(
-                new Event(
-                    "change"
-                )
-            );
-
-        }
-    );
+    // Associate the label with its own checkbox. The browser handles
+    // the click exactly once, including for nested parent regions.
+    checkbox.id = "region-choice-" + (++regionChoiceSequence);
+    label.htmlFor = checkbox.id;
 
 
     return node;
