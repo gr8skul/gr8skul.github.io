@@ -53,13 +53,23 @@ jobs:
               raise SystemExit('ABORT: protected recording metadata title does not match')
 
           mp3_paths = sorted(p for p in music_dir.iterdir() if p.is_file() and p.suffix.lower() == '.mp3')
+          mp3_keys = {p.as_posix() for p in mp3_paths}
           legacy = [p for p in mp3_paths if p.as_posix() != keep]
-          if len(mp3_paths) != 15 or len(legacy) != 14:
-              raise SystemExit(f'ABORT: expected 15 MP3s (14 legacy + protected), found {len(mp3_paths)}; no files changed')
-          if len(metadata) != 15 or set(metadata) != {p.as_posix() for p in mp3_paths}:
-              raise SystemExit('ABORT: metadata keys do not exactly match the 15 MP3 files; no files changed')
+          expected_metadata_count = 15
+          if len(mp3_paths) != 14 or len(legacy) != 13:
+              raise SystemExit(f'ABORT: expected 14 MP3s (13 legacy + protected), found {len(mp3_paths)}; no files changed')
+          if len(metadata) != expected_metadata_count:
+              raise SystemExit(f'ABORT: expected 15 metadata entries, found {len(metadata)}; no files changed')
+          if not all(isinstance(key, str) and key.startswith('music/') and key.lower().endswith('.mp3') for key in metadata):
+              raise SystemExit('ABORT: unexpected metadata key format; no files changed')
+          if not mp3_keys.issubset(set(metadata)):
+              raise SystemExit('ABORT: some existing MP3 files lack metadata; no files changed')
+          orphan_metadata = sorted(set(metadata) - mp3_keys)
+          if len(orphan_metadata) != 1:
+              raise SystemExit(f'ABORT: expected exactly one orphan metadata entry, found {len(orphan_metadata)}; no files changed')
 
           print('Protected:', keep)
+          print('Orphan metadata to remove:', orphan_metadata[0])
           print('Deleting legacy MP3s:')
           for path in legacy:
               print(' -', path)
