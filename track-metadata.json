@@ -1,3 +1,4 @@
+
 {
   "music/1c771bc2-bf58-48b1-b192-59352bd6a6c7.mp3": {
     "title": "Land Locked (Super 17)",
@@ -30,11 +31,15 @@
       {
         "era": "1900",
         "type": "LATE"
-       ]
       }
-    ]
-  }
-}
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas",
+          "United States"
+        ]
+      }
     ]
   }
 }
