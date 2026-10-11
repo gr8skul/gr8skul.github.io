@@ -5213,7 +5213,7 @@ function setRegionSelections(values) {
     });
 
     specific.forEach(function(regionData) {
-        let container = regionTree;
+        let container = regionPanel;
         regionData.path.forEach(function(name, depth) {
             const node = Array.from(container.children).find(function(child) {
                 return child.classList.contains('region-node') &&
