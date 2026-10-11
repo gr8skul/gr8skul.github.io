@@ -3005,6 +3005,13 @@ function renderTaxonomyPanel(
    RENDER ERA PANEL
    ========================================================= */
 
+
+/* Era names are displayed as decades; stored identifiers remain unchanged. */
+function displayEraName(value) {
+    const name = String(value == null ? "" : value).trim();
+    return /^\d{4}s?$/i.test(name) ? name.replace(/s$/i, "") + "s" : name;
+}
+
 function renderEraPanel() {
 
     if (
@@ -3078,7 +3085,7 @@ function renderEraPanel() {
                 "taxonomy-parent-label";
 
             label.textContent =
-                eraData.name.toUpperCase();
+                displayEraName(eraData.name).toUpperCase();
 
 
             const expandButton =
@@ -3493,7 +3500,20 @@ function createRegionNode(
     // Use a single native change event and visibly mark selected rows.
     // Never toggle the checkbox from the label or the expansion control.
     checkbox.id = "region-choice-" + (++regionChoiceSequence);
-    label.htmlFor = checkbox.id;
+    label.removeAttribute("for");
+    label.setAttribute("role", "button");
+    label.tabIndex = 0;
+    label.addEventListener("click", function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        checkbox.click();
+    });
+    label.addEventListener("keydown", function(event) {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            checkbox.click();
+        }
+    });
 
     checkbox.addEventListener("change", function() {
         if (checkbox.checked) {
@@ -3863,7 +3883,10 @@ function updateTreeSummary(
         );
 
 
-    const labels = [
+    const labels = isEra ? [
+        ...parents.map(displayEraName),
+        ...types.map(item => displayEraName(item.parent) + ' / ' + item.type)
+    ] : [
         ...parents,
         ...types.map(item => item.parent + ' / ' + item.type)
     ];
