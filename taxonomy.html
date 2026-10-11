@@ -757,7 +757,7 @@
     </div>
 
     <div class="section-description">
-        Add and arrange eras. Each era contains the fixed
+        Add and arrange decades (example: 1900s). Each era contains the fixed
         subdivisions EARLY, MID, and LATE.
     </div>
 
@@ -1669,7 +1669,7 @@ function normalizeTaxonomy(source) {
             .map(item => {
 
                 const name =
-                    cleanName(item.name);
+                    normalizeEraName(item.name);
 
                 /*
                  * Existing eras from the old taxonomy
@@ -2489,7 +2489,22 @@ document
 
 function isValidEra(value) {
 
-    return /^\d{4}$/.test(value);
+    return /^\d{4}s?$/i.test(cleanName(value));
+
+}
+
+// Keep the established four-digit metadata key (e.g. "1900")
+// while allowing the administrator to enter "1900s".
+function normalizeEraName(value) {
+
+    return cleanName(value).replace(/s$/i, "");
+
+}
+
+function displayEraName(value) {
+
+    const name = normalizeEraName(value);
+    return /^\d{4}$/.test(name) ? `${name}s` : name;
 
 }
 
@@ -2498,8 +2513,8 @@ function eraNameExists(name) {
 
     return taxonomy.eras.some(
         era =>
-            era.name.toLowerCase() ===
-            name.toLowerCase()
+            normalizeEraName(era.name).toLowerCase() ===
+            normalizeEraName(name).toLowerCase()
     );
 
 }
@@ -2539,13 +2554,13 @@ function renderEras() {
                 >☰</div>
 
                 <div class="era-name">
-                    ${escapeHTML(era.name)}
+                    ${escapeHTML(displayEraName(era.name))}
                 </div>
 
                 <button
                     class="remove-button"
                     type="button"
-                    title="Remove ${escapeHTML(era.name)}"
+                    title="Remove ${escapeHTML(displayEraName(era.name))}"
                 >−</button>
 
             `;
@@ -2559,7 +2574,7 @@ function renderEras() {
 
                         const confirmed =
                             confirm(
-                                `Remove the ${era.name} era?`
+                                `Remove the ${displayEraName(era.name)} era?`
                             );
 
                         if (!confirmed) {
@@ -2618,7 +2633,7 @@ function renderEras() {
                         type;
 
                     typeElement.title =
-                        `${era.name} — ${type}`;
+                        `${displayEraName(era.name)} — ${type}`;
 
                     typeList.appendChild(
                         typeElement
@@ -2793,7 +2808,7 @@ document
 
             const value =
                 prompt(
-                    "Enter a four-digit era (example: 1200):"
+                    "Enter an era (example: 1900s):"
                 );
 
             if (value === null) {
@@ -2806,7 +2821,7 @@ document
             if (!isValidEra(clean)) {
 
                 alert(
-                    "Era must be exactly four digits."
+                    "Enter four digits, optionally followed by s (example: 1900s)."
                 );
 
                 return;
@@ -2825,7 +2840,7 @@ document
 
             taxonomy.eras.push({
 
-                name: clean,
+                name: normalizeEraName(clean),
 
                 types: [
                     ...ERA_TYPES
