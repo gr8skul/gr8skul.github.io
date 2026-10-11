@@ -878,7 +878,8 @@ ADD
 
 <div id="ownerAccountRow" class="form-row" style="display:none">
 <label class="form-label" for="ownerAccountSelect">OWNER ACCOUNT</label>
-<select id="ownerAccountSelect" class="form-input"></select>
+<input id="ownerAccountSelect" class="form-input" list="ownerArtistSuggestions" type="text" autocomplete="off" placeholder="Type or select an artist name">
+<datalist id="ownerArtistSuggestions"></datalist>
 <div class="form-help">Permanent artist account that owns this recording. Required for new uploads.</div>
 </div>
 
@@ -1527,17 +1528,14 @@ async function loadArtistAccounts() {
         .select("id,username,display_name,active").order("username");
     if (error) throw new Error("ARTIST ACCOUNT LIST COULD NOT BE LOADED: " + error.message);
     artistAccounts = data || [];
-    ownerAccountSelect.replaceChildren();
-    const placeholder = document.createElement("option");
-    placeholder.value = "";
-    placeholder.textContent = "SELECT ARTIST ACCOUNT";
-    ownerAccountSelect.appendChild(placeholder);
+    const suggestions = document.getElementById('ownerArtistSuggestions');
+    suggestions.replaceChildren();
     for (const artist of artistAccounts) {
         if (!artist.active) continue;
-        const option = document.createElement("option");
-        option.value = artist.id;
-        option.textContent = artist.display_name || artist.username;
-        ownerAccountSelect.appendChild(option);
+        const option = document.createElement('option');
+        option.value = artist.display_name || artist.username;
+        option.label = artist.username;
+        suggestions.appendChild(option);
     }
 }
 
@@ -3468,15 +3466,6 @@ function createRegionNode(
 
                 event.stopPropagation();
 
-                if (
-                    !checkbox.checked
-                ) {
-
-                    checkbox.checked =
-                        true;
-
-                }
-
                 node.classList.toggle(
                     "expanded"
                 );
@@ -3509,35 +3498,16 @@ function createRegionNode(
         "change",
         function() {
 
-            if (
-                checkbox.checked
-            ) {
-
-                node.classList.add(
-                    "expanded"
-                );
-
-            } else {
-
-                node.classList.remove(
-                    "expanded"
-                );
-
-                node
-                    .querySelectorAll(
-                        ".region-check"
-                    )
-                    .forEach(
-                        function(childCheckbox) {
-
-                            childCheckbox.checked =
-                                false;
-
-                        }
-                    );
-
+            // Selecting a region excludes its ancestors and descendants.
+            if (checkbox.checked) {
+                node.querySelectorAll('.region-children .region-check').forEach(child => child.checked = false);
+                let ancestor = node.parentElement.closest('.region-node');
+                while (ancestor) {
+                    const ancestorCheck = ancestor.querySelector(':scope > .region-node-row .region-check');
+                    if (ancestorCheck) ancestorCheck.checked = false;
+                    ancestor = ancestor.parentElement.closest('.region-node');
+                }
             }
-
             updateRegionSummary();
 
         }
@@ -3696,26 +3666,8 @@ function setTreeSelectedParents(
                 );
 
             } else {
-
-                parent.classList.remove(
-                    "expanded"
-                );
-
-                parent
-                    .querySelectorAll(
-                        ".taxonomy-type-check"
-                    )
-                    .forEach(
-                        function(typeInput) {
-
-                            typeInput.checked =
-                                false;
-
-                        }
-                    );
-
+                parent.classList.remove("expanded");
             }
-
         }
     );
 
@@ -3830,8 +3782,13 @@ function setTreeSelectedTypes(
 
                 }
 
-                input.checked =
-                    matches;
+                input.checked = matches;
+                if (matches) {
+                    const branch = input.closest('.taxonomy-parent');
+                    branch.classList.add('expanded');
+                    const parentInput = branch.querySelector('.taxonomy-check');
+                    if (parentInput) parentInput.checked = false;
+                }
 
             }
         );
@@ -3926,66 +3883,13 @@ function updateTreeSummary(
         );
 
 
-    if (!parents.length) {
-
-        triggerText.textContent =
-            isGenre
-                ? "SELECT GENRE(S)"
-                : isMood
-                    ? "SELECT MOOD(S)"
-                    : "SELECT ERA(S)";
-
-        summary.textContent =
-            "";
-
-        return;
-
-    }
-
-
-    triggerText.textContent =
-        parents.join(
-            ", "
-        );
-
-
-    if (types.length) {
-
-        summary.textContent =
-            types.length +
-            " " +
-            (
-                isEra
-                    ? "ERA TYPE"
-                    : "SUBCATEGORY"
-            ) +
-            (
-                types.length === 1
-                    ? ""
-                    : "S"
-            ) +
-            " SELECTED";
-
-    } else {
-
-        summary.textContent =
-            parents.length +
-            " " +
-            (
-                isGenre
-                    ? "GENRE"
-                    : isMood
-                        ? "MOOD"
-                        : "ERA"
-            ) +
-            (
-                parents.length === 1
-                    ? ""
-                    : "S"
-            ) +
-            " SELECTED";
-
-    }
+    const labels = [
+        ...parents,
+        ...types.map(item => item.parent + ' / ' + item.type)
+    ];
+    const noun = isGenre ? 'GENRE' : isMood ? 'MOOD' : 'ERA';
+    triggerText.textContent = labels.length ? labels.join(', ') : 'SELECT ' + noun + '(S)';
+    summary.textContent = labels.length ? labels.length + ' CLASSIFICATION(S) SELECTED' : '';
 
 }
 
@@ -4200,12 +4104,7 @@ function getGenreMetadata() {
             genreTree
         );
 
-    const genres =
-        includeParentValues(
-            selectedParents,
-            selectedTypes,
-            genreTree
-        );
+    const genres = selectedParents;
 
     const genreTypes =
         selectedTypes.map(
@@ -4253,12 +4152,7 @@ function getMoodMetadata() {
             moodTree
         );
 
-    const moods =
-        includeParentValues(
-            selectedParents,
-            selectedTypes,
-            moodTree
-        );
+    const moods = selectedParents;
 
     const moodTypes =
         selectedTypes.map(
@@ -4445,12 +4339,7 @@ function getEraMetadata() {
             eraTree
         );
 
-    const eras =
-        includeParentValues(
-            selectedParents,
-            selectedTypes,
-            eraTree
-        );
+    const eras = selectedParents;
 
     const eraTypes =
         selectedTypes.map(
@@ -4685,35 +4574,10 @@ function setupTaxonomyTreeParents(
                 "change",
                 function() {
 
-                    if (
-                        parentCheckbox.checked
-                    ) {
-
-                        parent.classList.add(
-                            "expanded"
-                        );
-
-                    } else {
-
-                        parent.classList.remove(
-                            "expanded"
-                        );
-
-                        parent
-                            .querySelectorAll(
-                                ".taxonomy-type-check"
-                            )
-                            .forEach(
-                                function(typeInput) {
-
-                                    typeInput.checked =
-                                        false;
-
-                                }
-                            );
-
+                    // Parent and children are mutually exclusive within this branch.
+                    if (parentCheckbox.checked) {
+                        parent.querySelectorAll('.taxonomy-type-check').forEach(child => child.checked = false);
                     }
-
                     updateTreeSummary(
                         tree
                     );
@@ -4759,21 +4623,7 @@ function setupTaxonomyTreeParents(
 
                         event.stopPropagation();
 
-                        if (
-                            !parentCheckbox.checked
-                        ) {
-
-                            parentCheckbox.checked =
-                                true;
-
-                            parentCheckbox.dispatchEvent(
-                                new Event(
-                                    "change"
-                                )
-                            );
-
-                        }
-
+                        // Expanding a branch must never select its parent.
                         parent.classList.toggle(
                             "expanded"
                         );
@@ -4804,20 +4654,7 @@ function setupTaxonomyTreeParents(
                             "change",
                             function() {
 
-                                if (
-                                    typeInput.checked &&
-                                    !parentCheckbox.checked
-                                ) {
-
-                                    parentCheckbox.checked =
-                                        true;
-
-                                    parent.classList.add(
-                                        "expanded"
-                                    );
-
-                                }
-
+                                if (typeInput.checked) parentCheckbox.checked = false;
                                 updateTreeSummary(
                                     tree
                                 );
@@ -5458,16 +5295,9 @@ function setRegionSelections(
                             ":scope > .region-node-row .region-check"
                         );
 
-                    if (
-                        checkbox
-                    ) {
-
-                        checkbox.checked =
-                            true;
-
-                        currentNode.classList.add(
-                            "expanded"
-                        );
+                    if (checkbox) {
+                        checkbox.checked = pathName === path[path.length - 1];
+                        currentNode.classList.add("expanded");
 
                     }
 
@@ -5536,12 +5366,7 @@ function editWork(
             work.genreTypes
         );
 
-    const editGenres =
-        includeParentValues(
-            work.genres,
-            normalizedGenreTypes,
-            genreTree
-        );
+    const editGenres = normalizeArray(work.genres);
 
     setTreeSelectedParents(
         genreTree,
@@ -5563,12 +5388,7 @@ function editWork(
             work.moodTypes
         );
 
-    const editMoods =
-        includeParentValues(
-            work.moods,
-            normalizedMoodTypes,
-            moodTree
-        );
+    const editMoods = normalizeArray(work.moods);
 
     setTreeSelectedParents(
         moodTree,
@@ -5591,12 +5411,7 @@ function editWork(
             work.eraTypes
         );
 
-    const editEras =
-        includeParentValues(
-            work.eras,
-            normalizedEraTypes,
-            eraTree
-        );
+    const editEras = normalizeArray(work.eras);
 
     setTreeSelectedParents(
         eraTree,
@@ -7476,7 +7291,29 @@ uploadButton.addEventListener(
                 setFormStatus("SELECT AN OWNER ACCOUNT FOR THIS WORK");
                 return;
             }
-            formData.append("targetArtistId", ownerAccountSelect.value);
+            const artistName = ownerAccountSelect.value.trim();
+            const matches = artistAccounts.filter(a => a.active &&
+                [a.display_name, a.username].some(v => v && v.toLocaleLowerCase() === artistName.toLocaleLowerCase()));
+            if (matches.length > 1) {
+                setFormStatus('AMBIGUOUS ARTIST NAME. RENAME THE DUPLICATE DISPLAY NAMES FIRST.');
+                return;
+            }
+            let targetId = matches.length ? matches[0].id : null;
+            if (!targetId) {
+                setFormStatus('CREATING ARTIST ID...');
+                const token = await getAccessToken();
+                const response = await fetch(SUPABASE_URL + '/functions/v1/create-artist', {
+                    method: 'POST',
+                    headers: { Authorization: 'Bearer ' + token, apikey: SUPABASE_KEY, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ displayName: artistName })
+                });
+                const result = await response.json();
+                if (!response.ok || !result.artist?.id) throw new Error(result.error || 'ARTIST COULD NOT BE CREATED.');
+                targetId = result.artist.id;
+                await loadArtistAccounts();
+                ownerAccountSelect.value = artistName;
+            }
+            formData.append('targetArtistId', targetId);
         }
 
 
