@@ -3639,7 +3639,7 @@ function getSelectedEraYears() {
                     input.dataset.era,
 
                 year:
-                    input.dataset.year
+                    input.dataset.type
             };
 
         }
@@ -4392,6 +4392,7 @@ function trackMatchesEra(
 
     const trackYears =
         normalizeEraYears(
+            trackData.eraTypes ||
             trackData.eraYears ||
             trackData.years ||
             []
@@ -5324,11 +5325,15 @@ async function loadCatalog() {
                                 : [],
 
                         eraYears:
-                            meta &&
-                            Array.isArray(
-                                meta.eraYears
-                            )
-                                ? meta.eraYears
+                            meta && Array.isArray(meta.eraTypes)
+                                ? meta.eraTypes
+                                : meta && Array.isArray(meta.eraYears)
+                                    ? meta.eraYears
+                                    : [],
+
+                        eraTypes:
+                            meta && Array.isArray(meta.eraTypes)
+                                ? meta.eraTypes
                                 : [],
 
                         regions:
