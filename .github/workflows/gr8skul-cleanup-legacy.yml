@@ -1,0 +1,94 @@
+name: One-Time Legacy Music Cleanup
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Type DELETE LEGACY MUSIC to confirm permanent deletion of all MP3s except the protected track'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gr8skul-legacy-cleanup
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    if: ${{ inputs.confirm == 'DELETE LEGACY MUSIC' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Remove legacy files and rebuild catalog
+        shell: bash
+        run: |
+          python3 <<'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          keep = 'music/1c771bc2-bf58-48b1-b192-59352bd6a6c7.mp3'
+          keep_path = Path(keep)
+          music_dir = Path('music')
+          meta_path = Path('track-metadata.json')
+          order_path = Path('track-order.json')
+          catalog_path = Path('catalog.json')
+
+          if not keep_path.is_file():
+              raise SystemExit(f'ABORT: protected recording missing: {keep}')
+          if not meta_path.is_file():
+              raise SystemExit('ABORT: track-metadata.json missing')
+          with meta_path.open(encoding='utf-8') as f:
+              metadata = json.load(f)
+          if not isinstance(metadata, dict) or keep not in metadata:
+              raise SystemExit('ABORT: protected recording metadata missing or invalid')
+          if not isinstance(metadata[keep], dict) or metadata[keep].get('title') != 'Land Locked (Super 17)':
+              raise SystemExit('ABORT: protected recording metadata title does not match')
+
+          mp3_paths = sorted(p for p in music_dir.iterdir() if p.is_file() and p.suffix.lower() == '.mp3')
+          legacy = [p for p in mp3_paths if p.as_posix() != keep]
+          if len(mp3_paths) != 15 or len(legacy) != 14:
+              raise SystemExit(f'ABORT: expected 15 MP3s (14 legacy + protected), found {len(mp3_paths)}; no files changed')
+          if len(metadata) != 15 or set(metadata) != {p.as_posix() for p in mp3_paths}:
+              raise SystemExit('ABORT: metadata keys do not exactly match the 15 MP3 files; no files changed')
+
+          print('Protected:', keep)
+          print('Deleting legacy MP3s:')
+          for path in legacy:
+              print(' -', path)
+
+          for path in legacy:
+              path.unlink()
+
+          with meta_path.open('w', encoding='utf-8') as f:
+              json.dump({keep: metadata[keep]}, f, ensure_ascii=False, indent=2)
+              f.write('\n')
+          with order_path.open('w', encoding='utf-8') as f:
+              json.dump([keep], f, ensure_ascii=False, indent=2)
+              f.write('\n')
+
+          timestamp = subprocess.check_output(['git', 'log', '-1', '--format=%ct', '--', keep], text=True).strip()
+          with catalog_path.open('w', encoding='utf-8') as f:
+              json.dump([{'name': keep_path.name, 'path': keep, 'timestamp': int(timestamp) if timestamp else 0}], f, ensure_ascii=False, indent=2)
+              f.write('\n')
+          PY
+
+      - name: Commit cleanup to main
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A -- music/ track-metadata.json track-order.json catalog.json
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+            exit 0
+          fi
+          git commit -m 'Remove legacy MP3s and metadata, preserve registered work'
+          git push origin HEAD:main
