@@ -4366,43 +4366,26 @@ function getEraMetadata() {
 
 function getSelectedRegionPaths() {
 
-    return Array.from(
-        regionTree.querySelectorAll(
-            ".region-check:checked"
-        )
-    )
-        .map(
-            function(input) {
+    const selected = Array.from(
+        regionTree.querySelectorAll('.region-check:checked')
+    ).map(function(input) {
+        return { path: getRegionNodePath(input.closest('.region-node')) };
+    }).filter(function(item) {
+        return item.path.length > 0;
+    });
 
-                const node =
-                    input.closest(
-                        ".region-node"
-                    );
-
-                return {
-
-                    path:
-                        getRegionNodePath(
-                            node
-                        )
-
-                };
-
-            }
-        )
-        .filter(
-            function(item) {
-
-                return (
-                    item.path &&
-                    item.path.length
-                );
-
-            }
-        );
+    // A parent and a descendant must never be recorded as two
+    // independent classifications. Keep the most specific selection.
+    return selected.filter(function(candidate) {
+        return !selected.some(function(other) {
+            return other.path.length > candidate.path.length &&
+                candidate.path.every(function(part, index) {
+                    return other.path[index] === part;
+                });
+        });
+    });
 
 }
-
 
 function getRegionMetadata() {
 
@@ -5212,110 +5195,50 @@ function normalizeRegionsMetadata(
    RESTORE REGION SELECTIONS
    ========================================================= */
 
-function setRegionSelections(
-    values
-) {
+function setRegionSelections(values) {
 
-    const normalized =
-        normalizeRegionsMetadata(
-            values
-        );
-
+    const normalized = normalizeRegionsMetadata(values);
 
     clearRegionTree();
 
+    // Older records may contain both ["Americas"] and
+    // ["Americas", "United States"]. Restore only the deepest
+    // selection in each branch; do not re-check its ancestors.
+    const specific = normalized.filter(function(candidate) {
+        return !normalized.some(function(other) {
+            return other.path.length > candidate.path.length &&
+                candidate.path.every(function(part, index) {
+                    return other.path[index] === part;
+                });
+        });
+    });
 
-    normalized.forEach(
-        function(regionData) {
-
-            const path =
-                regionData.path;
-
-            if (
-                !path.length
-            ) {
-
-                return;
-
+    specific.forEach(function(regionData) {
+        let container = regionTree;
+        regionData.path.forEach(function(name, depth) {
+            const node = Array.from(container.children).find(function(child) {
+                return child.classList.contains('region-node') &&
+                    child.dataset.name === name;
+            });
+            if (!node) return;
+            node.classList.add('expanded');
+            const row = Array.from(node.children).find(function(child) {
+                return child.classList.contains('region-node-row');
+            });
+            const checkbox = row && row.querySelector('.region-check');
+            if (checkbox && depth === regionData.path.length - 1) {
+                checkbox.checked = true;
             }
-
-
-            let currentContainer =
-                regionTree;
-
-            let currentNode =
-                null;
-
-
-            path.forEach(
-                function(
-                    pathName
-                ) {
-
-                    const nodes =
-                        Array.from(
-                            currentContainer.querySelectorAll(
-                                ":scope > .region-node"
-                            )
-                        );
-
-                    currentNode =
-                        nodes.find(
-                            function(node) {
-
-                                return (
-                                    node.dataset.name ===
-                                    pathName
-                                );
-
-                            }
-                        );
-
-
-                    if (!currentNode) {
-
-                        return;
-
-                    }
-
-
-                    const checkbox =
-                        currentNode.querySelector(
-                            ":scope > .region-node-row .region-check"
-                        );
-
-                    if (checkbox) {
-                        checkbox.checked = pathName === path[path.length - 1];
-                        currentNode.classList.add("expanded");
-
-                    }
-
-
-                    const children =
-                        currentNode.querySelector(
-                            ":scope > .region-children"
-                        );
-
-                    if (
-                        children
-                    ) {
-
-                        currentContainer =
-                            children;
-
-                    }
-
-                }
-            );
-
-        }
-    );
-
+            const children = Array.from(node.children).find(function(child) {
+                return child.classList.contains('region-children');
+            });
+            if (children) container = children;
+        });
+    });
 
     updateRegionSummary();
 
 }
-
 
 /* =========================================================
    EDIT WORK
