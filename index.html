@@ -4062,583 +4062,139 @@ function closeOtherTaxonomyTree(
 
 
 /* ============================================================
-   STANDARD TAXONOMY TREE SETUP
+   TAXONOMY EXPANSION AND SELECTION RULES
+   Expanded branches remain expanded when the main menu closes.
    ============================================================ */
 
-function setupTaxonomyTree(
-    tree,
-    trigger
-) {
-
-    const parents =
-        getTreeParents(tree);
-
-
-    trigger.addEventListener(
-        "click",
-        function(event) {
-
-            event.preventDefault();
-
-            const currentlyOpen =
-                tree.classList.contains(
-                    "open"
-                );
-
-            closeOtherTaxonomyTree(
-                tree
-            );
-
-            tree.classList.toggle(
-                "open",
-                !currentlyOpen
-            );
-
-            trigger.setAttribute(
-                "aria-expanded",
-                String(!currentlyOpen)
-            );
-
-        }
-    );
-
-
-    parents.forEach(
-        function(parent) {
-
-            const parentCheckbox =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-check"
-                );
-
-            const parentLabel =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-parent-label"
-                );
-
-            const expandButton =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-expand"
-                );
-
-
-            parentCheckbox.addEventListener(
-                "click",
-                function(event) {
-                    event.stopPropagation();
-                }
-            );
-
-
-            parentCheckbox.addEventListener(
-                "change",
-                function() {
-
-                    const selectedType =
-                        parent.querySelector(
-                            ".taxonomy-type-check:checked"
-                        );
-
-                    if (
-                        parentCheckbox.checked ||
-                        selectedType
-                    ) {
-
-                        parent.classList.add(
-                            "expanded"
-                        );
-
-                    } else {
-
-                        parent.classList.remove(
-                            "expanded"
-                        );
-
-                    }
-
-                    updateTreeSummary(
-                        tree
-                    );
-
-                    applyFilters();
-
-                }
-            );
-
-
-            parentLabel.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    parentCheckbox.checked =
-                        !parentCheckbox.checked;
-
-                    parentCheckbox.dispatchEvent(
-                        new Event("change")
-                    );
-
-                }
-            );
-
-
-            expandButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-                    const selectedType =
-                        parent.querySelector(
-                            ".taxonomy-type-check:checked"
-                        );
-
-                    if (selectedType) {
-
-                        parent.classList.add(
-                            "expanded"
-                        );
-
-                        return;
-
-                    }
-
-                    parent.classList.toggle(
-                        "expanded"
-                    );
-
-                }
-            );
-
-
-            parent
-                .querySelectorAll(
-                    ".taxonomy-type-check"
-                )
-                .forEach(
-                    function(typeInput) {
-
-                        typeInput.addEventListener(
-                            "click",
-                            function(event) {
-                                event.stopPropagation();
-                            }
-                        );
-
-
-                        typeInput.addEventListener(
-                            "change",
-                            function() {
-
-                                if (
-                                    typeInput.checked
-                                ) {
-
-                                    parent.classList.add(
-                                        "expanded"
-                                    );
-
-                                } else {
-
-                                    const anotherSelectedType =
-                                        parent.querySelector(
-                                            ".taxonomy-type-check:checked"
-                                        );
-
-                                    if (
-                                        !anotherSelectedType &&
-                                        !parentCheckbox.checked
-                                    ) {
-
-                                        parent.classList.remove(
-                                            "expanded"
-                                        );
-
-                                    }
-
-                                }
-
-                                updateTreeSummary(
-                                    tree
-                                );
-
-                                applyFilters();
-
-                            }
-                        );
-
-                    }
-                );
-
-        }
-    );
-
+function setBranchExpanded(node, expanded) {
+    node.classList.toggle("expanded", expanded);
+    const button = node.querySelector(":scope > .taxonomy-parent-row .taxonomy-expand, :scope > .region-node-row .region-expand");
+    if (button) button.setAttribute("aria-expanded", String(expanded));
 }
 
+function setupMainTaxonomyTrigger(tree, trigger) {
+    trigger.addEventListener("click", function(event) {
+        event.preventDefault();
+        const opening = !tree.classList.contains("open");
+        closeOtherTaxonomyTree(tree);
+        tree.classList.toggle("open", opening);
+        trigger.setAttribute("aria-expanded", String(opening));
+    });
+}
 
-/* ============================================================
-   ERA TREE SETUP
-   ============================================================ */
+function setupStandardTaxonomyTree(tree, trigger, childSelector, updateSummary) {
+    setupMainTaxonomyTrigger(tree, trigger);
+    getTreeParents(tree).forEach(function(parent) {
+        const parentCheckbox = parent.querySelector(":scope > .taxonomy-parent-row .taxonomy-check");
+        const parentLabel = parent.querySelector(":scope > .taxonomy-parent-row .taxonomy-parent-label");
+        const expandButton = parent.querySelector(":scope > .taxonomy-parent-row .taxonomy-expand");
+        const childCheckboxes = Array.from(parent.querySelectorAll(childSelector));
+        const selectedChild = () => childCheckboxes.some(input => input.checked);
+
+        parentCheckbox.addEventListener("click", event => event.stopPropagation());
+        parentCheckbox.addEventListener("change", function() {
+            if (parentCheckbox.checked) {
+                childCheckboxes.forEach(input => { input.checked = false; });
+                setBranchExpanded(parent, false);
+            } else if (selectedChild()) {
+                setBranchExpanded(parent, true);
+            }
+            updateSummary();
+            applyFilters();
+        });
+        parentLabel.addEventListener("click", function(event) {
+            event.preventDefault();
+            parentCheckbox.checked = !parentCheckbox.checked;
+            parentCheckbox.dispatchEvent(new Event("change"));
+        });
+        expandButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            // Keep selected children visible whenever the main menu is reopened.
+            if (selectedChild()) {
+                setBranchExpanded(parent, true);
+            } else {
+                setBranchExpanded(parent, !parent.classList.contains("expanded"));
+            }
+        });
+        childCheckboxes.forEach(function(input) {
+            input.addEventListener("click", event => event.stopPropagation());
+            input.addEventListener("change", function() {
+                if (input.checked) {
+                    parentCheckbox.checked = false;
+                    setBranchExpanded(parent, true);
+                }
+                // Do not collapse on deselection; only a deliberate arrow or parent selection does that.
+                updateSummary();
+                applyFilters();
+            });
+        });
+    });
+}
+
+function setupTaxonomyTree(tree, trigger) {
+    setupStandardTaxonomyTree(tree, trigger, ".taxonomy-type-check", function() {
+        updateTreeSummary(tree);
+    });
+}
 
 function setupEraTree() {
-
-    eraTrigger.addEventListener(
-        "click",
-        function(event) {
-
-            event.preventDefault();
-
-            const currentlyOpen =
-                eraTree.classList.contains(
-                    "open"
-                );
-
-            closeOtherTaxonomyTree(
-                eraTree
-            );
-
-            eraTree.classList.toggle(
-                "open",
-                !currentlyOpen
-            );
-
-            eraTrigger.setAttribute(
-                "aria-expanded",
-                String(!currentlyOpen)
-            );
-
-        }
-    );
-
-
-    const parents =
-        getTreeParents(
-            eraTree
-        );
-
-
-    parents.forEach(
-        function(parent) {
-
-            const parentCheckbox =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-check"
-                );
-
-            const parentLabel =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-parent-label"
-                );
-
-            const expandButton =
-                parent.querySelector(
-                    ":scope > .taxonomy-parent-row .taxonomy-expand"
-                );
-
-
-            parentCheckbox.addEventListener(
-                "click",
-                function(event) {
-                    event.stopPropagation();
-                }
-            );
-
-
-            parentCheckbox.addEventListener(
-                "change",
-                function() {
-
-                    const selectedYear =
-                        parent.querySelector(
-                            ".era-year-check:checked"
-                        );
-
-                    if (
-                        parentCheckbox.checked ||
-                        selectedYear
-                    ) {
-
-                        parent.classList.add(
-                            "expanded"
-                        );
-
-                    } else {
-
-                        parent.classList.remove(
-                            "expanded"
-                        );
-
-                    }
-
-                    updateEraSummary();
-
-                    applyFilters();
-
-                }
-            );
-
-
-            parentLabel.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    parentCheckbox.checked =
-                        !parentCheckbox.checked;
-
-                    parentCheckbox.dispatchEvent(
-                        new Event("change")
-                    );
-
-                }
-            );
-
-
-            expandButton.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-                    const selectedYear =
-                        parent.querySelector(
-                            ".era-year-check:checked"
-                        );
-
-                    if (selectedYear) {
-
-                        parent.classList.add(
-                            "expanded"
-                        );
-
-                        return;
-
-                    }
-
-                    parent.classList.toggle(
-                        "expanded"
-                    );
-
-                }
-            );
-
-
-            parent
-                .querySelectorAll(
-                    ".era-year-check"
-                )
-                .forEach(
-                    function(yearInput) {
-
-                        yearInput.addEventListener(
-                            "click",
-                            function(event) {
-                                event.stopPropagation();
-                            }
-                        );
-
-
-                        yearInput.addEventListener(
-                            "change",
-                            function() {
-
-                                if (
-                                    yearInput.checked
-                                ) {
-
-                                    parent.classList.add(
-                                        "expanded"
-                                    );
-
-                                } else {
-
-                                    const anotherSelectedYear =
-                                        parent.querySelector(
-                                            ".era-year-check:checked"
-                                        );
-
-                                    if (
-                                        !anotherSelectedYear &&
-                                        !parentCheckbox.checked
-                                    ) {
-
-                                        parent.classList.remove(
-                                            "expanded"
-                                        );
-
-                                    }
-
-                                }
-
-                                updateEraSummary();
-
-                                applyFilters();
-
-                            }
-                        );
-
-                    }
-                );
-
-        }
-    );
-
+    setupStandardTaxonomyTree(eraTree, eraTrigger, ".era-year-check", updateEraSummary);
 }
-
-
-/* ============================================================
-   REGION TREE SETUP
-   ============================================================ */
 
 function setupRegionTree() {
+    setupMainTaxonomyTrigger(regionTree, regionTrigger);
+    regionTree.querySelectorAll(".region-node").forEach(function(node) {
+        const row = node.querySelector(":scope > .region-node-row");
+        const checkbox = row.querySelector(".taxonomy-check");
+        const label = row.querySelector(".region-node-label");
+        const expandButton = row.querySelector(".region-expand");
+        const children = node.querySelector(":scope > .region-children");
+        const hasSelectedDescendant = () => Boolean(children && children.querySelector(".taxonomy-check:checked"));
 
-    regionTrigger.addEventListener(
-        "click",
-        function(event) {
-
-            event.preventDefault();
-
-            const currentlyOpen =
-                regionTree.classList.contains(
-                    "open"
-                );
-
-            closeOtherTaxonomyTree(
-                regionTree
-            );
-
-            regionTree.classList.toggle(
-                "open",
-                !currentlyOpen
-            );
-
-            regionTrigger.setAttribute(
-                "aria-expanded",
-                String(!currentlyOpen)
-            );
-
-        }
-    );
-
-
-    const nodes =
-        regionTree.querySelectorAll(
-            ".region-node"
-        );
-
-
-    nodes.forEach(
-        function(node) {
-
-            const row =
-                node.querySelector(
-                    ":scope > .region-node-row"
-                );
-
-            const checkbox =
-                row.querySelector(
-                    ".taxonomy-check"
-                );
-
-            const label =
-                row.querySelector(
-                    ".region-node-label"
-                );
-
-            const expandButton =
-                row.querySelector(
-                    ".region-expand"
-                );
-
-            const children =
-                node.querySelector(
-                    ":scope > .region-children"
-                );
-
-
-            checkbox.addEventListener(
-                "click",
-                function(event) {
-                    event.stopPropagation();
+        checkbox.addEventListener("click", event => event.stopPropagation());
+        checkbox.addEventListener("change", function() {
+            if (checkbox.checked) {
+                // Selecting a parent replaces selections anywhere beneath it.
+                if (children) {
+                    children.querySelectorAll(".taxonomy-check:checked").forEach(function(input) {
+                        input.checked = false;
+                        input.closest(".region-node").classList.remove("selected");
+                    });
                 }
-            );
-
-
-            checkbox.addEventListener(
-                "change",
-                function() {
-
-                    node.classList.toggle(
-                        "selected",
-                        checkbox.checked
-                    );
-
-                    if (
-                        checkbox.checked &&
-                        children
-                    ) {
-
-                        node.classList.add(
-                            "expanded"
-                        );
-
-                    }
-
-                    updateRegionSummary();
-
-                    applyFilters();
-
+                setBranchExpanded(node, false);
+                // Selecting a descendant replaces its ancestor selections.
+                let ancestor = node.parentElement.closest(".region-node");
+                while (ancestor) {
+                    const ancestorCheck = ancestor.querySelector(":scope > .region-node-row .taxonomy-check");
+                    ancestorCheck.checked = false;
+                    ancestor.classList.remove("selected");
+                    setBranchExpanded(ancestor, true);
+                    ancestor = ancestor.parentElement.closest(".region-node");
                 }
-            );
-
-
-            label.addEventListener(
-                "click",
-                function(event) {
-
-                    event.preventDefault();
-
-                    checkbox.checked =
-                        !checkbox.checked;
-
-                    checkbox.dispatchEvent(
-                        new Event("change")
-                    );
-
-                }
-            );
-
-
-            if (children) {
-
-                expandButton.addEventListener(
-                    "click",
-                    function(event) {
-
-                        event.preventDefault();
-
-                        event.stopPropagation();
-
-                        node.classList.toggle(
-                            "expanded"
-                        );
-
-                    }
-                );
-
             }
-
+            node.classList.toggle("selected", checkbox.checked);
+            updateRegionSummary();
+            applyFilters();
+        });
+        label.addEventListener("click", function(event) {
+            event.preventDefault();
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event("change"));
+        });
+        if (children && expandButton) {
+            expandButton.addEventListener("click", function(event) {
+                event.preventDefault();
+                event.stopPropagation();
+                if (hasSelectedDescendant()) {
+                    setBranchExpanded(node, true);
+                } else {
+                    setBranchExpanded(node, !node.classList.contains("expanded"));
+                }
+            });
         }
-    );
-
+    });
 }
-
 
 /* ============================================================
    CLOSE DROPDOWNS WHEN CLICKING OUTSIDE
