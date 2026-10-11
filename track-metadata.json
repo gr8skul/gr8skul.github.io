@@ -1,1 +1,49 @@
-{}
+{
+  "music/d4c848c3-8af8-4dd1-b2b8-cc071a42b425.mp3": {
+    "title": "aRnt we rich (original)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Pop",
+      "Rock",
+      "Alternative"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Alternative",
+        "type": "Alternative Pop"
+      }
+    ],
+    "moods": [
+      "Melancholic",
+      "Romantic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Melancholic",
+        "type": "Nostalgic"
+      },
+      {
+        "mood": "Romantic",
+        "type": "Intimate"
+      }
+    ],
+    "eras": [
+      "1900"
+    ],
+    "eraTypes": [
+      {
+        "era": "1900",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
+  }
+}
