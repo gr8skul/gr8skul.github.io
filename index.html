@@ -3011,6 +3011,13 @@ function createTaxonomyParent(
    ============================================================ */
 
 
+
+/* Era names are displayed as decades; stored identifiers remain unchanged. */
+function displayEraName(value) {
+    const name = String(value == null ? "" : value).trim();
+    return /^\d{4}s?$/i.test(name) ? name.replace(/s$/i, "") + "s" : name;
+}
+
 function createEraParent(
     era
 ) {
@@ -3052,7 +3059,7 @@ function createEraParent(
         "taxonomy-parent-label";
 
     parentLabel.textContent =
-        era.name;
+        displayEraName(era.name);
 
 
     const expandButton =
@@ -3921,12 +3928,12 @@ function updateEraSummary() {
 
         eraTriggerText.textContent =
             "ERA(S): " +
-            eras.join(", ");
+            eras.map(displayEraName).join(", ");
 
     } else {
 
         eraTriggerText.textContent =
-            "ERA YEARS";
+            "ERA(S): " + years.map(item => displayEraName(item.era) + " / " + item.year).join(", ");
 
     }
 
