@@ -217,5 +217,40 @@
         ]
       }
     ]
+  },
+  "music/79e7a79e-648a-45e0-9661-4e04de54a58c.mp3": {
+    "title": "Eye Dragon (LIVE)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Rock"
+    ],
+    "genreTypes": [],
+    "moods": [
+      "Energetic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Energetic",
+        "type": "Aggressive"
+      }
+    ],
+    "eras": [
+      "1980"
+    ],
+    "eraTypes": [
+      {
+        "era": "1980",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
