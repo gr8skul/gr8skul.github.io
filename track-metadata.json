@@ -137,5 +137,50 @@
         ]
       }
     ]
+  },
+  "music/0063a79a-fce3-4761-bd03-9b1af4fc9484.mp3": {
+    "title": "Arnt We Rich (Instrumental)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Alternative"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Alternative",
+        "type": "Alternative Pop"
+      }
+    ],
+    "moods": [
+      "Melancholic",
+      "Romantic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Melancholic",
+        "type": "Nostalgic"
+      },
+      {
+        "mood": "Romantic",
+        "type": "Passionate"
+      }
+    ],
+    "eras": [
+      "1900"
+    ],
+    "eraTypes": [
+      {
+        "era": "1900",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
