@@ -95,5 +95,47 @@
         ]
       }
     ]
+  },
+  "music/116ea63e-a21c-4eb9-9f17-4fa8d0812eed.mp3": {
+    "title": "Land Locked (lectromatic)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Electronic",
+      "Pop",
+      "Other",
+      "Instrumental"
+    ],
+    "genreTypes": [],
+    "moods": [
+      "Joyful"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Joyful",
+        "type": "Happy"
+      },
+      {
+        "mood": "Joyful",
+        "type": "Playful"
+      }
+    ],
+    "eras": [
+      "1900"
+    ],
+    "eraTypes": [
+      {
+        "era": "1900",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
