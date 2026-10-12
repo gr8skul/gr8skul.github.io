@@ -182,5 +182,40 @@
         ]
       }
     ]
+  },
+  "music/3ea39294-77ff-47a2-a98d-f4eda1d8ec90.mp3": {
+    "title": "88' Summer (original)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Rock"
+    ],
+    "genreTypes": [],
+    "moods": [
+      "Melancholic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Melancholic",
+        "type": "Nostalgic"
+      }
+    ],
+    "eras": [
+      "1900"
+    ],
+    "eraTypes": [
+      {
+        "era": "1900",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
