@@ -338,5 +338,35 @@
         ]
       }
     ]
+  },
+  "music/21d2e73a-49dc-4565-b3da-fc7d0d93d196.mp3": {
+    "title": "Pushin 2 the Flo",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Hip-Hop"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Hip-Hop",
+        "type": "Contemporary"
+      }
+    ],
+    "moods": [
+      "Energetic"
+    ],
+    "moodTypes": [],
+    "eras": [
+      "1980"
+    ],
+    "eraTypes": [],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
