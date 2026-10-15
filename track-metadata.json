@@ -409,5 +409,47 @@
         ]
       }
     ]
+  },
+  "music/ae5ef51a-8861-453f-a210-401a626b4151.mp3": {
+    "title": "The Won (string and synthstrumental)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Rock",
+      "Instrumental",
+      "Classical"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Classical",
+        "type": "Modern"
+      }
+    ],
+    "moods": [
+      "Energetic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Energetic",
+        "type": "Driving"
+      }
+    ],
+    "eras": [
+      "1900"
+    ],
+    "eraTypes": [
+      {
+        "era": "1900",
+        "type": "MID"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
