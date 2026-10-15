@@ -368,5 +368,46 @@
         ]
       }
     ]
+  },
+  "music/a5a0bfc2-12e6-428e-b385-51be594def72.mp3": {
+    "title": "Piano Peace",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Instrumental",
+      "Classical"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Classical",
+        "type": "Modern"
+      }
+    ],
+    "moods": [
+      "Dark"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Dark",
+        "type": "Mysterious"
+      }
+    ],
+    "eras": [
+      "1800"
+    ],
+    "eraTypes": [
+      {
+        "era": "1800",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
