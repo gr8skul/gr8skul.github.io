@@ -297,5 +297,46 @@
         ]
       }
     ]
+  },
+  "music/4183aad0-0739-4f09-a0ae-79127665452a.mp3": {
+    "title": "Victory Machine",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Other"
+    ],
+    "genreTypes": [],
+    "moods": [
+      "Energetic",
+      "Joyful",
+      "Melancholic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Joyful",
+        "type": "Happy"
+      },
+      {
+        "mood": "Melancholic",
+        "type": "Nostalgic"
+      }
+    ],
+    "eras": [
+      "1900"
+    ],
+    "eraTypes": [
+      {
+        "era": "1900",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
