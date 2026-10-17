@@ -451,5 +451,45 @@
         ]
       }
     ]
+  },
+  "music/661cd1be-8c74-43da-97c3-bfef8a21583d.mp3": {
+    "title": "32 Years",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Electronic",
+      "Pop"
+    ],
+    "genreTypes": [],
+    "moods": [
+      "Dark"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Dark",
+        "type": "Ominous"
+      },
+      {
+        "mood": "Dark",
+        "type": "Haunting"
+      }
+    ],
+    "eras": [
+      "1980"
+    ],
+    "eraTypes": [
+      {
+        "era": "1980",
+        "type": "MID"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
