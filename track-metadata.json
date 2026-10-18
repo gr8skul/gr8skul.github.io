@@ -531,5 +531,50 @@
         ]
       }
     ]
+  },
+  "music/857863f5-c162-4044-beb8-e9e80011eded.mp3": {
+    "title": "Patience",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Alternative",
+      "Rock"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Alternative",
+        "type": "Alternative Rock"
+      },
+      {
+        "genre": "Rock",
+        "type": "Progressive"
+      }
+    ],
+    "moods": [
+      "Romantic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Romantic",
+        "type": "Passionate"
+      }
+    ],
+    "eras": [
+      "1980"
+    ],
+    "eraTypes": [
+      {
+        "era": "1980",
+        "type": "LATE"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
