@@ -17,7 +17,7 @@ p{color:#a9a9ae;line-height:1.5}
 .head{margin-bottom:35px}
 .field{margin:22px 0}
 label{display:block;margin-bottom:9px;font-size:.9rem;color:#c9c9cd}
-input[type=text],input[type=email],input[type=password],textarea,input[type=file]{width:100%;border:1px solid #3a3b40;border-radius:10px;background:#1c1d21;color:white;padding:14px;font:inherit}
+input[type=text],input[type=email],input[type=password],textarea,input[type=file],select{width:100%;border:1px solid #3a3b40;border-radius:10px;background:#1c1d21;color:white;padding:14px;font:inherit}
 textarea{min-height:100px;resize:vertical}
 input[type=file]{font-size:.85rem}
 button{border:0;border-radius:10px;padding:15px 18px;font:inherit;font-weight:650;cursor:pointer;background:#f2f2f2;color:#151515;width:100%}
@@ -81,8 +81,16 @@ footer{margin-top:48px;text-align:center;font-size:.75rem;color:#68696d}
 <label for="description">Description (optional)</label>
 <textarea id="description" maxlength="5000" placeholder=""></textarea>
 </div>
-<button id="publish" type="submit">Publish privately to YouTube</button>
-<p class="notice">Testing mode: uploads are private on YouTube. Keep this page open until confirmation.</p>
+<div class="field">
+<label for="visibility">Visibility</label>
+<select id="visibility" required>
+<option value="public" selected>Public — Anyone can watch</option>
+<option value="unlisted">Unlisted — Anyone with the link</option>
+<option value="private">Private — Restricted access</option>
+</select>
+</div>
+<button id="publish" type="submit">Publish to YouTube</button>
+<p class="notice">YouTube may restrict API uploads to Private until Google verification is completed. Keep this page open until confirmation.</p>
 </form>
 </section>
 
@@ -262,7 +270,7 @@ async function transfer(videoId){
 
       $('progress').value=100;
       say(
-        'Video published PRIVATELY on YouTube.\n'+
+        'Video uploaded to YouTube. Check actual visibility in YouTube Studio.\n'+
         'https://www.youtube.com/watch?v='+result.youtube_video_id,
         'success'
       );
@@ -311,6 +319,12 @@ $('form').addEventListener('submit',async e=>{
   const file=$('file').files?.[0];
   const title=$('title').value.trim();
   const description=$('description').value.trim();
+  const visibility=$('visibility').value;
+
+  if(!['public','unlisted','private'].includes(visibility)){
+    say('Choose a valid visibility setting.','error');
+    return;
+  }
 
   if(!file||!title){
     say('Choose an MP4 or MOV and enter a title.','error');
@@ -375,6 +389,7 @@ $('form').addEventListener('submit',async e=>{
         {
           title,
           description,
+          visibility,
           storage_path:path
         }
       );
@@ -389,7 +404,7 @@ $('form').addEventListener('submit',async e=>{
       }
     }
 
-    say('Starting private YouTube transfer…');
+    say('Starting YouTube transfer…');
     await transfer(pendingVideoId);
 
   }catch(err){
@@ -415,4 +430,3 @@ refreshSession().catch(()=>showSignedOut());
 </script>
 </body>
 </html>
-
