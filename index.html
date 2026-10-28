@@ -15,6 +15,7 @@
 
 <!-- GR8SKUL APP MANIFEST -->
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 
 * {
@@ -678,13 +679,50 @@ audio {
 }
 .filter-drawer[hidden] { display: none !important; }
 
+/* Shared GR8SKUL account sign-in */
+#playerApp { display: none; }
+#authScreen { display: none; min-height: 100vh; padding: 35px 20px; }
+.auth-box { max-width: 420px; margin: 45px auto 0; }
+.auth-logo { display: block; height: 42px; max-width: 100%; margin: 0 auto 45px; }
+.auth-title { text-align: center; font-size: 13px; font-weight: bold; letter-spacing: 2px; margin-bottom: 25px; }
+.auth-field { margin-bottom: 16px; }
+.auth-label { display: block; margin-bottom: 6px; font-size: 10px; letter-spacing: 1.5px; color: #666; }
+.auth-input { width: 100%; height: 42px; padding: 8px 10px; border: 1px solid #ccc; background: #fff; color: #111; font: 13px Arial, sans-serif; }
+.auth-button { width: 100%; height: 42px; margin-top: 5px; border: 1px solid #111; background: #fff; color: #111; font-size: 10px; font-weight: bold; letter-spacing: 2px; cursor: pointer; }
+.auth-button:hover { background: #111; color: #fff; }
+.auth-button:disabled { opacity: .45; cursor: default; }
+.auth-message { min-height: 20px; margin-top: 15px; text-align: center; font-size: 10px; letter-spacing: 1px; color: #666; line-height: 1.5; }
+.auth-link { display: block; margin: 25px auto 0; padding: 0; min-height: 26px; border: 0; background: transparent; color: #777; font-size: 10px; letter-spacing: 1.5px; cursor: pointer; }
+.auth-link:hover { background: transparent; color: #111; text-decoration: underline; }
+#passwordRecoveryArea[hidden] { display: none !important; }
+#passwordRecoveryArea { border-top: 1px solid #ddd; margin-top: 22px; padding-top: 24px; }
+.player-signout { display: block; margin: 0 auto 8px; padding: 0 8px; min-height: 24px; border: 0; background: transparent; color: #888; font-size: 9px; letter-spacing: 1px; }
+.player-signout:hover { background: transparent; color: #111; text-decoration: underline; }
 </style>
 
 </head>
 
 <body>
 
-<div class="app">
+<section id="authScreen" aria-label="GR8SKUL sign in">
+  <img class="auth-logo" src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png" alt="GR8SKUL">
+  <div class="auth-box">
+    <div class="auth-title" id="signInTitle">GR8SKUL SIGN IN</div>
+    <div class="auth-field" id="emailField"><label class="auth-label" for="authEmail">EMAIL</label><input class="auth-input" id="authEmail" type="email" autocomplete="email"></div>
+    <div class="auth-field" id="passwordField"><label class="auth-label" for="authPassword">PASSWORD</label><input class="auth-input" id="authPassword" type="password" autocomplete="current-password"></div>
+    <button class="auth-button" id="signInButton" type="button">SIGN IN</button>
+    <button class="auth-link" id="forgotPasswordButton" type="button">FORGOT PASSWORD?</button>
+    <div id="passwordRecoveryArea" hidden>
+      <div class="auth-title">SET NEW PASSWORD</div>
+      <div class="auth-field"><label class="auth-label" for="newAccountPassword">NEW PASSWORD</label><input class="auth-input" id="newAccountPassword" type="password" minlength="8" autocomplete="new-password"></div>
+      <div class="auth-field"><label class="auth-label" for="confirmAccountPassword">CONFIRM NEW PASSWORD</label><input class="auth-input" id="confirmAccountPassword" type="password" minlength="8" autocomplete="new-password"></div>
+      <button class="auth-button" id="setPasswordButton" type="button">SAVE NEW PASSWORD</button>
+      <div class="auth-message" id="recoveryMessage" role="status"></div>
+    </div>
+    <div class="auth-message" id="authMessage" role="status"></div>
+  </div>
+</section>
+<div class="app" id="playerApp">
 
 <!-- =========================
      FIXED HEADER
@@ -726,6 +764,8 @@ type="button">
 SHUFFLE OFF </button>
 
 </div>
+
+<button id="playerSignOut" class="player-signout" type="button">sign out</button>
 
 <!-- NOW PLAYING -->
 <div class="now-playing" id="nowPlaying"></div>
@@ -6475,7 +6515,133 @@ async function startApp() {
 }
 
 
-startApp();
+/* ============================================================
+   SHARED GR8SKUL SUPABASE AUTHENTICATION
+   Uses the same account/session as upload.html and taxonomy.html.
+   Player startup is deferred until a session is confirmed.
+   ============================================================ */
+const playerAuthClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const playerApp = document.getElementById("playerApp");
+const authScreen = document.getElementById("authScreen");
+const authEmail = document.getElementById("authEmail");
+const authPassword = document.getElementById("authPassword");
+const authMessage = document.getElementById("authMessage");
+const signInButton = document.getElementById("signInButton");
+const forgotPasswordButton = document.getElementById("forgotPasswordButton");
+const passwordRecoveryArea = document.getElementById("passwordRecoveryArea");
+const recoveryMessage = document.getElementById("recoveryMessage");
+let playerStarted = false;
+let passwordRecoveryMode = false;
+
+function showPlayerLogin() {
+    playerApp.style.display = "none";
+    authScreen.style.display = "block";
+}
+async function showPlayerForSession(session) {
+    if (!session || !session.user || passwordRecoveryMode) { showPlayerLogin(); return; }
+    authScreen.style.display = "none";
+    playerApp.style.display = "flex";
+    if (!playerStarted) {
+        playerStarted = true;
+        try { await startApp(); }
+        catch (error) { playerStarted = false; console.error("GR8SKUL player startup failed:", error); }
+    }
+}
+async function playerSignIn() {
+    const email = authEmail.value.trim();
+    const password = authPassword.value;
+    if (!email || !password) { authMessage.textContent = "ENTER AN EMAIL AND PASSWORD"; return; }
+    signInButton.disabled = true;
+    authMessage.textContent = "SIGNING IN...";
+    try {
+        const { data, error } = await playerAuthClient.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        authMessage.textContent = "";
+        await showPlayerForSession(data.session);
+    } catch (error) {
+        authMessage.textContent = error.message || "SIGN IN FAILED";
+    } finally { signInButton.disabled = false; }
+}
+function showPlayerPasswordRecovery() {
+    passwordRecoveryMode = true;
+    showPlayerLogin();
+    passwordRecoveryArea.hidden = false;
+    document.getElementById("signInTitle").style.display = "none";
+    document.getElementById("emailField").style.display = "none";
+    document.getElementById("passwordField").style.display = "none";
+    signInButton.style.display = "none";
+    forgotPasswordButton.style.display = "none";
+    authMessage.textContent = "";
+}
+function exitPlayerPasswordRecovery() {
+    passwordRecoveryMode = false;
+    passwordRecoveryArea.hidden = true;
+    document.getElementById("signInTitle").style.display = "";
+    document.getElementById("emailField").style.display = "";
+    document.getElementById("passwordField").style.display = "";
+    signInButton.style.display = "";
+    forgotPasswordButton.style.display = "";
+}
+signInButton.addEventListener("click", playerSignIn);
+[authEmail, authPassword].forEach(field => field.addEventListener("keydown", event => {
+    if (event.key === "Enter") playerSignIn();
+}));
+document.getElementById("playerSignOut").addEventListener("click", async () => {
+    try { await playerAuthClient.auth.signOut(); }
+    catch (error) { console.error("GR8SKUL sign out failed:", error); }
+    audioPlayer.pause();
+    authPassword.value = "";
+    showPlayerLogin();
+});
+forgotPasswordButton.addEventListener("click", async () => {
+    const email = authEmail.value.trim();
+    if (!email) { authMessage.textContent = "ENTER YOUR EMAIL ABOVE, THEN SELECT FORGOT PASSWORD."; authEmail.focus(); return; }
+    forgotPasswordButton.disabled = true;
+    authMessage.textContent = "SENDING PASSWORD RESET LINK...";
+    try {
+        const { error } = await playerAuthClient.auth.resetPasswordForEmail(email, {
+            redirectTo: "https://gr8skul.com/upload.html"
+        });
+        if (error) throw error;
+        authMessage.textContent = "IF THIS EMAIL HAS AN ACCOUNT, A RESET LINK WILL ARRIVE SHORTLY. CHECK SPAM TOO.";
+    } catch (error) { authMessage.textContent = error.message || "PASSWORD RESET REQUEST FAILED."; }
+    finally { forgotPasswordButton.disabled = false; }
+});
+document.getElementById("setPasswordButton").addEventListener("click", async () => {
+    const password = document.getElementById("newAccountPassword").value;
+    const confirm = document.getElementById("confirmAccountPassword").value;
+    if (password.length < 8) { recoveryMessage.textContent = "USE AT LEAST 8 CHARACTERS."; return; }
+    if (password !== confirm) { recoveryMessage.textContent = "PASSWORDS DO NOT MATCH."; return; }
+    const button = document.getElementById("setPasswordButton");
+    button.disabled = true;
+    try {
+        const { error } = await playerAuthClient.auth.updateUser({ password });
+        if (error) throw error;
+        await playerAuthClient.auth.signOut();
+        exitPlayerPasswordRecovery();
+        showPlayerLogin();
+        authMessage.textContent = "PASSWORD UPDATED. SIGN IN WITH YOUR NEW PASSWORD.";
+        history.replaceState(null, "", location.pathname);
+    } catch (error) { recoveryMessage.textContent = error.message || "PASSWORD COULD NOT BE UPDATED."; }
+    finally { button.disabled = false; }
+});
+playerAuthClient.auth.onAuthStateChange((event, session) => {
+    if (event === "PASSWORD_RECOVERY") { showPlayerPasswordRecovery(); return; }
+    if (passwordRecoveryMode) return;
+    if (session) { showPlayerForSession(session); }
+    else { audioPlayer.pause(); showPlayerLogin(); }
+});
+(async () => {
+    try {
+        const { data, error } = await playerAuthClient.auth.getSession();
+        if (error) throw error;
+        await showPlayerForSession(data.session);
+    } catch (error) {
+        console.error("GR8SKUL session check failed:", error);
+        authMessage.textContent = "COULD NOT VERIFY ACCOUNT SESSION.";
+        showPlayerLogin();
+    }
+})();
 
 </script>
 
