@@ -576,5 +576,46 @@
         ]
       }
     ]
+  },
+  "music/6f19c4f5-b594-41e8-bafa-b447ab174184.mp3": {
+    "title": "Mr. Robot",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Blues",
+      "Rock"
+    ],
+    "genreTypes": [],
+    "moods": [
+      "Melancholic",
+      "Romantic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Melancholic",
+        "type": "Sad"
+      },
+      {
+        "mood": "Romantic",
+        "type": "Intimate"
+      }
+    ],
+    "eras": [
+      "1900"
+    ],
+    "eraTypes": [
+      {
+        "era": "1900",
+        "type": "MID"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
