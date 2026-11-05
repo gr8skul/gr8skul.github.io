@@ -726,6 +726,7 @@ audio {
     <div class="auth-field" id="passwordField"><label class="auth-label" for="authPassword">PASSWORD</label><input class="auth-input" id="authPassword" type="password" autocomplete="current-password"></div>
     <button class="auth-button" id="signInButton" type="button">SIGN IN</button>
     <button class="auth-link" id="forgotPasswordButton" type="button">FORGOT PASSWORD?</button>
+    <button class="auth-link" id="backToPlayer" type="button">CONTINUE LISTENING TO PREVIEWS</button>
     <div id="passwordRecoveryArea" hidden>
       <div class="auth-title">SET NEW PASSWORD</div>
       <div class="auth-field"><label class="auth-label" for="newAccountPassword">NEW PASSWORD</label><input class="auth-input" id="newAccountPassword" type="password" minlength="8" autocomplete="new-password"></div>
@@ -779,7 +780,7 @@ SHUFFLE OFF </button>
 
 </div>
 
-<button id="playerSignOut" class="player-signout" type="button">sign out</button>
+<button id="playerSignOut" class="player-signout" type="button">SIGN IN</button>
 
 <!-- NOW PLAYING -->
 <div class="now-playing" id="nowPlaying"></div>
@@ -1864,7 +1865,7 @@ let shuffleQueue = [];
 let playHistory = [];
 
 
-/* Browser-only playlists: member cloud sync is NOT implemented in this test. */
+/* Browser playlists remain available to visitors; members may sync them to Supabase. */
 const GR8SKUL_PLAYLIST_KEY = "gr8skul-browser-playlists-v1";
 let gr8skulPlaylists = [];
 try {
@@ -1876,6 +1877,7 @@ function gr8skulSavePlaylists() {
     try { localStorage.setItem(GR8SKUL_PLAYLIST_KEY, JSON.stringify(gr8skulPlaylists)); }
     catch (e) { alert("Browser storage is unavailable; playlist changes may not persist."); }
     gr8skulDrawPlaylists();
+    gr8skulScheduleCloudSync();
 }
 function gr8skulMakePlaylist(name) {
     name = String(name || "").trim().slice(0, 80);
@@ -1932,9 +1934,16 @@ function gr8skulDrawPlaylists() {
         if (gr8skulMakePlaylist(nameInput.value)) nameInput.value = "";
         else nameInput.focus();
     });
-    const note = document.createElement("div"); note.textContent = "Preview playlists are saved in this browser only.";
+    const note = document.createElement("div"); note.textContent = gr8skulCloudMember ? "Member playlists sync to your account; browser copies are kept." : "Preview playlists are saved in this browser only.";
     note.style.cssText = "font-size:10px;color:#777;margin:8px 0";
     panel.append(all, createForm, note);
+    if (gr8skulCloudMember) {
+        const syncButton = document.createElement("button");
+        syncButton.type = "button";
+        syncButton.textContent = "RETRY CLOUD SYNC";
+        syncButton.addEventListener("click", () => gr8skulSyncCloudPlaylists(true));
+        panel.appendChild(syncButton);
+    }
     const search = document.createElement("input"); search.placeholder = "Search my playlists";
     search.setAttribute("aria-label", "Search my playlists");
     const entries = document.createElement("div"); panel.append(search, entries);
@@ -6799,6 +6808,155 @@ const signInButton = document.getElementById("signInButton");
 const forgotPasswordButton = document.getElementById("forgotPasswordButton");
 const passwordRecoveryArea = document.getElementById("passwordRecoveryArea");
 const recoveryMessage = document.getElementById("recoveryMessage");
+
+/* ============================================================
+   MEMBER CLOUD PLAYLISTS — local-first, account-backed
+   ============================================================ */
+let gr8skulCloudMember = false;
+let gr8skulCloudUserId = null;
+let gr8skulCloudBusy = false;
+let gr8skulCloudPending = false;
+let gr8skulCloudTimer = null;
+let gr8skulCloudGeneration = 0;
+let gr8skulCloudKnownIds = new Set();
+
+function gr8skulCloudStatus(message) {
+    console.info("GR8SKUL playlists:", message);
+    const panel = document.getElementById("myPlaylistsPanel");
+    if (panel && !panel.hidden) gr8skulDrawPlaylists();
+}
+
+function gr8skulScheduleCloudSync() {
+    if (!gr8skulCloudMember || !gr8skulCloudUserId) return;
+    gr8skulCloudPending = true;
+    clearTimeout(gr8skulCloudTimer);
+    gr8skulCloudTimer = setTimeout(() => gr8skulSyncCloudPlaylists(false), 600);
+}
+
+async function gr8skulCheckMembership(session) {
+    if (!session?.user) return false;
+    const { data, error } = await playerAuthClient.from("listener_memberships")
+        .select("status,expires_at").eq("user_id", session.user.id).maybeSingle();
+    if (error) throw error;
+    return !!(data && data.status === "active" &&
+        (!data.expires_at || Date.parse(data.expires_at) > Date.now()));
+}
+
+async function gr8skulLoadCloudPlaylists(userId, generation) {
+    const { data: rows, error } = await playerAuthClient.from("listener_playlists")
+        .select("id,name,created_at").eq("user_id", userId);
+    if (error) throw error;
+    const ids = (rows || []).map(p => p.id);
+    let tracks = [];
+    if (ids.length) {
+        const result = await playerAuthClient.from("listener_playlist_tracks")
+            .select("playlist_id,track_path,position").in("playlist_id", ids)
+            .order("position", { ascending: true });
+        if (result.error) throw result.error;
+        tracks = result.data || [];
+    }
+    if (generation !== gr8skulCloudGeneration) return;
+    gr8skulCloudKnownIds = new Set(ids);
+    const localIds = new Set(gr8skulPlaylists.map(p => p.id));
+    let added = 0;
+    for (const row of rows || []) {
+        const cloudTracks = tracks.filter(t => t.playlist_id === row.id).map(t => t.track_path);
+        const local = gr8skulPlaylists.find(p => p.id === row.id);
+        if (local) {
+            // Merge track references without dropping either side's selections.
+            local.tracks = [...new Set([...local.tracks, ...cloudTracks])];
+        } else if (!localIds.has(row.id)) {
+            gr8skulPlaylists.push({ id: row.id, name: row.name, tracks: cloudTracks });
+            added++;
+        }
+    }
+    try { localStorage.setItem(GR8SKUL_PLAYLIST_KEY, JSON.stringify(gr8skulPlaylists)); }
+    catch (e) { console.warn("Local playlist backup unavailable", e); }
+    gr8skulDrawPlaylists();
+    if (added) renderFilteredTracks();
+    // The merged browser copy is retained; automatic import follows only
+    // after membership verification and a successful cloud read.
+}
+
+async function gr8skulSyncCloudPlaylists(manual = false) {
+    if (!gr8skulCloudMember || !gr8skulCloudUserId) return;
+    if (gr8skulCloudBusy) { gr8skulCloudPending = true; return; }
+    gr8skulCloudBusy = true;
+    gr8skulCloudPending = false;
+    const generation = gr8skulCloudGeneration;
+    const userId = gr8skulCloudUserId;
+    try {
+        // Upsert by stable playlist ID; only store references, never audio bytes.
+        const snapshot = gr8skulPlaylists.map(p => ({
+            id: p.id, name: p.name, tracks: [...new Set(p.tracks)]
+        }));
+        for (const p of snapshot) {
+            if (generation !== gr8skulCloudGeneration) return;
+            const { error: playlistError } = await playerAuthClient
+                .from("listener_playlists")
+                .upsert({ id: p.id, user_id: userId, name: p.name }, { onConflict: "id" });
+            if (playlistError) throw playlistError;
+            gr8skulCloudKnownIds.add(p.id);
+            // Replace positions for this playlist. Browser backup remains intact on errors.
+            const { error: deleteError } = await playerAuthClient
+                .from("listener_playlist_tracks").delete().eq("playlist_id", p.id);
+            if (deleteError) throw deleteError;
+            if (p.tracks.length) {
+                const { error: tracksError } = await playerAuthClient
+                    .from("listener_playlist_tracks").insert(p.tracks.map((track_path, position) => ({
+                        playlist_id: p.id, track_path, position
+                    })));
+                if (tracksError) throw tracksError;
+            }
+        }
+        // Only delete playlists previously observed in the cloud and deliberately
+        // removed locally during this session. Avoid deleting unseen cloud data.
+        const currentIds = new Set(snapshot.map(p => p.id));
+        for (const id of [...gr8skulCloudKnownIds]) {
+            if (generation !== gr8skulCloudGeneration) return;
+            if (currentIds.has(id)) continue;
+            const { error } = await playerAuthClient.from("listener_playlists")
+                .delete().eq("id", id).eq("user_id", userId);
+            if (error) throw error;
+            gr8skulCloudKnownIds.delete(id);
+        }
+        if (manual) alert("Your playlists have been saved to your GR8SKUL account.");
+        gr8skulCloudStatus("Cloud sync complete");
+    } catch (error) {
+        console.error("GR8SKUL cloud playlist sync failed; browser copies preserved:", error);
+        if (manual) alert("Cloud sync did not complete. Your browser playlists are safe. Please try again.");
+    } finally {
+        gr8skulCloudBusy = false;
+        if (gr8skulCloudPending && generation === gr8skulCloudGeneration) gr8skulScheduleCloudSync();
+    }
+}
+
+async function gr8skulRefreshMemberPlaylists(session) {
+    const generation = ++gr8skulCloudGeneration;
+    clearTimeout(gr8skulCloudTimer);
+    gr8skulCloudMember = false;
+    gr8skulCloudUserId = null;
+    gr8skulCloudKnownIds = new Set();
+    if (!session?.user) { gr8skulDrawPlaylists(); return; }
+    try {
+        const active = await gr8skulCheckMembership(session);
+        if (generation !== gr8skulCloudGeneration || !active) return;
+        gr8skulCloudUserId = session.user.id;
+        gr8skulCloudMember = true;
+        await gr8skulLoadCloudPlaylists(session.user.id, generation);
+        // Automatically import local preview playlists when a member signs in.
+        // The cloud read above must succeed first, so remote playlists are
+        // merged into the local backup before any writes occur.
+        if (generation === gr8skulCloudGeneration && gr8skulPlaylists.length) {
+            gr8skulScheduleCloudSync();
+        }
+    } catch (error) {
+        console.error("GR8SKUL membership/playlist lookup failed; browser playlists retained:", error);
+    }
+    gr8skulDrawPlaylists();
+}
+
+let gr8skulLastAuthUserId = undefined;
 let playerStarted = false;
 let passwordRecoveryMode = false;
 
@@ -6807,9 +6965,15 @@ function showPlayerLogin() {
     authScreen.style.display = "block";
 }
 async function showPlayerForSession(session) {
-    if (!session || !session.user || passwordRecoveryMode) { showPlayerLogin(); return; }
+    if (passwordRecoveryMode) return;
     authScreen.style.display = "none";
     playerApp.style.display = "flex";
+    document.getElementById("playerSignOut").textContent = session?.user ? "SIGN OUT" : "SIGN IN";
+    const nextUserId = session?.user?.id || null;
+    if (nextUserId !== gr8skulLastAuthUserId) {
+        gr8skulLastAuthUserId = nextUserId;
+        gr8skulRefreshMemberPlaylists(session);
+    }
     if (!playerStarted) {
         playerStarted = true;
         try { await startApp(); }
@@ -6840,6 +7004,7 @@ function showPlayerPasswordRecovery() {
     document.getElementById("passwordField").style.display = "none";
     signInButton.style.display = "none";
     forgotPasswordButton.style.display = "none";
+    document.getElementById("backToPlayer").style.display = "none";
     authMessage.textContent = "";
 }
 function exitPlayerPasswordRecovery() {
@@ -6850,17 +7015,23 @@ function exitPlayerPasswordRecovery() {
     document.getElementById("passwordField").style.display = "";
     signInButton.style.display = "";
     forgotPasswordButton.style.display = "";
+    document.getElementById("backToPlayer").style.display = "";
 }
 signInButton.addEventListener("click", playerSignIn);
 [authEmail, authPassword].forEach(field => field.addEventListener("keydown", event => {
     if (event.key === "Enter") playerSignIn();
 }));
 document.getElementById("playerSignOut").addEventListener("click", async () => {
+    const { data } = await playerAuthClient.auth.getSession();
+    if (!data?.session) { showPlayerLogin(); return; }
     try { await playerAuthClient.auth.signOut(); }
     catch (error) { console.error("GR8SKUL sign out failed:", error); }
-    audioPlayer.pause();
     authPassword.value = "";
-    showPlayerLogin();
+    await showPlayerForSession(null);
+});
+document.getElementById("backToPlayer").addEventListener("click", () => {
+    if (passwordRecoveryMode) return;
+    showPlayerForSession(null);
 });
 forgotPasswordButton.addEventListener("click", async () => {
     const email = authEmail.value.trim();
@@ -6869,7 +7040,7 @@ forgotPasswordButton.addEventListener("click", async () => {
     authMessage.textContent = "SENDING PASSWORD RESET LINK...";
     try {
         const { error } = await playerAuthClient.auth.resetPasswordForEmail(email, {
-            redirectTo: "https://gr8skul.com/upload.html"
+            redirectTo: "https://gr8skul.com/"
         });
         if (error) throw error;
         authMessage.textContent = "IF THIS EMAIL HAS AN ACCOUNT, A RESET LINK WILL ARRIVE SHORTLY. CHECK SPAM TOO.";
@@ -6898,7 +7069,7 @@ playerAuthClient.auth.onAuthStateChange((event, session) => {
     if (event === "PASSWORD_RECOVERY") { showPlayerPasswordRecovery(); return; }
     if (passwordRecoveryMode) return;
     if (session) { showPlayerForSession(session); }
-    else { audioPlayer.pause(); showPlayerLogin(); }
+    else { showPlayerForSession(null); }
 });
 (async () => {
     try {
@@ -6907,8 +7078,8 @@ playerAuthClient.auth.onAuthStateChange((event, session) => {
         await showPlayerForSession(data.session);
     } catch (error) {
         console.error("GR8SKUL session check failed:", error);
-        authMessage.textContent = "COULD NOT VERIFY ACCOUNT SESSION.";
-        showPlayerLogin();
+        console.warn("Continuing in public preview mode.");
+        await showPlayerForSession(null);
     }
 })();
 
