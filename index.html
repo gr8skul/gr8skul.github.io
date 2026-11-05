@@ -712,6 +712,12 @@ audio {
 .player-signout { display: block; margin: 0 auto 8px; padding: 0 8px; min-height: 24px; border: 0; background: transparent; color: #888; font-size: 9px; letter-spacing: 1px; }
 .player-signout:hover { background: transparent; color: #111; text-decoration: underline; }
 .track-search-wrap{display:flex;gap:7px;padding:9px 0;border-bottom:1px solid #ddd;flex-shrink:0}.track-search-wrap input{flex:1;min-width:0;padding:9px;border:1px solid #ccc;font:13px Arial,sans-serif}.track-search-wrap button{min-height:35px;padding:7px 10px;font-size:10px}
+/* Quiet account sync control beside playlist search. */
+.playlist-search-row {display:flex;align-items:center;gap:10px;margin-top:9px}
+.playlist-search-row > input {flex:1;min-width:0}
+.playlist-sync-link {border:0;background:transparent;padding:3px 0;min-height:24px;font-size:10px;letter-spacing:0;color:#888;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;cursor:pointer}
+.playlist-sync-link:hover {background:transparent;color:#111}
+.playlist-sync-notice {font-size:10px;line-height:1.5;color:#8b3434;margin:7px 0}
 </style>
 
 </head>
@@ -1970,16 +1976,29 @@ function gr8skulDrawPlaylists() {
     const note = document.createElement("div"); note.textContent = gr8skulCloudMember ? "Member playlists sync to your account; browser copies are kept." : "Preview playlists are saved in this browser only.";
     note.style.cssText = "font-size:10px;color:#777;margin:8px 0";
     panel.append(all, createForm, note);
-    if (gr8skulCloudMember) {
-        const syncButton = document.createElement("button");
-        syncButton.type = "button";
-        syncButton.textContent = "RETRY CLOUD SYNC";
-        syncButton.addEventListener("click", () => gr8skulSyncCloudPlaylists(true));
-        panel.appendChild(syncButton);
-    }
     const search = document.createElement("input"); search.placeholder = "Search my playlists";
     search.setAttribute("aria-label", "Search my playlists");
-    const entries = document.createElement("div"); panel.append(search, entries);
+    const searchRow = document.createElement("div");
+    searchRow.className = "playlist-search-row";
+    searchRow.appendChild(search);
+    if (gr8skulCloudMember) {
+        const syncLink = document.createElement("button");
+        syncLink.type = "button";
+        syncLink.className = "playlist-sync-link";
+        syncLink.textContent = "sync again";
+        syncLink.setAttribute("aria-label", "Retry playlist cloud synchronization");
+        syncLink.addEventListener("click", () => gr8skulSyncCloudPlaylists(true));
+        searchRow.appendChild(syncLink);
+    }
+    panel.appendChild(searchRow);
+    if (gr8skulCloudSyncError) {
+        const notice = document.createElement("div");
+        notice.className = "playlist-sync-notice";
+        notice.setAttribute("role", "status");
+        notice.textContent = "Your playlists are safe in this browser, but couldn't be saved to your account. Select sync again to retry.";
+        panel.appendChild(notice);
+    }
+    const entries = document.createElement("div"); panel.appendChild(entries);
     const draw = () => {
         entries.replaceChildren();
         gr8skulPlaylists.filter(p => p.name.toLowerCase().includes(search.value.toLowerCase())).forEach(p => {
@@ -6852,6 +6871,7 @@ let gr8skulCloudPending = false;
 let gr8skulCloudTimer = null;
 let gr8skulCloudGeneration = 0;
 let gr8skulCloudKnownIds = new Set();
+let gr8skulCloudSyncError = false;
 
 function gr8skulCloudStatus(message) {
     console.info("GR8SKUL playlists:", message);
@@ -6953,10 +6973,13 @@ async function gr8skulSyncCloudPlaylists(manual = false) {
             if (error) throw error;
             gr8skulCloudKnownIds.delete(id);
         }
+        gr8skulCloudSyncError = false;
         if (manual) alert("Your playlists have been saved to your GR8SKUL account.");
         gr8skulCloudStatus("Cloud sync complete");
     } catch (error) {
         console.error("GR8SKUL cloud playlist sync failed; browser copies preserved:", error);
+        gr8skulCloudSyncError = true;
+        gr8skulCloudStatus("Cloud sync failed");
         if (manual) alert("Cloud sync did not complete. Your browser playlists are safe. Please try again.");
     } finally {
         gr8skulCloudBusy = false;
@@ -6970,6 +6993,7 @@ async function gr8skulRefreshMemberPlaylists(session) {
     gr8skulCloudMember = false;
     gr8skulCloudUserId = null;
     gr8skulCloudKnownIds = new Set();
+    gr8skulCloudSyncError = false;
     if (!session?.user) { gr8skulDrawPlaylists(); return; }
     try {
         const active = await gr8skulCheckMembership(session);
@@ -6985,6 +7009,7 @@ async function gr8skulRefreshMemberPlaylists(session) {
         }
     } catch (error) {
         console.error("GR8SKUL membership/playlist lookup failed; browser playlists retained:", error);
+        if (gr8skulCloudMember) gr8skulCloudSyncError = true;
     }
     gr8skulDrawPlaylists();
 }
