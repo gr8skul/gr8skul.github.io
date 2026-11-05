@@ -667,5 +667,45 @@
         ]
       }
     ]
+  },
+  "music/c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3": {
+    "title": "Land Locked (nylon classical)",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Classical"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Classical",
+        "type": "Modern"
+      }
+    ],
+    "moods": [
+      "Joyful"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Joyful",
+        "type": "Happy"
+      }
+    ],
+    "eras": [
+      "1980"
+    ],
+    "eraTypes": [
+      {
+        "era": "1980",
+        "type": "MID"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
