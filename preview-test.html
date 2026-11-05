@@ -736,8 +736,8 @@ audio {
     alt="GR8SKUL">
 </h1>
 
-<!-- SPONSOR -->
-<div class="sponsor" id="sponsor"></div>
+<!-- Sponsorship header intentionally removed. -->
+<div id="sponsor" hidden></div>
 
 <div class="controls">
 
@@ -4789,22 +4789,7 @@ function createTrackElement(
     );
 
 
-    if (displayArtist) {
-
-        const artist =
-            document.createElement("div");
-
-        artist.className =
-            "track-artist";
-
-        artist.textContent =
-            displayArtist;
-
-        trackInfo.appendChild(
-            artist
-        );
-
-    }
+    // GR8SKUL is the sole artist; show track titles only.
 
 
     const trackActions =
@@ -6589,9 +6574,7 @@ async function startApp() {
     }
 
 
-    loadSponsors();
-
-    startSponsorRotation();
+    // Sponsorship header disabled for this player.
 
 }
 
