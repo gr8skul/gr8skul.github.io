@@ -1,8 +1,10 @@
 {
   "music/d4c848c3-8af8-4dd1-b2b8-cc071a42b425.mp3": {
+    "created_at": "2026-10-11T16:37:57.229583+00:00",
+    "audio_updated_at": "2026-11-05T20:16:42.428Z",
     "title": "aRnt we rich (original)",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Pop",
@@ -45,7 +47,8 @@
         ]
       }
     ],
-    "created_at": "2026-10-11T16:37:57.229583+00:00"
+    "lyrics": "",
+    "about": ""
   },
   "music/7eea9e80-4098-46b0-8278-fd2107a2f590.mp3": {
     "title": "Land Locked (Super 17)",
