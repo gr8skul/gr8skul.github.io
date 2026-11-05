@@ -726,6 +726,7 @@ audio {
     <div class="auth-field" id="passwordField"><label class="auth-label" for="authPassword">PASSWORD</label><input class="auth-input" id="authPassword" type="password" autocomplete="current-password"></div>
     <button class="auth-button" id="signInButton" type="button">SIGN IN</button>
     <button class="auth-link" id="forgotPasswordButton" type="button">FORGOT PASSWORD?</button>
+    <button class="auth-link" id="backToPlayer" type="button">CONTINUE LISTENING TO PREVIEWS</button>
     <div id="passwordRecoveryArea" hidden>
       <div class="auth-title">SET NEW PASSWORD</div>
       <div class="auth-field"><label class="auth-label" for="newAccountPassword">NEW PASSWORD</label><input class="auth-input" id="newAccountPassword" type="password" minlength="8" autocomplete="new-password"></div>
@@ -6841,6 +6842,7 @@ function showPlayerPasswordRecovery() {
     document.getElementById("passwordField").style.display = "none";
     signInButton.style.display = "none";
     forgotPasswordButton.style.display = "none";
+    document.getElementById("backToPlayer").style.display = "none";
     authMessage.textContent = "";
 }
 function exitPlayerPasswordRecovery() {
@@ -6851,6 +6853,7 @@ function exitPlayerPasswordRecovery() {
     document.getElementById("passwordField").style.display = "";
     signInButton.style.display = "";
     forgotPasswordButton.style.display = "";
+    document.getElementById("backToPlayer").style.display = "";
 }
 signInButton.addEventListener("click", playerSignIn);
 [authEmail, authPassword].forEach(field => field.addEventListener("keydown", event => {
