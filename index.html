@@ -2017,7 +2017,7 @@ function gr8skulDrawPlaylists() {
             const rename = document.createElement("button");rename.textContent = "RENAME";
             rename.addEventListener("click", () => {const name = prompt("Rename playlist:",p.name);if (name && name.trim()) {p.name = name.trim().slice(0,80);gr8skulSavePlaylists();}});
             const del = document.createElement("button");del.textContent = "DELETE";
-            del.addEventListener("click", () => {if (!confirm("Delete playlist '" + p.name + "'?")) return;gr8skulPlaylists = gr8skulPlaylists.filter(x => x.id !== p.id);if (gr8skulSelectedPlaylist === p.id) {gr8skulSelectedPlaylist = null;renderFilteredTracks();}gr8skulSavePlaylists();});
+            del.addEventListener("click", async () => {if (!confirm("Delete playlist '" + p.name + "'?")) return; await gr8skulDeletePlaylist(p.id);});
             row.append(choose, play, rename, del);entries.appendChild(row);
         });
     };
@@ -6884,6 +6884,80 @@ let gr8skulCloudConflictNotice = "";
 let gr8skulCloudReadReady = false;
 let gr8skulCloudBase = new Map();
 let gr8skulCloudRetryNeeded = false;
+let gr8skulCloudDeleting = new Set();
+// Remember previously cloud-backed IDs per account. If another device deletes
+// one, its stale browser copy must not be imported as a new playlist.
+function gr8skulCloudHistoryKey(userId) {
+    return "gr8skul-cloud-known-playlists-v1:" + userId;
+}
+function gr8skulReadCloudHistory(userId) {
+    try {
+        const ids = JSON.parse(localStorage.getItem(gr8skulCloudHistoryKey(userId)) || "[]");
+        return new Set(Array.isArray(ids) ? ids.filter(id => typeof id === "string") : []);
+    } catch (_) { return new Set(); }
+}
+function gr8skulRememberCloudId(id) {
+    if (!gr8skulCloudUserId) return;
+    const ids = gr8skulReadCloudHistory(gr8skulCloudUserId);
+    ids.add(id);
+    try { localStorage.setItem(gr8skulCloudHistoryKey(gr8skulCloudUserId), JSON.stringify([...ids])); }
+    catch (error) { console.warn("Cannot retain playlist cloud history", error); }
+}
+function gr8skulRemoveLocalPlaylist(id) {
+    gr8skulPlaylists = gr8skulPlaylists.filter(p => p.id !== id);
+    if (gr8skulSelectedPlaylist === id) {
+        gr8skulSelectedPlaylist = null;
+        renderFilteredTracks();
+    }
+    try { localStorage.setItem(GR8SKUL_PLAYLIST_KEY, JSON.stringify(gr8skulPlaylists)); }
+    catch (error) { console.error("Cannot save playlist removal locally", error); }
+    gr8skulDrawPlaylists();
+}
+async function gr8skulDeletePlaylist(id) {
+    const playlist = gr8skulPlaylists.find(p => p.id === id);
+    if (!playlist || gr8skulCloudDeleting.has(id)) return;
+    if (!gr8skulCloudMember) {
+        gr8skulRemoveLocalPlaylist(id);
+        return;
+    }
+    if (!gr8skulCloudReadReady || !gr8skulCloudUserId) {
+        alert("Your account playlists are still loading. Please try again.");
+        return;
+    }
+    gr8skulCloudDeleting.add(id);
+    const generation = gr8skulCloudGeneration;
+    const userId = gr8skulCloudUserId;
+    try {
+        // Wait for an in-flight save to finish before choosing a revision.
+        while (gr8skulCloudBusy && generation === gr8skulCloudGeneration) {
+            await new Promise(resolve => setTimeout(resolve, 80));
+        }
+        if (generation !== gr8skulCloudGeneration || userId !== gr8skulCloudUserId) return;
+        const expectedRevision = gr8skulCloudRevisions.get(id);
+        if (expectedRevision !== undefined) {
+            const {error} = await playerAuthClient.rpc("gr8skul_delete_playlist_atomic", {
+                p_playlist_id:id, p_expected_revision:expectedRevision
+            });
+            if (error) throw error;
+            gr8skulRememberCloudId(id);
+        } else {
+            // Not uploaded yet: local-only playlist can be discarded.
+            // A sync may have started while waiting; in that case refuse.
+            if (gr8skulCloudKnownIds.has(id)) throw new Error("Playlist state changed; retry deletion");
+        }
+        if (generation !== gr8skulCloudGeneration || userId !== gr8skulCloudUserId) return;
+        gr8skulCloudKnownIds.delete(id);
+        gr8skulCloudRevisions.delete(id);
+        gr8skulCloudBase.delete(id);
+        gr8skulRemoveLocalPlaylist(id);
+    } catch (error) {
+        console.error("GR8SKUL protected playlist deletion failed", error);
+        alert("Playlist was not deleted. Another device may have changed it, or the connection failed. Refresh GR8SKUL to review the latest version before trying again.");
+    } finally {
+        gr8skulCloudDeleting.delete(id);
+    }
+}
+
 
 function gr8skulCloudStatus(message) {
     console.info("GR8SKUL playlists:", message);
@@ -6921,7 +6995,17 @@ async function gr8skulLoadCloudPlaylists(userId, generation) {
         tracks = result.data || [];
     }
     if (generation !== gr8skulCloudGeneration) return;
+    const previouslyCloudBacked = gr8skulReadCloudHistory(userId);
+    const currentCloudIds = new Set(ids);
+    // Previously cloud-backed IDs absent from the server were deleted elsewhere.
+    // Never re-upload those stale browser copies.
+    const removedIds = gr8skulPlaylists.filter(p => previouslyCloudBacked.has(p.id) && !currentCloudIds.has(p.id)).map(p => p.id);
+    if (removedIds.length) {
+        gr8skulPlaylists = gr8skulPlaylists.filter(p => !removedIds.includes(p.id));
+        if (removedIds.includes(gr8skulSelectedPlaylist)) gr8skulSelectedPlaylist = null;
+    }
     gr8skulCloudKnownIds = new Set(ids);
+    for (const id of ids) gr8skulRememberCloudId(id);
     gr8skulCloudRevisions = new Map((rows || []).map(p => [p.id, Number(p.revision)]));
     gr8skulCloudBase = new Map((rows || []).map(p => [p.id, {name:p.name, tracks:tracks.filter(t => t.playlist_id === p.id).map(t => t.track_path)}]));
     const localIds = new Set(gr8skulPlaylists.map(p => p.id));
@@ -7006,6 +7090,8 @@ async function gr8skulSyncCloudPlaylists(manual = false) {
             id:p.id, name:p.name, tracks:[...new Set(p.tracks)]
         }));
         for (const p of snapshot) {
+            if (gr8skulCloudDeleting.has(p.id)) continue;
+            if (!gr8skulPlaylists.some(item => item.id === p.id)) continue;
             if (generation !== gr8skulCloudGeneration || userId !== gr8skulCloudUserId) return;
             const base = gr8skulCloudBase.get(p.id);
             // Only changed playlists need a transaction or a revision increment.
@@ -7019,6 +7105,7 @@ async function gr8skulSyncCloudPlaylists(manual = false) {
                 expectedRevision = 0;
                 gr8skulCloudRevisions.set(p.id,0);
                 gr8skulCloudKnownIds.add(p.id);
+                gr8skulRememberCloudId(p.id);
             }
             if (generation !== gr8skulCloudGeneration || userId !== gr8skulCloudUserId) return;
             // A conflict is distinguished from other errors by checking the
@@ -7032,6 +7119,14 @@ async function gr8skulSyncCloudPlaylists(manual = false) {
                 const {data:current,error:lookupError} = await playerAuthClient
                     .from("listener_playlists").select("revision")
                     .eq("id",p.id).eq("user_id",userId).maybeSingle();
+                if (!lookupError && !current && gr8skulCloudKnownIds.has(p.id)) {
+                    gr8skulRememberCloudId(p.id);
+                    gr8skulCloudKnownIds.delete(p.id);
+                    gr8skulCloudRevisions.delete(p.id);
+                    gr8skulCloudBase.delete(p.id);
+                    gr8skulRemoveLocalPlaylist(p.id);
+                    continue;
+                }
                 if (!lookupError && current && Number(current.revision) !== expectedRevision) {
                     await gr8skulResolvePlaylistConflict(p,userId,generation);
                     conflicts++;
@@ -7043,6 +7138,7 @@ async function gr8skulSyncCloudPlaylists(manual = false) {
                 throw saveError;
             }
             gr8skulCloudRevisions.set(p.id,Number(newRevision));
+            gr8skulRememberCloudId(p.id);
             gr8skulCloudBase.set(p.id,{name:p.name,tracks:[...p.tracks]});
             // An edit made during the network request is not part of the saved
             // snapshot. Schedule a follow-up instead of treating it as saved.
@@ -7080,6 +7176,7 @@ async function gr8skulRefreshMemberPlaylists(session) {
     gr8skulCloudBase = new Map();
     gr8skulCloudReadReady = false;
     gr8skulCloudRetryNeeded = false;
+    gr8skulCloudDeleting = new Set();
     gr8skulCloudConflictNotice = "";
     gr8skulCloudSyncError = false;
     if (!session?.user) { gr8skulDrawPlaylists(); return; }
