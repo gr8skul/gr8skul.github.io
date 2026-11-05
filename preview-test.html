@@ -658,6 +658,16 @@ audio {
 }
 
 
+/* GR8SKUL playlists and expandable track information */
+.playlist-toolbar {display:flex;justify-content:center;gap:12px;align-items:center;margin-bottom:6px}
+.playlist-toolbar button {min-height:30px;padding:5px 12px;font-size:11px;letter-spacing:1px}
+.playlist-panel {border:1px solid #ddd;padding:12px;margin-bottom:12px;max-height:240px;overflow:auto}
+.playlist-panel[hidden],.track-detail[hidden],.track-add-panel[hidden] {display:none!important}
+.playlist-panel button,.track-add-panel button,.track-detail button {font-size:11px;min-height:30px;padding:5px 9px;margin:3px}
+.playlist-panel input,.track-add-panel input {font:13px Arial;padding:7px;border:1px solid #ccc;max-width:100%}
+.playlist-entry {display:flex;gap:5px;align-items:center;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid #eee}
+.track {flex-wrap:wrap}.track-info {flex-basis:100%}.track-detail,.track-add-panel {width:100%;padding:10px 8px;margin-top:7px;background:#fafafa;font-size:12px;line-height:1.6;user-select:text;white-space:pre-wrap}
+.track-extra-actions {display:flex;gap:8px;margin-top:5px}.track-extra-actions button {min-height:28px;padding:4px 8px;font-size:10px}
 /* Compact, initially closed filter drawer. */
 .filter-drawer-toggle {
     display: block;
@@ -774,7 +784,7 @@ SHUFFLE OFF </button>
      GENRE + MOOD + ERA + REGION FILTERS
      ========================================================= -->
 
-<button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">filter</button>
+<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">filter</button></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
 <div id="filterDrawer" class="filter-drawer" hidden>
 <div class="taxonomy-filters">
 
@@ -1813,6 +1823,84 @@ let shuffleQueue = [];
 let playHistory = [];
 
 
+/* Browser-only playlists: member cloud sync is NOT implemented in this test. */
+const GR8SKUL_PLAYLIST_KEY = "gr8skul-browser-playlists-v1";
+let gr8skulPlaylists = [];
+try {
+    const saved = JSON.parse(localStorage.getItem(GR8SKUL_PLAYLIST_KEY) || "[]");
+    if (Array.isArray(saved)) gr8skulPlaylists = saved.filter(p => p && typeof p.id === "string" && typeof p.name === "string" && Array.isArray(p.tracks));
+} catch (e) { console.warn("Playlist storage unavailable", e); }
+let gr8skulSelectedPlaylist = null;
+function gr8skulSavePlaylists() {
+    try { localStorage.setItem(GR8SKUL_PLAYLIST_KEY, JSON.stringify(gr8skulPlaylists)); }
+    catch (e) { alert("Browser storage is unavailable; playlist changes may not persist."); }
+    gr8skulDrawPlaylists();
+}
+function gr8skulMakePlaylist(name) {
+    name = String(name || "").trim().slice(0, 80);
+    if (!name) return null;
+    const item = {id: crypto.randomUUID(), name, tracks: []};
+    gr8skulPlaylists.push(item); gr8skulSavePlaylists(); return item;
+}
+function gr8skulDrawAddPanel(panel, path) {
+    panel.replaceChildren();
+    const search = document.createElement("input"); search.placeholder = "Search playlists"; search.setAttribute("aria-label", "Search playlists");
+    const list = document.createElement("div");
+    const draw = () => {
+        list.replaceChildren();
+        gr8skulPlaylists.filter(p => p.name.toLowerCase().includes(search.value.toLowerCase())).forEach(p => {
+            const b = document.createElement("button"); b.type = "button";
+            b.textContent = (p.tracks.includes(path) ? "✓ " : "+ ") + p.name;
+            b.addEventListener("click", () => {if (!p.tracks.includes(path)) {p.tracks.push(path);gr8skulSavePlaylists();} draw();});
+            list.appendChild(b);
+        });
+    };
+    search.addEventListener("input", draw);
+    const create = document.createElement("button"); create.textContent = "CREATE NEW";
+    create.addEventListener("click", () => {
+        const name = prompt("New playlist name:");
+        if (name === null) return;
+        const p = gr8skulMakePlaylist(name);
+        if (p) {p.tracks.push(path);gr8skulSavePlaylists();draw();}
+    });
+    panel.append(search, list, create); draw();
+}
+function gr8skulDrawPlaylists() {
+    const panel = document.getElementById("myPlaylistsPanel");
+    if (!panel) return;
+    panel.replaceChildren();
+    const all = document.createElement("button"); all.textContent = "ALL TRACKS";
+    all.addEventListener("click", () => {gr8skulSelectedPlaylist = null;renderFilteredTracks();gr8skulDrawPlaylists();});
+    const create = document.createElement("button"); create.textContent = "+ NEW PLAYLIST";
+    create.addEventListener("click", () => {const name = prompt("New playlist name:");if (name !== null) gr8skulMakePlaylist(name);});
+    const note = document.createElement("div"); note.textContent = "Preview playlists are saved in this browser only.";
+    note.style.cssText = "font-size:10px;color:#777;margin:8px 0";
+    panel.append(all, create, note);
+    const search = document.createElement("input"); search.placeholder = "Search my playlists";
+    search.setAttribute("aria-label", "Search my playlists");
+    const entries = document.createElement("div"); panel.append(search, entries);
+    const draw = () => {
+        entries.replaceChildren();
+        gr8skulPlaylists.filter(p => p.name.toLowerCase().includes(search.value.toLowerCase())).forEach(p => {
+            const row = document.createElement("div");row.className = "playlist-entry";
+            const choose = document.createElement("button");choose.textContent = (p.id === gr8skulSelectedPlaylist ? "✓ " : "") + p.name + " (" + p.tracks.length + ")";
+            choose.addEventListener("click", () => {gr8skulSelectedPlaylist = p.id;renderFilteredTracks();gr8skulDrawPlaylists();});
+            const play = document.createElement("button");play.textContent = "▶ PLAY";
+            play.addEventListener("click", () => {gr8skulSelectedPlaylist = p.id;renderFilteredTracks();const idx = tracks.findIndex(t => !mutedTracks[t.dataset.file]);if (idx >= 0) selectTrack(idx, true, true);gr8skulDrawPlaylists();});
+            const rename = document.createElement("button");rename.textContent = "RENAME";
+            rename.addEventListener("click", () => {const name = prompt("Rename playlist:",p.name);if (name && name.trim()) {p.name = name.trim().slice(0,80);gr8skulSavePlaylists();}});
+            const del = document.createElement("button");del.textContent = "DELETE";
+            del.addEventListener("click", () => {if (!confirm("Delete playlist '" + p.name + "'?")) return;gr8skulPlaylists = gr8skulPlaylists.filter(x => x.id !== p.id);if (gr8skulSelectedPlaylist === p.id) {gr8skulSelectedPlaylist = null;renderFilteredTracks();}gr8skulSavePlaylists();});
+            row.append(choose, play, rename, del);entries.appendChild(row);
+        });
+    };
+    search.addEventListener("input", draw);draw();
+}
+document.getElementById("myPlaylistsButton").addEventListener("click", () => {
+    const panel = document.getElementById("myPlaylistsPanel");panel.hidden = !panel.hidden;
+    document.getElementById("myPlaylistsButton").setAttribute("aria-expanded", String(!panel.hidden));
+    if (!panel.hidden) gr8skulDrawPlaylists();
+});
 /* ============================================================
    TAXONOMY NORMALIZATION
    ============================================================ */
@@ -4819,10 +4907,37 @@ function createTrackElement(
         trackActions
     );
 
-    track.appendChild(
-        trackInfo
-    );
-
+    const extras = document.createElement("div");
+    extras.className = "track-extra-actions";
+    const more = document.createElement("button");
+    more.type = "button"; more.textContent = "MORE ▾";
+    const add = document.createElement("button");
+    add.type = "button"; add.textContent = "+ PLAYLIST ▾";
+    extras.append(more, add);
+    trackInfo.appendChild(extras);
+    track.appendChild(trackInfo);
+    const details = document.createElement("div");
+    details.className = "track-detail"; details.hidden = true;
+    const info = (label, value) => {
+        const line = document.createElement("div");
+        line.textContent = label + ": " + (Array.isArray(value) ? value.map(x => typeof x === "object" ? JSON.stringify(x) : x).join(", ") : String(value || "—"));
+        details.appendChild(line);
+    };
+    info("GENRES", trackData.genres);
+    info("GENRE TYPES", trackData.genreTypes);
+    info("MOODS", trackData.moods);
+    info("MOOD TYPES", trackData.moodTypes);
+    info("ERAS", trackData.eras);
+    info("YEARS", trackData.eraYears);
+    info("REGIONS", trackData.regions);
+    info("LYRICS", trackData.lyrics || "Not provided yet");
+    const addPanel = document.createElement("div");
+    addPanel.className = "track-add-panel"; addPanel.hidden = true;
+    more.addEventListener("click", e => { e.stopPropagation(); details.hidden = !details.hidden; });
+    add.addEventListener("click", e => { e.stopPropagation(); addPanel.hidden = !addPanel.hidden; if (!addPanel.hidden) gr8skulDrawAddPanel(addPanel, trackData.path); });
+    addPanel.addEventListener("click", e => e.stopPropagation());
+    details.addEventListener("click", e => e.stopPropagation());
+    track.append(details, addPanel);
     return track;
 
 }
@@ -4984,8 +5099,9 @@ function renderFilteredTracks() {
         !audioPlayer.paused;
 
 
+    const playlistPaths = gr8skulSelectedPlaylist === null ? null : (gr8skulPlaylists.find(p => p.id === gr8skulSelectedPlaylist)?.tracks || []);
     const filteredData =
-        allTrackData.filter(
+        (playlistPaths === null ? allTrackData : playlistPaths.map(path => allTrackData.find(t => t.path === path)).filter(Boolean)).filter(
             function(trackData) {
 
                 return trackMatchesCurrentFilters(
@@ -5111,29 +5227,10 @@ function renderFilteredTracks() {
         }
 
     } else {
-
-        if (wasPlaying) {
-            audioPlayer.pause();
-        }
-
-        audioPlayer.removeAttribute(
-            "src"
-        );
-
-        audioPlayer.load();
-
+        // Browsing a different list must not interrupt the audio already playing.
         currentTrack = -1;
-
-        currentTrackFile = "";
-
-        playHistory = [];
-
-        shuffleQueue = [];
-
-        nowPlaying.innerHTML = "";
-
+        // Preserve currentTrackFile and audioPlayer.src until the listener explicitly plays something else.
     }
-
 
     updateFilterStatus(
         filteredData.length
@@ -5413,6 +5510,7 @@ async function loadCatalog() {
                                 ? meta.eraTypes
                                 : [],
 
+                        lyrics: meta && typeof meta.lyrics === "string" ? meta.lyrics : "",
                         regions:
                             meta &&
                             (
@@ -5858,8 +5956,7 @@ function selectTrack(
     const title =
         track.dataset.title;
 
-    const artist =
-        track.dataset.artist;
+    const artist = "";
 
     const file =
         track.dataset.file;
