@@ -549,9 +549,10 @@
     "created_at": "2026-10-17T16:38:06.629559+00:00"
   },
   "music/857863f5-c162-4044-beb8-e9e80011eded.mp3": {
+    "created_at": "2026-10-18T01:03:03.316614+00:00",
     "title": "Patience",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Alternative",
@@ -592,7 +593,8 @@
         ]
       }
     ],
-    "created_at": "2026-10-18T01:03:03.316614+00:00"
+    "lyrics": "Hold on to me\nThese are more than words\nI can pretend that love never hurt",
+    "about": ""
   },
   "music/6f19c4f5-b594-41e8-bafa-b447ab174184.mp3": {
     "title": "Mr. Robot",
