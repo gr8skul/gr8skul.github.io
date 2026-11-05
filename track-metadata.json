@@ -617,5 +617,55 @@
         ]
       }
     ]
+  },
+  "music/d48aa159-9216-4690-9937-28bb17c650c2.mp3": {
+    "title": "Thugavelt",
+    "artists": [
+      "gr8skul"
+    ],
+    "genres": [
+      "Blues",
+      "Jazz"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Blues",
+        "type": "Contemporary"
+      },
+      {
+        "genre": "Jazz",
+        "type": "Contemporary"
+      }
+    ],
+    "moods": [
+      "Joyful",
+      "Romantic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Joyful",
+        "type": "Playful"
+      },
+      {
+        "mood": "Romantic",
+        "type": "Intimate"
+      }
+    ],
+    "eras": [
+      "1980"
+    ],
+    "eraTypes": [
+      {
+        "era": "1980",
+        "type": "EARLY"
+      }
+    ],
+    "regions": [
+      {
+        "path": [
+          "Americas"
+        ]
+      }
+    ]
   }
 }
