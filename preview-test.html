@@ -1856,14 +1856,21 @@ function gr8skulDrawAddPanel(panel, path) {
         });
     };
     search.addEventListener("input", draw);
-    const create = document.createElement("button"); create.textContent = "CREATE NEW";
-    create.addEventListener("click", () => {
-        const name = prompt("New playlist name:");
-        if (name === null) return;
-        const p = gr8skulMakePlaylist(name);
-        if (p) {p.tracks.push(path);gr8skulSavePlaylists();draw();}
+    const createForm = document.createElement("form");
+    const nameInput = document.createElement("input");
+    nameInput.placeholder = "New playlist name";
+    nameInput.setAttribute("aria-label", "New playlist name");
+    nameInput.maxLength = 80;
+    const create = document.createElement("button");
+    create.type = "submit"; create.textContent = "CREATE NEW";
+    createForm.append(nameInput, create);
+    createForm.addEventListener("submit", e => {
+        e.preventDefault(); e.stopPropagation();
+        const p = gr8skulMakePlaylist(nameInput.value);
+        if (p) {p.tracks.push(path);gr8skulSavePlaylists();nameInput.value = "";draw();}
+        else nameInput.focus();
     });
-    panel.append(search, list, create); draw();
+    panel.append(search, list, createForm); draw();
 }
 function gr8skulDrawPlaylists() {
     const panel = document.getElementById("myPlaylistsPanel");
@@ -1871,11 +1878,22 @@ function gr8skulDrawPlaylists() {
     panel.replaceChildren();
     const all = document.createElement("button"); all.textContent = "ALL TRACKS";
     all.addEventListener("click", () => {gr8skulSelectedPlaylist = null;renderFilteredTracks();gr8skulDrawPlaylists();});
-    const create = document.createElement("button"); create.textContent = "+ NEW PLAYLIST";
-    create.addEventListener("click", () => {const name = prompt("New playlist name:");if (name !== null) gr8skulMakePlaylist(name);});
+    const createForm = document.createElement("form");
+    const nameInput = document.createElement("input");
+    nameInput.placeholder = "New playlist name";
+    nameInput.setAttribute("aria-label", "New playlist name");
+    nameInput.maxLength = 80;
+    const create = document.createElement("button");
+    create.type = "submit"; create.textContent = "+ CREATE PLAYLIST";
+    createForm.append(nameInput, create);
+    createForm.addEventListener("submit", e => {
+        e.preventDefault(); e.stopPropagation();
+        if (gr8skulMakePlaylist(nameInput.value)) nameInput.value = "";
+        else nameInput.focus();
+    });
     const note = document.createElement("div"); note.textContent = "Preview playlists are saved in this browser only.";
     note.style.cssText = "font-size:10px;color:#777;margin:8px 0";
-    panel.append(all, create, note);
+    panel.append(all, createForm, note);
     const search = document.createElement("input"); search.placeholder = "Search my playlists";
     search.setAttribute("aria-label", "Search my playlists");
     const entries = document.createElement("div"); panel.append(search, entries);
