@@ -6076,6 +6076,50 @@ function gr8skulPreviewUrl(source) {
     return key ? GR8SKUL_PREVIEW_BASE + encodeURIComponent(key) : null;
 }
 
+/* Full-length R2 audio is authorized by the Edge Function, never by the browser. */
+let gr8skulAudioRequestId = 0;
+let gr8skulFullAudioActive = false;
+let gr8skulAudioLoading = false;
+
+async function gr8skulLoadAuthorizedAudio(file, previewUrl, startPlaying, requestId) {
+    let playbackUrl = previewUrl;
+    let fullLength = false;
+    try {
+        const { data: { session }, error: sessionError } = await playerAuthClient.auth.getSession();
+        if (sessionError) throw sessionError;
+        if (session?.access_token) {
+            const filename = new URL(file, location.href).pathname.split('/').pop();
+            if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.mp3$/i.test(filename)) {
+                const { data, error } = await playerAuthClient.functions.invoke('listener-audio-url', {
+                    body: { filename }
+                });
+                if (error) throw error;
+                if (typeof data?.url === 'string' && data.url.startsWith('https://')) {
+                    playbackUrl = data.url;
+                    fullLength = true;
+                }
+            }
+        }
+    } catch (error) {
+        // An expired membership or temporary network issue must never expose a private recording.
+        console.warn('GR8SKUL: Full-length audio unavailable; using preview.', error?.message || error);
+    }
+    if (requestId !== gr8skulAudioRequestId || currentTrackFile !== file) return;
+    gr8skulFullAudioActive = fullLength;
+    gr8skulAudioLoading = false;
+    audioPlayer.src = playbackUrl;
+    if (startPlaying) {
+        try {
+            await audioPlayer.play();
+            if (requestId === gr8skulAudioRequestId) playButton.textContent = '❚❚ PAUSE';
+        } catch (error) {
+            if (requestId === gr8skulAudioRequestId) playButton.textContent = '▶ PLAY';
+        }
+    } else {
+        playButton.textContent = '▶ PLAY';
+    }
+}
+
 /* ============================================================
    LOAD TRACK
    ============================================================ */
@@ -6156,7 +6200,14 @@ function selectTrack(
         console.warn("GR8SKUL: Preview not mapped for", file);
         return;
     }
-    audioPlayer.src = previewUrl;
+    const audioRequestId = ++gr8skulAudioRequestId;
+    gr8skulAudioLoading = true;
+    gr8skulFullAudioActive = false;
+    audioPlayer.pause();
+    audioPlayer.removeAttribute('src');
+    audioPlayer.load();
+    playButton.textContent = '▶ PLAY';
+    gr8skulLoadAuthorizedAudio(file, previewUrl, startPlaying, audioRequestId);
 
 
     nowPlaying.innerHTML = "";
@@ -6245,28 +6296,6 @@ function selectTrack(
         block: "nearest"
     });
 
-
-    if (startPlaying) {
-
-        audioPlayer.play()
-            .then(
-                function() {
-
-                    playButton.textContent =
-                        "❚❚ PAUSE";
-
-                }
-            )
-            .catch(
-                function() {
-
-                    playButton.textContent =
-                        "▶ PLAY";
-
-                }
-            );
-
-    }
 
 }
 
@@ -6453,6 +6482,8 @@ playButton.addEventListener(
 
         }
 
+
+        if (gr8skulAudioLoading) return;
 
         if (
             audioPlayer.paused
@@ -6672,6 +6703,7 @@ function gr8skulPreviewUsage() {
 }
 
 function gr8skulRecordPreviewProgress() {
+    if (gr8skulFullAudioActive) { previewLastMediaTime = null; return; }
     const now = audioPlayer.currentTime;
     if (!Number.isFinite(now)) return;
     if (previewLastMediaTime !== null && !audioPlayer.paused && !audioPlayer.seeking && !audioPlayer.ended && document.visibilityState === "visible") {
@@ -7257,6 +7289,16 @@ async function showPlayerForSession(session) {
     document.getElementById("playerSignOut").textContent = session?.user ? "SIGN OUT" : "SIGN IN";
     const nextUserId = session?.user?.id || null;
     if (nextUserId !== gr8skulLastAuthUserId) {
+        ++gr8skulAudioRequestId;
+        gr8skulAudioLoading = false;
+        gr8skulFullAudioActive = false;
+        audioPlayer.pause();
+        audioPlayer.removeAttribute('src');
+        audioPlayer.load();
+        playButton.textContent = '▶ PLAY';
+        currentTrack = -1;
+        currentTrackFile = '';
+
         gr8skulLastAuthUserId = nextUserId;
         gr8skulRefreshMemberPlaylists(session);
     }
