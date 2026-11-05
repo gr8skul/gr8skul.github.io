@@ -658,25 +658,38 @@ audio {
 }
 
 
-/* Compact, initially closed filter drawer. */
-.filter-drawer-toggle {
-    display: block;
-    margin: 0 auto 10px;
-    padding: 3px 12px;
-    min-height: 26px;
-    border: 0;
-    background: transparent;
-    color: #777777;
-    font-size: 11px;
-    font-weight: normal;
-    letter-spacing: 1.2px;
-    text-transform: lowercase;
+/* GR8SKUL playlists and expandable track information */
+.playlist-toolbar {display:flex;justify-content:center;gap:12px;align-items:center;margin-bottom:6px}
+.playlist-toolbar button {min-height:30px;padding:5px 12px;font-size:11px;letter-spacing:1px}
+.playlist-panel {border:1px solid #ddd;padding:12px;margin-bottom:12px;max-height:240px;overflow:auto}
+.playlist-panel[hidden],.track-detail[hidden],.track-add-panel[hidden] {display:none!important}
+.playlist-panel button,.track-add-panel button,.track-detail button {font-size:11px;min-height:30px;padding:5px 9px;margin:3px}
+.playlist-panel input,.track-add-panel input {font:13px Arial;padding:7px;border:1px solid #ccc;max-width:100%}
+.playlist-entry {display:flex;gap:5px;align-items:center;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid #eee}
+.track {flex-wrap:wrap}.track-info {flex-basis:100%}.track-detail,.track-add-panel {width:100%;padding:10px 8px;margin-top:7px;background:#fafafa;font-size:12px;line-height:1.6;user-select:text;white-space:pre-wrap}
+.track-extra-actions {display:flex;gap:8px;margin-top:5px}.track-extra-actions button {min-height:28px;padding:4px 8px;font-size:10px}
+/* Metadata details: readable and deliberately quiet when fields are empty. */
+.track-detail {white-space:normal; padding:12px 14px;}
+.track-detail-field + .track-detail-field {margin-top:13px;}
+.track-detail-heading {font-size:10px;letter-spacing:1.1px;color:#777;margin-bottom:4px;}
+.track-detail-value {font-size:12px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;color:#222;}
+.track-extra-actions {align-items:center;gap:12px;flex-wrap:wrap;}
+.track-extra-actions .mute-toggle {display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:4px 10px;border:1px solid #111;color:#111;background:#fff;font-size:10px;letter-spacing:0;text-decoration:none;}
+.track-extra-actions .mute-toggle:hover {background:#eee;text-decoration:none;}
+/* Matching toolbar buttons, including compact phone layout. */
+.playlist-toolbar { gap: 7px; flex-wrap: wrap; }
+.playlist-toolbar button { min-height: 30px; padding: 5px 10px; font-size: 11px; letter-spacing: .5px; }
+.filter-drawer-toggle { text-transform: none; }
+@media (max-width: 500px) {
+    .playlist-toolbar { gap: 5px; }
+    .playlist-toolbar button { padding: 5px 7px; font-size: 10px; }
 }
-.filter-drawer-toggle:hover,
-.filter-drawer-toggle:focus-visible {
-    color: #111111;
-    background: #f5f5f5;
-}
+/* Independent chronological sorting; ORIGIN preserves Works ordering. */
+.track-order-menu {position:relative;display:inline-flex;}
+.track-order-options {position:absolute;right:0;top:calc(100% + 4px);z-index:100;min-width:120px;border:1px solid #ccc;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.10);padding:4px;}
+.track-order-options[hidden] {display:none!important;}
+.playlist-toolbar .track-order-options button {display:block;width:100%;text-align:left;border:0;background:#fff;color:#111;padding:9px 10px;min-height:32px;}
+.playlist-toolbar .track-order-options button:hover,.playlist-toolbar .track-order-options button[aria-selected="true"] {background:#eee;}
 .filter-drawer[hidden] { display: none !important; }
 
 /* Shared GR8SKUL account sign-in */
@@ -698,6 +711,7 @@ audio {
 #passwordRecoveryArea { border-top: 1px solid #ddd; margin-top: 22px; padding-top: 24px; }
 .player-signout { display: block; margin: 0 auto 8px; padding: 0 8px; min-height: 24px; border: 0; background: transparent; color: #888; font-size: 9px; letter-spacing: 1px; }
 .player-signout:hover { background: transparent; color: #111; text-decoration: underline; }
+.track-search-wrap{display:flex;gap:7px;padding:9px 0;border-bottom:1px solid #ddd;flex-shrink:0}.track-search-wrap input{flex:1;min-width:0;padding:9px;border:1px solid #ccc;font:13px Arial,sans-serif}.track-search-wrap button{min-height:35px;padding:7px 10px;font-size:10px}
 </style>
 
 </head>
@@ -736,8 +750,8 @@ audio {
     alt="GR8SKUL">
 </h1>
 
-<!-- SPONSOR -->
-<div class="sponsor" id="sponsor"></div>
+<!-- Sponsorship header intentionally removed. -->
+<div id="sponsor" hidden></div>
 
 <div class="controls">
 
@@ -774,7 +788,7 @@ SHUFFLE OFF </button>
      GENRE + MOOD + ERA + REGION FILTERS
      ========================================================= -->
 
-<button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">filter</button>
+<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">FILTER ▾</button><span class="track-order-menu" id="trackOrderMenu"><button id="trackOrderToggle" type="button" aria-label="Choose track order" aria-controls="trackOrderOptions" aria-expanded="false">ORDER ▾</button><span id="trackOrderOptions" class="track-order-options" role="listbox" aria-label="Track order" hidden><button type="button" data-track-order="origin" role="option" aria-selected="true">ORIGIN ✓</button><button type="button" data-track-order="newest" role="option" aria-selected="false">NEWEST</button><button type="button" data-track-order="oldest" role="option" aria-selected="false">OLDEST</button></span></span></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
 <div id="filterDrawer" class="filter-drawer" hidden>
 <div class="taxonomy-filters">
 
@@ -915,6 +929,7 @@ REGION(S): ALL </span>
      AUTOMATIC TRACK LIST
      ========================= -->
 
+<div class="track-search-wrap"><input id="gr8skulTrackSearch" type="search" placeholder="Search titles, genres, lyrics, metadata…" aria-label="Search recordings" autocomplete="off"><button id="gr8skulClearSearch" type="button" aria-label="Clear search">CLEAR</button></div>
 <div class="track-list" id="trackList"></div>
 
 <!-- =========================
@@ -923,7 +938,7 @@ REGION(S): ALL </span>
 
 <div class="player">
 
-<audio id="audioPlayer" controls preload="none"></audio>
+<audio id="audioPlayer" controls controlsList="nodownload noplaybackrate" preload="none" oncontextmenu="return false;"></audio>
 
 </div>
 
@@ -939,7 +954,7 @@ REGION(S): ALL </span>
     toggle.addEventListener("click", function () {
         const opening = drawer.hidden;
         drawer.hidden = !opening;
-        toggle.textContent = opening ? "close" : "filter";
+        toggle.textContent = opening ? "FILTER ▴" : "FILTER ▾";
         toggle.setAttribute("aria-expanded", String(opening));
     });
 })();
@@ -1802,6 +1817,42 @@ let tracks = [];
 
 let allTrackData = [];
 
+/* ORIGIN follows the manually published track-order.json sequence. */
+let gr8skulTrackOrder = "origin";
+const trackOrderToggle = document.getElementById("trackOrderToggle");
+const trackOrderOptions = document.getElementById("trackOrderOptions");
+const trackOrderMenu = document.getElementById("trackOrderMenu");
+function closeTrackOrderMenu() {
+    trackOrderOptions.hidden = true;
+    trackOrderToggle.setAttribute("aria-expanded", "false");
+    trackOrderToggle.textContent = "ORDER ▾";
+}
+trackOrderToggle.addEventListener("click", function () {
+    const open = trackOrderOptions.hidden;
+    trackOrderOptions.hidden = !open;
+    trackOrderToggle.setAttribute("aria-expanded", String(open));
+    trackOrderToggle.textContent = open ? "ORDER ▴" : "ORDER ▾";
+});
+trackOrderOptions.querySelectorAll("[data-track-order]").forEach(function(button) {
+    button.addEventListener("click", function () {
+        gr8skulTrackOrder = button.dataset.trackOrder;
+        trackOrderOptions.querySelectorAll("[data-track-order]").forEach(function(option) {
+            const selected = option.dataset.trackOrder === gr8skulTrackOrder;
+            option.setAttribute("aria-selected", String(selected));
+            option.textContent = option.dataset.trackOrder.toUpperCase() + (selected ? " ✓" : "");
+        });
+        closeTrackOrderMenu();
+        renderFilteredTracks();
+    });
+});
+document.addEventListener("click", function(event) {
+    if (!trackOrderMenu.contains(event.target)) closeTrackOrderMenu();
+});
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") closeTrackOrderMenu();
+});
+
+
 let currentTrack = -1;
 
 let currentTrackFile = "";
@@ -1813,6 +1864,102 @@ let shuffleQueue = [];
 let playHistory = [];
 
 
+/* Browser-only playlists: member cloud sync is NOT implemented in this test. */
+const GR8SKUL_PLAYLIST_KEY = "gr8skul-browser-playlists-v1";
+let gr8skulPlaylists = [];
+try {
+    const saved = JSON.parse(localStorage.getItem(GR8SKUL_PLAYLIST_KEY) || "[]");
+    if (Array.isArray(saved)) gr8skulPlaylists = saved.filter(p => p && typeof p.id === "string" && typeof p.name === "string" && Array.isArray(p.tracks));
+} catch (e) { console.warn("Playlist storage unavailable", e); }
+let gr8skulSelectedPlaylist = null;
+function gr8skulSavePlaylists() {
+    try { localStorage.setItem(GR8SKUL_PLAYLIST_KEY, JSON.stringify(gr8skulPlaylists)); }
+    catch (e) { alert("Browser storage is unavailable; playlist changes may not persist."); }
+    gr8skulDrawPlaylists();
+}
+function gr8skulMakePlaylist(name) {
+    name = String(name || "").trim().slice(0, 80);
+    if (!name) return null;
+    const item = {id: crypto.randomUUID(), name, tracks: []};
+    gr8skulPlaylists.push(item); gr8skulSavePlaylists(); return item;
+}
+function gr8skulDrawAddPanel(panel, path) {
+    panel.replaceChildren();
+    const search = document.createElement("input"); search.placeholder = "Search playlists"; search.setAttribute("aria-label", "Search playlists");
+    const list = document.createElement("div");
+    const draw = () => {
+        list.replaceChildren();
+        gr8skulPlaylists.filter(p => p.name.toLowerCase().includes(search.value.toLowerCase())).forEach(p => {
+            const b = document.createElement("button"); b.type = "button";
+            b.textContent = (p.tracks.includes(path) ? "✓ " : "+ ") + p.name;
+            b.addEventListener("click", () => {if (p.tracks.includes(path)) {p.tracks = p.tracks.filter(t => t !== path);} else {p.tracks.push(path);} gr8skulSavePlaylists(); if (gr8skulSelectedPlaylist === p.id) renderFilteredTracks(); draw();});
+            list.appendChild(b);
+        });
+    };
+    search.addEventListener("input", draw);
+    const createForm = document.createElement("form");
+    const nameInput = document.createElement("input");
+    nameInput.placeholder = "New playlist name";
+    nameInput.setAttribute("aria-label", "New playlist name");
+    nameInput.maxLength = 80;
+    const create = document.createElement("button");
+    create.type = "submit"; create.textContent = "CREATE NEW";
+    createForm.append(nameInput, create);
+    createForm.addEventListener("submit", e => {
+        e.preventDefault(); e.stopPropagation();
+        const p = gr8skulMakePlaylist(nameInput.value);
+        if (p) {p.tracks.push(path);gr8skulSavePlaylists();nameInput.value = "";draw();}
+        else nameInput.focus();
+    });
+    panel.append(search, list, createForm); draw();
+}
+function gr8skulDrawPlaylists() {
+    const panel = document.getElementById("myPlaylistsPanel");
+    if (!panel) return;
+    panel.replaceChildren();
+    const all = document.createElement("button"); all.textContent = "ALL TRACKS";
+    all.addEventListener("click", () => {gr8skulSelectedPlaylist = null;renderFilteredTracks();gr8skulDrawPlaylists();});
+    const createForm = document.createElement("form");
+    const nameInput = document.createElement("input");
+    nameInput.placeholder = "New playlist name";
+    nameInput.setAttribute("aria-label", "New playlist name");
+    nameInput.maxLength = 80;
+    const create = document.createElement("button");
+    create.type = "submit"; create.textContent = "+ CREATE PLAYLIST";
+    createForm.append(nameInput, create);
+    createForm.addEventListener("submit", e => {
+        e.preventDefault(); e.stopPropagation();
+        if (gr8skulMakePlaylist(nameInput.value)) nameInput.value = "";
+        else nameInput.focus();
+    });
+    const note = document.createElement("div"); note.textContent = "Preview playlists are saved in this browser only.";
+    note.style.cssText = "font-size:10px;color:#777;margin:8px 0";
+    panel.append(all, createForm, note);
+    const search = document.createElement("input"); search.placeholder = "Search my playlists";
+    search.setAttribute("aria-label", "Search my playlists");
+    const entries = document.createElement("div"); panel.append(search, entries);
+    const draw = () => {
+        entries.replaceChildren();
+        gr8skulPlaylists.filter(p => p.name.toLowerCase().includes(search.value.toLowerCase())).forEach(p => {
+            const row = document.createElement("div");row.className = "playlist-entry";
+            const choose = document.createElement("button");choose.textContent = (p.id === gr8skulSelectedPlaylist ? "✓ " : "") + p.name + " (" + p.tracks.length + ")";
+            choose.addEventListener("click", () => {gr8skulSelectedPlaylist = p.id;renderFilteredTracks();gr8skulDrawPlaylists();});
+            const play = document.createElement("button");play.textContent = "▶ PLAY";
+            play.addEventListener("click", () => {gr8skulSelectedPlaylist = p.id;renderFilteredTracks();const idx = tracks.findIndex(t => !mutedTracks[t.dataset.file]);if (idx >= 0) selectTrack(idx, true, true);gr8skulDrawPlaylists();});
+            const rename = document.createElement("button");rename.textContent = "RENAME";
+            rename.addEventListener("click", () => {const name = prompt("Rename playlist:",p.name);if (name && name.trim()) {p.name = name.trim().slice(0,80);gr8skulSavePlaylists();}});
+            const del = document.createElement("button");del.textContent = "DELETE";
+            del.addEventListener("click", () => {if (!confirm("Delete playlist '" + p.name + "'?")) return;gr8skulPlaylists = gr8skulPlaylists.filter(x => x.id !== p.id);if (gr8skulSelectedPlaylist === p.id) {gr8skulSelectedPlaylist = null;renderFilteredTracks();}gr8skulSavePlaylists();});
+            row.append(choose, play, rename, del);entries.appendChild(row);
+        });
+    };
+    search.addEventListener("input", draw);draw();
+}
+document.getElementById("myPlaylistsButton").addEventListener("click", () => {
+    const panel = document.getElementById("myPlaylistsPanel");panel.hidden = !panel.hidden;
+    document.getElementById("myPlaylistsButton").setAttribute("aria-expanded", String(!panel.hidden));
+    if (!panel.hidden) gr8skulDrawPlaylists();
+});
 /* ============================================================
    TAXONOMY NORMALIZATION
    ============================================================ */
@@ -4789,22 +4936,7 @@ function createTrackElement(
     );
 
 
-    if (displayArtist) {
-
-        const artist =
-            document.createElement("div");
-
-        artist.className =
-            "track-artist";
-
-        artist.textContent =
-            displayArtist;
-
-        trackInfo.appendChild(
-            artist
-        );
-
-    }
+    // GR8SKUL is the sole artist; show track titles only.
 
 
     const trackActions =
@@ -4826,18 +4958,66 @@ function createTrackElement(
     muteButton.textContent =
         "MUTE";
 
-    trackActions.appendChild(
-        muteButton
-    );
-
     trackInfo.appendChild(
         trackActions
     );
 
-    track.appendChild(
-        trackInfo
-    );
-
+    const extras = document.createElement("div");
+    extras.className = "track-extra-actions";
+    const more = document.createElement("button");
+    more.type = "button"; more.textContent = "MORE ▾";
+    const add = document.createElement("button");
+    add.type = "button"; add.textContent = "+ PLAYLIST ▾";
+    extras.append(more, add, muteButton);
+    trackInfo.appendChild(extras);
+    track.appendChild(trackInfo);
+    const details = document.createElement("div");
+    details.className = "track-detail"; details.hidden = true;
+    // Render only meaningful metadata, never raw JSON or missing-field messages.
+    const readable = (value) => {
+        if (value == null) return [];
+        if (Array.isArray(value)) return value.flatMap(readable);
+        if (typeof value === "object") {
+            if (Array.isArray(value.path)) return [value.path.filter(Boolean).join(" › ")];
+            const parent = value.genre || value.mood || value.era || value.parent || "";
+            const child = value.type || value.year || value.name || "";
+            if (parent && child) return [String(parent) + " › " + String(child)];
+            if (child) return [String(child)];
+            return [];
+        }
+        return String(value).split(",").map(x => x.trim()).filter(Boolean);
+    };
+    const info = (label, value, multiline = false) => {
+        const values = multiline ? [typeof value === "string" ? value.trim() : ""].filter(Boolean) : readable(value);
+        if (!values.length) return;
+        const line = document.createElement("div");
+        line.className = "track-detail-field";
+        const heading = document.createElement("div");
+        heading.className = "track-detail-heading";
+        heading.textContent = label;
+        const body = document.createElement("div");
+        body.className = "track-detail-value";
+        body.textContent = multiline ? values[0] : [...new Set(values)].join(" · ");
+        line.append(heading, body);
+        details.appendChild(line);
+    };
+    info("GENRES", trackData.genres);
+    info("GENRE TYPES", trackData.genreTypes);
+    info("MOODS", trackData.moods);
+    info("MOOD TYPES", trackData.moodTypes);
+    info("ERAS", trackData.eras);
+    info("YEARS", trackData.eraYears);
+    info("REGIONS", trackData.regions);
+    info("ABOUT", trackData.about, true);
+    info("LYRICS", trackData.lyrics, true);
+    if (!details.childElementCount) more.hidden = true;
+    const addPanel = document.createElement("div");
+    addPanel.className = "track-add-panel"; addPanel.hidden = true;
+    more.addEventListener("click", e => { e.stopPropagation(); details.hidden = !details.hidden; });
+    add.addEventListener("click", e => { e.stopPropagation(); addPanel.hidden = !addPanel.hidden; if (!addPanel.hidden) gr8skulDrawAddPanel(addPanel, trackData.path); });
+    addPanel.addEventListener("click", e => e.stopPropagation());
+    details.addEventListener("click", e => e.stopPropagation());
+    track.append(details, addPanel);
     return track;
 
 }
@@ -4999,17 +5179,41 @@ function renderFilteredTracks() {
         !audioPlayer.paused;
 
 
+    const searchTerms = (document.getElementById("gr8skulTrackSearch")?.value || "").toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
+    const matchesSearch = track => {
+        if (!searchTerms.length) return true;
+        const searchable = [track.title, track.name, track.artist, track.genres, track.genreTypes, track.moods, track.moodTypes, track.eras, track.eraYears, track.eraTypes, track.regions, track.lyrics, track.about].map(value => typeof value === "string" ? value : JSON.stringify(value || "")).join(" ").toLocaleLowerCase();
+        return searchTerms.every(term => searchable.includes(term));
+    };
+
+    const playlistPaths = gr8skulSelectedPlaylist === null ? null : (gr8skulPlaylists.find(p => p.id === gr8skulSelectedPlaylist)?.tracks || []);
     const filteredData =
-        allTrackData.filter(
+        (playlistPaths === null ? allTrackData : playlistPaths.map(path => allTrackData.find(t => t.path === path)).filter(Boolean)).filter(
             function(trackData) {
 
                 return trackMatchesCurrentFilters(
                     trackData
-                );
+                ) && matchesSearch(trackData);
 
             }
         );
 
+
+    /* Chronology uses the immutable Supabase work creation timestamp.
+       Missing/invalid timestamps stay last, in their original relative order. */
+    if (gr8skulTrackOrder !== "origin") {
+        const direction = gr8skulTrackOrder === "newest" ? -1 : 1;
+        filteredData.sort(function(a, b) {
+            const aDate = Date.parse(a.created_at || "");
+            const bDate = Date.parse(b.created_at || "");
+            const aValid = Number.isFinite(aDate);
+            const bValid = Number.isFinite(bDate);
+            if (!aValid && !bValid) return 0;
+            if (!aValid) return 1;
+            if (!bValid) return -1;
+            return (aDate - bDate) * direction;
+        });
+    }
 
     tracksContainer.innerHTML = "";
 
@@ -5126,29 +5330,10 @@ function renderFilteredTracks() {
         }
 
     } else {
-
-        if (wasPlaying) {
-            audioPlayer.pause();
-        }
-
-        audioPlayer.removeAttribute(
-            "src"
-        );
-
-        audioPlayer.load();
-
+        // Browsing a different list must not interrupt the audio already playing.
         currentTrack = -1;
-
-        currentTrackFile = "";
-
-        playHistory = [];
-
-        shuffleQueue = [];
-
-        nowPlaying.innerHTML = "";
-
+        // Preserve currentTrackFile and audioPlayer.src until the listener explicitly plays something else.
     }
-
 
     updateFilterStatus(
         filteredData.length
@@ -5156,6 +5341,9 @@ function renderFilteredTracks() {
 
 }
 
+
+document.getElementById("gr8skulTrackSearch").addEventListener("input", () => renderFilteredTracks());
+document.getElementById("gr8skulClearSearch").addEventListener("click", () => { const field = document.getElementById("gr8skulTrackSearch"); field.value = ""; renderFilteredTracks(); field.focus(); });
 
 /* ============================================================
    APPLY FILTERS
@@ -5428,6 +5616,9 @@ async function loadCatalog() {
                                 ? meta.eraTypes
                                 : [],
 
+                        created_at: meta && typeof meta.created_at === "string" ? meta.created_at : "",
+                        lyrics: meta && typeof meta.lyrics === "string" ? meta.lyrics : "",
+                        about: meta && typeof meta.about === "string" ? meta.about : "",
                         regions:
                             meta &&
                             (
@@ -5783,6 +5974,32 @@ function toggleTrackMute(index) {
 }
 
 
+/* R2 preview-only playback: no fallback to full recordings. */
+const GR8SKUL_PREVIEW_BASE = "https://pub-beb61d5fcf4f4c94a5a388139662b8b5.r2.dev/";
+const GR8SKUL_PREVIEW_BY_SOURCE = {
+  "https://gr8skul.com/music/6f19c4f5-b594-41e8-bafa-b447ab174184.mp3": "preview-5733ad5738c2e36520642a90.mp3",
+  "https://gr8skul.com/music/d4c848c3-8af8-4dd1-b2b8-cc071a42b425.mp3": "preview-75f63fd1e597b60391c6373e.mp3",
+  "https://gr8skul.com/music/0063a79a-fce3-4761-bd03-9b1af4fc9484.mp3": "preview-2a8ef64b177e61fa2ee1a0a2.mp3",
+  "https://gr8skul.com/music/7eea9e80-4098-46b0-8278-fd2107a2f590.mp3": "preview-c58da4ab121a75086e8e123b.mp3",
+  "https://gr8skul.com/music/116ea63e-a21c-4eb9-9f17-4fa8d0812eed.mp3": "preview-181de281739d32190eccfcd4.mp3",
+  "https://gr8skul.com/music/79e7a79e-648a-45e0-9661-4e04de54a58c.mp3": "preview-394b26276e3033104209e4a8.mp3",
+  "https://gr8skul.com/music/3ea39294-77ff-47a2-a98d-f4eda1d8ec90.mp3": "preview-3c9d0cd82e96329422cb62e9.mp3",
+  "https://gr8skul.com/music/857863f5-c162-4044-beb8-e9e80011eded.mp3": "preview-1a7550a6653e5677d308d9a9.mp3",
+  "https://gr8skul.com/music/ae5ef51a-8861-453f-a210-401a626b4151.mp3": "preview-d5033758d728ad0a791e6c73.mp3",
+  "https://gr8skul.com/music/4d9ddfd8-d315-45b5-9898-8f5ab5f1a6e0.mp3": "preview-58b54810566cf19de6d50101.mp3",
+  "https://gr8skul.com/music/a5a0bfc2-12e6-428e-b385-51be594def72.mp3": "preview-bf6fd84833a164fdb3e7a127.mp3",
+  "https://gr8skul.com/music/21d2e73a-49dc-4565-b3da-fc7d0d93d196.mp3": "preview-8d709d770e7965fe8b4b8e09.mp3",
+  "https://gr8skul.com/music/4183aad0-0739-4f09-a0ae-79127665452a.mp3": "preview-fa71dee8c2d2d805770b4f44.mp3",
+  "https://gr8skul.com/music/661cd1be-8c74-43da-97c3-bfef8a21583d.mp3": "preview-139134e78ec0440d85ba0bbb.mp3",
+  "https://gr8skul.com/music/0dce2a1c-7986-4e35-a20e-dcd6093ec7d8.mp3": "preview-5d05ac060cab568a05e9ea9d.mp3",
+  "https://gr8skul.com/music/d48aa159-9216-4690-9937-28bb17c650c2.mp3": "preview-451454897966097eff5f3d77.mp3",
+  "https://gr8skul.com/music/c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3": "preview-d6e486dbf6223a92334fc006.mp3"
+};
+function gr8skulPreviewUrl(source) {
+    const key = GR8SKUL_PREVIEW_BY_SOURCE[new URL(source, location.href).href];
+    return key ? GR8SKUL_PREVIEW_BASE + encodeURIComponent(key) : null;
+}
+
 /* ============================================================
    LOAD TRACK
    ============================================================ */
@@ -5847,15 +6064,23 @@ function selectTrack(
     const title =
         track.dataset.title;
 
-    const artist =
-        track.dataset.artist;
+    const artist = "";
 
     const file =
         track.dataset.file;
 
 
-    audioPlayer.src =
-        file;
+    const previewUrl = gr8skulPreviewUrl(file);
+    if (!previewUrl) {
+        audioPlayer.pause();
+        audioPlayer.removeAttribute("src");
+        audioPlayer.load();
+        playButton.textContent = "▶ PLAY";
+        nowPlaying.textContent = "Preview unavailable for this recording.";
+        console.warn("GR8SKUL: Preview not mapped for", file);
+        return;
+    }
+    audioPlayer.src = previewUrl;
 
 
     nowPlaying.innerHTML = "";
@@ -6349,6 +6574,52 @@ function attachTrackListeners() {
 
 
 /* ============================================================
+   FREE PREVIEW USAGE — MEASUREMENT ONLY, NO LIMIT ENFORCED
+
+   Browser-local anonymous identifier already exists: sessionId.
+   This independent counter does not alter qualified-listener or
+   sponsor measurements. Server-side metering will be needed before
+   enforcing any listening allowance.
+   ============================================================ */
+const GR8SKUL_PREVIEW_USAGE_KEY = "gr8skul-preview-usage-v1";
+let previewLastMediaTime = null;
+
+function gr8skulPreviewUsage() {
+    const today = getTodayChicagoDate();
+    try {
+        const stored = JSON.parse(localStorage.getItem(GR8SKUL_PREVIEW_USAGE_KEY) || "null");
+        if (stored && stored.date === today && Number.isFinite(stored.seconds)) return stored;
+    } catch (error) {
+        console.warn("Preview usage counter reset.", error);
+    }
+    return { date: today, seconds: 0 };
+}
+
+function gr8skulRecordPreviewProgress() {
+    const now = audioPlayer.currentTime;
+    if (!Number.isFinite(now)) return;
+    if (previewLastMediaTime !== null && !audioPlayer.paused && !audioPlayer.seeking && !audioPlayer.ended && document.visibilityState === "visible") {
+        const delta = now - previewLastMediaTime;
+        // Ignore jumps caused by seeking, track changes, or unusual buffering.
+        if (delta > 0 && delta <= 1.5) {
+            const usage = gr8skulPreviewUsage();
+            usage.seconds += delta;
+            try { localStorage.setItem(GR8SKUL_PREVIEW_USAGE_KEY, JSON.stringify(usage)); }
+            catch (error) { console.warn("Preview usage storage unavailable.", error); }
+        }
+    }
+    previewLastMediaTime = now;
+}
+
+audioPlayer.addEventListener("timeupdate", gr8skulRecordPreviewProgress);
+audioPlayer.addEventListener("seeking", () => { previewLastMediaTime = null; });
+audioPlayer.addEventListener("seeked", () => { previewLastMediaTime = audioPlayer.currentTime; });
+audioPlayer.addEventListener("loadstart", () => { previewLastMediaTime = null; });
+audioPlayer.addEventListener("pause", () => { previewLastMediaTime = null; });
+audioPlayer.addEventListener("ended", () => { previewLastMediaTime = null; });
+document.addEventListener("visibilitychange", () => { previewLastMediaTime = null; });
+
+/* ============================================================
    AUDIO PLAYING
    ============================================================ */
 
@@ -6508,9 +6779,7 @@ async function startApp() {
     }
 
 
-    loadSponsors();
-
-    startSponsorRotation();
+    // Sponsorship header disabled for this player.
 
 }
 
