@@ -676,24 +676,13 @@ audio {
 .track-extra-actions {align-items:center;gap:12px;flex-wrap:wrap;}
 .track-extra-actions .mute-toggle {display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:4px 10px;border:1px solid #111;color:#111;background:#fff;font-size:10px;letter-spacing:0;text-decoration:none;}
 .track-extra-actions .mute-toggle:hover {background:#eee;text-decoration:none;}
-/* Compact, initially closed filter drawer. */
-.filter-drawer-toggle {
-    display: block;
-    margin: 0 auto 10px;
-    padding: 3px 12px;
-    min-height: 26px;
-    border: 0;
-    background: transparent;
-    color: #777777;
-    font-size: 11px;
-    font-weight: normal;
-    letter-spacing: 1.2px;
-    text-transform: lowercase;
-}
-.filter-drawer-toggle:hover,
-.filter-drawer-toggle:focus-visible {
-    color: #111111;
-    background: #f5f5f5;
+/* Matching toolbar buttons, including compact phone layout. */
+.playlist-toolbar { gap: 7px; flex-wrap: wrap; }
+.playlist-toolbar button { min-height: 30px; padding: 5px 10px; font-size: 11px; letter-spacing: .5px; }
+.filter-drawer-toggle { text-transform: none; }
+@media (max-width: 500px) {
+    .playlist-toolbar { gap: 5px; }
+    .playlist-toolbar button { padding: 5px 7px; font-size: 10px; }
 }
 .filter-drawer[hidden] { display: none !important; }
 
@@ -793,7 +782,7 @@ SHUFFLE OFF </button>
      GENRE + MOOD + ERA + REGION FILTERS
      ========================================================= -->
 
-<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">filter</button></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
+<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">FILTER ▾</button><button id="trackOrderToggle" type="button" aria-label="Change track order" aria-pressed="false">NEWEST FIRST</button></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
 <div id="filterDrawer" class="filter-drawer" hidden>
 <div class="taxonomy-filters">
 
@@ -959,7 +948,7 @@ REGION(S): ALL </span>
     toggle.addEventListener("click", function () {
         const opening = drawer.hidden;
         drawer.hidden = !opening;
-        toggle.textContent = opening ? "close" : "filter";
+        toggle.textContent = opening ? "FILTER ▴" : "FILTER ▾";
         toggle.setAttribute("aria-expanded", String(opening));
     });
 })();
@@ -1821,6 +1810,17 @@ function saveMuteSettings() {
 let tracks = [];
 
 let allTrackData = [];
+
+/* Reverse the published catalog sequence without changing the source files. */
+let gr8skulNewestFirst = true;
+const trackOrderToggle = document.getElementById("trackOrderToggle");
+trackOrderToggle.addEventListener("click", function () {
+    gr8skulNewestFirst = !gr8skulNewestFirst;
+    trackOrderToggle.textContent = gr8skulNewestFirst ? "NEWEST FIRST" : "OLDEST FIRST";
+    trackOrderToggle.setAttribute("aria-pressed", String(!gr8skulNewestFirst));
+    renderFilteredTracks();
+});
+
 
 let currentTrack = -1;
 
@@ -5167,6 +5167,9 @@ function renderFilteredTracks() {
             }
         );
 
+
+    /* Catalog order is maintained by track-order.json. Reverse for the opposite view. */
+    if (gr8skulNewestFirst) filteredData.reverse();
 
     tracksContainer.innerHTML = "";
 
