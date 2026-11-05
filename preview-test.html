@@ -668,6 +668,14 @@ audio {
 .playlist-entry {display:flex;gap:5px;align-items:center;flex-wrap:wrap;padding:5px 0;border-bottom:1px solid #eee}
 .track {flex-wrap:wrap}.track-info {flex-basis:100%}.track-detail,.track-add-panel {width:100%;padding:10px 8px;margin-top:7px;background:#fafafa;font-size:12px;line-height:1.6;user-select:text;white-space:pre-wrap}
 .track-extra-actions {display:flex;gap:8px;margin-top:5px}.track-extra-actions button {min-height:28px;padding:4px 8px;font-size:10px}
+/* Metadata details: readable and deliberately quiet when fields are empty. */
+.track-detail {white-space:normal; padding:12px 14px;}
+.track-detail-field + .track-detail-field {margin-top:13px;}
+.track-detail-heading {font-size:10px;letter-spacing:1.1px;color:#777;margin-bottom:4px;}
+.track-detail-value {font-size:12px;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere;color:#222;}
+.track-extra-actions {align-items:center;gap:12px;flex-wrap:wrap;}
+.track-extra-actions .mute-toggle {display:inline-flex;align-items:center;justify-content:center;min-height:28px;padding:4px 10px;border:1px solid #111;color:#111;background:#fff;font-size:10px;letter-spacing:0;text-decoration:none;}
+.track-extra-actions .mute-toggle:hover {background:#eee;text-decoration:none;}
 /* Compact, initially closed filter drawer. */
 .filter-drawer-toggle {
     display: block;
@@ -1853,7 +1861,7 @@ function gr8skulDrawAddPanel(panel, path) {
         gr8skulPlaylists.filter(p => p.name.toLowerCase().includes(search.value.toLowerCase())).forEach(p => {
             const b = document.createElement("button"); b.type = "button";
             b.textContent = (p.tracks.includes(path) ? "✓ " : "+ ") + p.name;
-            b.addEventListener("click", () => {if (!p.tracks.includes(path)) {p.tracks.push(path);gr8skulSavePlaylists();} draw();});
+            b.addEventListener("click", () => {if (p.tracks.includes(path)) {p.tracks = p.tracks.filter(t => t !== path);} else {p.tracks.push(path);} gr8skulSavePlaylists(); if (gr8skulSelectedPlaylist === p.id) renderFilteredTracks(); draw();});
             list.appendChild(b);
         });
     };
@@ -4919,10 +4927,6 @@ function createTrackElement(
     muteButton.textContent =
         "MUTE";
 
-    trackActions.appendChild(
-        muteButton
-    );
-
     trackInfo.appendChild(
         trackActions
     );
@@ -4933,14 +4937,37 @@ function createTrackElement(
     more.type = "button"; more.textContent = "MORE ▾";
     const add = document.createElement("button");
     add.type = "button"; add.textContent = "+ PLAYLIST ▾";
-    extras.append(more, add);
+    extras.append(more, add, muteButton);
     trackInfo.appendChild(extras);
     track.appendChild(trackInfo);
     const details = document.createElement("div");
     details.className = "track-detail"; details.hidden = true;
-    const info = (label, value) => {
+    // Render only meaningful metadata, never raw JSON or missing-field messages.
+    const readable = (value) => {
+        if (value == null) return [];
+        if (Array.isArray(value)) return value.flatMap(readable);
+        if (typeof value === "object") {
+            if (Array.isArray(value.path)) return [value.path.filter(Boolean).join(" › ")];
+            const parent = value.genre || value.mood || value.era || value.parent || "";
+            const child = value.type || value.year || value.name || "";
+            if (parent && child) return [String(parent) + " › " + String(child)];
+            if (child) return [String(child)];
+            return [];
+        }
+        return String(value).split(",").map(x => x.trim()).filter(Boolean);
+    };
+    const info = (label, value, multiline = false) => {
+        const values = multiline ? [typeof value === "string" ? value.trim() : ""].filter(Boolean) : readable(value);
+        if (!values.length) return;
         const line = document.createElement("div");
-        line.textContent = label + ": " + (Array.isArray(value) ? value.map(x => typeof x === "object" ? JSON.stringify(x) : x).join(", ") : String(value || "—"));
+        line.className = "track-detail-field";
+        const heading = document.createElement("div");
+        heading.className = "track-detail-heading";
+        heading.textContent = label;
+        const body = document.createElement("div");
+        body.className = "track-detail-value";
+        body.textContent = multiline ? values[0] : [...new Set(values)].join(" · ");
+        line.append(heading, body);
         details.appendChild(line);
     };
     info("GENRES", trackData.genres);
@@ -4950,7 +4977,9 @@ function createTrackElement(
     info("ERAS", trackData.eras);
     info("YEARS", trackData.eraYears);
     info("REGIONS", trackData.regions);
-    info("LYRICS", trackData.lyrics || "Not provided yet");
+    info("ABOUT", trackData.about, true);
+    info("LYRICS", trackData.lyrics, true);
+    if (!details.childElementCount) more.hidden = true;
     const addPanel = document.createElement("div");
     addPanel.className = "track-add-panel"; addPanel.hidden = true;
     more.addEventListener("click", e => { e.stopPropagation(); details.hidden = !details.hidden; });
@@ -5122,7 +5151,7 @@ function renderFilteredTracks() {
     const searchTerms = (document.getElementById("gr8skulTrackSearch")?.value || "").toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
     const matchesSearch = track => {
         if (!searchTerms.length) return true;
-        const searchable = [track.title, track.name, track.artist, track.genres, track.genreTypes, track.moods, track.moodTypes, track.eras, track.eraYears, track.eraTypes, track.regions, track.lyrics].map(value => typeof value === "string" ? value : JSON.stringify(value || "")).join(" ").toLocaleLowerCase();
+        const searchable = [track.title, track.name, track.artist, track.genres, track.genreTypes, track.moods, track.moodTypes, track.eras, track.eraYears, track.eraTypes, track.regions, track.lyrics, track.about].map(value => typeof value === "string" ? value : JSON.stringify(value || "")).join(" ").toLocaleLowerCase();
         return searchTerms.every(term => searchable.includes(term));
     };
 
@@ -5541,6 +5570,7 @@ async function loadCatalog() {
                                 : [],
 
                         lyrics: meta && typeof meta.lyrics === "string" ? meta.lyrics : "",
+                        about: meta && typeof meta.about === "string" ? meta.about : "",
                         regions:
                             meta &&
                             (
