@@ -789,7 +789,7 @@ SHUFFLE OFF </button>
      GENRE + MOOD + ERA + REGION FILTERS
      ========================================================= -->
 
-<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">FILTER ▾</button><span class="track-order-menu" id="trackOrderMenu"><button id="trackOrderToggle" type="button" aria-label="Choose track order" aria-controls="trackOrderOptions" aria-expanded="false">ORDER ▾</button><span id="trackOrderOptions" class="track-order-options" role="listbox" aria-label="Track order" hidden><button type="button" data-track-order="origin" role="option" aria-selected="true">ORIGIN ✓</button><button type="button" data-track-order="newest" role="option" aria-selected="false">NEWEST</button><button type="button" data-track-order="oldest" role="option" aria-selected="false">OLDEST</button></span></span></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
+<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">FILTER ▾</button><span class="track-order-menu" id="trackOrderMenu"><button id="trackOrderToggle" type="button" aria-label="Choose track order" aria-controls="trackOrderOptions" aria-expanded="false">ORDER ▾</button><span id="trackOrderOptions" class="track-order-options" role="listbox" aria-label="Track order" hidden><button type="button" data-track-order="origin" role="option" aria-selected="true">ORIGIN ✓</button><button type="button" data-track-order="newest" role="option" aria-selected="false">NEWEST</button><button type="button" data-track-order="oldest" role="option" aria-selected="false">OLDEST</button></span></span><button id="gr8skulClearView" type="button" aria-label="Clear filters, playlist selection and order">CLEAR</button></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
 <div id="filterDrawer" class="filter-drawer" hidden>
 <div class="taxonomy-filters">
 
@@ -1853,6 +1853,39 @@ document.addEventListener("keydown", function(event) {
     if (event.key === "Escape") closeTrackOrderMenu();
 });
 
+/* Restore the full catalog and the original Works publication order.
+   This changes only the current view; saved playlists remain untouched. */
+document.getElementById("gr8skulClearView").addEventListener("click", function () {
+    gr8skulSelectedPlaylist = null;
+    gr8skulTrackOrder = "origin";
+    trackOrderOptions.querySelectorAll("[data-track-order]").forEach(function (option) {
+        const selected = option.dataset.trackOrder === "origin";
+        option.setAttribute("aria-selected", String(selected));
+        option.textContent = option.dataset.trackOrder.toUpperCase() + (selected ? " ✓" : "");
+    });
+    closeTrackOrderMenu();
+
+    document.getElementById("gr8skulTrackSearch").value = "";
+    [genreTree, moodTree, eraTree, regionTree].forEach(function (tree) {
+        tree.querySelectorAll('input[type="checkbox"]').forEach(function (input) {
+            input.checked = false;
+        });
+        tree.querySelectorAll(".selected").forEach(function (node) {
+            node.classList.remove("selected");
+        });
+        tree.classList.remove("open");
+        const trigger = tree.querySelector(".taxonomy-trigger");
+        if (trigger) trigger.setAttribute("aria-expanded", "false");
+    });
+    updateTreeSummary(genreTree);
+    updateTreeSummary(moodTree);
+    updateEraSummary();
+    updateRegionSummary();
+    renderFilteredTracks();
+    gr8skulDrawPlaylists();
+});
+
+
 
 let currentTrack = -1;
 
@@ -1940,7 +1973,7 @@ function gr8skulDrawPlaylists() {
     if (gr8skulCloudMember) {
         const syncButton = document.createElement("button");
         syncButton.type = "button";
-        syncButton.textContent = "SYNC PLAYLISTS";
+        syncButton.textContent = "RETRY CLOUD SYNC";
         syncButton.addEventListener("click", () => gr8skulSyncCloudPlaylists(true));
         panel.appendChild(syncButton);
     }
@@ -6874,8 +6907,8 @@ async function gr8skulLoadCloudPlaylists(userId, generation) {
     catch (e) { console.warn("Local playlist backup unavailable", e); }
     gr8skulDrawPlaylists();
     if (added) renderFilteredTracks();
-    // Do not automatically overwrite remote playlists at sign-in.
-    // A member can explicitly import local playlists using SYNC PLAYLISTS.
+    // The merged browser copy is retained; automatic import follows only
+    // after membership verification and a successful cloud read.
 }
 
 async function gr8skulSyncCloudPlaylists(manual = false) {
@@ -6944,11 +6977,11 @@ async function gr8skulRefreshMemberPlaylists(session) {
         gr8skulCloudUserId = session.user.id;
         gr8skulCloudMember = true;
         await gr8skulLoadCloudPlaylists(session.user.id, generation);
-        if (generation === gr8skulCloudGeneration &&
-            gr8skulPlaylists.length && !sessionStorage.getItem("gr8skul-cloud-import-offered-" + session.user.id)) {
-            sessionStorage.setItem("gr8skul-cloud-import-offered-" + session.user.id, "1");
-            // Keep sign-in unobtrusive: import is user-initiated via playlist panel.
-            console.info("GR8SKUL: Open MY PLAYLISTS and select SYNC PLAYLISTS to import browser playlists.");
+        // Automatically import local preview playlists when a member signs in.
+        // The cloud read above must succeed first, so remote playlists are
+        // merged into the local backup before any writes occur.
+        if (generation === gr8skulCloudGeneration && gr8skulPlaylists.length) {
+            gr8skulScheduleCloudSync();
         }
     } catch (error) {
         console.error("GR8SKUL membership/playlist lookup failed; browser playlists retained:", error);
