@@ -779,7 +779,7 @@ SHUFFLE OFF </button>
 
 </div>
 
-<button id="playerSignOut" class="player-signout" type="button">sign out</button>
+<button id="playerSignOut" class="player-signout" type="button">SIGN IN</button>
 
 <!-- NOW PLAYING -->
 <div class="now-playing" id="nowPlaying"></div>
@@ -6807,9 +6807,10 @@ function showPlayerLogin() {
     authScreen.style.display = "block";
 }
 async function showPlayerForSession(session) {
-    if (!session || !session.user || passwordRecoveryMode) { showPlayerLogin(); return; }
+    if (passwordRecoveryMode) return;
     authScreen.style.display = "none";
     playerApp.style.display = "flex";
+    document.getElementById("playerSignOut").textContent = session?.user ? "SIGN OUT" : "SIGN IN";
     if (!playerStarted) {
         playerStarted = true;
         try { await startApp(); }
@@ -6856,11 +6857,16 @@ signInButton.addEventListener("click", playerSignIn);
     if (event.key === "Enter") playerSignIn();
 }));
 document.getElementById("playerSignOut").addEventListener("click", async () => {
+    const { data } = await playerAuthClient.auth.getSession();
+    if (!data?.session) { showPlayerLogin(); return; }
     try { await playerAuthClient.auth.signOut(); }
     catch (error) { console.error("GR8SKUL sign out failed:", error); }
-    audioPlayer.pause();
     authPassword.value = "";
-    showPlayerLogin();
+    await showPlayerForSession(null);
+});
+document.getElementById("backToPlayer").addEventListener("click", () => {
+    if (passwordRecoveryMode) return;
+    showPlayerForSession(null);
 });
 forgotPasswordButton.addEventListener("click", async () => {
     const email = authEmail.value.trim();
@@ -6898,7 +6904,7 @@ playerAuthClient.auth.onAuthStateChange((event, session) => {
     if (event === "PASSWORD_RECOVERY") { showPlayerPasswordRecovery(); return; }
     if (passwordRecoveryMode) return;
     if (session) { showPlayerForSession(session); }
-    else { audioPlayer.pause(); showPlayerLogin(); }
+    else { showPlayerForSession(null); }
 });
 (async () => {
     try {
@@ -6907,8 +6913,8 @@ playerAuthClient.auth.onAuthStateChange((event, session) => {
         await showPlayerForSession(data.session);
     } catch (error) {
         console.error("GR8SKUL session check failed:", error);
-        authMessage.textContent = "COULD NOT VERIFY ACCOUNT SESSION.";
-        showPlayerLogin();
+        console.warn("Continuing in public preview mode.");
+        await showPlayerForSession(null);
     }
 })();
 
