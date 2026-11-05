@@ -795,7 +795,7 @@ SHUFFLE OFF </button>
      GENRE + MOOD + ERA + REGION FILTERS
      ========================================================= -->
 
-<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">FILTER ▾</button><span class="track-order-menu" id="trackOrderMenu"><button id="trackOrderToggle" type="button" aria-label="Choose track order" aria-controls="trackOrderOptions" aria-expanded="false">ORDER ▾</button><span id="trackOrderOptions" class="track-order-options" role="listbox" aria-label="Track order" hidden><button type="button" data-track-order="origin" role="option" aria-selected="true">ORIGIN ✓</button><button type="button" data-track-order="newest" role="option" aria-selected="false">NEWEST</button><button type="button" data-track-order="oldest" role="option" aria-selected="false">OLDEST</button></span></span><button id="gr8skulClearView" type="button" aria-label="Clear filters, playlist selection and order">CLEAR</button></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
+<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">FILTER ▾</button><span class="track-order-menu" id="trackOrderMenu"><button id="trackOrderToggle" type="button" aria-label="Choose track order" aria-controls="trackOrderOptions" aria-expanded="false">ORDER ▾</button><span id="trackOrderOptions" class="track-order-options" role="listbox" aria-label="Track order" hidden><button type="button" data-track-order="origin" role="option" aria-selected="true">ORIGIN ✓</button><button type="button" data-track-order="newest" role="option" aria-selected="false">NEWEST</button><button type="button" data-track-order="oldest" role="option" aria-selected="false">OLDEST</button><button type="button" data-track-order="updated" role="option" aria-selected="false">UPDATED</button></span></span><button id="gr8skulClearView" type="button" aria-label="Clear filters, playlist selection and order">CLEAR</button></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
 <div id="filterDrawer" class="filter-drawer" hidden>
 <div class="taxonomy-filters">
 
@@ -5267,13 +5267,20 @@ function renderFilteredTracks() {
         );
 
 
-    /* Chronology uses the immutable Supabase work creation timestamp.
-       Missing/invalid timestamps stay last, in their original relative order. */
+    /* NEWEST/OLDEST use original upload dates. UPDATED uses the most recent
+       MP3 replacement date, falling back to original upload for untouched audio.
+       Metadata-only edits never change the audio update date. */
     if (gr8skulTrackOrder !== "origin") {
-        const direction = gr8skulTrackOrder === "newest" ? -1 : 1;
+        const direction = gr8skulTrackOrder === "oldest" ? 1 : -1;
+        const dateForOrder = function(track) {
+            const date = gr8skulTrackOrder === "updated"
+                ? (track.audio_updated_at || track.created_at)
+                : track.created_at;
+            return Date.parse(date || "");
+        };
         filteredData.sort(function(a, b) {
-            const aDate = Date.parse(a.created_at || "");
-            const bDate = Date.parse(b.created_at || "");
+            const aDate = dateForOrder(a);
+            const bDate = dateForOrder(b);
             const aValid = Number.isFinite(aDate);
             const bValid = Number.isFinite(bDate);
             if (!aValid && !bValid) return 0;
@@ -5685,6 +5692,7 @@ async function loadCatalog() {
                                 : [],
 
                         created_at: meta && typeof meta.created_at === "string" ? meta.created_at : "",
+                        audio_updated_at: meta && typeof meta.audio_updated_at === "string" ? meta.audio_updated_at : "",
                         lyrics: meta && typeof meta.lyrics === "string" ? meta.lyrics : "",
                         about: meta && typeof meta.about === "string" ? meta.about : "",
                         regions:
