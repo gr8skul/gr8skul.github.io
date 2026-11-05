@@ -708,6 +708,7 @@ audio {
 #passwordRecoveryArea { border-top: 1px solid #ddd; margin-top: 22px; padding-top: 24px; }
 .player-signout { display: block; margin: 0 auto 8px; padding: 0 8px; min-height: 24px; border: 0; background: transparent; color: #888; font-size: 9px; letter-spacing: 1px; }
 .player-signout:hover { background: transparent; color: #111; text-decoration: underline; }
+.track-search-wrap{display:flex;gap:7px;padding:9px 0;border-bottom:1px solid #ddd;flex-shrink:0}.track-search-wrap input{flex:1;min-width:0;padding:9px;border:1px solid #ccc;font:13px Arial,sans-serif}.track-search-wrap button{min-height:35px;padding:7px 10px;font-size:10px}
 </style>
 
 </head>
@@ -925,6 +926,7 @@ REGION(S): ALL </span>
      AUTOMATIC TRACK LIST
      ========================= -->
 
+<div class="track-search-wrap"><input id="gr8skulTrackSearch" type="search" placeholder="Search titles, genres, lyrics, metadata…" aria-label="Search recordings" autocomplete="off"><button id="gr8skulClearSearch" type="button" aria-label="Clear search">CLEAR</button></div>
 <div class="track-list" id="trackList"></div>
 
 <!-- =========================
@@ -5117,6 +5119,13 @@ function renderFilteredTracks() {
         !audioPlayer.paused;
 
 
+    const searchTerms = (document.getElementById("gr8skulTrackSearch")?.value || "").toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
+    const matchesSearch = track => {
+        if (!searchTerms.length) return true;
+        const searchable = [track.title, track.name, track.artist, track.genres, track.genreTypes, track.moods, track.moodTypes, track.eras, track.eraYears, track.eraTypes, track.regions, track.lyrics].map(value => typeof value === "string" ? value : JSON.stringify(value || "")).join(" ").toLocaleLowerCase();
+        return searchTerms.every(term => searchable.includes(term));
+    };
+
     const playlistPaths = gr8skulSelectedPlaylist === null ? null : (gr8skulPlaylists.find(p => p.id === gr8skulSelectedPlaylist)?.tracks || []);
     const filteredData =
         (playlistPaths === null ? allTrackData : playlistPaths.map(path => allTrackData.find(t => t.path === path)).filter(Boolean)).filter(
@@ -5124,7 +5133,7 @@ function renderFilteredTracks() {
 
                 return trackMatchesCurrentFilters(
                     trackData
-                );
+                ) && matchesSearch(trackData);
 
             }
         );
@@ -5256,6 +5265,9 @@ function renderFilteredTracks() {
 
 }
 
+
+document.getElementById("gr8skulTrackSearch").addEventListener("input", () => renderFilteredTracks());
+document.getElementById("gr8skulClearSearch").addEventListener("click", () => { const field = document.getElementById("gr8skulTrackSearch"); field.value = ""; renderFilteredTracks(); field.focus(); });
 
 /* ============================================================
    APPLY FILTERS
