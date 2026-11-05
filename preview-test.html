@@ -684,6 +684,12 @@ audio {
     .playlist-toolbar { gap: 5px; }
     .playlist-toolbar button { padding: 5px 7px; font-size: 10px; }
 }
+/* Independent chronological sorting; ORIGIN preserves Works ordering. */
+.track-order-menu {position:relative;display:inline-flex;}
+.track-order-options {position:absolute;right:0;top:calc(100% + 4px);z-index:100;min-width:120px;border:1px solid #ccc;background:#fff;box-shadow:0 4px 12px rgba(0,0,0,.10);padding:4px;}
+.track-order-options[hidden] {display:none!important;}
+.playlist-toolbar .track-order-options button {display:block;width:100%;text-align:left;border:0;background:#fff;color:#111;padding:9px 10px;min-height:32px;}
+.playlist-toolbar .track-order-options button:hover,.playlist-toolbar .track-order-options button[aria-selected="true"] {background:#eee;}
 .filter-drawer[hidden] { display: none !important; }
 
 /* Shared GR8SKUL account sign-in */
@@ -782,7 +788,7 @@ SHUFFLE OFF </button>
      GENRE + MOOD + ERA + REGION FILTERS
      ========================================================= -->
 
-<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">FILTER ▾</button><button id="trackOrderToggle" type="button" aria-label="Change track order" aria-pressed="false">NEWEST FIRST</button></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
+<div class="playlist-toolbar"><button id="myPlaylistsButton" type="button" aria-expanded="false">MY PLAYLISTS ▾</button><button id="filterDrawerToggle" class="filter-drawer-toggle" type="button" aria-controls="filterDrawer" aria-expanded="false">FILTER ▾</button><span class="track-order-menu" id="trackOrderMenu"><button id="trackOrderToggle" type="button" aria-label="Choose track order" aria-controls="trackOrderOptions" aria-expanded="false">ORDER ▾</button><span id="trackOrderOptions" class="track-order-options" role="listbox" aria-label="Track order" hidden><button type="button" data-track-order="origin" role="option" aria-selected="true">ORIGIN ✓</button><button type="button" data-track-order="newest" role="option" aria-selected="false">NEWEST</button><button type="button" data-track-order="oldest" role="option" aria-selected="false">OLDEST</button></span></span></div><div id="myPlaylistsPanel" class="playlist-panel" hidden></div>
 <div id="filterDrawer" class="filter-drawer" hidden>
 <div class="taxonomy-filters">
 
@@ -1811,14 +1817,39 @@ let tracks = [];
 
 let allTrackData = [];
 
-/* Reverse the published catalog sequence without changing the source files. */
-let gr8skulNewestFirst = true;
+/* ORIGIN follows the manually published track-order.json sequence. */
+let gr8skulTrackOrder = "origin";
 const trackOrderToggle = document.getElementById("trackOrderToggle");
+const trackOrderOptions = document.getElementById("trackOrderOptions");
+const trackOrderMenu = document.getElementById("trackOrderMenu");
+function closeTrackOrderMenu() {
+    trackOrderOptions.hidden = true;
+    trackOrderToggle.setAttribute("aria-expanded", "false");
+    trackOrderToggle.textContent = "ORDER ▾";
+}
 trackOrderToggle.addEventListener("click", function () {
-    gr8skulNewestFirst = !gr8skulNewestFirst;
-    trackOrderToggle.textContent = gr8skulNewestFirst ? "NEWEST FIRST" : "OLDEST FIRST";
-    trackOrderToggle.setAttribute("aria-pressed", String(!gr8skulNewestFirst));
-    renderFilteredTracks();
+    const open = trackOrderOptions.hidden;
+    trackOrderOptions.hidden = !open;
+    trackOrderToggle.setAttribute("aria-expanded", String(open));
+    trackOrderToggle.textContent = open ? "ORDER ▴" : "ORDER ▾";
+});
+trackOrderOptions.querySelectorAll("[data-track-order]").forEach(function(button) {
+    button.addEventListener("click", function () {
+        gr8skulTrackOrder = button.dataset.trackOrder;
+        trackOrderOptions.querySelectorAll("[data-track-order]").forEach(function(option) {
+            const selected = option.dataset.trackOrder === gr8skulTrackOrder;
+            option.setAttribute("aria-selected", String(selected));
+            option.textContent = option.dataset.trackOrder.toUpperCase() + (selected ? " ✓" : "");
+        });
+        closeTrackOrderMenu();
+        renderFilteredTracks();
+    });
+});
+document.addEventListener("click", function(event) {
+    if (!trackOrderMenu.contains(event.target)) closeTrackOrderMenu();
+});
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape") closeTrackOrderMenu();
 });
 
 
@@ -5168,8 +5199,21 @@ function renderFilteredTracks() {
         );
 
 
-    /* Catalog order is maintained by track-order.json. Reverse for the opposite view. */
-    if (gr8skulNewestFirst) filteredData.reverse();
+    /* Chronology uses the immutable Supabase work creation timestamp.
+       Missing/invalid timestamps stay last, in their original relative order. */
+    if (gr8skulTrackOrder !== "origin") {
+        const direction = gr8skulTrackOrder === "newest" ? -1 : 1;
+        filteredData.sort(function(a, b) {
+            const aDate = Date.parse(a.created_at || "");
+            const bDate = Date.parse(b.created_at || "");
+            const aValid = Number.isFinite(aDate);
+            const bValid = Number.isFinite(bDate);
+            if (!aValid && !bValid) return 0;
+            if (!aValid) return 1;
+            if (!bValid) return -1;
+            return (aDate - bDate) * direction;
+        });
+    }
 
     tracksContainer.innerHTML = "";
 
@@ -5572,6 +5616,7 @@ async function loadCatalog() {
                                 ? meta.eraTypes
                                 : [],
 
+                        created_at: meta && typeof meta.created_at === "string" ? meta.created_at : "",
                         lyrics: meta && typeof meta.lyrics === "string" ? meta.lyrics : "",
                         about: meta && typeof meta.about === "string" ? meta.about : "",
                         regions:
