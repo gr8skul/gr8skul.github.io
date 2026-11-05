@@ -687,9 +687,10 @@
     "created_at": "2026-11-05T02:28:30.264115+00:00"
   },
   "music/c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3": {
+    "created_at": "2026-11-05T02:45:20.543764+00:00",
     "title": "Land Locked (nylon classical)",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Classical"
@@ -725,6 +726,7 @@
         ]
       }
     ],
-    "created_at": "2026-11-05T02:45:20.543764+00:00"
+    "lyrics": "",
+    "about": "\"Lovely song on an old guitar\" says gr8skul"
   }
 }
