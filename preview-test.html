@@ -923,7 +923,7 @@ REGION(S): ALL </span>
 
 <div class="player">
 
-<audio id="audioPlayer" controls preload="none"></audio>
+<audio id="audioPlayer" controls controlsList="nodownload noplaybackrate" preload="none" oncontextmenu="return false;"></audio>
 
 </div>
 
@@ -6382,6 +6382,52 @@ function attachTrackListeners() {
 
 }
 
+
+/* ============================================================
+   FREE PREVIEW USAGE — MEASUREMENT ONLY, NO LIMIT ENFORCED
+
+   Browser-local anonymous identifier already exists: sessionId.
+   This independent counter does not alter qualified-listener or
+   sponsor measurements. Server-side metering will be needed before
+   enforcing any listening allowance.
+   ============================================================ */
+const GR8SKUL_PREVIEW_USAGE_KEY = "gr8skul-preview-usage-v1";
+let previewLastMediaTime = null;
+
+function gr8skulPreviewUsage() {
+    const today = getTodayChicagoDate();
+    try {
+        const stored = JSON.parse(localStorage.getItem(GR8SKUL_PREVIEW_USAGE_KEY) || "null");
+        if (stored && stored.date === today && Number.isFinite(stored.seconds)) return stored;
+    } catch (error) {
+        console.warn("Preview usage counter reset.", error);
+    }
+    return { date: today, seconds: 0 };
+}
+
+function gr8skulRecordPreviewProgress() {
+    const now = audioPlayer.currentTime;
+    if (!Number.isFinite(now)) return;
+    if (previewLastMediaTime !== null && !audioPlayer.paused && !audioPlayer.seeking && !audioPlayer.ended && document.visibilityState === "visible") {
+        const delta = now - previewLastMediaTime;
+        // Ignore jumps caused by seeking, track changes, or unusual buffering.
+        if (delta > 0 && delta <= 1.5) {
+            const usage = gr8skulPreviewUsage();
+            usage.seconds += delta;
+            try { localStorage.setItem(GR8SKUL_PREVIEW_USAGE_KEY, JSON.stringify(usage)); }
+            catch (error) { console.warn("Preview usage storage unavailable.", error); }
+        }
+    }
+    previewLastMediaTime = now;
+}
+
+audioPlayer.addEventListener("timeupdate", gr8skulRecordPreviewProgress);
+audioPlayer.addEventListener("seeking", () => { previewLastMediaTime = null; });
+audioPlayer.addEventListener("seeked", () => { previewLastMediaTime = audioPlayer.currentTime; });
+audioPlayer.addEventListener("loadstart", () => { previewLastMediaTime = null; });
+audioPlayer.addEventListener("pause", () => { previewLastMediaTime = null; });
+audioPlayer.addEventListener("ended", () => { previewLastMediaTime = null; });
+document.addEventListener("visibilitychange", () => { previewLastMediaTime = null; });
 
 /* ============================================================
    AUDIO PLAYING
