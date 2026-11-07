@@ -1809,6 +1809,72 @@ function gr8skulReadMutedForUser(userId) {
     }
 }
 
+// Cloud mute state is account-scoped. Browser data remains a fallback if offline.
+let gr8skulMuteGeneration = 0;
+let gr8skulMuteReady = false;
+let gr8skulMutePending = new Map();
+let gr8skulMuteQueue = Promise.resolve();
+function gr8skulRefreshMuteView() {
+    if (typeof playerStarted !== "undefined" && playerStarted) renderFilteredTracks();
+    updateNowPlayingMuteButton();
+}
+async function gr8skulLoadCloudMutes(userId) {
+    const generation = ++gr8skulMuteGeneration;
+    gr8skulMuteReady = false;
+    gr8skulMutePending = new Map();
+    if (!userId) { gr8skulRefreshMuteView(); return; }
+    try {
+        const { data, error } = await playerAuthClient.from("listener_muted_tracks")
+            .select("track_id").eq("user_id", userId);
+        if (error) throw error;
+        if (generation !== gr8skulMuteGeneration || userId !== gr8skulActiveStorageUserId) return;
+        const cloud = Object.fromEntries((data || []).map(row => [row.track_id, true]));
+        // Migrate pre-cloud browser mutes for this account exactly once.
+        const marker = "gr8skul-mute-cloud-migrated-v1:" + userId;
+        const firstMigration = localStorage.getItem(marker) !== "yes";
+        const legacy = gr8skulReadMutedForUser(userId);
+        const toMigrate = firstMigration ? Object.keys(legacy).filter(id => legacy[id] === true && !cloud[id]) : [];
+        // Preserve user actions made while the cloud was loading.
+        for (const id of toMigrate) cloud[id] = true;
+        for (const [id, value] of gr8skulMutePending) {
+            if (value) cloud[id] = true; else delete cloud[id];
+        }
+        mutedTracks = cloud;
+        saveMuteSettings();
+        gr8skulMuteReady = true;
+        gr8skulRefreshMuteView();
+        const changes = new Map(toMigrate.map(id => [id, true]));
+        for (const [id, value] of gr8skulMutePending) changes.set(id, value);
+        gr8skulMutePending.clear();
+        for (const [id, value] of changes) gr8skulQueueMuteWrite(userId, generation, id, value);
+        // Marker only after the migration writes have succeeded.
+        await gr8skulMuteQueue;
+        if (generation === gr8skulMuteGeneration && userId === gr8skulActiveStorageUserId) {
+            localStorage.setItem(marker, "yes");
+        }
+    } catch (error) {
+        if (generation !== gr8skulMuteGeneration) return;
+        console.error("GR8SKUL cloud mute sync failed; local selections retained:", error);
+        // Keep local selections if cloud is unavailable. Retry on next sign-in/refresh.
+    }
+}
+function gr8skulQueueMuteWrite(userId, generation, id, value) {
+    gr8skulMuteQueue = gr8skulMuteQueue.catch(() => {}).then(async () => {
+        if (generation !== gr8skulMuteGeneration || userId !== gr8skulActiveStorageUserId) return;
+        const query = value
+            ? playerAuthClient.from("listener_muted_tracks").upsert({user_id:userId,track_id:id}, {onConflict:"user_id,track_id"})
+            : playerAuthClient.from("listener_muted_tracks").delete().eq("user_id",userId).eq("track_id",id);
+        const { error } = await query;
+        if (error) throw error;
+    });
+    gr8skulMuteQueue.catch(error => console.error("GR8SKUL mute cloud write failed; browser copy retained:", error));
+}
+function gr8skulCloudSaveMute(id, value) {
+    const userId = gr8skulActiveStorageUserId;
+    if (!userId) return;
+    if (!gr8skulMuteReady) { gr8skulMutePending.set(id, value); return; }
+    gr8skulQueueMuteWrite(userId, gr8skulMuteGeneration, id, value);
+}
 let mutedTracks = gr8skulReadMutedForUser(null);
 function saveMuteSettings() {
     try {
@@ -5180,6 +5246,7 @@ function setTrackMuted(
     }
 
     saveMuteSettings();
+    gr8skulCloudSaveMute(file, muted);
 
     updateTrackMuteButton(
         index
@@ -7394,6 +7461,7 @@ async function showPlayerForSession(session) {
         gr8skulCloudReadReady = false;
         gr8skulCloudUserId = null;
         gr8skulSwitchListenerStorage(nextUserId);
+        gr8skulLoadCloudMutes(nextUserId);
         gr8skulRefreshMemberPlaylists(session);
     }
     if (!playerStarted) {
