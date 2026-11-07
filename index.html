@@ -718,6 +718,21 @@ audio {
 .playlist-sync-link {border:0;background:transparent;padding:3px 0;min-height:24px;font-size:10px;letter-spacing:0;color:#888;text-decoration:underline;text-underline-offset:2px;white-space:nowrap;cursor:pointer}
 .playlist-sync-link:hover {background:transparent;color:#111}
 .playlist-sync-notice {font-size:10px;line-height:1.5;color:#8b3434;margin:7px 0}
+
+/* Membership preview ribbon and checkout invitation */
+.gr8skul-logo-wrap { position:relative; width:fit-content; max-width:100%; margin:0 auto; overflow:visible; }
+.gr8skul-logo-wrap img { display:block; }
+.gr8skul-preview-ribbon { position:absolute; top:12px; right:-30px; transform:rotate(24deg); padding:4px 25px; border:1px solid #aaa; background:rgba(255,255,255,.94); color:#555; font-size:9px; font-weight:700; letter-spacing:1.5px; white-space:nowrap; pointer-events:none; box-shadow:0 1px 5px rgba(0,0,0,.06); }
+.gr8skul-membership-invite { text-align:center; margin:-24px auto 18px; font-size:11px; line-height:1.5; color:#666; }
+.gr8skul-membership-invite button { display:inline; border:0; padding:2px 3px; min-height:0; background:transparent; color:#111; font-size:11px; font-weight:bold; text-decoration:underline; text-underline-offset:3px; }
+.gr8skul-membership-invite button:hover { background:transparent; color:#555; }
+.gr8skul-membership-options { max-width:380px; margin:0 auto 12px; padding:12px; border:1px solid #ddd; background:#fff; text-align:center; font-size:12px; }
+.gr8skul-membership-options[hidden], .gr8skul-preview-ribbon[hidden], .gr8skul-membership-invite[hidden] { display:none!important; }
+.gr8skul-membership-options p { margin:0 0 9px; color:#555; }
+.gr8skul-membership-options button { display:block; width:100%; margin:6px 0; min-height:38px; padding:8px; font-size:11px; }
+.gr8skul-membership-options button:first-of-type { background:#111; color:#fff; }
+.gr8skul-membership-options .gr8skul-close-options { border:0; min-height:24px; background:transparent; color:#777; }
+@media (max-width:500px) { .gr8skul-preview-ribbon { right:-16px; top:9px; font-size:8px; padding:3px 14px; } .gr8skul-membership-invite { margin:-23px auto 12px; } }
 </style>
 
 </head>
@@ -751,11 +766,20 @@ audio {
 
 <div class="header">
 
-<h1>
-<img
-    src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png"
-    alt="GR8SKUL">
-</h1>
+<h1><span class="gr8skul-logo-wrap">
+<img src="https://gr8skul.github.io/GR8SKUL-HEADER-LOGO.png" alt="GR8SKUL">
+<span id="gr8skulPreviewRibbon" class="gr8skul-preview-ribbon" hidden>PREVIEW MODE</span>
+</span></h1>
+<div id="gr8skulMembershipInvite" class="gr8skul-membership-invite" hidden>
+  Listening to 30-second previews · <button id="gr8skulJoinButton" type="button">Get full songs — $10/year</button>
+</div>
+<div id="gr8skulMembershipOptions" class="gr8skul-membership-options" hidden>
+  <p><strong>GR8SKUL LISTENER MEMBERSHIP</strong><br>Full recordings for $10 per year.</p>
+  <button type="button" id="gr8skulCheckoutRecurring">$10/year — Renew automatically (default)</button>
+  <button type="button" id="gr8skulCheckoutOneTime">$10 — One year only</button>
+  <button type="button" id="gr8skulCloseMembership" class="gr8skul-close-options">CLOSE</button>
+  <p id="gr8skulCheckoutMessage" role="status" aria-live="polite"></p>
+</div>
 
 <!-- Sponsorship header intentionally removed. -->
 <div id="sponsor" hidden></div>
@@ -1762,59 +1786,40 @@ async function loadSponsors() {
 
 const MUTE_STORAGE_KEY =
     "gr8skul-muted-tracks";
-
-let mutedTracks = {};
-
-try {
-
-    const savedMuteSettings =
-        localStorage.getItem(
-            MUTE_STORAGE_KEY
-        );
-
-    if (savedMuteSettings) {
-
-        mutedTracks =
-            JSON.parse(
-                savedMuteSettings
-            ) || {};
-
-    }
-
-} catch (error) {
-
-    console.error(
-        "GR8SKUL mute settings could not be loaded.",
-        error
-    );
-
-    mutedTracks = {};
-
+// Legacy browser mute settings belong to the original playlist owner.
+// Other signed-in listeners receive separate, initially empty preferences.
+const GR8SKUL_LEGACY_OWNER_ID = "60f9a75d-23e3-47e9-b149-f99e78667668";
+let gr8skulActiveStorageUserId = null;
+function gr8skulMuteKeyForUser(userId) {
+    return userId ? MUTE_STORAGE_KEY + ":" + userId : MUTE_STORAGE_KEY + ":guest";
 }
-
-
-function saveMuteSettings() {
-
+function gr8skulReadMutedForUser(userId) {
+    const key = gr8skulMuteKeyForUser(userId);
     try {
-
-        localStorage.setItem(
-            MUTE_STORAGE_KEY,
-            JSON.stringify(
-                mutedTracks
-            )
-        );
-
+        let saved = localStorage.getItem(key);
+        if (saved === null && userId === GR8SKUL_LEGACY_OWNER_ID) {
+            saved = localStorage.getItem(MUTE_STORAGE_KEY);
+            if (saved !== null) localStorage.setItem(key, saved);
+        }
+        const parsed = saved ? JSON.parse(saved) : {};
+        return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
     } catch (error) {
-
-        console.error(
-            "GR8SKUL mute settings could not be saved.",
-            error
-        );
-
+        console.warn("GR8SKUL mute storage could not be read", error);
+        return {};
     }
-
 }
 
+let mutedTracks = gr8skulReadMutedForUser(null);
+function saveMuteSettings() {
+    try {
+        localStorage.setItem(
+            gr8skulMuteKeyForUser(gr8skulActiveStorageUserId),
+            JSON.stringify(mutedTracks)
+        );
+    } catch (error) {
+        console.error("GR8SKUL mute settings could not be saved.", error);
+    }
+}
 
 /* ============================================================
    TRACK DATA
@@ -1905,12 +1910,41 @@ let playHistory = [];
 
 
 /* Browser playlists remain available to visitors; members may sync them to Supabase. */
-const GR8SKUL_PLAYLIST_KEY = "gr8skul-browser-playlists-v1";
-let gr8skulPlaylists = [];
-try {
-    const saved = JSON.parse(localStorage.getItem(GR8SKUL_PLAYLIST_KEY) || "[]");
-    if (Array.isArray(saved)) gr8skulPlaylists = saved.filter(p => p && typeof p.id === "string" && typeof p.name === "string" && Array.isArray(p.tracks));
-} catch (e) { console.warn("Playlist storage unavailable", e); }
+const GR8SKUL_LEGACY_PLAYLIST_KEY = "gr8skul-browser-playlists-v1";
+let GR8SKUL_PLAYLIST_KEY = GR8SKUL_LEGACY_PLAYLIST_KEY + ":guest";
+function gr8skulPlaylistKeyForUser(userId) {
+    return GR8SKUL_LEGACY_PLAYLIST_KEY + ":" + (userId || "guest");
+}
+function gr8skulReadPlaylistsForUser(userId) {
+    const key = gr8skulPlaylistKeyForUser(userId);
+    try {
+        let raw = localStorage.getItem(key);
+        // Preserve and migrate the original account's five playlists once.
+        // Never import these IDs into any other account.
+        if (raw === null && userId === GR8SKUL_LEGACY_OWNER_ID) {
+            raw = localStorage.getItem(GR8SKUL_LEGACY_PLAYLIST_KEY);
+            if (raw !== null) localStorage.setItem(key, raw);
+        }
+        const saved = JSON.parse(raw || "[]");
+        return Array.isArray(saved) ? saved.filter(p => p &&
+            typeof p.id === "string" && typeof p.name === "string" &&
+            Array.isArray(p.tracks)) : [];
+    } catch (error) {
+        console.warn("Playlist storage unavailable", error);
+        return [];
+    }
+}
+let gr8skulPlaylists = gr8skulReadPlaylistsForUser(null);
+function gr8skulSwitchListenerStorage(userId) {
+    if (gr8skulActiveStorageUserId === userId) return;
+    gr8skulActiveStorageUserId = userId;
+    GR8SKUL_PLAYLIST_KEY = gr8skulPlaylistKeyForUser(userId);
+    gr8skulPlaylists = gr8skulReadPlaylistsForUser(userId);
+    mutedTracks = gr8skulReadMutedForUser(userId);
+    gr8skulSelectedPlaylist = null;
+    gr8skulDrawPlaylists();
+    if (playerStarted) renderFilteredTracks();
+}
 let gr8skulSelectedPlaylist = null;
 function gr8skulSavePlaylists() {
     try { localStorage.setItem(GR8SKUL_PLAYLIST_KEY, JSON.stringify(gr8skulPlaylists)); }
@@ -7016,11 +7050,9 @@ function gr8skulScheduleCloudSync() {
 
 async function gr8skulCheckMembership(session) {
     if (!session?.user) return false;
-    const { data, error } = await playerAuthClient.from("listener_memberships")
-        .select("status,expires_at").eq("user_id", session.user.id).maybeSingle();
+    const { data, error } = await playerAuthClient.rpc("gr8skul_has_active_membership");
     if (error) throw error;
-    return !!(data && data.status === "active" &&
-        (!data.expires_at || Date.parse(data.expires_at) > Date.now()));
+    return data === true;
 }
 
 async function gr8skulLoadCloudPlaylists(userId, generation) {
@@ -7274,6 +7306,61 @@ async function gr8skulRefreshMemberPlaylists(session) {
     gr8skulDrawPlaylists();
 }
 
+/* Preview indication follows the server-backed membership RPC. */
+const gr8skulPreviewRibbon = document.getElementById("gr8skulPreviewRibbon");
+const gr8skulMembershipInvite = document.getElementById("gr8skulMembershipInvite");
+const gr8skulMembershipOptions = document.getElementById("gr8skulMembershipOptions");
+let gr8skulMembershipDisplayGeneration = 0;
+async function gr8skulUpdateMembershipDisplay(session) {
+    const generation = ++gr8skulMembershipDisplayGeneration;
+    // Default to preview until server authorization is confirmed.
+    gr8skulPreviewRibbon.hidden = false;
+    gr8skulMembershipInvite.hidden = false;
+    gr8skulMembershipOptions.hidden = true;
+    if (!session?.user) return;
+    try {
+        const active = await gr8skulCheckMembership(session);
+        if (generation !== gr8skulMembershipDisplayGeneration) return;
+        gr8skulPreviewRibbon.hidden = active;
+        gr8skulMembershipInvite.hidden = active;
+    } catch (error) {
+        console.warn("Membership display check failed; showing preview status", error);
+    }
+}
+document.getElementById("gr8skulJoinButton").addEventListener("click", () => {
+    gr8skulMembershipOptions.hidden = false;
+});
+document.getElementById("gr8skulCloseMembership").addEventListener("click", () => {
+    gr8skulMembershipOptions.hidden = true;
+});
+async function gr8skulStartCheckout(choice) {
+    const message = document.getElementById("gr8skulCheckoutMessage");
+    const buttons = [document.getElementById("gr8skulCheckoutRecurring"), document.getElementById("gr8skulCheckoutOneTime")];
+    buttons.forEach(button => button.disabled = true);
+    message.textContent = "Preparing secure checkout…";
+    try {
+        const { data: { session }, error: sessionError } = await playerAuthClient.auth.getSession();
+        if (sessionError) throw sessionError;
+        if (!session?.access_token) {
+            message.textContent = "Please sign in before purchasing a membership.";
+            showPlayerLogin();
+            return;
+        }
+        const { data, error } = await playerAuthClient.functions.invoke("listener-create-checkout", { body: { choice } });
+        if (error || !data?.url || !/^https:\/\/checkout\.stripe\.com\//.test(data.url)) {
+            throw error || new Error("Checkout URL unavailable");
+        }
+        window.location.assign(data.url);
+    } catch (error) {
+        console.error("GR8SKUL checkout error", error);
+        message.textContent = "Checkout is unavailable right now. Please try again.";
+    } finally {
+        buttons.forEach(button => button.disabled = false);
+    }
+}
+document.getElementById("gr8skulCheckoutRecurring").addEventListener("click", () => gr8skulStartCheckout("recurring"));
+document.getElementById("gr8skulCheckoutOneTime").addEventListener("click", () => gr8skulStartCheckout("one_time"));
+
 let gr8skulLastAuthUserId = undefined;
 let playerStarted = false;
 let passwordRecoveryMode = false;
@@ -7287,6 +7374,7 @@ async function showPlayerForSession(session) {
     authScreen.style.display = "none";
     playerApp.style.display = "flex";
     document.getElementById("playerSignOut").textContent = session?.user ? "SIGN OUT" : "SIGN IN";
+    gr8skulUpdateMembershipDisplay(session);
     const nextUserId = session?.user?.id || null;
     if (nextUserId !== gr8skulLastAuthUserId) {
         ++gr8skulAudioRequestId;
@@ -7300,6 +7388,12 @@ async function showPlayerForSession(session) {
         currentTrackFile = '';
 
         gr8skulLastAuthUserId = nextUserId;
+        ++gr8skulCloudGeneration;
+        clearTimeout(gr8skulCloudTimer);
+        gr8skulCloudMember = false;
+        gr8skulCloudReadReady = false;
+        gr8skulCloudUserId = null;
+        gr8skulSwitchListenerStorage(nextUserId);
         gr8skulRefreshMemberPlaylists(session);
     }
     if (!playerStarted) {
