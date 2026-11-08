@@ -6178,9 +6178,24 @@ const GR8SKUL_PREVIEW_BY_SOURCE = {
   "https://gr8skul.com/music/d48aa159-9216-4690-9937-28bb17c650c2.mp3": "preview-451454897966097eff5f3d77.mp3",
   "https://gr8skul.com/music/c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3": "preview-d6e486dbf6223a92334fc006.mp3"
 };
-function gr8skulPreviewUrl(source) {
-    const key = GR8SKUL_PREVIEW_BY_SOURCE[new URL(source, location.href).href];
-    return key ? GR8SKUL_PREVIEW_BASE + encodeURIComponent(key) : null;
+async function gr8skulPreviewUrl(source) {
+    const canonicalUrl = new URL(source, location.href).href;
+    let key = GR8SKUL_PREVIEW_BY_SOURCE[canonicalUrl];
+
+    // The local Music Manager publishes previews using the first 24 hex
+    // characters of SHA-256(canonical source URL). Derive new mappings
+    // automatically so newly uploaded works do not require an HTML edit.
+    if (!key) {
+        const bytes = new TextEncoder().encode(canonicalUrl);
+        const digest = await crypto.subtle.digest("SHA-256", bytes);
+        const hex = Array.from(new Uint8Array(digest), byte =>
+            byte.toString(16).padStart(2, "0")
+        ).join("");
+        key = "preview-" + hex.slice(0, 24) + ".mp3";
+        GR8SKUL_PREVIEW_BY_SOURCE[canonicalUrl] = key;
+    }
+
+    return GR8SKUL_PREVIEW_BASE + encodeURIComponent(key);
 }
 
 /* Full-length R2 audio is authorized by the Edge Function, never by the browser. */
@@ -6231,7 +6246,7 @@ async function gr8skulLoadAuthorizedAudio(file, previewUrl, startPlaying, reques
    LOAD TRACK
    ============================================================ */
 
-function selectTrack(
+async function selectTrack(
     index,
     startPlaying = true,
     addToHistory = true
@@ -6297,17 +6312,23 @@ function selectTrack(
         track.dataset.file;
 
 
-    const previewUrl = gr8skulPreviewUrl(file);
-    if (!previewUrl) {
+    const audioRequestId = ++gr8skulAudioRequestId;
+    let previewUrl;
+    try {
+        previewUrl = await gr8skulPreviewUrl(file);
+    } catch (error) {
+        if (audioRequestId !== gr8skulAudioRequestId) return;
         audioPlayer.pause();
         audioPlayer.removeAttribute("src");
         audioPlayer.load();
         playButton.textContent = "▶ PLAY";
-        nowPlaying.textContent = "Preview unavailable for this recording.";
-        console.warn("GR8SKUL: Preview not mapped for", file);
+        nowPlaying.textContent = "Preview URL could not be generated.";
+        console.error("GR8SKUL: Preview URL generation failed for", file, error);
         return;
     }
-    const audioRequestId = ++gr8skulAudioRequestId;
+    // Ignore an older selection if the listener chose another track
+    // while the asynchronous SHA-256 calculation was running.
+    if (audioRequestId !== gr8skulAudioRequestId || currentTrackFile !== file) return;
     gr8skulAudioLoading = true;
     gr8skulFullAudioActive = false;
     audioPlayer.pause();
