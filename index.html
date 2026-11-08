@@ -693,6 +693,7 @@ audio {
 .filter-drawer[hidden] { display: none !important; }
 
 /* Shared GR8SKUL account sign-in */
+#confirmRegistrationField[hidden] { display:none!important; }
 #playerApp { display: none; }
 #authScreen { display: none; min-height: 100vh; padding: 35px 20px; }
 .auth-box { max-width: 420px; margin: 45px auto 0; }
@@ -745,6 +746,7 @@ audio {
     <div class="auth-title" id="signInTitle">GR8SKUL SIGN IN</div>
     <div class="auth-field" id="emailField"><label class="auth-label" for="authEmail">EMAIL</label><input class="auth-input" id="authEmail" type="email" autocomplete="email"></div>
     <div class="auth-field" id="passwordField"><label class="auth-label" for="authPassword">PASSWORD</label><input class="auth-input" id="authPassword" type="password" autocomplete="current-password"></div>
+    <div class="auth-field" id="confirmRegistrationField" hidden><label class="auth-label" for="confirmRegistrationPassword">CONFIRM PASSWORD</label><input class="auth-input" id="confirmRegistrationPassword" type="password" autocomplete="new-password"></div>
     <button class="auth-button" id="signInButton" type="button">SIGN IN</button>
   <button class="auth-link" id="registerToggle" type="button">CREATE A LISTENER ACCOUNT</button>
     <button class="auth-link" id="forgotPasswordButton" type="button">FORGOT PASSWORD?</button>
@@ -7413,6 +7415,7 @@ async function gr8skulStartCheckout(choice) {
         if (!session?.access_token) {
             message.textContent = "Please sign in or create an account before purchasing.";
             gr8skulPendingCheckout = choice;
+            gr8skulSetRegisterMode(true);
             showPlayerLogin();
             return;
         }
@@ -7476,14 +7479,19 @@ async function showPlayerForSession(session) {
 }
 let gr8skulRegisterMode = false;
 const gr8skulRegisterToggle = document.getElementById("registerToggle");
-gr8skulRegisterToggle.addEventListener("click", () => {
-    gr8skulRegisterMode = !gr8skulRegisterMode;
-    document.getElementById("signInTitle").textContent = gr8skulRegisterMode ? "CREATE LISTENER ACCOUNT" : "GR8SKUL SIGN IN";
-    signInButton.textContent = gr8skulRegisterMode ? "CREATE ACCOUNT" : "SIGN IN";
-    gr8skulRegisterToggle.textContent = gr8skulRegisterMode ? "ALREADY HAVE AN ACCOUNT? SIGN IN" : "CREATE A LISTENER ACCOUNT";
-    authPassword.autocomplete = gr8skulRegisterMode ? "new-password" : "current-password";
+const confirmRegistrationField = document.getElementById("confirmRegistrationField");
+const confirmRegistrationPassword = document.getElementById("confirmRegistrationPassword");
+function gr8skulSetRegisterMode(register) {
+    gr8skulRegisterMode = register;
+    document.getElementById("signInTitle").textContent = register ? "CREATE LISTENER ACCOUNT" : "GR8SKUL SIGN IN";
+    signInButton.textContent = register ? "CREATE ACCOUNT" : "SIGN IN";
+    gr8skulRegisterToggle.textContent = register ? "ALREADY HAVE AN ACCOUNT? SIGN IN" : "CREATE A LISTENER ACCOUNT";
+    authPassword.autocomplete = register ? "new-password" : "current-password";
+    confirmRegistrationField.hidden = !register;
+    confirmRegistrationPassword.value = "";
     authMessage.textContent = "";
-});
+}
+gr8skulRegisterToggle.addEventListener("click", () => gr8skulSetRegisterMode(!gr8skulRegisterMode));
 async function playerSignIn() {
     const email = authEmail.value.trim();
     const password = authPassword.value;
@@ -7495,6 +7503,10 @@ async function playerSignIn() {
             authMessage.textContent = "USE A PASSWORD OF AT LEAST 8 CHARACTERS.";
             return;
         }
+        if (gr8skulRegisterMode && password !== confirmRegistrationPassword.value) {
+            authMessage.textContent = "PASSWORDS DO NOT MATCH.";
+            return;
+        }
         const { data, error } = gr8skulRegisterMode
             ? await playerAuthClient.auth.signUp({ email, password, options: { emailRedirectTo: "https://gr8skul.com/" } })
             : await playerAuthClient.auth.signInWithPassword({ email, password });
@@ -7504,10 +7516,7 @@ async function playerSignIn() {
             return;
         }
         authMessage.textContent = "";
-        gr8skulRegisterMode = false;
-        document.getElementById("signInTitle").textContent = "GR8SKUL SIGN IN";
-        signInButton.textContent = "SIGN IN";
-        gr8skulRegisterToggle.textContent = "CREATE A LISTENER ACCOUNT";
+        gr8skulSetRegisterMode(false);
         await showPlayerForSession(data.session);
         if (gr8skulPendingCheckout) {
             const choice = gr8skulPendingCheckout;
@@ -7543,7 +7552,7 @@ function exitPlayerPasswordRecovery() {
     document.getElementById("backToPlayer").style.display = "";
 }
 signInButton.addEventListener("click", playerSignIn);
-[authEmail, authPassword].forEach(field => field.addEventListener("keydown", event => {
+[authEmail, authPassword, confirmRegistrationPassword].forEach(field => field.addEventListener("keydown", event => {
     if (event.key === "Enter") playerSignIn();
 }));
 document.getElementById("playerSignOut").addEventListener("click", async () => {
