@@ -735,6 +735,8 @@ audio {
 .gr8skul-membership-options .gr8skul-close-options { border:0; min-height:24px; background:transparent; color:#777; }
 @media (max-width:500px) { .gr8skul-preview-ribbon { right:-16px; top:9px; font-size:8px; padding:3px 14px; } .gr8skul-membership-invite { margin:-23px auto 12px; } }
 
+/* Retain legacy era/region DOM for existing scripts, but remove them from the UI. */
+#eraTree, #regionTree { display:none!important; }
 /* GR8SKUL continuous page, fixed audio, restrained dropdown hierarchy */
 html, body {height:auto; min-height:100%;}
 body {overflow-x:hidden; overflow-y:auto;}
@@ -905,7 +907,7 @@ MOOD(S): ALL </span>
      ERA
      ========================================================= -->
 
-<div id="eraTree" class="taxonomy-filter">
+<div id="eraTree" class="taxonomy-filter" hidden>
 
 <button
 id="eraTrigger"
@@ -934,7 +936,7 @@ ERA(S): ALL </span>
      REGION
      ========================================================= -->
 
-<div id="regionTree" class="taxonomy-filter">
+<div id="regionTree" class="taxonomy-filter" hidden>
 
 <button
 id="regionTrigger"
@@ -4959,32 +4961,9 @@ function trackMatchesCurrentFilters(
         );
 
 
-    const matchesEra =
-        trackMatchesEra(
-            trackData
-        );
-
-
-    const matchesRegion =
-        trackMatchesRegion(
-            trackData
-        );
-
-
-    /*
-     * All four classification systems
-     * are AND conditions.
-     *
-     * Multiple selections within each
-     * system remain OR.
-     */
-
-    return (
-        matchesGenre &&
-        matchesMood &&
-        matchesEra &&
-        matchesRegion
-    );
+    // ERA and REGION are retired from the public player. Keep their
+    // historical metadata and legacy functions intact for compatibility.
+    return matchesGenre && matchesMood;
 
 }
 
@@ -5357,11 +5336,29 @@ function renderFilteredTracks() {
         !audioPlayer.paused;
 
 
-    const searchTerms = (document.getElementById("gr8skulTrackSearch")?.value || "").toLocaleLowerCase().trim().split(/\s+/).filter(Boolean);
+    // Normalize punctuation consistently in both the query and track text.
+    // This makes lyrics searchable whether apostrophes are straight/curly,
+    // hyphens are present, or a phrase crosses commas and line breaks.
+    const normalizeSearch = value => String(value ?? "")
+        .normalize("NFKC")
+        .toLocaleLowerCase()
+        .replace(/[\u2018\u2019\u02bc]/g, "'")
+        .replace(/[^\p{L}\p{N}]+/gu, " ")
+        .trim().replace(/\s+/g, " ");
+    const searchQuery = normalizeSearch(document.getElementById("gr8skulTrackSearch")?.value || "");
+    const searchTerms = searchQuery.split(" ").filter(Boolean);
     const matchesSearch = track => {
         if (!searchTerms.length) return true;
-        const searchable = [track.title, track.name, track.artist, track.genres, track.genreTypes, track.moods, track.moodTypes, track.eras, track.eraYears, track.eraTypes, track.regions, track.lyrics, track.about].map(value => typeof value === "string" ? value : JSON.stringify(value || "")).join(" ").toLocaleLowerCase();
-        return searchTerms.every(term => searchable.includes(term));
+        const fields = [track.title, track.name, track.artist, track.artists,
+            track.genres, track.genreTypes, track.moods, track.moodTypes,
+            track.lyrics, track.about];
+        const raw = fields.map(value => typeof value === "string" ? value : JSON.stringify(value ?? "")).join(" ");
+        const searchable = normalizeSearch(raw);
+        // Phrase matching first; fall back to finding all entered words.
+        // Also match contractions with punctuation omitted (don't / dont).
+        const compact = searchable.replace(/ /g, "");
+        return searchable.includes(searchQuery) || compact.includes(searchQuery.replace(/ /g, "")) ||
+            searchTerms.every(term => searchable.includes(term));
     };
 
     const playlistPaths = gr8skulSelectedPlaylist === null ? null : (gr8skulPlaylists.find(p => p.id === gr8skulSelectedPlaylist)?.tracks || []);
