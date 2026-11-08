@@ -733,5 +733,32 @@
     ],
     "lyrics": "",
     "about": "\"Lovely song on an old guitar\" says gr8skul"
+  },
+  "music/d56dd8d3-2c04-4d31-a951-3f760c93a7b4.mp3": {
+    "created_at": "2026-11-08T14:23:34.092549+00:00",
+    "title": "You MAke It Hard",
+    "artists": [
+      "GR8SKUL"
+    ],
+    "genres": [
+      "Blues",
+      "Pop"
+    ],
+    "genreTypes": [],
+    "moods": [
+      "Dark",
+      "Melancholic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Melancholic",
+        "type": "Lonely"
+      }
+    ],
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   }
 }
