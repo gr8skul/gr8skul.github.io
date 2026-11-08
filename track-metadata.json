@@ -761,5 +761,46 @@
     "regions": [],
     "lyrics": "",
     "about": ""
+  },
+  "music/c55de468-66ff-4b98-b6ce-43d6aa66e14a.mp3": {
+    "created_at": "2026-11-08T17:32:49.117199+00:00",
+    "title": "We Lean (instrumental)",
+    "artists": [
+      "GR8SKUL"
+    ],
+    "genres": [
+      "Rock",
+      "Classical",
+      "Instrumental"
+    ],
+    "genreTypes": [
+      {
+        "genre": "Classical",
+        "type": "Contemporary"
+      },
+      {
+        "genre": "Instrumental",
+        "type": "Orchestra"
+      }
+    ],
+    "moods": [
+      "Dark",
+      "Melancholic"
+    ],
+    "moodTypes": [
+      {
+        "mood": "Dark",
+        "type": "Haunting"
+      },
+      {
+        "mood": "Melancholic",
+        "type": "Lonely"
+      }
+    ],
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   }
 }
