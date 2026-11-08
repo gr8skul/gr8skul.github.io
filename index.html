@@ -734,6 +734,23 @@ audio {
 .gr8skul-membership-options button:first-of-type { background:#111; color:#fff; }
 .gr8skul-membership-options .gr8skul-close-options { border:0; min-height:24px; background:transparent; color:#777; }
 @media (max-width:500px) { .gr8skul-preview-ribbon { right:-16px; top:9px; font-size:8px; padding:3px 14px; } .gr8skul-membership-invite { margin:-23px auto 12px; } }
+
+/* GR8SKUL continuous page, fixed audio, restrained dropdown hierarchy */
+html, body {height:auto; min-height:100%;}
+body {overflow-x:hidden; overflow-y:auto;}
+.app {height:auto; min-height:100vh; padding-bottom:105px; display:block;}
+.track-list {flex:none; min-height:0; height:auto; max-height:none; overflow:visible;}
+.player {position:fixed; bottom:0; left:50%; transform:translateX(-50%); z-index:500; width:min(100%,700px); padding:12px 20px max(12px,env(safe-area-inset-bottom)); border-top:1px solid #ddd; background:#fff;}
+.playlist-panel {background:#f7f7f7; max-height:none; overflow:visible;}
+.filter-drawer, .taxonomy-panel, .taxonomy-trigger {background:#f1f1f1;}
+.taxonomy-panel {position:static; max-height:none; overflow:visible; box-shadow:none; margin-top:3px;}
+.taxonomy-parent-row, .taxonomy-types, .region-children, .region-path-summary, .era-years {background:#f1f1f1;}
+.track-order-options, .playlist-toolbar .track-order-options button {background:#ebebeb;}
+.track-detail {background:#e5e5e5;}
+.track-add-panel {background:#dfdfdf;}
+/* All controls inside a track's playlist chooser share the darkest subtle tint. */
+.track-add-panel input, .track-add-panel button, .track-add-panel form, .track-add-panel > div {background:#d9d9d9;}
+@media(max-width:500px){.player{padding:10px 15px max(10px,env(safe-area-inset-bottom));}}
 </style>
 
 </head>
@@ -1571,20 +1588,9 @@ const filterStatus =
    MEANINGFUL TRACK-LIST SCROLL
    ============================================================ */
 
-tracksContainer.addEventListener(
-    "scroll",
-    function() {
-
-        if (
-            tracksContainer.scrollTop >= 50
-        ) {
-
-            qualifyUserByScroll();
-
-        }
-
-    }
-);
+window.addEventListener("scroll", function () {
+    if (window.scrollY >= 50) qualifyUserByScroll();
+}, {passive:true});
 
 
 /* ============================================================
@@ -7618,6 +7624,40 @@ playerAuthClient.auth.onAuthStateChange((event, session) => {
     }
 })();
 
+
+/* Close open menus when clicking outside them; opening a peer closes peers. */
+(function(){
+ const playlists=document.getElementById('myPlaylistsPanel');
+ const playlistButton=document.getElementById('myPlaylistsButton');
+ const filter=document.getElementById('filterDrawer');
+ const filterButton=document.getElementById('filterDrawerToggle');
+ const order=document.getElementById('trackOrderOptions');
+ const orderButton=document.getElementById('trackOrderToggle');
+ function closePlaylists(){playlists.hidden=true;playlistButton.setAttribute('aria-expanded','false');}
+ function closeFilter(){filter.hidden=true;filterButton.textContent='FILTER ▾';filterButton.setAttribute('aria-expanded','false');
+   filter.querySelectorAll('.taxonomy-filter.open').forEach(el=>{el.classList.remove('open');const b=el.querySelector('.taxonomy-trigger');if(b)b.setAttribute('aria-expanded','false');});}
+ function closeOrder(){if(typeof closeTrackOrderMenu==='function')closeTrackOrderMenu();else{order.hidden=true;orderButton.setAttribute('aria-expanded','false');}}
+ function closeTrackPanels(except){document.querySelectorAll('.track-detail:not([hidden]),.track-add-panel:not([hidden])').forEach(p=>{if(p!==except)p.hidden=true;});}
+ document.addEventListener('click',function(e){
+   const target=e.target;
+   const inPlaylists=playlists.contains(target)||playlistButton.contains(target);
+   const inFilter=filter.contains(target)||filterButton.contains(target);
+   const inOrder=order.contains(target)||orderButton.contains(target);
+   if(!inPlaylists)closePlaylists();
+   if(!inFilter)closeFilter();
+   if(!inOrder)closeOrder();
+   const trackControl=target.closest('.track-extra-actions button');
+   const currentTrack=target.closest('.track');
+   if(!currentTrack){closeTrackPanels(null);}
+   else if(trackControl){
+      const isMore=trackControl.textContent.trim().startsWith('MORE');
+      const keep=currentTrack.querySelector(isMore?'.track-detail':'.track-add-panel');
+      // The target panel is toggled by its own existing click listener.
+      closeTrackPanels(keep);
+   }else if(!target.closest('.track-detail,.track-add-panel')){closeTrackPanels(null);}
+ },true);
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){closePlaylists();closeFilter();closeOrder();closeTrackPanels(null);}});
+})();
 </script>
 
 </body>
