@@ -1,175 +1,98 @@
-name: Update Music Catalog
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - "music/*.mp3"
-      - "music/*.MP3"
-      - "track-order.json"
-      - ".github/workflows/update-music-catalog.yml"
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-jobs:
-  update-catalog:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Synchronize with main
-        run: |
-          git fetch origin main
-          git reset --hard origin/main
-
-      - name: Build and update music catalog
-        run: |
-          python3 <<'PY'
-          import json
-          import os
-          import subprocess
-
-          MUSIC_FOLDER = "music"
-          ORDER_FILE = "track-order.json"
-          CATALOG_FILE = "catalog.json"
-
-          # Find every MP3 currently in the music folder
-          music_files = []
-
-          if os.path.isdir(MUSIC_FOLDER):
-              for filename in os.listdir(MUSIC_FOLDER):
-                  if not filename.lower().endswith(".mp3"):
-                      continue
-
-                  path = os.path.join(MUSIC_FOLDER, filename)
-
-                  if os.path.isfile(path):
-                      music_files.append(
-                          f"{MUSIC_FOLDER}/{filename}"
-                      )
-
-          # Get the timestamp of the newest Git commit
-          # affecting each music file.
-          def git_timestamp(path):
-              try:
-                  return int(
-                      subprocess.check_output(
-                          [
-                              "git",
-                              "log",
-                              "-1",
-                              "--format=%ct",
-                              "--",
-                              path
-                          ],
-                          text=True
-                      ).strip()
-                  )
-              except Exception:
-                  return 0
-
-          # Newest uploads first.
-          music_files.sort(
-              key=git_timestamp,
-              reverse=True
-          )
-
-          # Read the existing manual order.
-          existing_order = []
-
-          if os.path.isfile(ORDER_FILE):
-              try:
-                  with open(
-                      ORDER_FILE,
-                      "r",
-                      encoding="utf-8"
-                  ) as file:
-                      existing_order = json.load(file)
-
-                  if not isinstance(existing_order, list):
-                      existing_order = []
-
-              except Exception:
-                  existing_order = []
-
-          # Keep only tracks that still exist.
-          existing_order = [
-              path
-              for path in existing_order
-              if path in music_files
-          ]
-
-          # Find newly uploaded tracks.
-          new_tracks = [
-              path
-              for path in music_files
-              if path not in existing_order
-          ]
-
-          # New tracks always go to the top.
-          final_order = new_tracks + existing_order
-
-          # Save the updated manual order.
-          with open(
-              ORDER_FILE,
-              "w",
-              encoding="utf-8"
-          ) as file:
-              json.dump(
-                  final_order,
-                  file,
-                  indent=2,
-                  ensure_ascii=False
-              )
-              file.write("\n")
-
-          # Build catalog.json in exactly the chosen order.
-          tracks = []
-
-          for path in final_order:
-              filename = os.path.basename(path)
-
-              tracks.append(
-                  {
-                      "name": filename,
-                      "path": path,
-                      "timestamp": git_timestamp(path)
-                  }
-              )
-
-          with open(
-              CATALOG_FILE,
-              "w",
-              encoding="utf-8"
-          ) as file:
-              json.dump(
-                  tracks,
-                  file,
-                  indent=2,
-                  ensure_ascii=False
-              )
-              file.write("\n")
-          PY
-
-      - name: Commit updated catalog and track order
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add catalog.json track-order.json
-
-          if git diff --cached --quiet; then
-            echo "No catalog changes to commit."
-            exit 0
-          fi
-
-          git commit -m "Update music catalog and track order"
-
-          git push origin HEAD:main
+[
+  {
+    "name": "d4c848c3-8af8-4dd1-b2b8-cc071a42b425.mp3",
+    "path": "music/d4c848c3-8af8-4dd1-b2b8-cc071a42b425.mp3",
+    "timestamp": 1791736675
+  },
+  {
+    "name": "d48aa159-9216-4690-9937-28bb17c650c2.mp3",
+    "path": "music/d48aa159-9216-4690-9937-28bb17c650c2.mp3",
+    "timestamp": 1793846235
+  },
+  {
+    "name": "6f19c4f5-b594-41e8-bafa-b447ab174184.mp3",
+    "path": "music/6f19c4f5-b594-41e8-bafa-b447ab174184.mp3",
+    "timestamp": 1793770516
+  },
+  {
+    "name": "0063a79a-fce3-4761-bd03-9b1af4fc9484.mp3",
+    "path": "music/0063a79a-fce3-4761-bd03-9b1af4fc9484.mp3",
+    "timestamp": 1791767124
+  },
+  {
+    "name": "7eea9e80-4098-46b0-8278-fd2107a2f590.mp3",
+    "path": "music/7eea9e80-4098-46b0-8278-fd2107a2f590.mp3",
+    "timestamp": 1791754279
+  },
+  {
+    "name": "116ea63e-a21c-4eb9-9f17-4fa8d0812eed.mp3",
+    "path": "music/116ea63e-a21c-4eb9-9f17-4fa8d0812eed.mp3",
+    "timestamp": 1791767006
+  },
+  {
+    "name": "79e7a79e-648a-45e0-9661-4e04de54a58c.mp3",
+    "path": "music/79e7a79e-648a-45e0-9661-4e04de54a58c.mp3",
+    "timestamp": 1791780659
+  },
+  {
+    "name": "c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3",
+    "path": "music/c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3",
+    "timestamp": 1793855479
+  },
+  {
+    "name": "3ea39294-77ff-47a2-a98d-f4eda1d8ec90.mp3",
+    "path": "music/3ea39294-77ff-47a2-a98d-f4eda1d8ec90.mp3",
+    "timestamp": 1791780522
+  },
+  {
+    "name": "857863f5-c162-4044-beb8-e9e80011eded.mp3",
+    "path": "music/857863f5-c162-4044-beb8-e9e80011eded.mp3",
+    "timestamp": 1792285381
+  },
+  {
+    "name": "ae5ef51a-8861-453f-a210-401a626b4151.mp3",
+    "path": "music/ae5ef51a-8861-453f-a210-401a626b4151.mp3",
+    "timestamp": 1792063298
+  },
+  {
+    "name": "4d9ddfd8-d315-45b5-9898-8f5ab5f1a6e0.mp3",
+    "path": "music/4d9ddfd8-d315-45b5-9898-8f5ab5f1a6e0.mp3",
+    "timestamp": 1792255084
+  },
+  {
+    "name": "a5a0bfc2-12e6-428e-b385-51be594def72.mp3",
+    "path": "music/a5a0bfc2-12e6-428e-b385-51be594def72.mp3",
+    "timestamp": 1792028354
+  },
+  {
+    "name": "21d2e73a-49dc-4565-b3da-fc7d0d93d196.mp3",
+    "path": "music/21d2e73a-49dc-4565-b3da-fc7d0d93d196.mp3",
+    "timestamp": 1792028073
+  },
+  {
+    "name": "4183aad0-0739-4f09-a0ae-79127665452a.mp3",
+    "path": "music/4183aad0-0739-4f09-a0ae-79127665452a.mp3",
+    "timestamp": 1792062817
+  },
+  {
+    "name": "661cd1be-8c74-43da-97c3-bfef8a21583d.mp3",
+    "path": "music/661cd1be-8c74-43da-97c3-bfef8a21583d.mp3",
+    "timestamp": 1792254352
+  },
+  {
+    "name": "d56dd8d3-2c04-4d31-a951-3f760c93a7b4.mp3",
+    "path": "music/d56dd8d3-2c04-4d31-a951-3f760c93a7b4.mp3",
+    "timestamp": 1794147811
+  },
+  {
+    "name": "0dce2a1c-7986-4e35-a20e-dcd6093ec7d8.mp3",
+    "path": "music/0dce2a1c-7986-4e35-a20e-dcd6093ec7d8.mp3",
+    "timestamp": 1791781257
+  },
+  {
+    "name": "c55de468-66ff-4b98-b6ce-43d6aa66e14a.mp3",
+    "path": "music/c55de468-66ff-4b98-b6ce-43d6aa66e14a.mp3",
+    "timestamp": 1794159169
+  }
+]
