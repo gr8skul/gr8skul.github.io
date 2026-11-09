@@ -26,7 +26,7 @@ jobs:
           ref: main
           fetch-depth: 0
 
-      - name: Safely reconcile R2-backed catalog with metadata
+      - name: Reconcile R2-backed catalog with metadata
         shell: bash
         run: |
           python3 <<'PY'
@@ -37,28 +37,36 @@ jobs:
 
           metadata_path = Path('track-metadata.json')
           catalog_path = Path('catalog.json')
-          if not metadata_path.is_file():
-              raise SystemExit('Missing track-metadata.json; refusing to modify catalog.')
-          if not catalog_path.is_file():
-              raise SystemExit('Missing catalog.json; refusing to reconstruct it blindly.')
+          if not metadata_path.is_file() or not catalog_path.is_file():
+              raise SystemExit('Missing metadata or catalog; refusing to modify catalog.')
 
           metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
           catalog = json.loads(catalog_path.read_text(encoding='utf-8'))
           if not isinstance(metadata, dict) or not isinstance(catalog, list):
               raise SystemExit('Unexpected metadata or catalog structure; no changes made.')
 
+          # The UUID filename convention is used by upload-work for R2-backed audio.
+          # Legacy/non-UUID catalog entries are preserved unchanged.
           pattern = re.compile(r'^music/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.mp3$', re.I)
-          existing = set()
           for record in catalog:
               if not isinstance(record, dict) or not isinstance(record.get('path'), str):
                   raise SystemExit('Unexpected catalog entry; refusing to modify catalog.')
-              existing.add(record['path'])
+
+          valid_paths = {
+              path for path, details in metadata.items()
+              if isinstance(path, str) and pattern.fullmatch(path) and isinstance(details, dict)
+          }
+          # Keep the relative order of every surviving entry.
+          updated = [
+              record for record in catalog
+              if not pattern.fullmatch(record['path']) or record['path'] in valid_paths
+          ]
+          removed = len(catalog) - len(updated)
+          existing = {record['path'] for record in updated}
 
           added = 0
           for path, details in metadata.items():
-              if not isinstance(path, str) or not pattern.fullmatch(path):
-                  continue
-              if not isinstance(details, dict) or path in existing:
+              if path not in valid_paths or path in existing:
                   continue
               timestamp = 0
               created = details.get('created_at')
@@ -67,16 +75,16 @@ jobs:
                       timestamp = int(datetime.datetime.fromisoformat(created.replace('Z', '+00:00')).timestamp())
                   except (ValueError, OverflowError):
                       pass
-              catalog.append({'name': path.rsplit('/', 1)[-1], 'path': path, 'timestamp': timestamp})
+              updated.append({'name': path.rsplit('/', 1)[-1], 'path': path, 'timestamp': timestamp})
               existing.add(path)
               added += 1
 
-          if added:
-              catalog_path.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
-          print(f'Added {added} catalog entries. Existing entries and their order preserved; no entries deleted.')
+          if updated != catalog:
+              catalog_path.write_text(json.dumps(updated, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+          print(f'Added {added}; removed {removed} orphaned UUID-path entries. Preserved surviving order and legacy paths.')
           PY
 
-      - name: Commit catalog additions, if any
+      - name: Commit catalog reconciliation, if needed
         shell: bash
         run: |
           if git diff --quiet -- catalog.json; then
@@ -86,5 +94,5 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -- catalog.json
-          git commit -m 'Add new R2-backed recordings to catalog'
+          git commit -m 'Synchronize R2-backed music catalog with metadata'
           git push origin HEAD:main
