@@ -803,5 +803,21 @@
     "regions": [],
     "lyrics": "",
     "about": ""
+  },
+  "music/331a1ed9-3684-46c0-9505-8c8f7049de05.mp3": {
+    "created_at": "2026-11-09T00:41:06.051058+00:00",
+    "title": "Delete",
+    "artists": [
+      "GR8SKUL"
+    ],
+    "genres": [],
+    "genreTypes": [],
+    "moods": [],
+    "moodTypes": [],
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   }
 }
