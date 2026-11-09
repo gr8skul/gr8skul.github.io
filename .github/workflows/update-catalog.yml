@@ -1,98 +1,90 @@
+name: Update Music Catalog
 
-[
-  {
-    "name": "d4c848c3-8af8-4dd1-b2b8-cc071a42b425.mp3",
-    "path": "music/d4c848c3-8af8-4dd1-b2b8-cc071a42b425.mp3",
-    "timestamp": 1791736675
-  },
-  {
-    "name": "d48aa159-9216-4690-9937-28bb17c650c2.mp3",
-    "path": "music/d48aa159-9216-4690-9937-28bb17c650c2.mp3",
-    "timestamp": 1793846235
-  },
-  {
-    "name": "6f19c4f5-b594-41e8-bafa-b447ab174184.mp3",
-    "path": "music/6f19c4f5-b594-41e8-bafa-b447ab174184.mp3",
-    "timestamp": 1793770516
-  },
-  {
-    "name": "0063a79a-fce3-4761-bd03-9b1af4fc9484.mp3",
-    "path": "music/0063a79a-fce3-4761-bd03-9b1af4fc9484.mp3",
-    "timestamp": 1791767124
-  },
-  {
-    "name": "7eea9e80-4098-46b0-8278-fd2107a2f590.mp3",
-    "path": "music/7eea9e80-4098-46b0-8278-fd2107a2f590.mp3",
-    "timestamp": 1791754279
-  },
-  {
-    "name": "116ea63e-a21c-4eb9-9f17-4fa8d0812eed.mp3",
-    "path": "music/116ea63e-a21c-4eb9-9f17-4fa8d0812eed.mp3",
-    "timestamp": 1791767006
-  },
-  {
-    "name": "79e7a79e-648a-45e0-9661-4e04de54a58c.mp3",
-    "path": "music/79e7a79e-648a-45e0-9661-4e04de54a58c.mp3",
-    "timestamp": 1791780659
-  },
-  {
-    "name": "c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3",
-    "path": "music/c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3",
-    "timestamp": 1793855479
-  },
-  {
-    "name": "3ea39294-77ff-47a2-a98d-f4eda1d8ec90.mp3",
-    "path": "music/3ea39294-77ff-47a2-a98d-f4eda1d8ec90.mp3",
-    "timestamp": 1791780522
-  },
-  {
-    "name": "857863f5-c162-4044-beb8-e9e80011eded.mp3",
-    "path": "music/857863f5-c162-4044-beb8-e9e80011eded.mp3",
-    "timestamp": 1792285381
-  },
-  {
-    "name": "ae5ef51a-8861-453f-a210-401a626b4151.mp3",
-    "path": "music/ae5ef51a-8861-453f-a210-401a626b4151.mp3",
-    "timestamp": 1792063298
-  },
-  {
-    "name": "4d9ddfd8-d315-45b5-9898-8f5ab5f1a6e0.mp3",
-    "path": "music/4d9ddfd8-d315-45b5-9898-8f5ab5f1a6e0.mp3",
-    "timestamp": 1792255084
-  },
-  {
-    "name": "a5a0bfc2-12e6-428e-b385-51be594def72.mp3",
-    "path": "music/a5a0bfc2-12e6-428e-b385-51be594def72.mp3",
-    "timestamp": 1792028354
-  },
-  {
-    "name": "21d2e73a-49dc-4565-b3da-fc7d0d93d196.mp3",
-    "path": "music/21d2e73a-49dc-4565-b3da-fc7d0d93d196.mp3",
-    "timestamp": 1792028073
-  },
-  {
-    "name": "4183aad0-0739-4f09-a0ae-79127665452a.mp3",
-    "path": "music/4183aad0-0739-4f09-a0ae-79127665452a.mp3",
-    "timestamp": 1792062817
-  },
-  {
-    "name": "661cd1be-8c74-43da-97c3-bfef8a21583d.mp3",
-    "path": "music/661cd1be-8c74-43da-97c3-bfef8a21583d.mp3",
-    "timestamp": 1792254352
-  },
-  {
-    "name": "d56dd8d3-2c04-4d31-a951-3f760c93a7b4.mp3",
-    "path": "music/d56dd8d3-2c04-4d31-a951-3f760c93a7b4.mp3",
-    "timestamp": 1794147811
-  },
-  {
-    "name": "0dce2a1c-7986-4e35-a20e-dcd6093ec7d8.mp3",
-    "path": "music/0dce2a1c-7986-4e35-a20e-dcd6093ec7d8.mp3",
-    "timestamp": 1791781257
-  },
-  {
-    "name": "c55de468-66ff-4b98-b6ce-43d6aa66e14a.mp3",
-    "path": "music/c55de468-66ff-4b98-b6ce-43d6aa66e14a.mp3",
-    "timestamp": 1794159169
-  }
-]
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'track-metadata.json'
+      - '.github/workflows/update-catalog.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-music-catalog
+  cancel-in-progress: false
+
+jobs:
+  update-catalog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out current main branch
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Safely reconcile R2-backed catalog with metadata
+        shell: bash
+        run: |
+          python3 <<'PY'
+          import datetime
+          import json
+          from pathlib import Path
+          import re
+
+          metadata_path = Path('track-metadata.json')
+          catalog_path = Path('catalog.json')
+          if not metadata_path.is_file():
+              raise SystemExit('Missing track-metadata.json; refusing to modify catalog.')
+          if not catalog_path.is_file():
+              raise SystemExit('Missing catalog.json; refusing to reconstruct it blindly.')
+
+          metadata = json.loads(metadata_path.read_text(encoding='utf-8'))
+          catalog = json.loads(catalog_path.read_text(encoding='utf-8'))
+          if not isinstance(metadata, dict) or not isinstance(catalog, list):
+              raise SystemExit('Unexpected metadata or catalog structure; no changes made.')
+
+          pattern = re.compile(r'^music/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\.mp3$', re.I)
+          existing = set()
+          for record in catalog:
+              if not isinstance(record, dict) or not isinstance(record.get('path'), str):
+                  raise SystemExit('Unexpected catalog entry; refusing to modify catalog.')
+              existing.add(record['path'])
+
+          added = 0
+          for path, details in metadata.items():
+              if not isinstance(path, str) or not pattern.fullmatch(path):
+                  continue
+              if not isinstance(details, dict) or path in existing:
+                  continue
+              timestamp = 0
+              created = details.get('created_at')
+              if isinstance(created, str):
+                  try:
+                      timestamp = int(datetime.datetime.fromisoformat(created.replace('Z', '+00:00')).timestamp())
+                  except (ValueError, OverflowError):
+                      pass
+              catalog.append({'name': path.rsplit('/', 1)[-1], 'path': path, 'timestamp': timestamp})
+              existing.add(path)
+              added += 1
+
+          if added:
+              catalog_path.write_text(json.dumps(catalog, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+          print(f'Added {added} catalog entries. Existing entries and their order preserved; no entries deleted.')
+          PY
+
+      - name: Commit catalog additions, if any
+        shell: bash
+        run: |
+          if git diff --quiet -- catalog.json; then
+            echo 'Catalog already synchronized.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- catalog.json
+          git commit -m 'Add new R2-backed recordings to catalog'
+          git push origin HEAD:main
