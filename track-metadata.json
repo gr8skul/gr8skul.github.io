@@ -132,9 +132,10 @@
     "created_at": "2026-10-12T01:03:28.759199+00:00"
   },
   "music/0063a79a-fce3-4761-bd03-9b1af4fc9484.mp3": {
+    "created_at": "2026-10-12T01:05:27.868533+00:00",
     "title": "aRnt we Rich (Instrumental)",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Alternative"
@@ -159,23 +160,11 @@
         "type": "Passionate"
       }
     ],
-    "eras": [
-      "1900"
-    ],
-    "eraTypes": [
-      {
-        "era": "1900",
-        "type": "LATE"
-      }
-    ],
-    "regions": [
-      {
-        "path": [
-          "Americas"
-        ]
-      }
-    ],
-    "created_at": "2026-10-12T01:05:27.868533+00:00"
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   },
   "music/3ea39294-77ff-47a2-a98d-f4eda1d8ec90.mp3": {
     "title": "88' Summer (original)",
