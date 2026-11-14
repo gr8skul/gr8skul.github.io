@@ -628,9 +628,10 @@
     "created_at": "2026-11-04T05:35:19.208668+00:00"
   },
   "music/d48aa159-9216-4690-9937-28bb17c650c2.mp3": {
+    "created_at": "2026-11-05T02:28:30.264115+00:00",
     "title": "Thugavelt",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Blues",
@@ -660,23 +661,11 @@
         "type": "Intimate"
       }
     ],
-    "eras": [
-      "1980"
-    ],
-    "eraTypes": [
-      {
-        "era": "1980",
-        "type": "EARLY"
-      }
-    ],
-    "regions": [
-      {
-        "path": [
-          "Americas"
-        ]
-      }
-    ],
-    "created_at": "2026-11-05T02:28:30.264115+00:00"
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   },
   "music/c2705000-7ba6-4ef0-b60a-bbf7fd53ecf0.mp3": {
     "created_at": "2026-11-05T02:45:20.543764+00:00",
