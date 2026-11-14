@@ -634,22 +634,9 @@
         "type": "Happy"
       }
     ],
-    "eras": [
-      "1980"
-    ],
-    "eraTypes": [
-      {
-        "era": "1980",
-        "type": "MID"
-      }
-    ],
-    "regions": [
-      {
-        "path": [
-          "Americas"
-        ]
-      }
-    ],
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
     "lyrics": "",
     "about": "\"Lovely song on an old guitar\" says gr8skul"
   },
