@@ -509,22 +509,9 @@
         "type": "Passionate"
       }
     ],
-    "eras": [
-      "1980"
-    ],
-    "eraTypes": [
-      {
-        "era": "1980",
-        "type": "LATE"
-      }
-    ],
-    "regions": [
-      {
-        "path": [
-          "Americas"
-        ]
-      }
-    ],
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
     "lyrics": "Hold on to me\nThese are more than words\nI can pretend that love never hurt",
     "about": ""
   },
