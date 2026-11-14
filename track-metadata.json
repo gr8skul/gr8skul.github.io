@@ -283,9 +283,10 @@
     "created_at": "2026-10-15T01:23:37.976573+00:00"
   },
   "music/21d2e73a-49dc-4565-b3da-fc7d0d93d196.mp3": {
+    "created_at": "2026-10-15T01:34:35.959002+00:00",
     "title": "Pushin 2 the Flo",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Hip-Hop"
@@ -300,18 +301,11 @@
       "Energetic"
     ],
     "moodTypes": [],
-    "eras": [
-      "1980"
-    ],
+    "eras": [],
     "eraTypes": [],
-    "regions": [
-      {
-        "path": [
-          "Americas"
-        ]
-      }
-    ],
-    "created_at": "2026-10-15T01:34:35.959002+00:00"
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   },
   "music/a5a0bfc2-12e6-428e-b385-51be594def72.mp3": {
     "created_at": "2026-10-15T01:39:17.059167+00:00",
