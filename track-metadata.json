@@ -181,9 +181,10 @@
     "created_at": "2026-10-12T04:48:44.347994+00:00"
   },
   "music/79e7a79e-648a-45e0-9661-4e04de54a58c.mp3": {
+    "created_at": "2026-10-12T04:51:03.591394+00:00",
     "title": "Eye Dragon (LIVE)",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Rock"
@@ -198,23 +199,11 @@
         "type": "Aggressive"
       }
     ],
-    "eras": [
-      "1980"
-    ],
-    "eraTypes": [
-      {
-        "era": "1980",
-        "type": "LATE"
-      }
-    ],
-    "regions": [
-      {
-        "path": [
-          "Americas"
-        ]
-      }
-    ],
-    "created_at": "2026-10-12T04:51:03.591394+00:00"
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   },
   "music/0dce2a1c-7986-4e35-a20e-dcd6093ec7d8.mp3": {
     "title": "Outside Madness (strings)",
