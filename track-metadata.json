@@ -356,9 +356,10 @@
     "created_at": "2026-10-15T01:39:17.059167+00:00"
   },
   "music/ae5ef51a-8861-453f-a210-401a626b4151.mp3": {
+    "created_at": "2026-10-15T11:21:40.236068+00:00",
     "title": "The Won (string and synthstrumental)",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Rock",
@@ -380,23 +381,11 @@
         "type": "Driving"
       }
     ],
-    "eras": [
-      "1900"
-    ],
-    "eraTypes": [
-      {
-        "era": "1900",
-        "type": "MID"
-      }
-    ],
-    "regions": [
-      {
-        "path": [
-          "Americas"
-        ]
-      }
-    ],
-    "created_at": "2026-10-15T11:21:40.236068+00:00"
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   },
   "music/661cd1be-8c74-43da-97c3-bfef8a21583d.mp3": {
     "title": "32 Years",
