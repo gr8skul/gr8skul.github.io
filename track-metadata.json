@@ -360,9 +360,10 @@
     "about": ""
   },
   "music/661cd1be-8c74-43da-97c3-bfef8a21583d.mp3": {
+    "created_at": "2026-10-17T16:25:53.907212+00:00",
     "title": "32 Years",
     "artists": [
-      "gr8skul"
+      "GR8SKUL"
     ],
     "genres": [
       "Electronic",
@@ -382,23 +383,11 @@
         "type": "Haunting"
       }
     ],
-    "eras": [
-      "1980"
-    ],
-    "eraTypes": [
-      {
-        "era": "1980",
-        "type": "MID"
-      }
-    ],
-    "regions": [
-      {
-        "path": [
-          "Americas"
-        ]
-      }
-    ],
-    "created_at": "2026-10-17T16:25:53.907212+00:00"
+    "eras": [],
+    "eraTypes": [],
+    "regions": [],
+    "lyrics": "",
+    "about": ""
   },
   "music/4d9ddfd8-d315-45b5-9898-8f5ab5f1a6e0.mp3": {
     "created_at": "2026-10-17T16:38:06.629559+00:00",
