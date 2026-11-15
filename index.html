@@ -753,6 +753,12 @@ body {overflow-x:hidden; overflow-y:auto;}
 /* All controls inside a track's playlist chooser share the darkest subtle tint. */
 .track-add-panel input, .track-add-panel button, .track-add-panel form, .track-add-panel > div {background:#d9d9d9;}
 @media(max-width:500px){.player{padding:10px 15px max(10px,env(safe-area-inset-bottom));}}
+/* Optional score preview stays inside the track details; audio is untouched. */
+.sheet-score-toggle{display:inline-block;margin-top:10px;padding:6px 10px;font-size:11px;border:1px solid #555;background:white;cursor:pointer}
+.sheet-score-panel[hidden]{display:none!important}
+.sheet-score-panel{margin-top:10px;padding:10px;background:#f7f7f7;border:1px solid #ccc;max-width:350px}
+.sheet-score-panel iframe{display:block;width:100%;height:310px;border:1px solid #ddd;background:white;pointer-events:none}
+.sheet-score-panel a{display:inline-block;margin-top:9px;color:#111;text-decoration:underline;font-size:11px}
 </style>
 
 </head>
@@ -5164,8 +5170,46 @@ function createTrackElement(
     info("ERAS", trackData.eras);
     info("YEARS", trackData.eraYears);
     info("REGIONS", trackData.regions);
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trackData.recorded_on || "")) {
+        info("RECORDED", trackData.recorded_on.slice(0, 4));
+    }
     info("ABOUT", trackData.about, true);
     info("LYRICS", trackData.lyrics, true);
+    // Public PDF URLs are restricted to our dedicated sheet-music bucket.
+    const sheetKey = String(trackData.sheet_music_path || "");
+    const sheetUrl = /^sheet-music\/[0-9a-f-]+\/[0-9a-f]{32}\.pdf$/i.test(sheetKey)
+        ? "https://pub-33039912842d49e5a62264468131da9c.r2.dev/" + sheetKey : "";
+    if (/^https:\/\/pub-33039912842d49e5a62264468131da9c\.r2\.dev\/[^\s?#]+\.pdf$/i.test(sheetUrl)) {
+        const scoreField = document.createElement("div");
+        scoreField.className = "track-detail-field";
+        const toggle = document.createElement("button");
+        toggle.type = "button";
+        toggle.className = "sheet-score-toggle";
+        toggle.textContent = "SHEET MUSIC ▾";
+        toggle.setAttribute("aria-expanded", "false");
+        const panel = document.createElement("div");
+        panel.className = "sheet-score-panel";
+        panel.hidden = true;
+        const preview = document.createElement("iframe");
+        preview.title = "First page of sheet music";
+        preview.loading = "lazy";
+        preview.setAttribute("tabindex", "-1");
+        const download = document.createElement("a");
+        download.href = sheetUrl;
+        download.target = "_blank";
+        download.rel = "noopener noreferrer";
+        download.textContent = "OPEN / DOWNLOAD COMPLETE PDF";
+        panel.append(preview, download);
+        toggle.addEventListener("click", e => {
+            e.stopPropagation();
+            panel.hidden = !panel.hidden;
+            toggle.setAttribute("aria-expanded", String(!panel.hidden));
+            toggle.textContent = panel.hidden ? "SHEET MUSIC ▾" : "SHEET MUSIC ▴";
+            if (!panel.hidden && !preview.src) preview.src = sheetUrl + "#page=1&toolbar=0&navpanes=0";
+        });
+        scoreField.append(toggle, panel);
+        details.appendChild(scoreField);
+    }
     if (!details.childElementCount) more.hidden = true;
     const addPanel = document.createElement("div");
     addPanel.className = "track-add-panel"; addPanel.hidden = true;
@@ -5374,15 +5418,14 @@ function renderFilteredTracks() {
         );
 
 
-    /* NEWEST/OLDEST use original upload dates. UPDATED uses the most recent
-       MP3 replacement date, falling back to original upload for untouched audio.
-       Metadata-only edits never change the audio update date. */
+    /* NEWEST/OLDEST use actual recording dates. Undated works follow dated works.
+       UPDATED retains its original audio-update semantics. */
     if (gr8skulTrackOrder !== "origin") {
         const direction = gr8skulTrackOrder === "oldest" ? 1 : -1;
         const dateForOrder = function(track) {
             const date = gr8skulTrackOrder === "updated"
                 ? (track.audio_updated_at || track.created_at)
-                : track.created_at;
+                : track.recorded_on;
             return Date.parse(date || "");
         };
         filteredData.sort(function(a, b) {
@@ -5594,6 +5637,26 @@ async function loadCatalog() {
         const metadata =
             await metadataResponse.json();
 
+        // Optional published work details from Supabase. This public read must be
+        // permitted by a narrow SELECT RLS policy; failure leaves the player usable.
+        let publicWorkDetails = new Map();
+        try {
+            const response = await fetch(SUPABASE_URL +
+                "/rest/v1/gr8skul_works?select=audio_path,recorded_on,sheet_music_path&active=eq.true&limit=1000", {
+                headers: {"apikey": SUPABASE_KEY, "Authorization": "Bearer " + SUPABASE_KEY}
+            });
+            if (!response.ok) throw new Error("HTTP " + response.status);
+            const rows = await response.json();
+            for (const row of rows) {
+                if (typeof row.audio_path !== "string") continue;
+                const key = row.audio_path.replace(/^https:\/\/gr8skul\.com\//i, "").replace(/^\//, "");
+                publicWorkDetails.set(key, row);
+            }
+        } catch (error) {
+            console.warn("Public recording details unavailable; score links and dates hidden:", error);
+        }
+
+
 
         let trackOrder = [];
 
@@ -5798,6 +5861,8 @@ async function loadCatalog() {
                                 ? meta.eraTypes
                                 : [],
 
+                        recorded_on: (publicWorkDetails.get(String(trackData.path).replace(/^\//, "")) || {}).recorded_on || "",
+                        sheet_music_path: (publicWorkDetails.get(String(trackData.path).replace(/^\//, "")) || {}).sheet_music_path || "",
                         created_at: meta && typeof meta.created_at === "string" ? meta.created_at : "",
                         audio_updated_at: meta && typeof meta.audio_updated_at === "string" ? meta.audio_updated_at : "",
                         lyrics: meta && typeof meta.lyrics === "string" ? meta.lyrics : "",
