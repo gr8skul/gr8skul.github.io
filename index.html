@@ -778,6 +778,11 @@ body {overflow-x:hidden; overflow-y:auto;}
 #filterDrawer:not([hidden]) .taxonomy-types { display: block; }
 #filterDrawer .taxonomy-expand { display: none; }
 
+/* Hidden live-filter options occupy no space, even in the always-open drawer. */
+#filterDrawer .taxonomy-parent[hidden],
+#filterDrawer .taxonomy-type-row[hidden],
+#filterDrawer .taxonomy-types[hidden],
+#filterDrawer .taxonomy-filter[hidden] { display:none!important; }
 </style>
 
 </head>
@@ -3372,12 +3377,7 @@ function createTaxonomyParent(
         empty.className =
             "taxonomy-empty";
 
-        empty.textContent =
-            "No subcategories currently defined.";
-
-        typesContainer.appendChild(
-            empty
-        );
+        // No subtype rows: omit the empty placeholder entirely.
 
     } else {
 
@@ -3772,12 +3772,7 @@ function renderTaxonomyTree(
         empty.className =
             "taxonomy-empty";
 
-        empty.textContent =
-            "No classifications currently defined.";
-
-        panel.appendChild(
-            empty
-        );
+        // No classifications: leave the panel empty.
 
         return;
 
@@ -4003,6 +3998,46 @@ function refreshAvailableTaxonomyFilters() {
     }
     renderTaxonomyTree(genreTree, usedBranches(masterTaxonomy.genres, 'genres', 'genreTypes', 'genre', normalizeGenreTypes));
     renderTaxonomyTree(moodTree, usedBranches(masterTaxonomy.moods, 'moods', 'moodTypes', 'mood', normalizeMoodTypes));
+}
+
+/* Live facet availability: only the recordings remaining in the list
+   determine unselected choices. Checked choices stay visible so listeners
+   can always undo them. Hide existing nodes rather than rebuilding them:
+   this preserves the original click/change event handlers. */
+function gr8skulUpdateLiveFacets(visibleTracks) {
+    function updateTree(tree, parentKey, typeKey, parentField, normalizer) {
+        const parents = getTreeParents(tree);
+        let anyVisible = false;
+        parents.forEach(function(parent) {
+            const parentInput = parent.querySelector(":scope > .taxonomy-parent-row .taxonomy-check");
+            if (!parentInput) return;
+            const parentName = parentInput.dataset.parent;
+            const parentUsed = visibleTracks.some(track =>
+                normalizeArray(track[parentKey]).some(name => itemTypeEquals(name, parentName))
+            );
+            let anyChild = false;
+            parent.querySelectorAll(".taxonomy-type-row").forEach(function(row) {
+                const input = row.querySelector(".taxonomy-type-check");
+                if (!input) return;
+                const used = visibleTracks.some(track =>
+                    normalizer(track[typeKey]).some(entry =>
+                        itemTypeEquals(entry.type, input.dataset.type) &&
+                        (!entry[parentField] || itemTypeEquals(entry[parentField], parentName))
+                    )
+                );
+                row.hidden = !(used || input.checked);
+                if (!row.hidden) anyChild = true;
+            });
+            const typeBox = parent.querySelector(":scope > .taxonomy-types");
+            if (typeBox) typeBox.hidden = !anyChild;
+            parent.hidden = !(parentUsed || anyChild || parentInput.checked);
+            if (!parent.hidden) anyVisible = true;
+        });
+        // The Genre/Mood headings are hidden entirely if nothing qualifies.
+        tree.hidden = !anyVisible;
+    }
+    updateTree(genreTree, "genres", "genreTypes", "genre", normalizeGenreTypes);
+    updateTree(moodTree, "moods", "moodTypes", "mood", normalizeMoodTypes);
 }
 
 /* ============================================================
@@ -5458,6 +5493,8 @@ function renderFilteredTracks() {
             }
         );
 
+
+    gr8skulUpdateLiveFacets(filteredData);
 
     /* NEWEST/OLDEST use actual recording dates. Undated works follow dated works.
        UPDATED retains its original audio-update semantics. */
