@@ -3964,6 +3964,43 @@ async function loadMasterTaxonomy() {
 }
 
 
+
+/* ============================================================
+   PUBLIC TAXONOMY AVAILABILITY
+   Only show classifications assigned to a catalog recording.
+   ============================================================ */
+function refreshAvailableTaxonomyFilters() {
+    function availableBranches(branches, parentsKey, typesKey, parentField, normalizeTypes) {
+        return branches.flatMap(function(branch) {
+            const parentUsed = allTrackData.some(function(track) {
+                return normalizeArray(track[parentsKey]).some(
+                    name => itemTypeEquals(name, branch.name)
+                );
+            });
+            const types = (branch.types || []).filter(function(typeName) {
+                return allTrackData.some(function(track) {
+                    return normalizeTypes(track[typesKey]).some(function(entry) {
+                        return itemTypeEquals(entry.type, typeName) &&
+                            (!entry[parentField] || itemTypeEquals(entry[parentField], branch.name));
+                    });
+                });
+            });
+            return (parentUsed || types.length)
+                ? [{...branch, types: types}]
+                : [];
+        });
+    }
+
+    renderTaxonomyTree(
+        genreTree,
+        availableBranches(masterTaxonomy.genres, "genres", "genreTypes", "genre", normalizeGenreTypes)
+    );
+    renderTaxonomyTree(
+        moodTree,
+        availableBranches(masterTaxonomy.moods, "moods", "moodTypes", "mood", normalizeMoodTypes)
+    );
+}
+
 /* ============================================================
    STANDARD TREE HELPERS
    ============================================================ */
@@ -5888,6 +5925,9 @@ async function loadCatalog() {
         allTrackData =
             tracksWithMetadata;
 
+        // Public filters show only classifications used by catalog tracks.
+        // The master taxonomy itself is never modified.
+        refreshAvailableTaxonomyFilters();
 
         renderFilteredTracks();
 
