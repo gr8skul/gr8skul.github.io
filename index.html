@@ -763,6 +763,21 @@ body {overflow-x:hidden; overflow-y:auto;}
 /* Public taxonomy: show assigned subdivisions immediately. */
 #genreTree .taxonomy-types, #moodTree .taxonomy-types { display:block; }
 #genreTree .taxonomy-expand, #moodTree .taxonomy-expand { display:none; }
+
+/* Genre and Mood are always-open sections inside the FILTER drawer. */
+#filterDrawer:not([hidden]) #genrePanel,
+#filterDrawer:not([hidden]) #moodPanel { display: block; }
+#filterDrawer #genreTrigger,
+#filterDrawer #moodTrigger { pointer-events: none; cursor: default; font-weight: bold; border: 0; background: transparent; padding: 8px 2px; min-height: 30px; }
+#filterDrawer .taxonomy-trigger-arrow { display: none; }
+#filterDrawer #genreTriggerText,
+#filterDrawer #moodTriggerText { font-size: 0; }
+#filterDrawer #genreTriggerText::before { content: "GENRE"; font-size: 12px; }
+#filterDrawer #moodTriggerText::before { content: "MOOD"; font-size: 12px; }
+/* Expose all applicable subtypes without requiring another expansion. */
+#filterDrawer:not([hidden]) .taxonomy-types { display: block; }
+#filterDrawer .taxonomy-expand { display: none; }
+
 </style>
 
 </head>
@@ -863,6 +878,7 @@ SHUFFLE OFF </button>
 
 <button
 id="genreTrigger"
+role="heading" aria-level="3"
 class="taxonomy-trigger"
 type="button"
 aria-expanded="false">
@@ -892,6 +908,7 @@ GENRE(S): ALL </span>
 
 <button
 id="moodTrigger"
+role="heading" aria-level="3"
 class="taxonomy-trigger"
 type="button"
 aria-expanded="false">
