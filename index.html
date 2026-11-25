@@ -1921,29 +1921,36 @@ function gr8skulCloudSaveMute(id, value) {
     gr8skulQueueMuteWrite(userId, gr8skulMuteGeneration, id, value);
 }
 let mutedTracks = gr8skulReadMutedForUser(null);
-let repeatedTracks={}, repeatGeneration=0, repeatPending=new Map(), repeatQueue=Promise.resolve();
+let repeatedTracks={}, repeatGeneration=0, repeatRevision=0, repeatQueue=Promise.resolve();
 function repeatKey(uid){return 'gr8skul-repeated-tracks:'+(uid||'guest');}
-function readRepeats(uid){try{return JSON.parse(localStorage.getItem(repeatKey(uid))||'{}')||{};}catch{return {};}}
+function readRepeats(uid){try{const data=JSON.parse(localStorage.getItem(repeatKey(uid))||'{}');const id=Object.keys(data||{}).filter(k=>data[k]===true).sort()[0];return id?{[id]:true}:{};}catch{return {};}}
 repeatedTracks=readRepeats(null);
 function repeatSaveLocal(){try{localStorage.setItem(repeatKey(gr8skulActiveStorageUserId),JSON.stringify(repeatedTracks));}catch{}}
 function repeatRefresh(){
     audioPlayer.loop=!!repeatedTracks[currentTrackFile]&&!mutedTracks[currentTrackFile];
     document.querySelectorAll('.repeat-toggle').forEach(b=>{const file=b.dataset.file||currentTrackFile;const on=!!repeatedTracks[file]&&!mutedTracks[file];b.textContent=on?'REPEAT ON':'REPEAT';b.setAttribute('aria-pressed',String(on));});
 }
-async function loadRepeats(uid){
-    const gen=++repeatGeneration; repeatPending=new Map(); repeatedTracks=readRepeats(uid); repeatRefresh();
+function queueRepeatSnapshot(uid,id){
     if(!uid)return;
-    try{await repeatQueue.catch(()=>{}); const {data,error}=await playerAuthClient.from('listener_repeated_tracks').select('track_id').eq('user_id',uid);if(error)throw error;
-    if(gen!==repeatGeneration)return;
-    repeatedTracks=Object.fromEntries((data||[]).map(x=>[x.track_id,true]));
-    for(const [id,on] of repeatPending){if(on)repeatedTracks[id]=true;else delete repeatedTracks[id];}repeatSaveLocal();repeatRefresh();
+    repeatQueue=repeatQueue.catch(()=>{}).then(async()=>{
+        if(uid!==gr8skulActiveStorageUserId)return;
+        let q=playerAuthClient.from('listener_repeated_tracks').delete().eq('user_id',uid);
+        if(id)q=q.neq('track_id',id);
+        const removed=await q;if(removed.error)throw removed.error;
+        if(id){const saved=await playerAuthClient.from('listener_repeated_tracks').upsert({user_id:uid,track_id:id},{onConflict:'user_id,track_id',ignoreDuplicates:true});if(saved.error)throw saved.error;}
+    });repeatQueue.catch(e=>console.warn('Repeat save failed',e));
+}
+async function loadRepeats(uid){
+    const gen=++repeatGeneration,rev=++repeatRevision; repeatedTracks=readRepeats(uid);repeatRefresh();
+    if(!uid)return;
+    try{await repeatQueue.catch(()=>{});const {data,error}=await playerAuthClient.from('listener_repeated_tracks').select('track_id').eq('user_id',uid);if(error)throw error;
+    if(gen!==repeatGeneration||rev!==repeatRevision||uid!==gr8skulActiveStorageUserId)return;
+    const ids=(data||[]).map(x=>x.track_id).sort();const local=Object.keys(repeatedTracks)[0];const id=ids.includes(local)?local:ids[0];
+    repeatedTracks=id?{[id]:true}:{};repeatSaveLocal();repeatRefresh();if(ids.length>1)queueRepeatSnapshot(uid,id);
     }catch(e){console.warn('Repeat sync failed',e);}
 }
-function setRepeat(file,on){if(!file)return; if(on)repeatedTracks[file]=true;else delete repeatedTracks[file];repeatSaveLocal();repeatRefresh();
-    const uid=gr8skulActiveStorageUserId;if(!uid)return;repeatPending.set(file,on);
-    repeatQueue=repeatQueue.catch(()=>{}).then(async()=>{const q=on?playerAuthClient.from('listener_repeated_tracks').upsert({user_id:uid,track_id:file},{onConflict:'user_id,track_id',ignoreDuplicates:true}):playerAuthClient.from('listener_repeated_tracks').delete().eq('user_id',uid).eq('track_id',file);const {error}=await q;if(error)throw error;});repeatQueue.catch(e=>console.warn('Repeat save failed',e));
-}
-function repeatButton(file,now=false){const b=document.createElement('button');b.type='button';b.className='repeat-toggle '+(now?'now-repeat':'mute-toggle');if(!now)b.dataset.file=file;b.textContent=repeatedTracks[file]&&!mutedTracks[file]?'REPEAT ON':'REPEAT';b.setAttribute('aria-pressed',String(!!repeatedTracks[file]&&!mutedTracks[file]));b.addEventListener('click',e=>{e.stopPropagation();const f=now?currentTrackFile:file;const on=!repeatedTracks[f]||!!mutedTracks[f];if(on&&mutedTracks[f]){delete mutedTracks[f];saveMuteSettings();gr8skulCloudSaveMute(f,false);updateAllTrackMuteButtons();updateNowPlayingMuteButton();}setRepeat(f,on);});return b;}
+function setRepeat(file,on){if(!file||(!on&&!repeatedTracks[file]))return;repeatRevision++;repeatedTracks=on?{[file]:true}:{};repeatSaveLocal();repeatRefresh();queueRepeatSnapshot(gr8skulActiveStorageUserId,on?file:null);}
+function repeatButton(file,now=false){const b=document.createElement('button');b.type='button';b.className='repeat-toggle '+(now?'now-repeat':'mute-toggle');if(!now)b.dataset.file=file;b.textContent=repeatedTracks[file]&&!mutedTracks[file]?'REPEAT ON':'REPEAT';b.setAttribute('aria-pressed',String(!!repeatedTracks[file]&&!mutedTracks[file]));b.addEventListener('click',e=>{e.stopPropagation();const f=now?currentTrackFile:file;if(!f)return;const on=!repeatedTracks[f]||!!mutedTracks[f];if(on&&mutedTracks[f]){delete mutedTracks[f];saveMuteSettings();gr8skulCloudSaveMute(f,false);updateAllTrackMuteButtons();updateNowPlayingMuteButton();}setRepeat(f,on);if(on){if(f===currentTrackFile){if(audioPlayer.paused)audioPlayer.play().catch(e=>console.warn('Repeat playback failed',e));}else{const index=tracks.findIndex(t=>t.dataset.file===f);if(index>=0)selectTrack(index,true,true);}}});return b;}
 
 function saveMuteSettings() {
     try {
@@ -3985,7 +3992,7 @@ async function loadMasterTaxonomy() {
 
     const raw = rows[0].taxonomy;
     const v = raw.simple_taxonomy || {genres:['Solo','Rock','Classical','Pop'],solo:['Guitar','Piano'],moods:(raw.moods||[]).map(x=>x.name)};
-    masterTaxonomy.genres = [...v.genres.filter(x=>x !== 'Instrumental').map(name=>({name,types:name==='Solo'?v.solo:[]})),{name:'Instrumental',types:[]}];
+    masterTaxonomy.genres = [...Array.from(new Set(['Solo',...v.genres])).filter(x=>x !== 'Instrumental').map(name=>({name,types:name==='Solo'?v.solo:[]})),{name:'Instrumental',types:[]}];
     masterTaxonomy.moods = v.moods.map(name=>({name,types:[]}));
     renderTaxonomyTree(genreTree, masterTaxonomy.genres);
 
@@ -4020,7 +4027,7 @@ function refreshAvailableTaxonomyFilters() {
                     (!entry[parentField] || itemTypeEquals(entry[parentField], branch.name))
                 ))
             );
-            return parentUsed || types.length ? [{...branch, types}] : [];
+            return branch.name === 'Solo' ? [{...branch, types:branch.types || []}] : parentUsed || types.length ? [{...branch, types}] : [];
         });
     }
     renderTaxonomyTree(genreTree, usedBranches(masterTaxonomy.genres, 'genres', 'genreTypes', 'genre', normalizeGenreTypes));
