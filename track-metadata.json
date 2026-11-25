@@ -464,33 +464,14 @@
       "GR8SKUL"
     ],
     "genres": [
-      "Blues",
-      "Jazz"
+      "Jazz",
+      "Instrumental"
     ],
-    "genreTypes": [
-      {
-        "genre": "Blues",
-        "type": "Contemporary"
-      },
-      {
-        "genre": "Jazz",
-        "type": "Contemporary"
-      }
-    ],
+    "genreTypes": [],
     "moods": [
-      "Joyful",
-      "Romantic"
+      "Joyful"
     ],
-    "moodTypes": [
-      {
-        "mood": "Joyful",
-        "type": "Playful"
-      },
-      {
-        "mood": "Romantic",
-        "type": "Intimate"
-      }
-    ],
+    "moodTypes": [],
     "eras": [],
     "eraTypes": [],
     "regions": [],
