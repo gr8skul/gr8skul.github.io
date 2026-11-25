@@ -471,23 +471,19 @@
       "GR8SKUL"
     ],
     "genres": [
-      "Classical"
+      "Solo",
+      "Instrumental"
     ],
     "genreTypes": [
       {
-        "genre": "Classical",
-        "type": "Modern"
+        "genre": "Solo",
+        "type": "Guitar"
       }
     ],
     "moods": [
       "Joyful"
     ],
-    "moodTypes": [
-      {
-        "mood": "Joyful",
-        "type": "Happy"
-      }
-    ],
+    "moodTypes": [],
     "eras": [],
     "eraTypes": [],
     "regions": [],
