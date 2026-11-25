@@ -261,24 +261,19 @@
       "GR8SKUL"
     ],
     "genres": [
-      "Instrumental",
-      "Classical"
+      "Solo",
+      "Instrumental"
     ],
     "genreTypes": [
       {
-        "genre": "Classical",
-        "type": "Modern"
+        "genre": "Solo",
+        "type": "Piano"
       }
     ],
     "moods": [
       "Dark"
     ],
-    "moodTypes": [
-      {
-        "mood": "Dark",
-        "type": "Mysterious"
-      }
-    ],
+    "moodTypes": [],
     "eras": [],
     "eraTypes": [],
     "regions": [],
