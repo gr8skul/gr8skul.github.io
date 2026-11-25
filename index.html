@@ -783,6 +783,7 @@ body {overflow-x:hidden; overflow-y:auto;}
 #filterDrawer .taxonomy-type-row[hidden],
 #filterDrawer .taxonomy-types[hidden],
 #filterDrawer .taxonomy-filter[hidden] { display:none!important; }
+ .now-repeat{border:0;background:transparent;color:#888;font-size:11px;min-height:0;padding:0;letter-spacing:.5px}.repeat-toggle[aria-pressed="true"]{font-weight:bold;text-decoration:underline!important} .track-extra-actions .repeat-toggle[aria-pressed="true"]{background:#111;color:#fff} 
 </style>
 
 </head>
@@ -1860,6 +1861,7 @@ let gr8skulMuteQueue = Promise.resolve();
 function gr8skulRefreshMuteView() {
     if (typeof playerStarted !== "undefined" && playerStarted) renderFilteredTracks();
     updateNowPlayingMuteButton();
+    repeatRefresh();
 }
 async function gr8skulLoadCloudMutes(userId) {
     const generation = ++gr8skulMuteGeneration;
@@ -1919,6 +1921,30 @@ function gr8skulCloudSaveMute(id, value) {
     gr8skulQueueMuteWrite(userId, gr8skulMuteGeneration, id, value);
 }
 let mutedTracks = gr8skulReadMutedForUser(null);
+let repeatedTracks={}, repeatGeneration=0, repeatPending=new Map(), repeatQueue=Promise.resolve();
+function repeatKey(uid){return 'gr8skul-repeated-tracks:'+(uid||'guest');}
+function readRepeats(uid){try{return JSON.parse(localStorage.getItem(repeatKey(uid))||'{}')||{};}catch{return {};}}
+repeatedTracks=readRepeats(null);
+function repeatSaveLocal(){try{localStorage.setItem(repeatKey(gr8skulActiveStorageUserId),JSON.stringify(repeatedTracks));}catch{}}
+function repeatRefresh(){
+    audioPlayer.loop=!!repeatedTracks[currentTrackFile]&&!mutedTracks[currentTrackFile];
+    document.querySelectorAll('.repeat-toggle').forEach(b=>{const file=b.dataset.file||currentTrackFile;const on=!!repeatedTracks[file]&&!mutedTracks[file];b.textContent=on?'REPEAT ON':'REPEAT';b.setAttribute('aria-pressed',String(on));});
+}
+async function loadRepeats(uid){
+    const gen=++repeatGeneration; repeatPending=new Map(); repeatedTracks=readRepeats(uid); repeatRefresh();
+    if(!uid)return;
+    try{await repeatQueue.catch(()=>{}); const {data,error}=await playerAuthClient.from('listener_repeated_tracks').select('track_id').eq('user_id',uid);if(error)throw error;
+    if(gen!==repeatGeneration)return;
+    repeatedTracks=Object.fromEntries((data||[]).map(x=>[x.track_id,true]));
+    for(const [id,on] of repeatPending){if(on)repeatedTracks[id]=true;else delete repeatedTracks[id];}repeatSaveLocal();repeatRefresh();
+    }catch(e){console.warn('Repeat sync failed',e);}
+}
+function setRepeat(file,on){if(!file)return; if(on)repeatedTracks[file]=true;else delete repeatedTracks[file];repeatSaveLocal();repeatRefresh();
+    const uid=gr8skulActiveStorageUserId;if(!uid)return;repeatPending.set(file,on);
+    repeatQueue=repeatQueue.catch(()=>{}).then(async()=>{const q=on?playerAuthClient.from('listener_repeated_tracks').upsert({user_id:uid,track_id:file},{onConflict:'user_id,track_id',ignoreDuplicates:true}):playerAuthClient.from('listener_repeated_tracks').delete().eq('user_id',uid).eq('track_id',file);const {error}=await q;if(error)throw error;});repeatQueue.catch(e=>console.warn('Repeat save failed',e));
+}
+function repeatButton(file,now=false){const b=document.createElement('button');b.type='button';b.className='repeat-toggle '+(now?'now-repeat':'mute-toggle');if(!now)b.dataset.file=file;b.textContent=repeatedTracks[file]&&!mutedTracks[file]?'REPEAT ON':'REPEAT';b.setAttribute('aria-pressed',String(!!repeatedTracks[file]&&!mutedTracks[file]));b.addEventListener('click',e=>{e.stopPropagation();const f=now?currentTrackFile:file;const on=!repeatedTracks[f]||!!mutedTracks[f];if(on&&mutedTracks[f]){delete mutedTracks[f];saveMuteSettings();gr8skulCloudSaveMute(f,false);updateAllTrackMuteButtons();updateNowPlayingMuteButton();}setRepeat(f,on);});return b;}
+
 function saveMuteSettings() {
     try {
         localStorage.setItem(
@@ -3957,10 +3983,11 @@ async function loadMasterTaxonomy() {
         );
 
 
-    renderTaxonomyTree(
-        genreTree,
-        masterTaxonomy.genres
-    );
+    const raw = rows[0].taxonomy;
+    const v = raw.simple_taxonomy || {genres:['Solo','Rock','Classical','Pop'],solo:['Guitar','Piano'],moods:(raw.moods||[]).map(x=>x.name)};
+    masterTaxonomy.genres = [...v.genres.filter(x=>x !== 'Instrumental').map(name=>({name,types:name==='Solo'?v.solo:[]})),{name:'Instrumental',types:[]}];
+    masterTaxonomy.moods = v.moods.map(name=>({name,types:[]}));
+    renderTaxonomyTree(genreTree, masterTaxonomy.genres);
 
     renderTaxonomyTree(
         moodTree,
@@ -4005,39 +4032,21 @@ function refreshAvailableTaxonomyFilters() {
    can always undo them. Hide existing nodes rather than rebuilding them:
    this preserves the original click/change event handlers. */
 function gr8skulUpdateLiveFacets(visibleTracks) {
-    function updateTree(tree, parentKey, typeKey, parentField, normalizer) {
-        const parents = getTreeParents(tree);
-        let anyVisible = false;
-        parents.forEach(function(parent) {
-            const parentInput = parent.querySelector(":scope > .taxonomy-parent-row .taxonomy-check");
-            if (!parentInput) return;
-            const parentName = parentInput.dataset.parent;
-            const parentUsed = visibleTracks.some(track =>
-                normalizeArray(track[parentKey]).some(name => itemTypeEquals(name, parentName))
-            );
-            let anyChild = false;
-            parent.querySelectorAll(".taxonomy-type-row").forEach(function(row) {
-                const input = row.querySelector(".taxonomy-type-check");
-                if (!input) return;
-                const used = visibleTracks.some(track =>
-                    normalizer(track[typeKey]).some(entry =>
-                        itemTypeEquals(entry.type, input.dataset.type) &&
-                        (!entry[parentField] || itemTypeEquals(entry[parentField], parentName))
-                    )
-                );
-                row.hidden = !(used || input.checked);
-                if (!row.hidden) anyChild = true;
-            });
-            const typeBox = parent.querySelector(":scope > .taxonomy-types");
-            if (typeBox) typeBox.hidden = !anyChild;
-            parent.hidden = !(parentUsed || anyChild || parentInput.checked);
-            if (!parent.hidden) anyVisible = true;
-        });
-        // The Genre/Mood headings are hidden entirely if nothing qualifies.
-        tree.hidden = !anyVisible;
+    const solo=getTreeSelectedParents(genreTree).includes('Solo')||getTreeSelectedTypes(genreTree).length>0;
+    for(const parent of getTreeParents(genreTree)) {
+        const input=parent.querySelector('.taxonomy-check');
+        const name=input.dataset.parent;
+        const types=parent.querySelector('.taxonomy-types');
+        parent.hidden=false;
+        if(types) types.hidden=name!=='Solo'||!solo;
     }
-    updateTree(genreTree, "genres", "genreTypes", "genre", normalizeGenreTypes);
-    updateTree(moodTree, "moods", "moodTypes", "mood", normalizeMoodTypes);
+    const eligible=allTrackData.filter(t=>trackMatchesCurrentFilters(t,true));
+    for(const parent of getTreeParents(moodTree)) {
+        const input=parent.querySelector('.taxonomy-check');
+        parent.hidden=!input.checked&&!eligible.some(t=>normalizeArray(t.moods).some(x=>itemTypeEquals(x,input.dataset.parent)));
+    }
+    genreTree.hidden=!getTreeParents(genreTree).length;
+    moodTree.hidden=!getTreeParents(moodTree).some(p=>!p.hidden);
 }
 
 /* ============================================================
@@ -4594,6 +4603,9 @@ function setupStandardTaxonomyTree(tree, trigger, childSelector, updateSummary) 
         parentCheckbox.addEventListener("click", event => event.stopPropagation());
         parentCheckbox.addEventListener("change", function() {
             if (parentCheckbox.checked) {
+                if(tree===genreTree && parentCheckbox.dataset.parent!=='Instrumental' || tree===moodTree) {
+                    tree.querySelectorAll('input:checked').forEach(x=>{if(x!==parentCheckbox && x.dataset.parent!=='Instrumental') x.checked=false;});
+                }
                 childCheckboxes.forEach(input => { input.checked = false; });
                 setBranchExpanded(parent, false);
             } else if (selectedChild()) {
@@ -4621,6 +4633,7 @@ function setupStandardTaxonomyTree(tree, trigger, childSelector, updateSummary) 
             input.addEventListener("click", event => event.stopPropagation());
             input.addEventListener("change", function() {
                 if (input.checked) {
+                    if(tree===genreTree) tree.querySelectorAll('input:checked').forEach(x=>{if(x!==input && !(x.classList.contains('taxonomy-check')&&x.dataset.parent==='Instrumental')) x.checked=false;});
                     parentCheckbox.checked = false;
                     setBranchExpanded(parent, true);
                 }
@@ -5021,32 +5034,14 @@ function trackMatchesRegion(
    TRACK MATCHES CURRENT FILTERS
    ============================================================ */
 
-function trackMatchesCurrentFilters(
-    trackData
-) {
-
-    const matchesGenre =
-        trackMatchesTaxonomy(
-            trackData,
-            genreTree,
-            "genres",
-            "genreTypes"
-        );
-
-
-    const matchesMood =
-        trackMatchesTaxonomy(
-            trackData,
-            moodTree,
-            "moods",
-            "moodTypes"
-        );
-
-
-    // ERA and REGION are retired from the public player. Keep their
-    // historical metadata and legacy functions intact for compatibility.
-    return matchesGenre && matchesMood;
-
+function trackMatchesCurrentFilters(t, ignoreMood=false, ignoreGenre=false) {
+    const parents=getTreeSelectedParents(genreTree), children=getTreeSelectedTypes(genreTree);
+    const has=(key,name)=>normalizeArray(t[key]).some(x=>itemTypeEquals(x,name));
+    const genre=parents.find(x=>x!=='Instrumental');
+    const child=children[0];
+    return (!parents.includes('Instrumental')||has('genres','Instrumental')) &&
+      (ignoreGenre || ((!genre||has('genres',genre)) && (!child||(has('genres','Solo')&&normalizeGenreTypes(t.genreTypes).some(x=>x.genre==='Solo'&&itemTypeEquals(x.type,child.type)))))) &&
+      (ignoreMood||getTreeSelectedParents(moodTree).every(x=>has('moods',x)));
 }
 
 
@@ -5206,7 +5201,7 @@ function createTrackElement(
     more.type = "button"; more.textContent = "MORE ▾";
     const add = document.createElement("button");
     add.type = "button"; add.textContent = "+ PLAYLIST ▾";
-    extras.append(more, add, muteButton);
+    extras.append(more, add, muteButton, repeatButton(track.dataset.file));
     trackInfo.appendChild(extras);
     track.appendChild(trackInfo);
     const details = document.createElement("div");
@@ -5242,10 +5237,10 @@ function createTrackElement(
     info("GENRES", trackData.genres);
     info("GENRE TYPES", trackData.genreTypes);
     info("MOODS", trackData.moods);
-    info("MOOD TYPES", trackData.moodTypes);
-    info("ERAS", trackData.eras);
-    info("YEARS", trackData.eraYears);
-    info("REGIONS", trackData.regions);
+
+
+
+
     if (/^\d{4}-\d{2}-\d{2}$/.test(trackData.recorded_on || "")) {
         info("RECORDED", trackData.recorded_on.slice(0, 4));
     }
@@ -5344,7 +5339,7 @@ function setTrackMuted(
         tracks[index].dataset.file;
 
     if (muted) {
-
+        setRepeat(file,false);
         mutedTracks[file] = true;
 
     } else {
@@ -5355,6 +5350,7 @@ function setTrackMuted(
 
     saveMuteSettings();
     gr8skulCloudSaveMute(file, muted);
+    repeatRefresh();
 
     updateTrackMuteButton(
         index
@@ -6346,7 +6342,8 @@ let gr8skulAudioRequestId = 0;
 let gr8skulFullAudioActive = false;
 let gr8skulAudioLoading = false;
 
-async function gr8skulLoadAuthorizedAudio(file, previewUrl, startPlaying, requestId) {
+let preparedAudio=null, preparingAudio=null;
+async function resolveAudio(file, previewUrl) {
     let playbackUrl = previewUrl;
     let fullLength = false;
     try {
@@ -6369,6 +6366,19 @@ async function gr8skulLoadAuthorizedAudio(file, previewUrl, startPlaying, reques
         // An expired membership or temporary network issue must never expose a private recording.
         console.warn('GR8SKUL: Full-length audio unavailable; using preview.', error?.message || error);
     }
+    return {playbackUrl,fullLength};
+}
+function prepareNextAudio(){
+    if(shuffle||audioPlayer.loop||audioPlayer.paused)return;
+    const i=findNextUnmutedTrack(currentTrack+1);if(i<0)return;
+    const file=tracks[i].dataset.file, uid=gr8skulActiveStorageUserId;
+    if(preparedAudio?.file===file&&preparedAudio.uid===uid&&Date.now()-preparedAudio.at<20000 || preparingAudio?.file===file&&preparingAudio.uid===uid)return;
+    const job={file,uid};preparingAudio=job;
+    gr8skulPreviewUrl(file).then(url=>resolveAudio(file,url)).then(result=>{if(preparingAudio===job&&uid===gr8skulActiveStorageUserId)preparedAudio={...result,file,uid,at:Date.now()};}).catch(()=>{}).finally(()=>{if(preparingAudio===job)preparingAudio=null;});
+}
+async function gr8skulLoadAuthorizedAudio(file, previewUrl, startPlaying, requestId) {
+    const cached=preparedAudio;
+    const {playbackUrl,fullLength}=cached?.file===file&&cached.uid===gr8skulActiveStorageUserId&&Date.now()-cached.at<25000?cached:await resolveAudio(file,previewUrl);
     if (requestId !== gr8skulAudioRequestId || currentTrackFile !== file) return;
     gr8skulFullAudioActive = fullLength;
     gr8skulAudioLoading = false;
@@ -6428,6 +6438,7 @@ async function selectTrack(
 
     currentTrackFile =
         track.dataset.file;
+    repeatRefresh();
 
 
     tracks.forEach(
@@ -6458,7 +6469,8 @@ async function selectTrack(
     const audioRequestId = ++gr8skulAudioRequestId;
     let previewUrl;
     try {
-        previewUrl = await gr8skulPreviewUrl(file);
+        const key=GR8SKUL_PREVIEW_BY_SOURCE[new URL(file,location.href).href];
+        previewUrl = key ? GR8SKUL_PREVIEW_BASE+encodeURIComponent(key) : await gr8skulPreviewUrl(file);
     } catch (error) {
         if (audioRequestId !== gr8skulAudioRequestId) return;
         audioPlayer.pause();
@@ -6475,8 +6487,6 @@ async function selectTrack(
     gr8skulAudioLoading = true;
     gr8skulFullAudioActive = false;
     audioPlayer.pause();
-    audioPlayer.removeAttribute('src');
-    audioPlayer.load();
     playButton.textContent = '▶ PLAY';
     gr8skulLoadAuthorizedAudio(file, previewUrl, startPlaying, audioRequestId);
 
@@ -6549,9 +6559,9 @@ async function selectTrack(
     );
 
 
-    nowPlayingActions.appendChild(
-        muteButton
-    );
+    nowPlayingActions.appendChild(muteButton);
+    nowPlayingActions.appendChild(repeatButton(file,true));
+    repeatRefresh();
 
     nowPlaying.appendChild(
         nowPlayingText
@@ -6562,7 +6572,8 @@ async function selectTrack(
     );
 
 
-    track.scrollIntoView({
+    if('mediaSession' in navigator && typeof MediaMetadata!=='undefined') navigator.mediaSession.metadata=new MediaMetadata({title,artist:'GR8SKUL'});
+    if(!document.hidden) track.scrollIntoView({
         behavior: "smooth",
         block: "nearest"
     });
@@ -6991,6 +7002,9 @@ function gr8skulRecordPreviewProgress() {
 }
 
 audioPlayer.addEventListener("timeupdate", gr8skulRecordPreviewProgress);
+audioPlayer.addEventListener('timeupdate',()=>{if(Number.isFinite(audioPlayer.duration)&&audioPlayer.duration-audioPlayer.currentTime<12)prepareNextAudio();});
+if('mediaSession' in navigator){for(const [action,handler] of Object.entries({play:()=>audioPlayer.play().catch(()=>{}),pause:()=>audioPlayer.pause(),nexttrack:()=>playNext(),previoustrack:()=>playPrevious()})){try{navigator.mediaSession.setActionHandler(action,handler);}catch{}}}
+
 audioPlayer.addEventListener("seeking", () => { previewLastMediaTime = null; });
 audioPlayer.addEventListener("seeked", () => { previewLastMediaTime = audioPlayer.currentTime; });
 audioPlayer.addEventListener("loadstart", () => { previewLastMediaTime = null; });
@@ -7620,6 +7634,7 @@ async function showPlayerForSession(session) {
     gr8skulUpdateMembershipDisplay(session);
     const nextUserId = session?.user?.id || null;
     if (nextUserId !== gr8skulLastAuthUserId) {
+        preparedAudio=null;preparingAudio=null;
         ++gr8skulAudioRequestId;
         gr8skulAudioLoading = false;
         gr8skulFullAudioActive = false;
@@ -7638,6 +7653,7 @@ async function showPlayerForSession(session) {
         gr8skulCloudUserId = null;
         gr8skulSwitchListenerStorage(nextUserId);
         gr8skulLoadCloudMutes(nextUserId);
+        loadRepeats(nextUserId);
         gr8skulRefreshMemberPlaylists(session);
     }
     if (!playerStarted) {
