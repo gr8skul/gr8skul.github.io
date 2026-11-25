@@ -7,30 +7,13 @@
       "GR8SKUL"
     ],
     "genres": [
-      "Pop",
-      "Rock",
-      "Alternative"
+      "Pop"
     ],
-    "genreTypes": [
-      {
-        "genre": "Alternative",
-        "type": "Alternative Pop"
-      }
-    ],
+    "genreTypes": [],
     "moods": [
-      "Melancholic",
       "Romantic"
     ],
-    "moodTypes": [
-      {
-        "mood": "Melancholic",
-        "type": "Nostalgic"
-      },
-      {
-        "mood": "Romantic",
-        "type": "Intimate"
-      }
-    ],
+    "moodTypes": [],
     "eras": [],
     "eraTypes": [],
     "regions": [],
