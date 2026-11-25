@@ -27,33 +27,19 @@
       "GR8SKUL"
     ],
     "genres": [
-      "Instrumental",
-      "Acoustic",
-      "Classical"
+      "Solo",
+      "Instrumental"
     ],
     "genreTypes": [
       {
-        "genre": "Acoustic",
-        "type": "Nylon String Guitar"
-      },
-      {
-        "genre": "Classical",
-        "type": "Romantic"
-      },
-      {
-        "genre": "Classical",
-        "type": "Contemporary"
+        "genre": "Solo",
+        "type": "Guitar"
       }
     ],
     "moods": [
       "Joyful"
     ],
-    "moodTypes": [
-      {
-        "mood": "Joyful",
-        "type": "Happy"
-      }
-    ],
+    "moodTypes": [],
     "eras": [],
     "eraTypes": [],
     "regions": [],
